@@ -2,6 +2,7 @@ package graphics;
 
 import javax.swing.JFrame;
 
+import graphics.Panel;
 import loading.LevelLoader;
 import logics.GameLoop;
 

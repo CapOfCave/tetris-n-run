@@ -16,6 +16,7 @@ import logics.Level;
 import logics.Playable;
 import logics.TetroType;
 import logics.World;
+import graphics.Frame;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -36,6 +37,13 @@ public class Panel extends JPanel implements Playable{
 	private boolean debugMode = false;
 	private float interpolation;
 	private String tetroFileURL;
+	
+	public static void main(String[] args) {
+
+		new Frame();
+
+	
+	}
 	
 	public Panel() {
 		tetroFileURL = "/res/tetros.txt";
