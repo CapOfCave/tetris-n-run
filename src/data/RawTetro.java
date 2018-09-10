@@ -1,6 +1,8 @@
-package logics;
+package data;
 
 import java.util.ArrayList;
+
+import logics.Camera;
 
 /**
  * @author Lars Created on 27.08.2018

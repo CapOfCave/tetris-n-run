@@ -2,6 +2,9 @@ package logics;
 
 import java.util.ArrayList;
 
+import data.RawTetro;
+import data.TetroType;
+
 /**
  * @author Lars Created on 13.08.2018
  */

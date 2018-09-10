@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import data.Tetro;
 import loading.ImageLoader;
 
 /**
@@ -18,8 +19,6 @@ public class Player {
 	private Camera camera;
 
 	private ArrayList<Point> keyFrames;
-	private int xSum = 0;
-	private int ySum = 0;
 
 	private ArrayList<Tetro> tetrosToRemove;
 	private Tetro nullTetro;
@@ -64,8 +63,6 @@ public class Player {
 			Point p = keyFrames.get(0);
 			this.x += p.x;
 			this.y += p.y;
-			xSum -= p.x;
-			ySum -= p.y;
 			keyFrames.remove(p);
 			Tetro temp = tetrosToRemove.get(0);
 			tetrosToRemove.remove(0);
@@ -112,8 +109,6 @@ public class Player {
 		int yMove = ((digit + 1) % 2) * (digit - 1);
 		int xMove = (digit % 2) * (2 - digit);
 		keyFrames.add(new Point(xMove, yMove));
-		xSum += xMove;
-		ySum += yMove;
 		if (lastIndex) {
 			tetrosToRemove.add(tetro);
 		} else {

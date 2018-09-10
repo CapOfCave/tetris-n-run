@@ -16,9 +16,9 @@ public class Frame extends JFrame {
 	private GameLoop gameLoop;
 
 	public static void main(String[] args) {
-		System.out.println("test marius");
-		new Frame();
+		new Frame("C:\\Users\\AMD\\tetros\\level.txt");
 	}
+
 	public Frame(String url) {
 		panel = new Panel(LevelLoader.loadLevel(url));
 		add(panel);
@@ -30,17 +30,17 @@ public class Frame extends JFrame {
 		setVisible(true);
 		gameLoop.start();
 	}
-	
-	public Frame() {
-		panel = new Panel();
-		add(panel);
-		gameLoop = new GameLoop(panel);
-		setResizable(false);
-		pack();
-		setDefaultCloseOperation(3);
-		setLocationRelativeTo(null);
-		setVisible(true);
-		gameLoop.start();
-	}
+
+//	public Frame() {
+//		panel = new Panel();
+//		add(panel);
+//		gameLoop = new GameLoop(panel);
+//		setResizable(false);
+//		pack();
+//		setDefaultCloseOperation(3);
+//		setLocationRelativeTo(null);
+//		setVisible(true);
+//		gameLoop.start();
+//	}
 
 }

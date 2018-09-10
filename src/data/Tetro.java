@@ -1,7 +1,9 @@
-package logics;
+package data;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+
+import logics.Camera;
 
 /**
  * @author Lars Created on 08.08.2018

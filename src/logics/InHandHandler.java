@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import data.TetroType;
+
 /**
  * @author Lars Created on 08.08.2018
  */
@@ -24,13 +26,13 @@ public class InHandHandler {
 	private int blockSize;
 	private Rectangle gameBounds;
 
-	private World world;
+	private GameWorld gameWorld;
 
-	public InHandHandler(ArrayList<TetroType> tetroTypes, ArrayList<Point> tetroDrawPositions, int blockSize, Rectangle gameBounds, World world) {
+	public InHandHandler(ArrayList<TetroType> tetroTypes, ArrayList<Point> tetroDrawPositions, int blockSize, Rectangle gameBounds, GameWorld gameWorld) {
 		this.tetroTypes = tetroTypes;
 		this.tetroOffsets = tetroDrawPositions;
 		this.blockSize = blockSize;
-		this.world = world;
+		this.gameWorld = gameWorld;
 		this.gameBounds = gameBounds;
 	}
 
@@ -58,7 +60,7 @@ public class InHandHandler {
 
 	public void placeInHand() {
 		if (tetroInHand != null) {
-			world.addTetro(tetroInHand, (mouse_x - offset_x) - gameBounds.x, (mouse_y - offset_y) - gameBounds.y, rotation);
+			gameWorld.addTetro(tetroInHand, (mouse_x - offset_x) - gameBounds.x, (mouse_y - offset_y) - gameBounds.y, rotation);
 			tetroInHand = null;
 		}
 	}

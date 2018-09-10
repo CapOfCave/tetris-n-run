@@ -4,7 +4,7 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import logics.TetroType;
+import data.TetroType;
 
 /**
  * @author Lars Created on 05.08.2018

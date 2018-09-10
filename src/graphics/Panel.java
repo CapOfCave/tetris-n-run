@@ -9,13 +9,12 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import data.TetroType;
 import input.MouseHandler;
-import loading.TetroLoader;
+import logics.GameWorld;
 import logics.InHandHandler;
 import logics.Level;
 import logics.Playable;
-import logics.TetroType;
-import logics.World;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -27,7 +26,7 @@ public class Panel extends JPanel implements Playable{
 //	private final Rectangle gamePanel = new Rectangle(50, 50, 901, 601);
 	private int blockSize = 30;
 
-	private World world;
+	private GameWorld gameWorld;
 	private InHandHandler inHandHandler;
 	private MouseHandler mouseHandler;
 
@@ -35,37 +34,36 @@ public class Panel extends JPanel implements Playable{
 	private ArrayList<Point> tetroDrawPositions;
 	private boolean debugMode = false;
 	private float interpolation;
-	private String tetroFileURL;
 	
-	public Panel() {
-		tetroFileURL = "/res/tetros.txt";
-		setPreferredSize(new Dimension(width, height));
-		
-		tetroTypes = TetroLoader.loadTetros(tetroFileURL, blockSize);
-		world = new World(gamePanel, blockSize, tetroTypes, tetroFileURL);
-		tetroDrawPositions = new ArrayList<>();
-		for (int i = 0; i < tetroTypes.size(); i++) {
-			tetroDrawPositions.add(new Point(972, i * 100 + 72));
-		}
-		
-		inHandHandler = new InHandHandler(tetroTypes, tetroDrawPositions, blockSize, gamePanel, world );
-		mouseHandler = new MouseHandler(inHandHandler, world);
-		addMouseListener(mouseHandler);
-		addMouseMotionListener(mouseHandler);
-	}
+//	public Panel() {
+//		tetroFileURL = "/res/tetros.txt";
+//		setPreferredSize(new Dimension(width, height));
+//		
+//		tetroTypes = TetroLoader.loadTetros(tetroFileURL, blockSize);
+//		gameWorld = new GameWorld(gamePanel, blockSize, tetroTypes, tetroFileURL);
+//		tetroDrawPositions = new ArrayList<>();
+//		for (int i = 0; i < tetroTypes.size(); i++) {
+//			tetroDrawPositions.add(new Point(972, i * 100 + 72));
+//		}
+//		
+//		inHandHandler = new InHandHandler(tetroTypes, tetroDrawPositions, blockSize, gamePanel, gameWorld );
+//		mouseHandler = new MouseHandler(inHandHandler, gameWorld);
+//		addMouseListener(mouseHandler);
+//		addMouseMotionListener(mouseHandler);
+//	}
 	
 	public Panel(Level level) {
 		setPreferredSize(new Dimension(width, height));
 		blockSize = level.getBlockSize();
-		world = new World(gamePanel, blockSize, level);
+		gameWorld = new GameWorld(gamePanel, blockSize, level);
 		tetroTypes = level.getTetroTypes();
 		tetroDrawPositions = new ArrayList<>();
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroDrawPositions.add(new Point(972, i * 100 + 72));
 		}
 		
-		inHandHandler = new InHandHandler(tetroTypes, tetroDrawPositions, blockSize, gamePanel, world );
-		mouseHandler = new MouseHandler(inHandHandler, world);
+		inHandHandler = new InHandHandler(tetroTypes, tetroDrawPositions, blockSize, gamePanel, gameWorld );
+		mouseHandler = new MouseHandler(inHandHandler, gameWorld);
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
 	}
@@ -75,9 +73,9 @@ public class Panel extends JPanel implements Playable{
 		super.paintComponent(g);
 
 		Graphics2D gameGraphics = (Graphics2D)g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		world.draw(gameGraphics, interpolation, debugMode);
+		gameWorld.draw(gameGraphics, interpolation, debugMode);
 		inHandHandler.drawPreview(g, debugMode);
-		world.drawPlayer(gameGraphics, interpolation, debugMode);
+		gameWorld.drawPlayer(gameGraphics, interpolation, debugMode);
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, 0, debugMode);
 		}
@@ -93,7 +91,7 @@ public class Panel extends JPanel implements Playable{
 
 	@Override
 	public void tick() {
-		world.tick();
+		gameWorld.tick();
 		
 	}
 }
