@@ -21,7 +21,7 @@ public class MouseHandler implements MouseInputListener {
 		this.inHandHandler = inHandHandler;
 		this.world = world;
 	}
-
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
