@@ -18,6 +18,7 @@ public class Frame extends JFrame {
 
 		new Frame();
 
+		
 	}
 	public Frame(String url) {
 		panel = new Panel(LevelLoader.loadLevel(url));
