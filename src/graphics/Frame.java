@@ -16,7 +16,7 @@ public class Frame extends JFrame {
 	private GameLoop gameLoop;
 
 	public static void main(String[] args) {
-		System.out.println("Wer das liest hat was geändert bekommen");
+		System.out.println("Wer das liest hat was geändert bekommen, zum zweiten mal");
 		new Frame();
 
 	
