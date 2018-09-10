@@ -26,13 +26,13 @@ public class InHandHandler {
 	private int blockSize;
 	private Rectangle gameBounds;
 
-	private GameWorld gameWorld;
+	private World world;
 
-	public InHandHandler(ArrayList<TetroType> tetroTypes, ArrayList<Point> tetroDrawPositions, int blockSize, Rectangle gameBounds, GameWorld gameWorld) {
+	public InHandHandler(ArrayList<TetroType> tetroTypes, ArrayList<Point> tetroDrawPositions, int blockSize, Rectangle gameBounds, World world) {
 		this.tetroTypes = tetroTypes;
 		this.tetroOffsets = tetroDrawPositions;
 		this.blockSize = blockSize;
-		this.gameWorld = gameWorld;
+		this.world = world;
 		this.gameBounds = gameBounds;
 	}
 
@@ -60,7 +60,7 @@ public class InHandHandler {
 
 	public void placeInHand() {
 		if (tetroInHand != null) {
-			gameWorld.addTetro(tetroInHand, (mouse_x - offset_x) - gameBounds.x, (mouse_y - offset_y) - gameBounds.y, rotation);
+			world.addTetro(tetroInHand, (mouse_x - offset_x) - gameBounds.x, (mouse_y - offset_y) - gameBounds.y, rotation);
 			tetroInHand = null;
 		}
 	}

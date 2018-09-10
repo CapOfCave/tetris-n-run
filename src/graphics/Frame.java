@@ -16,7 +16,7 @@ public class Frame extends JFrame {
 	private GameLoop gameLoop;
 
 	public static void main(String[] args) {
-		new Frame("C:\\Users\\AMD\\tetros\\level.txt");
+		new Frame("/res/level.txt");
 	}
 
 	public Frame(String url) {

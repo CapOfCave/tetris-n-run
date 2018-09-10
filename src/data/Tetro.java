@@ -19,6 +19,8 @@ public class Tetro {
 
 	private Camera camera;
 
+	public static Tetro NULL = new Tetro(null, 0, 0, 0, 0, null);
+	
 	public Tetro(TetroType type, int x, int y, int rotation, int blockSize, Camera camera) {
 		this.camera = camera;
 
