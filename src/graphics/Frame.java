@@ -18,8 +18,6 @@ public class Frame extends JFrame {
 	public static void main(String[] args) {
 		System.out.println("Wer das liest hat was geändert bekommen, zum zweiten mal");
 		new Frame();
-
-	
 	}
 	public Frame(String url) {
 		panel = new Panel(LevelLoader.loadLevel(url));
