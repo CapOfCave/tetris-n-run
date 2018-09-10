@@ -16,7 +16,7 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 
-		new Frame("C:\\Users\\AMD\\tetros\\level.txt");
+		new Frame();
 
 	}
 	public Frame(String url) {
