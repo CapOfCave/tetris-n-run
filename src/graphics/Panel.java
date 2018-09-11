@@ -24,7 +24,7 @@ public class Panel extends JPanel implements Playable{
 	private final int width = 1300, height = 640;
 	private final Rectangle gamePanel = new Rectangle(20, 20, 901, 601);
 //	private final Rectangle gamePanel = new Rectangle(50, 50, 901, 601);
-	private int blockSize = 30;
+	private int blockSize;
 
 	private World world;
 	private InHandHandler inHandHandler;

@@ -8,6 +8,8 @@ import logics.GameLoop;
 
 /**
  * @author Lars Created on 05.08.2018
+ * 
+ * Der Rahmen, der alles hält.
  */
 public class Frame extends JFrame {
 
