@@ -98,6 +98,8 @@ public class LevelLoader {
 			}
 		}
 
+		
+		
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
 			return new Level(tetroTypes, rawTetros, arrWorld, blockSize, tetrofileUrl, playerX, playerY);

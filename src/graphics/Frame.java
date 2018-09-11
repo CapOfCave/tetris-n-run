@@ -32,17 +32,4 @@ public class Frame extends JFrame {
 		setVisible(true);
 		gameLoop.start();
 	}
-
-//	public Frame() {
-//		panel = new Panel();
-//		add(panel);
-//		gameLoop = new GameLoop(panel);
-//		setResizable(false);
-//		pack();
-//		setDefaultCloseOperation(3);
-//		setLocationRelativeTo(null);
-//		setVisible(true);
-//		gameLoop.start();
-//	}
-
 }
