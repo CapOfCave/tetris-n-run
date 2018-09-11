@@ -9,13 +9,12 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import data.TetroType;
 import input.MouseHandler;
-import loading.TetroLoader;
+import logics.World;
 import logics.InHandHandler;
 import logics.Level;
 import logics.Playable;
-import logics.TetroType;
-import logics.World;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -35,24 +34,6 @@ public class Panel extends JPanel implements Playable{
 	private ArrayList<Point> tetroDrawPositions;
 	private boolean debugMode = false;
 	private float interpolation;
-	private String tetroFileURL;
-	
-	public Panel() {
-		tetroFileURL = "/res/tetros.txt";
-		setPreferredSize(new Dimension(width, height));
-		
-		tetroTypes = TetroLoader.loadTetros(tetroFileURL, blockSize);
-		world = new World(gamePanel, blockSize, tetroTypes, tetroFileURL);
-		tetroDrawPositions = new ArrayList<>();
-		for (int i = 0; i < tetroTypes.size(); i++) {
-			tetroDrawPositions.add(new Point(972, i * 100 + 72));
-		}
-		
-		inHandHandler = new InHandHandler(tetroTypes, tetroDrawPositions, blockSize, gamePanel, world );
-		mouseHandler = new MouseHandler(inHandHandler, world);
-		addMouseListener(mouseHandler);
-		addMouseMotionListener(mouseHandler);
-	}
 	
 	public Panel(Level level) {
 		setPreferredSize(new Dimension(width, height));

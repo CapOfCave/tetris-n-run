@@ -24,7 +24,7 @@ public class ImageLoader {
 
 	public static BufferedImage loadImage(String path, int blockSize) {
 		BufferedImage img = new BufferedImage(blockSize + 1, blockSize + 1, BufferedImage.TYPE_4BYTE_ABGR);
-		//TODO blocksize increased by one for the 2nd border
+		//blocksize increased by one for the 2nd border
 		Graphics g = img.getGraphics();
 		g.drawImage(loadImage(path), 0, 0, blockSize + 1, blockSize + 1, null);
 		g.dispose();

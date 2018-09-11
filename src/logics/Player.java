@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import data.Tetro;
 import loading.ImageLoader;
 
 /**
@@ -18,11 +19,8 @@ public class Player {
 	private Camera camera;
 
 	private ArrayList<Point> keyFrames;
-	private int xSum = 0;
-	private int ySum = 0;
 
 	private ArrayList<Tetro> tetrosToRemove;
-	private Tetro nullTetro;
 	private ArrayList<Tetro> worldTetros;
 	private ArrayList<Tetro>[][] worldTetroHitbox;
 
@@ -33,7 +31,7 @@ public class Player {
 		this.blockSize = blockSize;
 		img = ImageLoader.loadImage("/res/character.png");
 		keyFrames = new ArrayList<>();
-		nullTetro = new Tetro(null, 0, 0, 0, 0, null);
+		
 		tetrosToRemove = new ArrayList<>();
 	}
 
@@ -60,16 +58,19 @@ public class Player {
 	public void tick() {
 		lastX = x;
 		lastY = y;
+		
+		//Beginn der Bewegung über eine KeyFrame-abfolge
 		if (keyFrames.size() > 0) {
 			Point p = keyFrames.get(0);
+			//Eigentliche Bewegung
 			this.x += p.x;
 			this.y += p.y;
-			xSum -= p.x;
-			ySum -= p.y;
 			keyFrames.remove(p);
+			
+			//Durchlaufende Tetros entfernen - entfernen
 			Tetro temp = tetrosToRemove.get(0);
 			tetrosToRemove.remove(0);
-			if (temp != nullTetro) {
+			if (temp != Tetro.NULL) {
 				worldTetros.remove(temp);
 				if (worldTetroHitbox[y][x].size() > 0) {
 					Tetro nextMove = worldTetroHitbox[y][x].get(0);
@@ -83,14 +84,9 @@ public class Player {
 		}
 	}
 
-	public int getX() {
-		return x;
-	}
 
-	public int getY() {
-		return y;
-	}
 
+	//Wird noch entfernt und durch echtes Movement ersetzt
 	public void move(Tetro tetro) {
 		int tetro_value = tetro.getBlockAt(x, y);
 		String movePattern = tetro.getType().getStrMovepattern();
@@ -108,23 +104,17 @@ public class Player {
 		}
 	}
 
+	//Wird noch entfernt und durch echtes Movement ersetzt
 	private void handleTetroTile(int digit, boolean lastIndex, Tetro tetro) {
 		int yMove = ((digit + 1) % 2) * (digit - 1);
 		int xMove = (digit % 2) * (2 - digit);
 		keyFrames.add(new Point(xMove, yMove));
-		xSum += xMove;
-		ySum += yMove;
 		if (lastIndex) {
 			tetrosToRemove.add(tetro);
 		} else {
-			tetrosToRemove.add(nullTetro);
+			tetrosToRemove.add(Tetro.NULL);
 		}
 	}
-
-	// public void move(int x, int y) {
-	// this.x += x;
-	// this.y += y;
-	// }
 
 	public Point getXY() {
 		return new Point(x, y);
@@ -136,5 +126,13 @@ public class Player {
 
 	public int getRealX() {
 		return x * blockSize;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 }

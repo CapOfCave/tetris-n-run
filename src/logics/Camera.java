@@ -7,28 +7,30 @@ public class Camera {
 	private int x, y;
 	private int lastX, lastY;
 	private int drawX, drawY;
-	private Player player;
 	private int maxY;
 	private int maxX;
 
 	private double stickyness = .3; // höher -> spieler näher an der Mitte
-	private int centerX;
-	private int centerY;
+	private int offsetX;
+	private int offsetY;
 
-	public Camera(int maxY, int maxX, int centerX, int centerY) {
+	public Camera(int x, int y, int maxY, int maxX, int offsetX, int offsetY) {
 		this.maxX = maxX;
 		this.maxY = maxY;
-		this.centerX = centerX;
-		this.centerY = centerY;
-
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		this.x = clipBorderX(x - offsetX);
+		this.y = clipBorderY(y - offsetY);
+		this.lastX = clipBorderX(x - offsetX);
+		this.lastY = clipBorderY(y - offsetY);
 	}
 
-	public void setCenterX(int centerX) {
-		this.centerX = centerX;
+	public void setOffsetX(int offsetX) {
+		this.offsetX = offsetX;
 	}
 
-	public void setCenterY(int centerY) {
-		this.centerY = centerY;
+	public void setOffsetY(int offsetY) {
+		this.offsetY = offsetY;
 	}
 
 	public int getX() {
@@ -39,21 +41,12 @@ public class Camera {
 		return drawY;
 	}
 
-	public void tick() {
+	public void tick(int targetX, int targetY) {
 		lastX = x;
 		lastY = y;
 
-		if (player != null) {
-			// y = (int) Math.max(0, Math.min(maxY, player.getRealY() - 300));
-			// x = (int) Math.max(0, Math.min(maxX, player.getRealX() - 300));
-//			System.out.println(maxX + " und " + maxY + " bin bei " + ((player.getRealY() - centerY) * stickyness + lastY * (1 - stickyness)));
-			y = (int) Math.max(0, Math.min(maxY, (player.getRealY() - centerY) * stickyness + lastY * (1 - stickyness)));
-			x = (int) Math.max(0, Math.min(maxX, (player.getRealX() - centerX) * stickyness + lastX * (1 - stickyness)));
-//			
-			
-			
-			
-		}
+		y = clipBorderY((targetY - offsetY) * stickyness + lastY * (1 - stickyness));
+		x = clipBorderX((targetX - offsetX) * stickyness + lastX * (1 - stickyness));
 	}
 
 	public void prepareDraw(float interpolation) {
@@ -61,9 +54,12 @@ public class Camera {
 		drawY = (int) ((y - lastY) * interpolation + lastY);
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
-
+	private int clipBorderX(double x) {
+		return (int) Math.max(0, Math.min(maxX, x));
+	}
+	
+	private int clipBorderY(double y) {
+		return (int) Math.max(0, Math.min(maxY, y));
 	}
 
 }

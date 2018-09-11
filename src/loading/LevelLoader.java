@@ -6,9 +6,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import data.RawTetro;
+import data.TetroType;
 import logics.Level;
-import logics.RawTetro;
-import logics.TetroType;
 
 /**
  * @author Lars Created on 13.08.2018

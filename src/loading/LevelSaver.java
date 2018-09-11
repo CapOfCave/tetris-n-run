@@ -6,8 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import data.RawTetro;
 import logics.Level;
-import logics.RawTetro;
 
 /**
  * @author Lars Created on 13.08.2018

@@ -33,7 +33,7 @@ public class MouseHandler implements MouseInputListener {
 			inHandHandler.rotateInHand(false);
 		} else if (e.getButton() == MouseEvent.BUTTON2) {
 			//TODO temporary save option
-			world.save("C:\\Users\\AMD\\tetros\\level.txt");
+			world.save("C:\\JavaEclipse\\level.txt");
 		} 
 	}
 

@@ -1,4 +1,4 @@
-package logics;
+package data;
 
 import java.awt.Color;
 import java.awt.Graphics;
