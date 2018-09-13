@@ -112,8 +112,17 @@ public class Player {
 			vSpeed = 0;
 		}
 		
-		hSpeed = Math.min(hSpeed, maxSpeed);
-		vSpeed = Math.min(vSpeed, maxSpeed);
+		if(hSpeed > 0) {
+			hSpeed = Math.min(hSpeed, maxSpeed);
+		} else if (hSpeed < 0){
+			hSpeed = Math.max(hSpeed, maxSpeed);
+		}
+		
+		if(vSpeed > 0) {
+			vSpeed = Math.min(vSpeed, maxSpeed);
+		} else if (vSpeed < 0){
+			vSpeed = Math.max(vSpeed, maxSpeed);
+		}
 		
 		x += hSpeed;
 		y += vSpeed;
