@@ -36,13 +36,16 @@ public class Frame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		gameLoop.start();
+		changePanel(url);
 	}
 	
 	public void changePanel(String url) {
 		remove(panel);
-		panel = new Panel(LevelLoader.loadLevel(url), keyHandler);
-		add(panel);
-		gameLoop.changePlayable(panel);
+
+		OverworldPanel Opanel = new OverworldPanel(LevelLoader.loadLevel(url), keyHandler);
+		add(Opanel);
+		gameLoop.changePlayable(Opanel);
+
 		
 	}
 }
