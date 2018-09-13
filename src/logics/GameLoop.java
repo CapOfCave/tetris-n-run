@@ -99,5 +99,9 @@ public class GameLoop implements Runnable {
 	private void render(float interpolation) {
 		game.render(interpolation);
 	}
+	
+	public void changePlayable(Playable game) {
+		this.game = game;
+	}
 
 }
