@@ -26,7 +26,6 @@ public class Player {
 	private double hSpeed;
 	private double vSpeed;
 
-
 	private double acc = 0.8;
 	private double brake = 4;
 	private double maxSpeed = 9;
