@@ -60,6 +60,7 @@ public class OverworldPanel extends JPanel implements Playable {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		
 		System.out.println("hibrgrasguzhvbes");
 		Graphics2D gameGraphics = (Graphics2D)g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		overworld.draw(gameGraphics, interpolation, debugMode);
