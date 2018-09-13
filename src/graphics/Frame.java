@@ -36,9 +36,9 @@ public class Frame extends JFrame {
 	
 	public void changePanel(String url) {
 		remove(panel);
-		panel = new Panel(LevelLoader.loadLevel(url));
-		add(panel);
-		gameLoop.changePlayable(panel);
+		OverworldPanel Opanel = new OverworldPanel(LevelLoader.loadLevel(url));
+		add(Opanel);
+		gameLoop.changePlayable(Opanel);
 		
 	}
 }
