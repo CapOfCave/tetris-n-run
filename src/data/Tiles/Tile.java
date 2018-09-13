@@ -40,7 +40,7 @@ public class Tile {
 			return key;
 		}
 
-		public void setKey(char keyS) {
+		public void setKey(char key) {
 			this.key = key;
 		}
 

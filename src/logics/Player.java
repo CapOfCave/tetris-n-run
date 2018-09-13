@@ -25,8 +25,11 @@ public class Player {
 
 	private double hSpeed;
 	private double vSpeed;
+
 	private double acc = 0.8;
 	private double brake = 5;
+	private double maxSpeed = 5;
+
 
 	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox, KeyHandler keyHandler) {
 		this.camera = camera;
@@ -108,6 +111,9 @@ public class Player {
 		} else {
 			vSpeed = 0;
 		}
+		
+		hSpeed = Math.min(hSpeed, maxSpeed);
+		vSpeed = Math.min(vSpeed, maxSpeed);
 		
 		x += hSpeed;
 		y += vSpeed;
