@@ -20,29 +20,27 @@ import loading.LevelSaver;
 public class World {
 
 	// Variablen
-	private int blockSize;
-	private Rectangle graphicClip;
+	protected int blockSize;
+	protected Rectangle graphicClip;
 
 	// Wird zum Speichern übernommen
-	private String tetroFileURL;
+	protected String tetroFileURL;
 
 	// Standard-Bilder
-	private BufferedImage blockImg;
-	private BufferedImage backgroundImg;
+	protected BufferedImage blockImg;
+	protected BufferedImage backgroundImg;
 
 	// Wichtigste Bezugsobjekte
-	private Player player;
-	private Camera camera;
+	protected Player player;
+	protected Camera camera;
 
 	// Halten die Weltinformationen
-	private Tile[][] world;
-	private ArrayList<Tetro> tetros;
-	private ArrayList<Tetro>[][] tetroWorldHitbox;
-	private ArrayList<TetroType> tetroTypes;
+	protected Tile[][] world;
+	protected ArrayList<Tetro> tetros;
+	protected ArrayList<Tetro>[][] tetroWorldHitbox;
+	protected ArrayList<TetroType> tetroTypes;
 
-	public World(Rectangle graphicClip, int blockSize, Level level) {
-		//pls dont use this
-	}
+	
 
 	@SuppressWarnings("unchecked")
 	public World(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler) {

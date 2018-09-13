@@ -5,13 +5,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import data.TetroType;
 import input.GuiMouseHandler;
+import input.KeyHandler;
+import loading.ImageLoader;
 import logics.Level;
+import logics.Overworld;
 import logics.Playable;
 import logics.World;
 
@@ -26,19 +30,21 @@ public class OverworldPanel extends JPanel implements Playable {
 //	private final Rectangle gamePanel = new Rectangle(50, 50, 901, 601);
 	private int blockSize;
 
-	private World world;
+	private Overworld overworld;
 	
 	private GuiMouseHandler guiMouseHandler;
+	
+	private BufferedImage playButton = ImageLoader.loadImage("/res/play.png");
 
 	private ArrayList<TetroType> tetroTypes;
 	private ArrayList<Point> tetroDrawPositions;
 	private boolean debugMode = false;
 	private float interpolation;
 	
-	public OverworldPanel(Level level) {
+	public OverworldPanel(Level level, KeyHandler keyHandler) {
 		setPreferredSize(new Dimension(width, height));
 		blockSize = level.getBlockSize();
-		world = new World(gamePanel, blockSize, level);
+		overworld = new Overworld(gamePanel, blockSize, level, keyHandler);
 		tetroTypes = level.getTetroTypes();
 		tetroDrawPositions = new ArrayList<>();
 		for (int i = 0; i < tetroTypes.size(); i++) {
@@ -46,7 +52,7 @@ public class OverworldPanel extends JPanel implements Playable {
 		}
 		
 		
-		guiMouseHandler = new GuiMouseHandler(world);
+		guiMouseHandler = new GuiMouseHandler(overworld);
 		addMouseListener(guiMouseHandler);
 	}
 
@@ -54,13 +60,14 @@ public class OverworldPanel extends JPanel implements Playable {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		System.out.println("hibrgrasguzhvbes");
 		Graphics2D gameGraphics = (Graphics2D)g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		world.draw(gameGraphics, interpolation, debugMode);
+		overworld.draw(gameGraphics, interpolation, debugMode);
 		guiMouseHandler.drawSideBar(g, debugMode);
-		world.drawPlayer(gameGraphics, interpolation, debugMode);
-		for (int i = 0; i < tetroTypes.size(); i++) {
-			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, 0, debugMode);
-		}
+		overworld.drawPlayer(gameGraphics, interpolation, debugMode);
+		
+		g.drawImage(playButton, 100, 100, null);
+		
 		
 	}
 
@@ -73,7 +80,7 @@ public class OverworldPanel extends JPanel implements Playable {
 
 	@Override
 	public void tick() {
-		world.tick();
+		overworld.tick();
 		
 	}
 
