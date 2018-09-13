@@ -2,7 +2,7 @@ package graphics;
 
 import javax.swing.JFrame;
 
-import graphics.Panel;
+import input.KeyHandler;
 import loading.LevelLoader;
 import logics.GameLoop;
 
@@ -16,6 +16,8 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Panel panel;
 	private GameLoop gameLoop;
+	
+	private KeyHandler keyHandler;
 
 	public static void main(String[] args) {
 		new Frame("/res/level.txt");
@@ -23,9 +25,11 @@ public class Frame extends JFrame {
 	}
 
 	public Frame(String url) {
-		panel = new Panel(LevelLoader.loadLevel(url));
+		keyHandler = new KeyHandler();
+		panel = new Panel(LevelLoader.loadLevel(url), keyHandler);
 		add(panel);
 		gameLoop = new GameLoop(panel);
+		addKeyListener(keyHandler);
 		setResizable(false);
 		pack();
 		setDefaultCloseOperation(3);
@@ -36,9 +40,15 @@ public class Frame extends JFrame {
 	
 	public void changePanel(String url) {
 		remove(panel);
+
 		OverworldPanel Opanel = new OverworldPanel(LevelLoader.loadLevel(url));
 		add(Opanel);
 		gameLoop.changePlayable(Opanel);
+
+		panel = new Panel(LevelLoader.loadLevel(url), keyHandler);
+		add(panel);
+		gameLoop.changePlayable(panel);
+
 		
 	}
 }

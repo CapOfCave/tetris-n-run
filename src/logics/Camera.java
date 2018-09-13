@@ -41,12 +41,12 @@ public class Camera {
 		return drawY;
 	}
 
-	public void tick(int targetX, int targetY) {
+	public void tick(double pX, double pY) {
 		lastX = x;
 		lastY = y;
 
-		y = clipBorderY((targetY - offsetY) * stickyness + lastY * (1 - stickyness));
-		x = clipBorderX((targetX - offsetX) * stickyness + lastX * (1 - stickyness));
+		y = clipBorderY((pY - offsetY) * stickyness + lastY * (1 - stickyness));
+		x = clipBorderX((pX - offsetX) * stickyness + lastX * (1 - stickyness));
 	}
 
 	public void prepareDraw(float interpolation) {
