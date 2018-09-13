@@ -90,14 +90,16 @@ public class LevelLoader {
 			}
 		}
 		sc.close();
-		int[][] arrWorld = new int[world.size()][worldlength];
+		char[][] arrWorld = new char[world.size()][worldlength];
 		for (int j = 0; j < world.size(); j++) {
 			String worldString = world.get(j);
 			for (int i = 0; i < worldString.length(); i++) {
-				arrWorld[j][i] = Character.digit(worldString.charAt(i), 4);
+				arrWorld[j][i] = worldString.charAt(i);
 			}
 		}
 
+		
+		
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
 			return new Level(tetroTypes, rawTetros, arrWorld, blockSize, tetrofileUrl, playerX, playerY);

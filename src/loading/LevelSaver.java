@@ -69,8 +69,8 @@ public class LevelSaver {
 		}
 
 		// world
-		int[][] world = level.getArrWorld();
-		for (int[] row : world) {
+		char[][] world = level.getArrWorld();
+		for (char[] row : world) {
 			StringBuilder worldLine = new StringBuilder("w;");
 			for (int field : row) {
 				worldLine.append(field);

@@ -33,7 +33,7 @@ public class World {
 	private Camera camera;
 	
 	//Halten die Weltinformationen
-	private int[][] world;
+	private char[][] world;
 	private ArrayList<Tetro> tetros;
 	private ArrayList<Tetro>[][] tetroWorldHitbox;
 	private ArrayList<TetroType> tetroTypes;
@@ -81,9 +81,9 @@ public class World {
 		for (int j = 0; j < world.length; j++) {
 			for (int i = 0; i < world[j].length; i++) {
 
-				if (world[j][i] == 1) {
+				if (world[j][i] == '1') {
 					g.drawImage(blockImg, i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
-				} else if (world[j][i] == 0) {
+				} else if (world[j][i] == '0') {
 					g.drawImage(backgroundImg, i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
 
 				}

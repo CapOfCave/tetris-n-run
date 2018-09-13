@@ -11,13 +11,13 @@ import data.TetroType;
 public class Level {
 	private ArrayList<TetroType> tetroTypes;
 	private ArrayList<RawTetro> rawTetros;
-	private int[][] arrWorld;
+	private char[][] arrWorld;
 	private int blockSize;
 	private String tetrofileUrl;
 	private int playerX;
 	private int playerY;
 
-	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, int[][] arrWorld, int blockSize, String tetrofileUrl, int playerX,
+	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, char[][] arrWorld, int blockSize, String tetrofileUrl, int playerX,
 			int playerY) {
 		this.tetroTypes = tetroTypes;
 		this.rawTetros = rawTetros;
@@ -48,7 +48,7 @@ public class Level {
 		return rawTetros;
 	}
 
-	public int[][] getArrWorld() {
+	public char[][] getArrWorld() {
 		return arrWorld;
 	}
 
