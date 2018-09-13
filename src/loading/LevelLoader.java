@@ -102,7 +102,7 @@ public class LevelLoader {
 		
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
-			return new Level(tetroTypes, rawTetros, arrWorld, blockSize, tetrofileUrl, playerX, playerY);
+			return new Level(tetroTypes, rawTetros, arrWorld, blockSize, tetrofileUrl, playerX * blockSize, playerY * blockSize);
 		} else {
 			System.out.println("Levelerstellung nicht erfolgreich. Keine Tetros");
 			System.exit(1);

@@ -6,37 +6,41 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data.Tetro;
+import input.KeyHandler;
 import loading.ImageLoader;
 
 /**
  * @author Lars Created on 05.08.2018
  */
 public class Player {
-	private int x, y;
-	private int lastX, lastY;
+	private double x, y;
+	private double lastX, lastY;
 	private BufferedImage img;
 	private int blockSize;
 	private Camera camera;
+	private KeyHandler keyHandler;
 
-	private ArrayList<Point> keyFrames;
-
-	private ArrayList<Tetro> tetrosToRemove;
 	private ArrayList<Tetro> worldTetros;
 	private ArrayList<Tetro>[][] worldTetroHitbox;
 
-	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox) {
+	private double hSpeed;
+	private double vSpeed;
+	private double acc = 0.5;
+	private double brake = 0.8;
+
+	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox, KeyHandler keyHandler) {
 		this.camera = camera;
 		this.worldTetros = worldTetros;
 		this.worldTetroHitbox = worldTetroHitbox;
 		this.blockSize = blockSize;
+		this.keyHandler = keyHandler;
 		img = ImageLoader.loadImage("/res/character.png");
-		keyFrames = new ArrayList<>();
-		
-		tetrosToRemove = new ArrayList<>();
+
 	}
 
-	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox, int playerX, int playerY) {
-		this(blockSize, camera, worldTetros, worldTetroHitbox);
+	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox, int playerX, int playerY,
+			KeyHandler keyHandler) {
+		this(blockSize, camera, worldTetros, worldTetroHitbox, keyHandler);
 		x = playerX;
 		y = playerY;
 		lastX = x;
@@ -48,9 +52,9 @@ public class Player {
 	}
 
 	public void draw(Graphics g, float interpolation) {
-		float interpolX = (x - lastX) * interpolation + lastX;
-		float interpolY = (y - lastY) * interpolation + lastY;
-		g.drawImage(img, (int)(interpolX * blockSize) - camera.getX(), (int)(interpolY * blockSize) - camera.getY(), blockSize, blockSize, null);
+		float interpolX = (int) ((x - lastX) * interpolation + lastX);
+		float interpolY = (int) ((y - lastY) * interpolation + lastY);
+		g.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize, blockSize, null);
 		// g.drawImage(img, x * blockSize - camera.getX(), y * blockSize - camera.getY(), 40, 40, null);
 
 	}
@@ -58,81 +62,78 @@ public class Player {
 	public void tick() {
 		lastX = x;
 		lastY = y;
-		
-		//Beginn der Bewegung über eine KeyFrame-abfolge
-		if (keyFrames.size() > 0) {
-			Point p = keyFrames.get(0);
-			//Eigentliche Bewegung
-			this.x += p.x;
-			this.y += p.y;
-			keyFrames.remove(p);
-			
-			//Durchlaufende Tetros entfernen - entfernen
-			Tetro temp = tetrosToRemove.get(0);
-			tetrosToRemove.remove(0);
-			if (temp != Tetro.NULL) {
-				worldTetros.remove(temp);
-				if (worldTetroHitbox[y][x].size() > 0) {
-					Tetro nextMove = worldTetroHitbox[y][x].get(0);
-					worldTetroHitbox[nextMove.getStartPoint1().y][nextMove.getStartPoint1().x].remove(nextMove);
-					worldTetroHitbox[nextMove.getStartPoint2().y][nextMove.getStartPoint2().x].remove(nextMove);
-					move(nextMove);
 
-				}
+		// Beginn der Bewegung
+
+		// Rechts-Links-Movement
+		double abs_hSpeed = Math.abs(hSpeed);
+		if (keyHandler.getA() && !keyHandler.getD()) {
+			hSpeed -= acc;
+			if (hSpeed > 0) {
+				hSpeed -= brake;
 			}
-
-		}
-	}
-
-
-
-	//Wird noch entfernt und durch echtes Movement ersetzt
-	public void move(Tetro tetro) {
-		int tetro_value = tetro.getBlockAt(x, y);
-		String movePattern = tetro.getType().getStrMovepattern();
-
-		if (tetro_value == 2) {
-			for (int i = 0; i < movePattern.length(); i++) {
-				int digit = (Character.digit(movePattern.charAt(i), 4) + 4 - tetro.getRotation()) % 4;
-				handleTetroTile(digit, i == movePattern.length() - 1, tetro);
+		} else if (!keyHandler.getA() && keyHandler.getD()) {
+			hSpeed += acc;
+			if (hSpeed < 0) {
+				hSpeed += brake;
 			}
-		} else if (tetro_value == 3) {
-			for (int i = movePattern.length() - 1; i >= 0; i--) {
-				int digit = (2 + Character.digit(movePattern.charAt(i), 4) + (4 - tetro.getRotation())) % 4;
-				handleTetroTile(digit, i == 0, tetro);
+		} else if (abs_hSpeed > 0.001) {
+			abs_hSpeed -= brake;
+			if (abs_hSpeed < 0) {
+				abs_hSpeed = 0;
 			}
-		}
-	}
-
-	//Wird noch entfernt und durch echtes Movement ersetzt
-	private void handleTetroTile(int digit, boolean lastIndex, Tetro tetro) {
-		int yMove = ((digit + 1) % 2) * (digit - 1);
-		int xMove = (digit % 2) * (2 - digit);
-		keyFrames.add(new Point(xMove, yMove));
-		if (lastIndex) {
-			tetrosToRemove.add(tetro);
+			hSpeed = hSpeed / Math.abs(hSpeed) * abs_hSpeed;
 		} else {
-			tetrosToRemove.add(Tetro.NULL);
+			hSpeed = 0;
 		}
+
+		// Unten-Oben-Movement
+		double abs_vSpeed = Math.abs(vSpeed);
+		if (keyHandler.getW() && !keyHandler.getS()) {
+			vSpeed -= acc;
+			if (vSpeed > 0) {
+				vSpeed -= brake;
+			}
+		} else if (!keyHandler.getW() && keyHandler.getS()) {
+			vSpeed += acc;
+			if (vSpeed < 0) {
+				vSpeed += brake;
+			}
+		} else if (abs_vSpeed > 0.001) {
+			abs_vSpeed -= brake;
+			if (abs_vSpeed < 0) {
+				abs_vSpeed = 0;
+			}
+			vSpeed = vSpeed / Math.abs(vSpeed) * abs_vSpeed;
+		} else {
+			vSpeed = 0;
+		}
+		
+		x += hSpeed;
+		y += vSpeed;
+	}
+
+	public void move() {
+
 	}
 
 	public Point getXY() {
-		return new Point(x, y);
+		return new Point((int) x, (int) y);
 	}
 
-	public int getRealY() {
-		return y * blockSize;
+	public double getY() {
+		return y;
 	}
 
-	public int getRealX() {
-		return x * blockSize;
-	}
-
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public int getY() {
-		return y;
+	public int getIntX() {
+		return (int) x;
+	}
+
+	public int getIntY() {
+		return (int) y;
 	}
 }

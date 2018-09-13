@@ -2,8 +2,7 @@ package graphics;
 
 import javax.swing.JFrame;
 
-
-import graphics.Panel;
+import input.KeyHandler;
 import loading.LevelLoader;
 import logics.GameLoop;
 
@@ -16,6 +15,8 @@ public class Frame extends JFrame {
 	private Panel panel;
 	
 	private GameLoop gameLoop;
+	
+	private KeyHandler keyHandler;
 
 	public static void main(String[] args) {
 
@@ -31,9 +32,11 @@ public class Frame extends JFrame {
 
 	//loads a Level
 	public Frame(String url) {
-		panel = new Panel(LevelLoader.loadLevel(url));
+		keyHandler = new KeyHandler();
+		panel = new Panel(LevelLoader.loadLevel(url), keyHandler);
 		add(panel);
 		gameLoop = new GameLoop(panel);
+		addKeyListener(keyHandler);
 		setResizable(false);
 		pack();
 		setDefaultCloseOperation(3);

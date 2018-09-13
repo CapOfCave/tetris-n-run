@@ -6,7 +6,7 @@ package logics;
  */
 public class GameLoop implements Runnable {
 
-	private final double FREQUENCY = 10.;
+	private final double FREQUENCY = 30.;
 	private final double TIME_BETWEEN_UPDATES = 1000000000 / FREQUENCY;
 	private final int MAX_UPDATES_BEFORE_RENDER = 5;
 	private final double MAX_FPS = 60;
@@ -17,6 +17,8 @@ public class GameLoop implements Runnable {
 
 	private boolean running;
 	private boolean paused;
+	
+	@SuppressWarnings("unused")
 	private int fps = 60;
 	private int frameCount = 0;
 	

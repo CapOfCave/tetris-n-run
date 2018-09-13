@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import data.RawTetro;
 import data.Tetro;
 import data.TetroType;
+import input.KeyHandler;
 import loading.ImageLoader;
 import loading.LevelSaver;
 
@@ -37,9 +38,11 @@ public class World {
 	private ArrayList<Tetro> tetros;
 	private ArrayList<Tetro>[][] tetroWorldHitbox;
 	private ArrayList<TetroType> tetroTypes;
+	
+	
 
 	@SuppressWarnings("unchecked")
-	public World(Rectangle graphicClip, int blockSize, Level level) {
+	public World(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler) {
 		
 		//Initialisierungen
 		this.graphicClip = graphicClip;
@@ -54,9 +57,10 @@ public class World {
 				tetroWorldHitbox[j][i] = new ArrayList<>();
 			}
 		}
+		
 		camera = new Camera(level.getPlayerX() * blockSize, level.getPlayerY() * blockSize, world.length * blockSize - (int) graphicClip.getHeight(), world[0].length * blockSize - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
-		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, level.getPlayerX(), level.getPlayerY());
+		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, level.getPlayerX(), level.getPlayerY(), keyHandler);
 		
 		//Erstellen der Objekte
 		for (RawTetro ut : level.getUnfinishedTetros()) {
@@ -111,7 +115,7 @@ public class World {
 		player.tick();
 
 		// camera adjustment
-		camera.tick(player.getRealX(),player.getRealY());
+		camera.tick(player.getX(),player.getY());
 	}
 
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
@@ -135,7 +139,7 @@ public class World {
 		Point p1 = tetro.getStartPoint1();
 		Point p2 = tetro.getStartPoint2();
 		if (player.getXY().equals(p1) || player.getXY().equals(p2)) {
-			player.move(tetro);
+			//player.move(tetro);
 		} else {
 			try {
 				tetroWorldHitbox[p1.y][p1.x].add(tetro);
@@ -160,7 +164,7 @@ public class World {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, world, blockSize, tetroFileURL, player.getX(), player.getY());
+		Level temporaryLevel = new Level(tetroTypes, rawTetros, world, blockSize, tetroFileURL, player.getIntX(), player.getIntY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path);
 
