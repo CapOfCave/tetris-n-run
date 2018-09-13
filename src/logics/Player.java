@@ -110,17 +110,25 @@ public class Player {
 			vSpeed = 0;
 		}
 		
-		if(hSpeed > 0) {
-			hSpeed = Math.min(hSpeed, maxSpeed);
-		} else if (hSpeed < 0){
-			hSpeed = Math.max(hSpeed, -maxSpeed);
+//		if(hSpeed > 0) {
+//			hSpeed = Math.min(hSpeed, maxSpeed);
+//		} else if (hSpeed < 0){
+//			hSpeed = Math.max(hSpeed, -maxSpeed);
+//		}
+//		
+//		if(vSpeed > 0) {
+//			vSpeed = Math.min(vSpeed, maxSpeed);
+//		} else if (vSpeed < 0){
+//			vSpeed = Math.max(vSpeed, -maxSpeed);
+//		}
+		
+		double gesSpeed = Math.sqrt(hSpeed * hSpeed + vSpeed * vSpeed);
+		if (gesSpeed > maxSpeed) {
+			double factor = maxSpeed / gesSpeed;
+			hSpeed = hSpeed * factor;
+			vSpeed = vSpeed * factor;
 		}
 		
-		if(vSpeed > 0) {
-			vSpeed = Math.min(vSpeed, maxSpeed);
-		} else if (vSpeed < 0){
-			vSpeed = Math.max(vSpeed, -maxSpeed);
-		}
 		
 		x += hSpeed;
 		y += vSpeed;
