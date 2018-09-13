@@ -17,7 +17,6 @@ import loading.ImageLoader;
 import logics.Level;
 import logics.Overworld;
 import logics.Playable;
-import logics.World;
 
 /**
  * @author Marius Created on 13.09.2018
@@ -59,7 +58,6 @@ public class OverworldPanel extends JPanel implements Playable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		
 		System.out.println("hibrgrasguzhvbes");
 		Graphics2D gameGraphics = (Graphics2D)g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
@@ -75,8 +73,7 @@ public class OverworldPanel extends JPanel implements Playable {
 	@Override
 	public void render(float interpolation) {
 		this.interpolation = interpolation;
-		repaint();
-		
+		this.repaint();
 	}
 
 	@Override

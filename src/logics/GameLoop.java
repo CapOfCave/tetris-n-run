@@ -17,11 +17,10 @@ public class GameLoop implements Runnable {
 
 	private boolean running;
 	private boolean paused;
-	
+
 	@SuppressWarnings("unused")
 	private int fps = 60;
 	private int frameCount = 0;
-	
 
 	public GameLoop(Playable game) {
 		this.game = game;
@@ -53,7 +52,7 @@ public class GameLoop implements Runnable {
 
 				int currentTimeSeconds = (int) (lastUpdateTime / 1000000000);
 				if (currentTimeSeconds > lastSecondTime) {
-//					System.ot.println("NEW SECOND " + currentTimeSeconds + " " + frameCount);
+					// System.ot.println("NEW SECOND " + currentTimeSeconds + " " + frameCount);
 					fps = frameCount;
 					frameCount = 0;
 					lastSecondTime = currentTimeSeconds;
@@ -74,7 +73,7 @@ public class GameLoop implements Runnable {
 
 	public void start() {
 		if (!running) {
-
+			System.out.println("starting...");
 			running = true;
 			th = new Thread(this);
 			th.start();
@@ -83,9 +82,11 @@ public class GameLoop implements Runnable {
 
 	public void stop() {
 		if (running) {
+			System.out.println("Stopping...");
 			running = false;
 			try {
 				th.join(1000);
+				System.out.println("Stopped succesfully");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -99,7 +100,7 @@ public class GameLoop implements Runnable {
 	private void render(float interpolation) {
 		game.render(interpolation);
 	}
-	
+
 	public void changePlayable(Playable game) {
 		this.game = game;
 	}
