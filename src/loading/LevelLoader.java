@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 import data.RawTetro;
 import data.TetroType;
+import data.Tiles.LevelGuiTile;
+import data.Tiles.Tile;
 import logics.Level;
 
 /**
@@ -90,11 +92,20 @@ public class LevelLoader {
 			}
 		}
 		sc.close();
-		char[][] arrWorld = new char[world.size()][worldlength];
+		Tile[][] arrWorld = new Tile[world.size()][worldlength];
 		for (int j = 0; j < world.size(); j++) {
 			String worldString = world.get(j);
 			for (int i = 0; i < worldString.length(); i++) {
-				arrWorld[j][i] = worldString.charAt(i);
+				
+				char TileChar = worldString.charAt(i);
+				
+				if(Character.isLowerCase(TileChar)) {
+					arrWorld[j][i] = new LevelGuiTile(worldString.charAt(i), i, j);
+				}else {
+					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j);
+				}
+				
+				
 			}
 		}
 

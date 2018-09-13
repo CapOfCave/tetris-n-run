@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import data.RawTetro;
+import data.Tiles.Tile;
 import logics.Level;
 
 /**
@@ -69,11 +70,11 @@ public class LevelSaver {
 		}
 
 		// world
-		char[][] world = level.getArrWorld();
-		for (char[] row : world) {
+		Tile[][] world = level.getArrWorld();
+		for (Tile[] row : world) {
 			StringBuilder worldLine = new StringBuilder("w;");
-			for (int field : row) {
-				worldLine.append(field);
+			for (Tile field : row) {
+				worldLine.append(field.getKey());
 			}
 			outpLines.add(worldLine.toString());
 		}

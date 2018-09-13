@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import data.RawTetro;
 import data.TetroType;
+import data.Tiles.Tile;
 
 /**
  * @author Lars Created on 13.08.2018
@@ -11,13 +12,13 @@ import data.TetroType;
 public class Level {
 	private ArrayList<TetroType> tetroTypes;
 	private ArrayList<RawTetro> rawTetros;
-	private char[][] arrWorld;
+	private Tile[][] arrWorld;
 	private int blockSize;
 	private String tetrofileUrl;
 	private int playerX;
 	private int playerY;
 
-	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, char[][] arrWorld, int blockSize, String tetrofileUrl, int playerX,
+	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld, int blockSize, String tetrofileUrl, int playerX,
 			int playerY) {
 		this.tetroTypes = tetroTypes;
 		this.rawTetros = rawTetros;
@@ -48,7 +49,7 @@ public class Level {
 		return rawTetros;
 	}
 
-	public char[][] getArrWorld() {
+	public Tile[][] getArrWorld() {
 		return arrWorld;
 	}
 

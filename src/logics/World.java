@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import data.RawTetro;
 import data.Tetro;
 import data.TetroType;
+import data.Tiles.Tile;
 import loading.ImageLoader;
 import loading.LevelSaver;
 
@@ -33,7 +34,7 @@ public class World {
 	private Camera camera;
 	
 	//Halten die Weltinformationen
-	private char[][] world;
+	private Tile[][] world;
 	private ArrayList<Tetro> tetros;
 	private ArrayList<Tetro>[][] tetroWorldHitbox;
 	private ArrayList<TetroType> tetroTypes;
@@ -68,9 +69,7 @@ public class World {
 			tetroWorldHitbox[p2.y][p2.x].add(ft);
 		}
 		
-		//Laden der Standard-Bilder
-		blockImg = ImageLoader.loadImage("/res/block.png");
-		backgroundImg = ImageLoader.loadImage("/res/background.png");
+		
 	}
 
 	public void draw(Graphics2D g, float interpolation, boolean debugMode) {
@@ -81,12 +80,14 @@ public class World {
 		for (int j = 0; j < world.length; j++) {
 			for (int i = 0; i < world[j].length; i++) {
 
-				if (world[j][i] == '1') {
-					g.drawImage(blockImg, i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
-				} else if (world[j][i] == '0') {
-					g.drawImage(backgroundImg, i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
+				
+				
+				//if (world[j][i].get == '1') {
+					g.drawImage(world[j][i].getImg(), i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
+				//} else if (world[j][i] == '0') {
+					//g.drawImage(backgroundImg, i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
 
-				}
+				//}
 			}
 		}
 
