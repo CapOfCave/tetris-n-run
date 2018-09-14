@@ -40,7 +40,7 @@ public class OverworldPanel extends JPanel implements Playable {
 	private boolean debugMode = false;
 	private float interpolation;
 	
-	public OverworldPanel(Level level, KeyHandler keyHandler) {
+	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame) {
 		setPreferredSize(new Dimension(width, height));
 		blockSize = level.getBlockSize();
 		overworld = new Overworld(gamePanel, blockSize, level, keyHandler);
@@ -51,7 +51,7 @@ public class OverworldPanel extends JPanel implements Playable {
 		}
 		
 		
-		guiMouseHandler = new GuiMouseHandler(overworld);
+		guiMouseHandler = new GuiMouseHandler(frame);
 		addMouseListener(guiMouseHandler);
 	}
 
@@ -59,13 +59,12 @@ public class OverworldPanel extends JPanel implements Playable {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		System.out.println("hibrgrasguzhvbes");
 		Graphics2D gameGraphics = (Graphics2D)g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		overworld.draw(gameGraphics, interpolation, debugMode);
-		guiMouseHandler.drawSideBar(g, debugMode);
+		//guiMouseHandler.drawSideBar(g, debugMode);
 		overworld.drawPlayer(gameGraphics, interpolation, debugMode);
 		
-		g.drawImage(playButton, 100, 100, null);
+		g.drawImage(playButton, 970, 100, null);
 		
 		
 	}

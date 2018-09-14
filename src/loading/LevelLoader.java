@@ -10,14 +10,16 @@ import data.RawTetro;
 import data.TetroType;
 import data.Tiles.LevelGuiTile;
 import data.Tiles.Tile;
+import graphics.Frame;
 import logics.Level;
+import logics.World;
 
 /**
  * @author Lars Created on 13.08.2018
  */
 public class LevelLoader {
 
-	public static Level loadLevel(String url) {
+	public static Level loadLevel(String url, Frame frame) {
 		String tetrofileUrl = null;
 		int blockSize = -1;
 		ArrayList<TetroType> tetroTypes;
@@ -100,9 +102,9 @@ public class LevelLoader {
 				char TileChar = worldString.charAt(i);
 				
 				if(Character.isLowerCase(TileChar)) {
-					arrWorld[j][i] = new LevelGuiTile(worldString.charAt(i), i, j);
+					arrWorld[j][i] = new LevelGuiTile(worldString.charAt(i), i, j, frame);
 				}else {
-					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j);
+					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j, frame);
 				}
 				
 				

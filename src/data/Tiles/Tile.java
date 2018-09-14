@@ -2,7 +2,10 @@ package data.Tiles;
 
 import java.awt.image.BufferedImage;
 
+import graphics.Frame;
 import loading.ImageLoader;
+import logics.Overworld;
+import logics.World;
 
 /**
  * @author Lars
@@ -13,15 +16,16 @@ public class Tile {
 	 private BufferedImage img;
 	
 	 
-	private char key;
-	 private int posX, posY;
+	 protected char key;
+	protected int posX, posY;
+	 protected Frame frame;
 	 
 	 
-	 public Tile(char key, int posX, int posY) {
+	 public Tile(char key, int posX, int posY, Frame frame) {
 		 this.key = key;
 		 this.posX = posX;
 		 this.posY = posY;
-		 
+		 this.frame = frame;
 		img =  ImageLoader.loadImage("/res/block" + key + ".png");
 		 
 		 

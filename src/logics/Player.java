@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data.Tetro;
+import data.Tiles.Tile;
 import input.KeyHandler;
 import loading.ImageLoader;
 
@@ -29,21 +30,24 @@ public class Player {
 	private double acc = 0.8;
 	private double brake = 4;
 	private double maxSpeed = 9;
+	
+	protected Tile[][] tileWorld;
 
 
-	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox, KeyHandler keyHandler) {
+	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox, KeyHandler keyHandler, Tile[][] tileWorld) {
 		this.camera = camera;
 		this.worldTetros = worldTetros;
 		this.worldTetroHitbox = worldTetroHitbox;
 		this.blockSize = blockSize;
 		this.keyHandler = keyHandler;
+		this.tileWorld = tileWorld;
 		img = ImageLoader.loadImage("/res/character.png");
 
 	}
 
 	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox, int playerX, int playerY,
-			KeyHandler keyHandler) {
-		this(blockSize, camera, worldTetros, worldTetroHitbox, keyHandler);
+			KeyHandler keyHandler, Tile[][] tileWorld) {
+		this(blockSize, camera, worldTetros, worldTetroHitbox, keyHandler, tileWorld);
 		x = playerX;
 		y = playerY;
 		lastX = x;
@@ -134,10 +138,18 @@ public class Player {
 		
 		x += hSpeed;
 		y += vSpeed;
+		checkTile();
 	}
 
 	public void move() {
 
+	}
+	
+	private void checkTile() {
+		
+		
+		tileWorld[getTileY()][getTileX()].eventWhenEntering();
+		
 	}
 
 	public Point getXY() {
@@ -158,5 +170,13 @@ public class Player {
 
 	public int getIntY() {
 		return (int) y;
+	}
+	
+	public int getTileX() {
+		return (int) ((x + blockSize/2) / blockSize);
+	}
+	
+	public int getTileY() {
+		return (int) ((y + blockSize/2) / blockSize);
 	}
 }

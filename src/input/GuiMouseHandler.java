@@ -1,25 +1,39 @@
 package input;
 
-import java.awt.Graphics;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import logics.World;
+import graphics.Frame;
+import logics.Overworld;
+
 
 public class GuiMouseHandler implements MouseListener {
 
-	public GuiMouseHandler(World world) {
-		// TODO Auto-generated constructor stub
+	Frame frame;
+	
+	public GuiMouseHandler(Frame frame) {
+		this.frame = frame;
 	}
 
-	public void drawSideBar(Graphics g, boolean debugMode) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
+		int x = e.getX();
+		int y = e.getY();
+		
+		if (x >= 20 && y >= 20 && x < 900 && y < 600) {
+			// in game Rect.
+			System.out.println("Rect.");
+		}
+		
+		if(x >= 970 && y >= 100 && x < 970 + 256 && y < 100 + 64) {
+			//playbutton
+			System.out.println("play");
+			frame.startLevel();
+		}
 		
 	}
 

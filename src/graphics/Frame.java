@@ -16,19 +16,20 @@ import logics.GameLoop;
 public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private Panel panel;
+	private OverworldPanel panel;
 	private GameLoop gameLoop;
+	private char nextLevel;
 
 	private KeyHandler keyHandler;
 
 	public static void main(String[] args) {
-		new Frame("/res/level.txt");
+		new Frame("/res/overworld.txt");
 
 	}
 
 	public Frame(String url) {
 		keyHandler = new KeyHandler();
-		panel = new Panel(LevelLoader.loadLevel(url), keyHandler);
+		panel = new OverworldPanel(LevelLoader.loadLevel(url, this), keyHandler, this);
 		setLayout(new CardLayout());
 		add(panel);
 		gameLoop = new GameLoop(panel);
@@ -40,15 +41,36 @@ public class Frame extends JFrame {
 		gameLoop.start();
 		setVisible(true);
 		
-		changePanel(url);
+		
 	}
 
-	public void changePanel(String url) {
-		OverworldPanel oPanel = new OverworldPanel(LevelLoader.loadLevel(url), keyHandler);
+	public void changeToOverworld() {
+		OverworldPanel oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/overworld.txt", this), keyHandler, this);
 
 		add(oPanel);
 		remove(panel);
 		gameLoop.changePlayable(oPanel);
 
 	}
+	
+	public void startLevel() {
+		if(Character.isLowerCase(nextLevel)) {
+		Panel panel = new Panel(LevelLoader.loadLevel("/res/level" + nextLevel + ".txt ", this), keyHandler);
+
+		add(panel);
+		remove(this.panel);
+		gameLoop.changePlayable(panel);
+			}
+		}
+
+	public char getNextLevel() {
+		return nextLevel;
+	}
+
+	public void setNextLevel(char nextLevel) {
+		this.nextLevel = nextLevel;
+	}
+	
+	
+	
 }
