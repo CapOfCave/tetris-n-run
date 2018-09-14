@@ -19,17 +19,18 @@ public class Frame extends JFrame {
 	private OverworldPanel panel;
 	private GameLoop gameLoop;
 	private char nextLevel;
+	private int levelSolved = 8;
 
 	private KeyHandler keyHandler;
 
 	public static void main(String[] args) {
-		new Frame("/res/overworld.txt");
+		new Frame();
 
 	}
 
-	public Frame(String url) {
+	public Frame() {
 		keyHandler = new KeyHandler();
-		panel = new OverworldPanel(LevelLoader.loadLevel(url, this), keyHandler, this);
+		panel = new OverworldPanel(LevelLoader.loadLevel("/res/overworld" + levelSolved + ".txt", this), keyHandler, this);
 		setLayout(new CardLayout());
 		add(panel);
 		gameLoop = new GameLoop(panel);
@@ -45,7 +46,7 @@ public class Frame extends JFrame {
 	}
 
 	public void changeToOverworld() {
-		OverworldPanel oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/overworld.txt", this), keyHandler, this);
+		OverworldPanel oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/overworld" + levelSolved + ".txt", this), keyHandler, this);
 
 		add(oPanel);
 		remove(panel);

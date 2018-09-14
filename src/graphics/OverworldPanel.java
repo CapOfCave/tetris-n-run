@@ -33,16 +33,19 @@ public class OverworldPanel extends JPanel implements Playable {
 	
 	private GuiMouseHandler guiMouseHandler;
 	
-	private BufferedImage playButton = ImageLoader.loadImage("/res/play.png");
+	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
+	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
 
 	private ArrayList<TetroType> tetroTypes;
 	private ArrayList<Point> tetroDrawPositions;
 	private boolean debugMode = false;
 	private float interpolation;
+	private Frame frame;
 	
 	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame) {
 		setPreferredSize(new Dimension(width, height));
 		blockSize = level.getBlockSize();
+		this.frame = frame;
 		overworld = new Overworld(gamePanel, blockSize, level, keyHandler);
 		tetroTypes = level.getTetroTypes();
 		tetroDrawPositions = new ArrayList<>();
@@ -64,8 +67,16 @@ public class OverworldPanel extends JPanel implements Playable {
 		//guiMouseHandler.drawSideBar(g, debugMode);
 		overworld.drawPlayer(gameGraphics, interpolation, debugMode);
 		
-		g.drawImage(playButton, 970, 100, null);
 		
+		
+		if(Character.isLowerCase(frame.getNextLevel())) {
+			g.drawString("Spiele Level: " + frame.getNextLevel(), 970, 80);
+			g.drawImage(playButtonAkt, 970, 100, null);
+		}else {
+			g.drawString("Kein Level ausgewählt", 970, 80);
+			g.drawImage(playButtonDeakt, 970, 100, null);
+		}
+			
 		
 	}
 

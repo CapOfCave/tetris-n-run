@@ -4,8 +4,7 @@ import java.awt.image.BufferedImage;
 
 import graphics.Frame;
 import loading.ImageLoader;
-import logics.Overworld;
-import logics.World;
+
 
 /**
  * @author Lars
@@ -67,6 +66,8 @@ public class Tile {
 
 		public void eventWhenEntering() {
 			
+			
+			frame.setNextLevel(key);
 		}
 	
 	
