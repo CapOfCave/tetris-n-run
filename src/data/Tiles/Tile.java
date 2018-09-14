@@ -62,7 +62,7 @@ public class Tile {
 	}
 
 	public void eventWhenEntering() {
-		
+		frame.setNextLevel(key);
 	}
 
 	public boolean isSolid() {
