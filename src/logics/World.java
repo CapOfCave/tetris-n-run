@@ -54,6 +54,9 @@ public class World {
 		for(int i = 0; i < tetroWorldHitbox.length; i++) {
 			for(int j = 0; j < tetroWorldHitbox[i].length; j++) {
 				tetroWorldHitbox[i][j] = false;
+				if (tileWorld[i][j].isWalkable()) {
+					tetroWorldHitbox[i][j] = true;
+				}
 			}
 		}
 
@@ -62,14 +65,15 @@ public class World {
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
 		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
 
-		// Erstellen der Objekte
+		// Erstellen der Tetros
 		for (RawTetro ut : level.getUnfinishedTetros()) {
 			Tetro ft = ut.createTetro(level.getTetroTypes(), blockSize, camera);
 			tetros.add(ft);
-			// TODO tetroWorldHitbox[p2.y][p2.x].add(ft);
 			addTetroToHitbox(ft, ft.getX(), ft.getY(), ft.getRotation());
-
 		}
+		
+		
+		
 
 	}
 

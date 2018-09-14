@@ -22,8 +22,8 @@ public class TetroLoader {
 		ArrayList<TetroType> tetros = new ArrayList<>();
 		while (sc.hasNextLine()) {
 			String str = sc.nextLine();
-			tetros.add(new TetroType(str.substring(0, 3), str.substring(4, 12),
-					ImageLoader.loadImage(img_prefix + str.substring(12) + img_suffix, blockSize), blockSize));
+			tetros.add(new TetroType(str.substring(0, 8),
+					ImageLoader.loadImage(img_prefix + str.substring(8) + img_suffix, blockSize), blockSize));
 		}
 		sc.close();
 		return tetros;

@@ -1,24 +1,22 @@
 package logics;
 
-import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import data.Tetro;
-import graphics.Frame;
 import input.KeyHandler;
 
 /**
- * @author Marius
- * Created on 13.09.2018
+ * @author Marius Created on 13.09.2018
  */
-public class Overworld extends World{
+public class Overworld extends World {
 
 	public Overworld(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler) {
 		super(graphicClip, blockSize, level, keyHandler);
-		
+
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g, float interpolation, boolean debugMode) {
 
@@ -52,6 +50,16 @@ public class Overworld extends World{
 			t.draw(g, debugMode);
 		}
 
+		if (debugMode)
+			for (int j = 0; j < tileWorld.length; j++) {
+				for (int i = 0; i < tileWorld[j].length; i++) {
+					if (tetroWorldHitbox[j][i]) {
+						g.setColor(Color.RED);
+						g.drawRect(i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize);
+					}
+				}
+			}
+
 	}
-	
+
 }

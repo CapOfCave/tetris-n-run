@@ -34,7 +34,7 @@ public class Panel extends JPanel implements Playable {
 
 	private ArrayList<TetroType> tetroTypes;
 	private ArrayList<Point> tetroDrawPositions;
-	private boolean debugMode = true;
+	private boolean debugMode = false;
 	private float interpolation;
 
 	public Panel(Level level, KeyHandler keyHandler) {

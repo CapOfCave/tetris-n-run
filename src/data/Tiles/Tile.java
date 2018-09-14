@@ -17,14 +17,15 @@ public class Tile {
 	protected char key;
 	protected int posX, posY;
 	protected Frame frame;
-	protected boolean solid;
+	protected boolean walkable;
 	
 
-	public Tile(char key, int posX, int posY, boolean solid, Frame frame) {
+	public Tile(char key, int posX, int posY, boolean walkable, Frame frame) {
 		this.key = key;
 		this.posX = posX;
 		this.posY = posY;
 		this.frame = frame;
+		this.walkable = walkable;
 		img = ImageLoader.loadImage("/res/block" + key + ".png");
 
 	}
@@ -65,8 +66,8 @@ public class Tile {
 		frame.setNextLevel(key);
 	}
 
-	public boolean isSolid() {
-		return solid;
+	public boolean isWalkable() {
+		return walkable;
 	}
 
 }

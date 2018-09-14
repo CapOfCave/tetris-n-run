@@ -41,8 +41,10 @@ public class OverworldPanel extends JPanel implements Playable {
 	private boolean debugMode = false;
 	private float interpolation;
 	private Frame frame;
+	private KeyHandler keyHandler;
 	
 	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame) {
+		this.keyHandler = keyHandler;
 		setPreferredSize(new Dimension(width, height));
 		blockSize = level.getBlockSize();
 		this.frame = frame;
@@ -89,6 +91,10 @@ public class OverworldPanel extends JPanel implements Playable {
 	@Override
 	public void tick() {
 		overworld.tick();
+		if (keyHandler.isF3pressed()) {
+			debugMode = !debugMode;
+			keyHandler.setF3pressed(false);
+		}
 		
 	}
 

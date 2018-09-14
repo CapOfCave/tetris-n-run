@@ -11,12 +11,10 @@ public class TetroType {
 	protected BufferedImage img;
 	private int blockSize;
 
-	private String strMovepattern;
 	private String strHitbox;
 	private boolean[][] hitbox;
 
-	public TetroType(String strMovepattern, String strHitbox, BufferedImage img, int blockSize) {
-		this.strMovepattern = strMovepattern;
+	public TetroType(String strHitbox, BufferedImage img, int blockSize) {
 		this.strHitbox = strHitbox;
 		this.img = img;
 		this.blockSize = blockSize;
@@ -68,10 +66,5 @@ public class TetroType {
 	public String getStrHitbox() {
 		return strHitbox;
 	}
-
-	public String getStrMovepattern() {
-		return strMovepattern;
-	}
-
 
 }
