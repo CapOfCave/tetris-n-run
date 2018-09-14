@@ -10,9 +10,9 @@ import data.RawTetro;
 import data.TetroType;
 import data.Tiles.LevelGuiTile;
 import data.Tiles.Tile;
+import data.Tiles.WallTile;
 import graphics.Frame;
 import logics.Level;
-import logics.World;
 
 /**
  * @author Lars Created on 13.08.2018
@@ -28,13 +28,13 @@ public class LevelLoader {
 		int worldlength = 0;
 		int playerX = 0;
 		int playerY = 0;
-		
+
 		Scanner sc = null;
 		if (!isAbsolute(url)) {
 			sc = new Scanner(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(url));
 		} else {
 			try {
-				sc =  new Scanner(new File(url));
+				sc = new Scanner(new File(url));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 				System.exit(1);
@@ -56,7 +56,7 @@ public class LevelLoader {
 				}
 			} else if (nextLine.startsWith("p")) {
 				String[] attribs = nextLine.split(";");
-				for(String attr:attribs) {
+				for (String attr : attribs) {
 					if (attr.startsWith("x=")) {
 						playerX = Integer.parseInt(attr.substring(attr.indexOf("=") + 1));
 					}
@@ -64,7 +64,7 @@ public class LevelLoader {
 						playerY = Integer.parseInt(attr.substring(attr.indexOf("=") + 1));
 					}
 				}
-				
+
 			} else if (nextLine.startsWith("t")) {
 				int x = -100;
 				int y = -100;
@@ -98,21 +98,20 @@ public class LevelLoader {
 		for (int j = 0; j < world.size(); j++) {
 			String worldString = world.get(j);
 			for (int i = 0; i < worldString.length(); i++) {
-				
-				char TileChar = worldString.charAt(i);
-				
-				if(Character.isLowerCase(TileChar)) {
+
+				char tileChar = worldString.charAt(i);
+
+				if (Character.isLowerCase(tileChar)) {
 					arrWorld[j][i] = new LevelGuiTile(worldString.charAt(i), i, j, frame);
-				}else {
-					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j, frame);
+				} else if (tileChar == '1'){
+					arrWorld[j][i] = new WallTile(worldString.charAt(i), i, j, frame);
+				} else {
+					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j, false, frame);
 				}
-				
-				
+
 			}
 		}
 
-		
-		
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
 			return new Level(tetroTypes, rawTetros, arrWorld, blockSize, tetrofileUrl, playerX * blockSize, playerY * blockSize);

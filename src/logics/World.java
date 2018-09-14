@@ -1,7 +1,7 @@
 package logics;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import data.RawTetro;
 import data.Tetro;
 import data.TetroType;
-import input.KeyHandler;
 import data.Tiles.Tile;
 import graphics.Frame;
-import loading.ImageLoader;
+import input.KeyHandler;
 import loading.LevelSaver;
 
 /**
@@ -39,13 +38,9 @@ public class World {
 	// Halten die Weltinformationen
 	protected Tile[][] tileWorld;
 	protected ArrayList<Tetro> tetros;
-	protected ArrayList<Tetro>[][] tetroWorldHitbox;
+	protected boolean[][] tetroWorldHitbox;
 	protected ArrayList<TetroType> tetroTypes;
-	
 
-	
-
-	@SuppressWarnings("unchecked")
 	public World(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler) {
 
 		// Initialisierungen
@@ -55,26 +50,25 @@ public class World {
 		this.tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
 		tileWorld = level.getArrWorld(); // [columns][rows] //[y][x]
-		tetroWorldHitbox = new ArrayList[tileWorld.length][tileWorld[0].length];
-		for (int j = 0; j < tetroWorldHitbox.length; j++) {
-			for (int i = 0; i < tetroWorldHitbox[j].length; i++) {
-				tetroWorldHitbox[j][i] = new ArrayList<>();
+		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
+		for(int i = 0; i < tetroWorldHitbox.length; i++) {
+			for(int j = 0; j < tetroWorldHitbox[i].length; j++) {
+				tetroWorldHitbox[i][j] = false;
 			}
 		}
 
-		camera = new Camera(level.getPlayerX() * blockSize, level.getPlayerY() * blockSize, tileWorld.length * blockSize - (int) graphicClip.getHeight(),
-				tileWorld[0].length * blockSize - (int) graphicClip.getWidth(), (int) (graphicClip.getWidth() / 2 - blockSize / 2),
-				(int) (graphicClip.getHeight() / 2 - blockSize / 2.));
+		camera = new Camera(level.getPlayerX() * blockSize, level.getPlayerY() * blockSize,
+				tileWorld.length * blockSize - (int) graphicClip.getHeight(), tileWorld[0].length * blockSize - (int) graphicClip.getWidth(),
+				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
 		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
 
 		// Erstellen der Objekte
 		for (RawTetro ut : level.getUnfinishedTetros()) {
 			Tetro ft = ut.createTetro(level.getTetroTypes(), blockSize, camera);
 			tetros.add(ft);
-			Point p1 = ft.getStartPoint1();
-			tetroWorldHitbox[p1.y][p1.x].add(ft);
-			Point p2 = ft.getStartPoint2();
-			tetroWorldHitbox[p2.y][p2.x].add(ft);
+			// TODO tetroWorldHitbox[p2.y][p2.x].add(ft);
+			addTetroToHitbox(ft, ft.getX(), ft.getY(), ft.getRotation());
+
 		}
 
 	}
@@ -87,13 +81,8 @@ public class World {
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
 
-				// if (world[j][i].get == '1') {
 				g.drawImage(tileWorld[j][i].getImg(), i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
-				// } else if (world[j][i] == '0') {
-				// g.drawImage(backgroundImg, i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize,
-				// blockSize, null);
 
-				// }
 			}
 		}
 
@@ -110,6 +99,16 @@ public class World {
 		for (Tetro t : tetros) {
 			t.draw(g, debugMode);
 		}
+
+		if (debugMode)
+			for (int j = 0; j < tileWorld.length; j++) {
+				for (int i = 0; i < tileWorld[j].length; i++) {
+					if (tetroWorldHitbox[j][i]) {
+						g.setColor(Color.RED);
+						g.drawRect(i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize);
+					}
+				}
+			}
 
 	}
 
@@ -138,26 +137,39 @@ public class World {
 		}
 		Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, blockSize, camera);
 		tetros.add(tetro);
+		addTetroToHitbox(tetro, placeX, placeY, rotation);
 
-		Point p1 = tetro.getStartPoint1();
-		Point p2 = tetro.getStartPoint2();
-		if (player.getXY().equals(p1) || player.getXY().equals(p2)) {
-			// player.move(tetro);
-		} else {
-			try {
-				tetroWorldHitbox[p1.y][p1.x].add(tetro);
-				tetroWorldHitbox[p2.y][p2.x].add(tetro);
-			} catch (ArrayIndexOutOfBoundsException e) {
-				// TODO Remove catch-block when collisions are working
+	}
+
+	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {
+		boolean[][] hitbox = tetro.getType().getHitbox();
+		
+		for (int j = 0; j < hitbox.length; j++) {
+			for (int i = 0; i < hitbox[j].length; i++) {
+				if (hitbox[j][i]) {
+					switch (rotation % 4) {
+					case 0:
+						tetroWorldHitbox[j + y][i + x] = true;
+						break;
+					case 1:
+						tetroWorldHitbox[-i + y + 3][j + x] = true;
+						break;
+					case 2:
+						tetroWorldHitbox[-j + y + 1][-i + x + 3] = true;
+						break;
+					case 3:
+						tetroWorldHitbox[i + y][-j + x + 1] = true;
+						break;
+					}
+				}
 			}
 
 		}
-
 	}
 
 	public void drawPlayer(Graphics2D g, float interpolation, boolean debugMode) {
 		// Player kann an einer anderen Stelle im Programm aufgerufen werden
-		player.draw(g, interpolation);
+		player.draw(g, interpolation, debugMode);
 
 	}
 
@@ -167,7 +179,7 @@ public class World {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, blockSize, tetroFileURL, player.getIntX(), player.getIntY());
+		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, blockSize, tetroFileURL, player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path);
 
@@ -176,6 +188,5 @@ public class World {
 	private RawTetro createRawTetro(Tetro tetro) {
 		return new RawTetro(tetroTypes.indexOf(tetro.getType()), tetro.getX(), tetro.getY(), tetro.getRotation());
 	}
-	
-	
+
 }

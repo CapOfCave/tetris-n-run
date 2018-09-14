@@ -40,8 +40,7 @@ public class Frame extends JFrame {
 		setLocationRelativeTo(null);
 		gameLoop.start();
 		setVisible(true);
-		
-		
+
 	}
 
 	public void changeToOverworld() {
@@ -52,16 +51,16 @@ public class Frame extends JFrame {
 		gameLoop.changePlayable(oPanel);
 
 	}
-	
-	public void startLevel() {
-		if(Character.isLowerCase(nextLevel)) {
-		Panel panel = new Panel(LevelLoader.loadLevel("/res/level" + nextLevel + ".txt ", this), keyHandler);
 
-		add(panel);
-		remove(this.panel);
-		gameLoop.changePlayable(panel);
-			}
+	public void startLevel() {
+		if (Character.isLowerCase(nextLevel)) {
+			Panel panel = new Panel(LevelLoader.loadLevel("/res/level" + nextLevel + ".txt ", this), keyHandler);
+
+			add(panel);
+			remove(this.panel);
+			gameLoop.changePlayable(panel);
 		}
+	}
 
 	public char getNextLevel() {
 		return nextLevel;
@@ -70,7 +69,5 @@ public class Frame extends JFrame {
 	public void setNextLevel(char nextLevel) {
 		this.nextLevel = nextLevel;
 	}
-	
-	
-	
+
 }

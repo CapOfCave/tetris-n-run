@@ -1,5 +1,6 @@
 package logics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -22,7 +23,7 @@ public class Player {
 	private KeyHandler keyHandler;
 
 	private ArrayList<Tetro> worldTetros;
-	private ArrayList<Tetro>[][] worldTetroHitbox;
+	private boolean[][] worldTetroHitbox;
 
 	private double hSpeed;
 	private double vSpeed;
@@ -30,14 +31,14 @@ public class Player {
 	private double acc = 0.8;
 	private double brake = 4;
 	private double maxSpeed = 9;
-	
+
 	protected Tile[][] tileWorld;
 
-
-	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox, KeyHandler keyHandler, Tile[][] tileWorld) {
+	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, KeyHandler keyHandler,
+			Tile[][] tileWorld) {
 		this.camera = camera;
 		this.worldTetros = worldTetros;
-		this.worldTetroHitbox = worldTetroHitbox;
+		this.worldTetroHitbox = tetroWorldHitbox;
 		this.blockSize = blockSize;
 		this.keyHandler = keyHandler;
 		this.tileWorld = tileWorld;
@@ -45,9 +46,9 @@ public class Player {
 
 	}
 
-	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, ArrayList<Tetro>[][] worldTetroHitbox, int playerX, int playerY,
+	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, int playerX, int playerY,
 			KeyHandler keyHandler, Tile[][] tileWorld) {
-		this(blockSize, camera, worldTetros, worldTetroHitbox, keyHandler, tileWorld);
+		this(blockSize, camera, worldTetros, tetroWorldHitbox, keyHandler, tileWorld);
 		x = playerX;
 		y = playerY;
 		lastX = x;
@@ -58,12 +59,25 @@ public class Player {
 		return img;
 	}
 
-	public void draw(Graphics g, float interpolation) {
+	public void draw(Graphics g, float interpolation, boolean debugMode) {
 		float interpolX = (int) ((x - lastX) * interpolation + lastX);
 		float interpolY = (int) ((y - lastY) * interpolation + lastY);
 		g.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize, blockSize, null);
 		// g.drawImage(img, x * blockSize - camera.getX(), y * blockSize - camera.getY(), 40, 40, null);
+		if (debugMode) {
+			g.setColor(Color.ORANGE);
+			g.fillOval((int) (x - camera.getX()), (int) (y - camera.getY()), 5, 5);
+			g.fillOval((int) (x - camera.getX() + blockSize - 1), (int) (y - camera.getY()), 5, 5);
+			g.fillOval((int) (x - camera.getX() + blockSize - 1), (int) (y - camera.getY() + blockSize - 1), 5, 5);
+			g.fillOval((int) (x - camera.getX()), (int) (y - camera.getY() + blockSize - 1), 5, 5);
 
+			g.setColor(Color.WHITE);
+			g.fillRect(0, 0, 200, 33);
+			g.setColor(Color.BLACK);
+			g.drawString(" x=" + x + " |  y=" + y, 2, 15);
+			g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
+			
+		}
 	}
 
 	public void tick() {
@@ -115,45 +129,84 @@ public class Player {
 		} else {
 			vSpeed = 0;
 		}
-		
-//		if(hSpeed > 0) {
-//			hSpeed = Math.min(hSpeed, maxSpeed);
-//		} else if (hSpeed < 0){
-//			hSpeed = Math.max(hSpeed, -maxSpeed);
-//		}
-//		
-//		if(vSpeed > 0) {
-//			vSpeed = Math.min(vSpeed, maxSpeed);
-//		} else if (vSpeed < 0){
-//			vSpeed = Math.max(vSpeed, -maxSpeed);
-//		}
-		
+
 		double gesSpeed = Math.sqrt(hSpeed * hSpeed + vSpeed * vSpeed);
 		if (gesSpeed > maxSpeed) {
 			double factor = maxSpeed / gesSpeed;
 			hSpeed = hSpeed * factor;
 			vSpeed = vSpeed * factor;
 		}
-		
-		
+
+		// Vertikal
+		// nach oben-movement (TL-TR)
+		if (vSpeed < 0)
+			if (!isRelAccessible(-blockSize / 2 + vSpeed, -blockSize / 2) || !isRelAccessible(-blockSize / 2 + vSpeed, blockSize / 2 - 1)) {
+				vSpeed = 0;
+				move_contact_solid(0);
+			}
+		// nach unten-movement (BL-BR)
+		if (vSpeed > 0)
+			if (!isRelAccessible(blockSize / 2 - 1 + vSpeed, -blockSize / 2) || !isRelAccessible(blockSize / 2 - 1 + vSpeed, blockSize / 2 - 1)) {
+				vSpeed = 0;
+				move_contact_solid(2);
+			}
+		// Horizontal
+		// nach links-movement (TL-BL)
+		if (hSpeed < 0)
+			if (!isRelAccessible(-blockSize / 2, -blockSize / 2 + hSpeed) || !isRelAccessible(blockSize / 2 - 1, -blockSize / 2 + hSpeed)) {
+				hSpeed = 0;
+				move_contact_solid(3);
+			}
+		// nach rechts-movement (TR-BR)
+		if (hSpeed > 0)
+			if (!isRelAccessible(-blockSize / 2, blockSize / 2 - 1 + hSpeed) || !isRelAccessible(blockSize / 2 - 1, blockSize / 2 - 1 + hSpeed)) {
+				hSpeed = 0;
+				move_contact_solid(1);
+			}
+
 		x += hSpeed;
 		y += vSpeed;
 		checkTile();
 	}
 
-	public void move() {
+	private void move_contact_solid(int i) {
+		switch (i) {
+		case 0:
+			y = getTileY() * blockSize;
+			break;
+		case 1:
+			x = getTileX() * blockSize;
+			break;
+		case 2:
+			y = getTileY() * blockSize;
+			break;
+		case 3:
+			x = getTileX() * blockSize;
+			break;
+		}
 
 	}
-	
+
+	private boolean isRelAccessible(double dy, double dx) {
+		return worldTetroHitbox[getTileY(dy)][getTileX(dx)];
+	}
+
+	private Tile getRelTile(double dy, double dx) {
+		return getTile(getTileY(dy), getTileX(dx));
+	}
+
+	private Tile getTile(int y, int x) {
+		return tileWorld[y][x];
+	}
+
 	private void checkTile() {
-		
-		
-		tileWorld[getTileY()][getTileX()].eventWhenEntering();
-		
+
+		getRelTile(0, 0).eventWhenEntering();
+
 	}
 
 	public Point getXY() {
-		return new Point((int) x, (int) y);
+		return new Point(getTileX(), getTileY());
 	}
 
 	public double getY() {
@@ -164,19 +217,20 @@ public class Player {
 		return x;
 	}
 
-	public int getIntX() {
-		return (int) x;
+	private int getTileX(double dx) {
+		return (int) ((x + dx + blockSize / 2) / blockSize);
 	}
 
-	public int getIntY() {
-		return (int) y;
+	private int getTileY(double dy) {
+		return (int) ((y + dy + blockSize / 2) / blockSize);
 	}
-	
+
 	public int getTileX() {
-		return (int) ((x + blockSize/2) / blockSize);
+		return (int) ((x + blockSize / 2) / blockSize);
 	}
-	
+
 	public int getTileY() {
-		return (int) ((y + blockSize/2) / blockSize);
+		return (int) ((y + blockSize / 2) / blockSize);
 	}
+
 }

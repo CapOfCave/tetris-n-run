@@ -57,38 +57,6 @@ public class Tetro {
 		return type;
 	}
 
-	public Point getStartPoint1() {
-		if (startP1.x >= 0 && startP1.y >= 0) {
-			return startP1;
-		}
-		for (int i = x; i < x + 4; i++) {
-			for (int j = y; j < y + 4; j++) {
-				if (getBlockAt(i, j) == 2) {
-					startP1 = new Point(i, j);
-					return startP1;
-				}
-			}
-		}
-		System.out.println("Warning. Returning null @Tetro#getStartPoint1()");
-		return null;
-	}
-
-	public Point getStartPoint2() {
-		if (startP2.x >= 0 && startP2.y >= 0) {
-			return startP2;
-		}
-		for (int i = x; i < x + 4; i++) {
-			for (int j = y; j < y + 4; j++) {
-				if (getBlockAt(i, j) == 3) {
-					startP2 = new Point(i, j);
-					return startP2;
-				}
-			}
-		}
-		System.out.println("Warning. Returning null @Tetro#getStartPoint2()");
-		return null;
-	}
-
 	public int getBlockAt(int x, int y) {
 		int dx = x - this.x;
 		int dy = y - this.y;

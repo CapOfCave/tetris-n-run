@@ -30,13 +30,15 @@ public class Panel extends JPanel implements Playable {
 	private World world;
 	private InHandHandler inHandHandler;
 	private MouseHandler mouseHandler;
+	private KeyHandler keyHandler;
 
 	private ArrayList<TetroType> tetroTypes;
 	private ArrayList<Point> tetroDrawPositions;
-	private boolean debugMode = false;
+	private boolean debugMode = true;
 	private float interpolation;
 
 	public Panel(Level level, KeyHandler keyHandler) {
+		this.keyHandler = keyHandler;
 		setPreferredSize(new Dimension(width, height));
 		blockSize = level.getBlockSize();
 		world = new World(gamePanel, blockSize, level, keyHandler);
@@ -77,5 +79,10 @@ public class Panel extends JPanel implements Playable {
 	public void tick() {
 		world.tick();
 
+		if (keyHandler.isF3pressed()) {
+			debugMode = !debugMode;
+			keyHandler.setF3pressed(false);
+		}
+		
 	}
 }
