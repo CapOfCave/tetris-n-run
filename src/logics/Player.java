@@ -130,12 +130,7 @@ public class Player {
 			vSpeed = 0;
 		}
 
-		double gesSpeed = Math.sqrt(hSpeed * hSpeed + vSpeed * vSpeed);
-		if (gesSpeed > maxSpeed) {
-			double factor = maxSpeed / gesSpeed;
-			hSpeed = hSpeed * factor;
-			vSpeed = vSpeed * factor;
-		}
+		
 
 		// Vertikal
 		// nach oben-movement (TL-TR)
@@ -164,6 +159,13 @@ public class Player {
 				move_contact_solid(1);
 			}
 
+		double gesSpeed = Math.sqrt(hSpeed * hSpeed + vSpeed * vSpeed);
+		if (gesSpeed > maxSpeed) {
+			double factor = maxSpeed / gesSpeed;
+			hSpeed = hSpeed * factor;
+			vSpeed = vSpeed * factor;
+		}
+		
 		x += hSpeed;
 		y += vSpeed;
 		checkTile();
