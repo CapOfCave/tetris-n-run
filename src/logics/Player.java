@@ -99,6 +99,11 @@ public class Player {
 		move();
 	}
 
+	public void hit() {
+		if (weapon != null)
+			weapon.hit();
+	}
+
 	private void move() {
 		// Beginn der Bewegung
 

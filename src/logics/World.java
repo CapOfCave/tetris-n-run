@@ -2,6 +2,7 @@ package logics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -53,8 +54,8 @@ public class World {
 		tetros = new ArrayList<>();
 		tileWorld = level.getArrWorld(); // [columns][rows] //[y][x]
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
-		for(int i = 0; i < tetroWorldHitbox.length; i++) {
-			for(int j = 0; j < tetroWorldHitbox[i].length; j++) {
+		for (int i = 0; i < tetroWorldHitbox.length; i++) {
+			for (int j = 0; j < tetroWorldHitbox[i].length; j++) {
 				tetroWorldHitbox[i][j] = false;
 				if (tileWorld[i][j].isWalkable()) {
 					tetroWorldHitbox[i][j] = true;
@@ -73,9 +74,6 @@ public class World {
 			tetros.add(ft);
 			addTetroToHitbox(ft, ft.getX(), ft.getY(), ft.getRotation());
 		}
-		
-		
-		
 
 	}
 
@@ -145,12 +143,13 @@ public class World {
 		tetros.add(tetro);
 		addTetroToHitbox(tetro, placeX, placeY, rotation);
 
-		player.setWeapon(new Weapon(ImageLoader.loadImage("/res/sword-in-hand.png"), blockSize));
+		player.setWeapon(new Weapon(ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
+				new Point(15, 5), blockSize));
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {
 		boolean[][] hitbox = tetro.getType().getHitbox();
-		
+
 		for (int j = 0; j < hitbox.length; j++) {
 			for (int i = 0; i < hitbox[j].length; i++) {
 				if (hitbox[j][i]) {
@@ -194,6 +193,10 @@ public class World {
 
 	private RawTetro createRawTetro(Tetro tetro) {
 		return new RawTetro(tetroTypes.indexOf(tetro.getType()), tetro.getX(), tetro.getY(), tetro.getRotation());
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 }

@@ -36,9 +36,14 @@ public class InHandHandler {
 		this.gameBounds = gameBounds;
 	}
 
-	public void setInHand(int x, int y) {
+	public boolean setInHand(int x, int y) {
 
 		tetroInHand = getTetroTypeAt(x, y);
+		if (tetroInHand == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public void rotateInHand(boolean turnLeft) {
