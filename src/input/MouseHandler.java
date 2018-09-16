@@ -26,8 +26,11 @@ public class MouseHandler implements MouseInputListener {
 	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			// Linke Maustaste: Aufheben
+			
 			inHandHandler.setInHandPosition(e.getX(), e.getY());
-			inHandHandler.setInHand(e.getX(), e.getY());
+			if (!inHandHandler.setInHand(e.getX(), e.getY())) {
+				world.getPlayer().hit();
+			}
 		} else if (e.getButton() == MouseEvent.BUTTON3) {
 			// Rechte Maustaste : drehen
 			inHandHandler.rotateInHand(false);
