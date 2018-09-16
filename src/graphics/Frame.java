@@ -24,8 +24,9 @@ public class Frame extends JFrame {
 	private KeyHandler keyHandler;
 
 	public static void main(String[] args) {
+		
 		new Frame();
-
+		
 	}
 
 	public Frame() {
