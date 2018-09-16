@@ -22,6 +22,7 @@ public class EnemySpawner {
 		
 		enemysInWorld = new ArrayList<>();
 		this.maxEnemy = maxEnemy;
+		
 		this.maxX = maxX;
 		this.maxY = maxY;
 		this.blockSize = blockSize;
