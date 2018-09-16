@@ -36,14 +36,14 @@ public class World {
 	protected Player player;
 	protected Camera camera;
 	protected Frame frame;
-	protected Enemy enemy;
+	protected EnemySpawner enemySpawner;
 
 	// Halten die Weltinformationen
 	protected Tile[][] tileWorld;
 	protected ArrayList<Tetro> tetros;
 	protected boolean[][] tetroWorldHitbox;
 	protected ArrayList<TetroType> tetroTypes;
-	protected ArrayList<Enemy> enemysInWorld;
+	
 
 	public World(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler) {
 
@@ -54,7 +54,7 @@ public class World {
 		this.tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
 		tileWorld = level.getArrWorld(); // [columns][rows] //[y][x]
-		enemysInWorld = new ArrayList<>();
+		enemySpawner = new EnemySpawner(2, tileWorld[0].length * blockSize, tileWorld.length * blockSize, blockSize, camera, tetros, tetroWorldHitbox, tileWorld);
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
 		for(int i = 0; i < tetroWorldHitbox.length; i++) {
 			for(int j = 0; j < tetroWorldHitbox[i].length; j++) {
@@ -116,6 +116,7 @@ public class World {
 				}
 			}
 
+		enemySpawner.draw( g, interpolation, debugMode);
 	}
 
 	public void tick() {
