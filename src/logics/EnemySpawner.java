@@ -3,6 +3,7 @@ package logics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+
 import data.Tetro;
 import data.Tiles.Tile;
 
@@ -46,8 +47,28 @@ public class EnemySpawner {
 			enemy.draw(g, interpolation, debugMode);
 		
 	}
+
+	public void tick() {
+		if(random(500) == 0 && (enemysInWorld.size() + 1) <= maxEnemy) {
+			spawn();
+		}
+		
+	}
 	
+	public void spawn() {
+		int xPos = random(maxX);
+		int yPos = random(maxY);
+		
+		if(tileWorld[yPos / blockSize][xPos / blockSize].getKey() == '0') {
+			System.out.println("spawn");
+			enemysInWorld.add(new Enemy(xPos, yPos, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld));
+		}
+		
+	}
 	
+	public int random(int max) {
+		return (int) (Math.random() * max);
+	}
 	
 	
 }

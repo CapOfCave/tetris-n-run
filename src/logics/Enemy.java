@@ -30,8 +30,7 @@ public class Enemy {
 
 	protected Tile[][] tileWorld;
 	
-	public Enemy(int blockSize,Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, KeyHandler keyHandler,
-			Tile[][] tileWorld) {
+	public Enemy(int blockSize,Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld) {
 		
 		this.worldTetros = worldTetros;
 		this.camera = camera;
@@ -42,11 +41,11 @@ public class Enemy {
 		
 	}
 	
-	public Enemy(int blockSize,Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, int playerX, int playerY,
-			KeyHandler keyHandler, Tile[][] tileWorld) {
-		this(blockSize,camera, worldTetros, tetroWorldHitbox, keyHandler, tileWorld);
-		x = playerX;
-		y = playerY;
+	public Enemy(int enemyX, int enemyY,int blockSize,Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, 
+			 Tile[][] tileWorld) {
+		this(blockSize,camera, worldTetros, tetroWorldHitbox, tileWorld);
+		x = enemyX;
+		y = enemyY;
 		lastX = x;
 		lastY = y;
 	}
