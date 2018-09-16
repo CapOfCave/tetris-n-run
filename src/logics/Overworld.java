@@ -61,5 +61,14 @@ public class Overworld extends World {
 			}
 
 	}
+	
+	@Override
+	public void tick() {
+		// Player movement
+		player.tick();
+
+		// camera adjustment
+		camera.tick(player.getX(), player.getY());
+	}
 
 }

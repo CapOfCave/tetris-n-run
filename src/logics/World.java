@@ -55,7 +55,7 @@ public class World {
 		this.tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
 		tileWorld = level.getArrWorld(); // [columns][rows] //[y][x]
-		enemySpawner = new EnemySpawner(2, tileWorld[0].length * blockSize, tileWorld.length * blockSize, blockSize, camera, tetros, tetroWorldHitbox, tileWorld);
+		
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
 		for (int i = 0; i < tetroWorldHitbox.length; i++) {
 			for (int j = 0; j < tetroWorldHitbox[i].length; j++) {
@@ -70,6 +70,7 @@ public class World {
 				tileWorld.length * blockSize - (int) graphicClip.getHeight(), tileWorld[0].length * blockSize - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
 		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, new ArrayList<Enemy>(),  level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
+		enemySpawner = new EnemySpawner(2, tileWorld[0].length * blockSize, tileWorld.length * blockSize, blockSize, camera, tetros, tetroWorldHitbox, tileWorld);
 
 		// Erstellen der Tetros
 		for (RawTetro ut : level.getUnfinishedTetros()) {
@@ -126,6 +127,8 @@ public class World {
 
 		// camera adjustment
 		camera.tick(player.getX(), player.getY());
+		
+		enemySpawner.tick();
 	}
 
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
