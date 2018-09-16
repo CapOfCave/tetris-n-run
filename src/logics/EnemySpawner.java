@@ -69,6 +69,10 @@ public class EnemySpawner {
 	public int random(int max) {
 		return (int) (Math.random() * max);
 	}
+
+	public ArrayList<Enemy> getEnemyList() {
+		return enemysInWorld;
+	}
 	
 	
 }

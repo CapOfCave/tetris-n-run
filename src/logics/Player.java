@@ -104,7 +104,7 @@ public class Player {
 	public void hit() {
 		if (weapon != null) {
 			for (Enemy e : enemies) {
-
+				
 			}
 			weapon.hit();
 		}
