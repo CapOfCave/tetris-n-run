@@ -69,7 +69,7 @@ public class World {
 		camera = new Camera(level.getPlayerX() * blockSize, level.getPlayerY() * blockSize,
 				tileWorld.length * blockSize - (int) graphicClip.getHeight(), tileWorld[0].length * blockSize - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
-		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
+		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, new ArrayList<Enemy>(),  level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
 
 		// Erstellen der Tetros
 		for (RawTetro ut : level.getUnfinishedTetros()) {
@@ -148,7 +148,7 @@ public class World {
 		addTetroToHitbox(tetro, placeX, placeY, rotation);
 
 		player.setWeapon(new Weapon(ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
-				new Point(15, 5), blockSize));
+				new Point(30, 5), blockSize));
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {

@@ -25,6 +25,7 @@ public class Player {
 
 	private ArrayList<Tetro> worldTetros;
 	private boolean[][] worldTetroHitbox;
+	private ArrayList<Enemy> enemies;
 	private Weapon weapon;
 
 	private double hSpeed;
@@ -38,21 +39,22 @@ public class Player {
 
 	protected Tile[][] tileWorld;
 
-	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, KeyHandler keyHandler,
-			Tile[][] tileWorld) {
+	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, ArrayList<Enemy> enemies,
+			KeyHandler keyHandler, Tile[][] tileWorld) {
 		this.camera = camera;
 		this.worldTetros = worldTetros;
 		this.worldTetroHitbox = tetroWorldHitbox;
 		this.blockSize = blockSize;
 		this.keyHandler = keyHandler;
 		this.tileWorld = tileWorld;
+		this.enemies = enemies;
 		img = ImageLoader.loadImage("/res/character.png");
 
 	}
 
-	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, int playerX, int playerY,
-			KeyHandler keyHandler, Tile[][] tileWorld) {
-		this(blockSize, camera, worldTetros, tetroWorldHitbox, keyHandler, tileWorld);
+	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, ArrayList<Enemy> enemies, int playerX,
+			int playerY, KeyHandler keyHandler, Tile[][] tileWorld) {
+		this(blockSize, camera, worldTetros, tetroWorldHitbox, enemies, keyHandler, tileWorld);
 		x = playerX;
 		y = playerY;
 		lastX = x;
@@ -100,8 +102,13 @@ public class Player {
 	}
 
 	public void hit() {
-		if (weapon != null)
+		if (weapon != null) {
+			for (Enemy e : enemies) {
+
+			}
 			weapon.hit();
+		}
+
 	}
 
 	private void move() {
