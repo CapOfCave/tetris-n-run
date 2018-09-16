@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import data.RawTetro;
 import data.Tetro;
 import data.TetroType;
+import data.Weapon;
 import data.Tiles.Tile;
 import graphics.Frame;
 import input.KeyHandler;
+import loading.ImageLoader;
 import loading.LevelSaver;
 
 /**
@@ -143,6 +145,7 @@ public class World {
 		tetros.add(tetro);
 		addTetroToHitbox(tetro, placeX, placeY, rotation);
 
+		player.setWeapon(new Weapon(ImageLoader.loadImage("/res/sword-in-hand.png"), blockSize));
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {

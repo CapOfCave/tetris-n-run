@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data.Tetro;
+import data.Weapon;
 import data.Tiles.Tile;
 import input.KeyHandler;
 import loading.ImageLoader;
@@ -24,6 +25,7 @@ public class Player {
 
 	private ArrayList<Tetro> worldTetros;
 	private boolean[][] worldTetroHitbox;
+	private Weapon weapon;
 
 	private double hSpeed;
 	private double vSpeed;
@@ -31,6 +33,8 @@ public class Player {
 	private double acc = 0.8;
 	private double brake = 4;
 	private double maxSpeed = 9;
+
+	private int rotation = 0; // TODO rotaion
 
 	protected Tile[][] tileWorld;
 
@@ -63,27 +67,39 @@ public class Player {
 		float interpolX = (int) ((x - lastX) * interpolation + lastX);
 		float interpolY = (int) ((y - lastY) * interpolation + lastY);
 		g.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize, blockSize, null);
-		// g.drawImage(img, x * blockSize - camera.getX(), y * blockSize - camera.getY(), 40, 40, null);
-		if (debugMode) {
-			g.setColor(Color.ORANGE);
-			g.fillOval((int) (x - camera.getX()), (int) (y - camera.getY()), 5, 5);
-			g.fillOval((int) (x - camera.getX() + blockSize - 1), (int) (y - camera.getY()), 5, 5);
-			g.fillOval((int) (x - camera.getX() + blockSize - 1), (int) (y - camera.getY() + blockSize - 1), 5, 5);
-			g.fillOval((int) (x - camera.getX()), (int) (y - camera.getY() + blockSize - 1), 5, 5);
 
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, 200, 33);
-			g.setColor(Color.BLACK);
-			g.drawString(" x=" + x + " |  y=" + y, 2, 15);
-			g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
-			
+		if (weapon != null)
+			weapon.draw(g, rotation, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY());
+
+		if (debugMode) {
+			drawDebug(g);
+
 		}
+	}
+
+	private void drawDebug(Graphics g) {
+		g.setColor(Color.ORANGE);
+		g.fillOval((int) (x - camera.getX()), (int) (y - camera.getY()), 5, 5);
+		g.fillOval((int) (x - camera.getX() + blockSize - 1), (int) (y - camera.getY()), 5, 5);
+		g.fillOval((int) (x - camera.getX() + blockSize - 1), (int) (y - camera.getY() + blockSize - 1), 5, 5);
+		g.fillOval((int) (x - camera.getX()), (int) (y - camera.getY() + blockSize - 1), 5, 5);
+
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 200, 33);
+		g.setColor(Color.BLACK);
+		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
+		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
+
 	}
 
 	public void tick() {
 		lastX = x;
 		lastY = y;
 
+		move();
+	}
+
+	private void move() {
 		// Beginn der Bewegung
 
 		// Rechts-Links-Movement
@@ -130,8 +146,6 @@ public class Player {
 			vSpeed = 0;
 		}
 
-		
-
 		// Vertikal
 		// nach oben-movement (TL-TR)
 		if (vSpeed < 0)
@@ -165,7 +179,7 @@ public class Player {
 			hSpeed = hSpeed * factor;
 			vSpeed = vSpeed * factor;
 		}
-		
+
 		x += hSpeed;
 		y += vSpeed;
 		checkTile();
@@ -233,6 +247,10 @@ public class Player {
 
 	public int getTileY() {
 		return (int) ((y + blockSize / 2) / blockSize);
+	}
+
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
 	}
 
 }
