@@ -50,9 +50,12 @@ public class EnemySpawner {
 	}
 
 	public void tick() {
-		if(random(500) == 0 && (enemysInWorld.size() + 1) <= maxEnemy) {
+		if(random(50) == 0 && (enemysInWorld.size() + 1) <= maxEnemy) {
 			spawn();
 		}
+		
+		for(Enemy enemy: enemysInWorld)
+			enemy.tick();
 		
 	}
 	
@@ -60,9 +63,9 @@ public class EnemySpawner {
 		int xPos = random(maxX);
 		int yPos = random(maxY);
 		
-		if(tileWorld[yPos / blockSize][xPos / blockSize].getKey() == '0') {
+		if(tileWorld[yPos / blockSize][xPos / blockSize].getKey() == '0' && player != null) {
 			System.out.println("spawn");
-			enemysInWorld.add(new Enemy(xPos, yPos, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld));
+			enemysInWorld.add(new Enemy(xPos, yPos, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
 		}
 		
 	}
