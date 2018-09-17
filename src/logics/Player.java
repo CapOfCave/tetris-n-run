@@ -2,10 +2,8 @@ package logics;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -38,7 +36,7 @@ public class Player {
 	private double brake = 4;
 	private double maxSpeed = 9;
 
-	private int rotation = 1; // TODO rotaion
+	private int rotation = 0; // TODO rotaion
 
 	protected Tile[][] tileWorld;
 
@@ -71,27 +69,18 @@ public class Player {
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
 		float interpolX = (int) ((x - lastX) * interpolation + lastX);
 		float interpolY = (int) ((y - lastY) * interpolation + lastY);
+		g.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize, blockSize, null);
+
+		if (weapon != null)
+			weapon.draw(g, rotation, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), debugMode);
+
 		if (debugMode) {
 			drawDebug(g);
 
 		}
-		Graphics2D g2d = (Graphics2D) g.create();
-		g2d.setColor(Color.blue);
-
-		g2d.translate(interpolX - camera.getX() + blockSize / 2, interpolY - camera.getY() + blockSize / 2);
-		g2d.rotate(Math.toRadians((rotation - 1) * 90));
-		// g2d.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize,
-		// blockSize, null);
-		g2d.drawImage(img, -blockSize / 2, -blockSize / 2, blockSize, blockSize, null);
-		if (weapon != null)
-			weapon.draw(g2d, 0, 0, debugMode);
-		g2d.dispose();
-
-		
 	}
 
 	private void drawDebug(Graphics g) {
-
 		g.setColor(Color.ORANGE);
 		g.fillOval((int) (x - camera.getX()), (int) (y - camera.getY()), 5, 5);
 		g.fillOval((int) (x - camera.getX() + blockSize - 1), (int) (y - camera.getY()), 5, 5);
@@ -109,12 +98,10 @@ public class Player {
 				for (int dy = -100; dy <= 100; dy++) {
 					if (weapon.isInRange(x - camera.getX(), y - camera.getY(),
 							new Rectangle((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1))) {
-						g.setColor(weapon.color);
 						g.drawOval((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1);
 					}
 				}
 			}
-
 	}
 
 	public void tick() {
@@ -122,30 +109,13 @@ public class Player {
 		lastY = y;
 
 		move();
-
-		updateRotation();
-		// Check rotation
-
-	}
-
-	private void updateRotation() {
-		if (keyHandler.getW() && !keyHandler.getA() && !keyHandler.getS() && !keyHandler.getD()) {
-			rotation = 0;
-		} else if (!keyHandler.getW() && keyHandler.getA() && !keyHandler.getS() && !keyHandler.getD()) {
-			rotation = 3;
-		} else if (!keyHandler.getW() && !keyHandler.getA() && keyHandler.getS() && !keyHandler.getD()) {
-			rotation = 2;
-		} else if (!keyHandler.getW() && !keyHandler.getA() && !keyHandler.getS() && keyHandler.getD()) {
-			rotation = 1;
-		}
 	}
 
 	public void hit() {
 		if (weapon != null) {
 			weapon.hit();
 			for (Enemy e : enemies) {
-				if (weapon.isInRange(x - camera.getX(), y - camera.getY(),
-						new Rectangle((int) e.getX() - camera.getX(), (int) e.getY() - camera.getY(), blockSize, blockSize))) {
+				if (weapon.isInRange(x - camera.getX(), y - camera.getY(), new Rectangle((int) e.getX() - camera.getX(), (int) e.getY() - camera.getY(), blockSize, blockSize))) {
 					e.applyDamage(weapon);
 				}
 			}
@@ -234,11 +204,6 @@ public class Player {
 			vSpeed = vSpeed * factor;
 		}
 
-		if (Math.abs(hSpeed) > Math.abs(vSpeed)) {
-			rotation = -1 * (int) Math.copySign(1, hSpeed) + 2;
-		} else if (Math.abs(hSpeed) < Math.abs(vSpeed)) {
-			rotation = (int) Math.copySign(1, vSpeed) + 1;
-		}
 		x += hSpeed;
 		y += vSpeed;
 		checkTile();
