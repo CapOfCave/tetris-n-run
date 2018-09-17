@@ -79,13 +79,13 @@ public class Weapon {
 
 		
 		// Calc nearest point
-		npX = 0;
+		npX = nullx;
 		if (npX < eBounds.x) {
 			npX = eBounds.x;
 		} else if (npX > eBounds.x + eBounds.width) {
 			npX = eBounds.x + eBounds.width;
 		}
-		npY = 0;
+		npY = nully;
 		if (npY < eBounds.y) {
 			npY = eBounds.y;
 		} else if (npY > eBounds.y + eBounds.height) {
