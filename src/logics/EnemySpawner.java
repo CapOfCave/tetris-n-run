@@ -18,6 +18,7 @@ public class EnemySpawner {
 	private ArrayList<Tetro> worldTetros;
 	private boolean[][] tetroWorldHitbox;
 	private Tile[][] tileWorld;
+	private Player player;
 	
 	public EnemySpawner(int maxEnemy, int maxX, int maxY, int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld){
 		
@@ -49,9 +50,12 @@ public class EnemySpawner {
 	}
 
 	public void tick() {
-		if(random(100) == 0 && (enemysInWorld.size() + 1) <= maxEnemy) {
+		if(random(50) == 0 && (enemysInWorld.size() + 1) <= maxEnemy) {
 			spawn();
 		}
+		
+		for(Enemy enemy: enemysInWorld)
+			enemy.tick();
 		
 	}
 	
@@ -59,9 +63,9 @@ public class EnemySpawner {
 		int xPos = random(maxX);
 		int yPos = random(maxY);
 		
-		if(tileWorld[yPos / blockSize][xPos / blockSize].getKey() == '0') {
+		if(tileWorld[yPos / blockSize][xPos / blockSize].getKey() == '0' && player != null) {
 			System.out.println("spawn");
-			enemysInWorld.add(new Enemy(xPos, yPos, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld));
+			enemysInWorld.add(new Enemy(xPos, yPos, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
 		}
 		
 	}
@@ -72,6 +76,10 @@ public class EnemySpawner {
 
 	public ArrayList<Enemy> getEnemyList() {
 		return enemysInWorld;
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 }

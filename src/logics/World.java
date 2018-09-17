@@ -71,6 +71,8 @@ public class World {
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
 		enemySpawner = new EnemySpawner(2, tileWorld[0].length * blockSize, tileWorld.length * blockSize, blockSize, camera, tetros, tetroWorldHitbox, tileWorld);
 		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, enemySpawner.getEnemyList(),  level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
+		enemySpawner.setPlayer(player);
+
 
 		// Erstellen der Tetros
 		for (RawTetro ut : level.getUnfinishedTetros()) {
