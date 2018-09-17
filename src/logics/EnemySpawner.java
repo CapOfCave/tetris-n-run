@@ -78,5 +78,5 @@ public class EnemySpawner {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 }
