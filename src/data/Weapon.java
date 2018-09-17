@@ -23,8 +23,7 @@ public class Weapon {
 	private double theta;
 	private double range;
 	
-	double npX;
-	double npY;
+	
 
 	public Weapon(BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth, double theta,
 			double range) {
@@ -63,8 +62,6 @@ public class Weapon {
 		g.drawLine(x + blockSize / 2, (int) (y + blockSize / 2 + hitWidth), (int) (x + blockSize / 2 + range * Math.cos(Math.toRadians(theta / 2))),
 				(int) (y + blockSize / 2 + range * Math.sin(Math.toRadians(theta / 2))));
 
-		g.drawOval((int)npX, (int)npY, 10, 10);
-		
 	}
 
 	public void hit() {
@@ -79,6 +76,8 @@ public class Weapon {
 
 		
 		// Calc nearest point
+		double npX;
+		double npY;
 		npX = nullx;
 		if (npX < eBounds.x) {
 			npX = eBounds.x;
@@ -113,12 +112,12 @@ public class Weapon {
 
 		boolean intersectsTop = intersectsD1 && !intersectsN1;
 		boolean intersectsBottom = intersectsD2 && !intersectsN2;
-		if (intersectsTop)
-			System.out.println("matching top tile");
-		if (intersectsBottom)
-			System.out.println("matching bottom tile");
-		if (dist < range && Math.abs(alpha) < theta / 2)
-			System.out.println("matching center tile");
+//		if (intersectsTop)
+//			System.out.println("matching top tile");
+//		if (intersectsBottom)
+//			System.out.println("matching bottom tile");
+//		if (dist < range && Math.abs(alpha) < theta / 2)
+//			System.out.println("matching center tile");
 
 
 		return intersectsTop || intersectsBottom || (dist < range && Math.abs(alpha) < theta / 2);
