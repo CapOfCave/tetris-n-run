@@ -71,7 +71,7 @@ public class Player {
 		g.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize, blockSize, null);
 
 		if (weapon != null)
-			weapon.draw(g, rotation, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY());
+			weapon.draw(g, rotation, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), debugMode);
 
 		if (debugMode) {
 			drawDebug(g);

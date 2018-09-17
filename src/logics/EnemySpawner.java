@@ -73,6 +73,5 @@ public class EnemySpawner {
 	public ArrayList<Enemy> getEnemyList() {
 		return enemysInWorld;
 	}
-	
-	
+
 }
