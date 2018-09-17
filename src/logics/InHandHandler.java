@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import data.Tetro;
 import data.TetroType;
 
 /**
@@ -13,7 +14,7 @@ import data.TetroType;
  */
 public class InHandHandler {
 
-	private TetroType tetroInHand;
+	public TetroType tetroInHand;
 	private int rotation;
 	private int mouse_x;
 	private int mouse_y;
@@ -65,8 +66,10 @@ public class InHandHandler {
 
 	public void placeInHand() {
 		if (tetroInHand != null) {
-			world.addTetro(tetroInHand, (mouse_x - offset_x) - gameBounds.x, (mouse_y - offset_y) - gameBounds.y, rotation);
+			TetroType t = tetroInHand;
 			tetroInHand = null;
+			world.addTetro(t, (mouse_x - offset_x) - gameBounds.x, (mouse_y - offset_y) - gameBounds.y, rotation);
+			
 		}
 	}
 

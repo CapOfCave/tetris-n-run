@@ -153,7 +153,7 @@ public class World {
 		addTetroToHitbox(tetro, placeX, placeY, rotation);
 
 		player.setWeapon(new Weapon(ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
-				new Point(30, 5), blockSize, 10, 90, 45));
+				new Point(30, 5), blockSize, 0, 30, 45));
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {
