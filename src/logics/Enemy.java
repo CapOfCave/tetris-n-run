@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data.Tetro;
+import data.Weapon;
 import data.Tiles.Tile;
 import input.KeyHandler;
 import loading.ImageLoader;
@@ -88,6 +89,19 @@ public class Enemy {
 	public boolean isHittingPlayer(double x2, double y2) {
 		return false;
 		
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void applyDamage(Weapon weapon) {
+		//TODO damage apply
+		System.out.println("Ouch. That hurt");
 	}
 	
 }

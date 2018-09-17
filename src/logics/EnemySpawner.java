@@ -49,7 +49,7 @@ public class EnemySpawner {
 	}
 
 	public void tick() {
-		if(random(500) == 0 && (enemysInWorld.size() + 1) <= maxEnemy) {
+		if(random(100) == 0 && (enemysInWorld.size() + 1) <= maxEnemy) {
 			spawn();
 		}
 		

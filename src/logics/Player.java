@@ -3,6 +3,7 @@ package logics;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -103,10 +104,12 @@ public class Player {
 
 	public void hit() {
 		if (weapon != null) {
-			for (Enemy e : enemies) {
-				
-			}
 			weapon.hit();
+			for (Enemy e : enemies) {
+				if (weapon.isInRange(x - camera.getX(), y - camera.getY(), new Rectangle((int) e.getX() - camera.getX(), (int) e.getY() - camera.getY(), blockSize, blockSize))) {
+					e.applyDamage(weapon);
+				}
+			}
 		}
 
 	}

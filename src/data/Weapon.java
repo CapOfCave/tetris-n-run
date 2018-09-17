@@ -22,6 +22,9 @@ public class Weapon {
 	private double hitWidth;
 	private double theta;
 	private double range;
+	
+	double npX;
+	double npY;
 
 	public Weapon(BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth, double theta,
 			double range) {
@@ -60,24 +63,29 @@ public class Weapon {
 		g.drawLine(x + blockSize / 2, (int) (y + blockSize / 2 + hitWidth), (int) (x + blockSize / 2 + range * Math.cos(Math.toRadians(theta / 2))),
 				(int) (y + blockSize / 2 + range * Math.sin(Math.toRadians(theta / 2))));
 
+		g.drawOval((int)npX, (int)npY, 10, 10);
+		
 	}
 
 	public void hit() {
 		hitTicks = 10;
 	}
 
-	private boolean isInRange(int x, int y, Rectangle eBounds) {
-		double nullx = x + blockSize / 2;
-		double nully = y + blockSize / 2;
+	public boolean isInRange(double x, double y, Rectangle eBounds) {
+		double nullx;
+		double nully;
+		nullx = x + blockSize / 2;
+		nully = y + blockSize / 2;
 
+		
 		// Calc nearest point
-		double npX = 0;
+		npX = 0;
 		if (npX < eBounds.x) {
 			npX = eBounds.x;
 		} else if (npX > eBounds.x + eBounds.width) {
 			npX = eBounds.x + eBounds.width;
 		}
-		double npY = 0;
+		npY = 0;
 		if (npY < eBounds.y) {
 			npY = eBounds.y;
 		} else if (npY > eBounds.y + eBounds.height) {
@@ -102,13 +110,18 @@ public class Weapon {
 		boolean intersectsD2 = intersectsD2value <= 1 && intersectsD2value >= 0;
 		boolean intersectsN1 = intersectsN1value <= 1 && intersectsN1value >= 0;
 		boolean intersectsN2 = intersectsN2value <= 1 && intersectsN2value >= 0;
-		
+
 		boolean intersectsTop = intersectsD1 && !intersectsN1;
 		boolean intersectsBottom = intersectsD2 && !intersectsN2;
-		
-		
-		
-		return false;
+		if (intersectsTop)
+			System.out.println("matching top tile");
+		if (intersectsBottom)
+			System.out.println("matching bottom tile");
+		if (dist < range && Math.abs(alpha) < theta / 2)
+			System.out.println("matching center tile");
+
+
+		return intersectsTop || intersectsBottom || (dist < range && Math.abs(alpha) < theta / 2);
 	}
 
 }
