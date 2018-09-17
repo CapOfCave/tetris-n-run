@@ -14,6 +14,7 @@ public class Enemy {
 
 	private double x, y;
 	private double lastX, lastY;
+	private double maxX, maxY;
 	private BufferedImage img;
 	private Camera camera;
 	private int blockSize;
@@ -42,6 +43,10 @@ public class Enemy {
 		this.blockSize = blockSize;
 		this.tileWorld = tileWorld;
 		this.player = player;
+		
+		maxX = (tileWorld[0].length * blockSize)  - blockSize;
+		maxY = (tileWorld.length * blockSize) - blockSize;
+		
 		img = ImageLoader.loadImage("/res/character.png");
 		
 	}
@@ -232,7 +237,12 @@ public class Enemy {
 	}
 
 	private boolean isRelAccessible(double dy, double dx) {
-		return worldTetroHitbox[getTileY(dy)][getTileX(dx)];
+		
+		
+		if((x + dx) >= maxX && (y + dy) >= maxY)
+			return false;
+		
+		 return worldTetroHitbox[getTileY(dy)][getTileX(dx)];
 	}
 	
 	public BufferedImage getImage() {
