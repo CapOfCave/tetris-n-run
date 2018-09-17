@@ -22,6 +22,7 @@ public class Player {
 	private int blockSize;
 	private Camera camera;
 	private KeyHandler keyHandler;
+	double maxX, maxY;
 
 	private ArrayList<Tetro> worldTetros;
 	private boolean[][] worldTetroHitbox;
@@ -49,6 +50,9 @@ public class Player {
 		this.tileWorld = tileWorld;
 		this.enemies = enemies;
 		img = ImageLoader.loadImage("/res/character.png");
+		
+		maxX = (tileWorld[0].length * blockSize)  - blockSize;
+		maxY = (tileWorld.length * blockSize) - blockSize;
 
 	}
 
@@ -216,7 +220,13 @@ public class Player {
 	}
 
 	private boolean isRelAccessible(double dy, double dx) {
-		return worldTetroHitbox[getTileY(dy)][getTileX(dx)];
+		
+				if((x + dx) >= maxX || (y + dy) >= maxY || (x + dx) <= 1 || (y + dy) <= 1) {
+			
+			return false;
+		}
+			
+			return worldTetroHitbox[getTileY(dy)][getTileX(dx)];
 	}
 
 	private Tile getRelTile(double dy, double dx) {

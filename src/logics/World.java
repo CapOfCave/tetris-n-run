@@ -69,7 +69,7 @@ public class World {
 		camera = new Camera(level.getPlayerX() * blockSize, level.getPlayerY() * blockSize,
 				tileWorld.length * blockSize - (int) graphicClip.getHeight(), tileWorld[0].length * blockSize - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
-		enemySpawner = new EnemySpawner(2, (tileWorld[0].length - 1) * blockSize, (tileWorld.length - 1) * blockSize, blockSize, camera, tetros, tetroWorldHitbox, tileWorld);
+		enemySpawner = new EnemySpawner(2, ((tileWorld[0].length ) * blockSize) - blockSize*2, (tileWorld.length  * blockSize) - blockSize*2, blockSize, camera, tetros, tetroWorldHitbox, tileWorld);
 		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, enemySpawner.getEnemyList(),  level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
 		enemySpawner.setPlayer(player);
 
@@ -91,6 +91,7 @@ public class World {
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
 
+				if(tileWorld[j][i].getKey() == '0')
 				g.drawImage(tileWorld[j][i].getImg(), i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
 
 			}
@@ -109,6 +110,16 @@ public class World {
 		for (Tetro t : tetros) {
 			t.draw(g, debugMode);
 		}
+		
+		// blocker blocks
+				for (int j = 0; j < tileWorld.length; j++) {
+					for (int i = 0; i < tileWorld[j].length; i++) {
+
+						if(tileWorld[j][i].getKey() != '0')
+						g.drawImage(tileWorld[j][i].getImg(), i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
+
+					}
+				}
 
 		if (debugMode)
 			for (int j = 0; j < tileWorld.length; j++) {
@@ -164,15 +175,23 @@ public class World {
 				if (hitbox[j][i]) {
 					switch (rotation % 4) {
 					case 0:
+						if( j + y >= 0 && i + x >= 0 && j + y <= tileWorld.length && i + x <= tileWorld[0].length)
+						if(!tileWorld[j + y][i + x].isBlockingTetro())
 						tetroWorldHitbox[j + y][i + x] = true;
 						break;
 					case 1:
+						if( -i + y + 3 >= 0 && j + x >= 0 && -i + y + 3 <= tileWorld.length && j + x <= tileWorld[0].length)
+						if(!tileWorld[-i + y + 3][j + x].isBlockingTetro())
 						tetroWorldHitbox[-i + y + 3][j + x] = true;
 						break;
 					case 2:
+						if( -j + y + 1 >= 0 && -i + x + 3 >= 0 && -j + y + 1<= tileWorld.length &&-i + x + 3 <= tileWorld[0].length)
+						if(!tileWorld[-j + y + 1][-i + x + 3].isBlockingTetro())
 						tetroWorldHitbox[-j + y + 1][-i + x + 3] = true;
 						break;
 					case 3:
+						if( i + y >= 0 && -j + x + 1 >= 0 && i + y <= tileWorld.length && -j + x + 1 <= tileWorld[0].length)
+						if(!tileWorld[i + y][-j + x + 1].isBlockingTetro())
 						tetroWorldHitbox[i + y][-j + x + 1] = true;
 						break;
 					}

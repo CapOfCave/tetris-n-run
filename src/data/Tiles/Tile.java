@@ -18,6 +18,7 @@ public class Tile {
 	protected int posX, posY;
 	protected Frame frame;
 	protected boolean walkable;
+	protected boolean isBlockingTetro;
 	
 
 	public Tile(char key, int posX, int posY, boolean walkable, Frame frame) {
@@ -26,6 +27,7 @@ public class Tile {
 		this.posY = posY;
 		this.frame = frame;
 		this.walkable = walkable;
+		isBlockingTetro = false;
 		img = ImageLoader.loadImage("/res/block" + key + ".png");
 
 	}
@@ -70,4 +72,13 @@ public class Tile {
 		return walkable;
 	}
 
+	public boolean isBlockingTetro() {
+		return isBlockingTetro;
+	}
+
+	public void setBlockingTetro(boolean isBlockingTetro) {
+		this.isBlockingTetro = isBlockingTetro;
+	}
+
+	
 }

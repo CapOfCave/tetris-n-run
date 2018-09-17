@@ -239,10 +239,16 @@ public class Enemy {
 	private boolean isRelAccessible(double dy, double dx) {
 		
 		
-		if((x + dx) >= maxX && (y + dy) >= maxY)
-			return false;
 		
-		 return worldTetroHitbox[getTileY(dy)][getTileX(dx)];
+		if((x + dx) >= maxX || (y + dy) >= maxY || (x + dx) <= 1 || (y + dy) <= 1) {
+			
+			return false;
+		}
+			
+			return worldTetroHitbox[getTileY(dy)][getTileX(dx)];
+		
+		
+		 
 	}
 	
 	public BufferedImage getImage() {

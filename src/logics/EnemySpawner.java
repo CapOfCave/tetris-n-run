@@ -64,8 +64,8 @@ public class EnemySpawner {
 		int yPos = random(maxY);
 		
 		if(tileWorld[yPos / blockSize][xPos / blockSize].getKey() == '0' && player != null) {
-			System.out.println("spawn");
-			System.out.println(xPos + " " + yPos);
+			
+			
 			enemysInWorld.add(new Enemy(xPos, yPos, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
 		}
 		
