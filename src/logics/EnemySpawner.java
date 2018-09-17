@@ -18,6 +18,7 @@ public class EnemySpawner {
 	private ArrayList<Tetro> worldTetros;
 	private boolean[][] tetroWorldHitbox;
 	private Tile[][] tileWorld;
+	private Player player;
 	
 	public EnemySpawner(int maxEnemy, int maxX, int maxY, int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld){
 		
@@ -74,5 +75,8 @@ public class EnemySpawner {
 		return enemysInWorld;
 	}
 	
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 	
 }
