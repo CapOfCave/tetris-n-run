@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import graphics.Frame;
-import logics.Overworld;
 
 
 public class GuiMouseHandler implements MouseListener {

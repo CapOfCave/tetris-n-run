@@ -4,8 +4,6 @@ import java.awt.image.BufferedImage;
 
 import graphics.Frame;
 import loading.ImageLoader;
-import logics.Overworld;
-import logics.World;
 
 /**
  * @author Lars Created on 11.09.2018

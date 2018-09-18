@@ -1,7 +1,6 @@
 package data;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 import logics.Camera;
 
@@ -14,8 +13,6 @@ public class Tetro {
 	private TetroType type;
 	private int x, y;
 	private int rotation;
-	private Point startP1 = new Point(-1, -1);
-	private Point startP2 = new Point(-1, -1);
 
 	private Camera camera;
 

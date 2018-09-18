@@ -24,7 +24,7 @@ public class Weapon {
 	private double theta;
 	private double range;
 
-	private double tmpx, tmpy;
+//	private double tmpx, tmpy;
 
 	public Weapon(int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth, double theta,
 			double range) {
@@ -102,8 +102,6 @@ public class Weapon {
 		double by1 = nully - Math.sin(Math.toRadians(theta / 2)) * range;
 		double by2 = nully + Math.sin(Math.toRadians(theta / 2)) * range;
 
-		tmpx = bx;
-		tmpy = by1;
 		double xFactor = (npX - nullx) / (bx - nullx);
 
 		double yFactorD1 = (npY - by1) / (nully - by1);

@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import data.Tetro;
 import data.TetroType;
 
 /**
