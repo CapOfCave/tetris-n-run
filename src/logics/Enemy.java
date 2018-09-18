@@ -30,13 +30,15 @@ public class Enemy {
 	private double acc = 0.8;
 	private double brake = 4;
 	private double maxSpeed = 9;
+	private int health;
+	private boolean isAlive = true;
 	
 	private boolean isAktive;
 	private boolean wantsToGoUp = false, wantsToGoDown = false, wantsToGoLeft = false, wantsToGoRight = false;
 
 	protected Tile[][] tileWorld;
 	
-	public Enemy(int blockSize,Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, Player player) {
+	public Enemy(int health, int blockSize,Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, Player player) {
 		
 		this.worldTetros = worldTetros;
 		this.camera = camera;
@@ -44,6 +46,7 @@ public class Enemy {
 		this.blockSize = blockSize;
 		this.tileWorld = tileWorld;
 		this.player = player;
+		this.health = health;
 		
 		maxX = (tileWorld[0].length * blockSize)  - blockSize;
 		maxY = (tileWorld.length * blockSize) - blockSize;
@@ -52,9 +55,9 @@ public class Enemy {
 		
 	}
 	
-	public Enemy(int enemyX, int enemyY,int blockSize,Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, 
+	public Enemy(int enemyX, int enemyY, int health, int blockSize,Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, 
 			 Tile[][] tileWorld, Player player) {
-		this(blockSize,camera, worldTetros, tetroWorldHitbox, tileWorld, player);
+		this(health, blockSize,camera, worldTetros, tetroWorldHitbox, tileWorld, player);
 		x = enemyX;
 		y = enemyY;
 		lastX = x;
@@ -92,6 +95,8 @@ public class Enemy {
 	public void tick() {
 		lastX = x;
 		lastY = y;
+		
+		checkHealth();
 		
 		if(isAktive)
 			aktionInPassiveMode();
@@ -131,6 +136,12 @@ public class Enemy {
 			
 		}
 		
+	}
+	
+	private void checkHealth() {
+		if(health <= 0) {
+			isAlive = false;
+		}
 	}
 	
 	private void move() {
@@ -272,6 +283,9 @@ public class Enemy {
 	public void applyDamage(Weapon weapon) {
 		//TODO damage apply
 		System.out.println("Ouch. That hurt");
+		health -= weapon.getDamage();
+		
+		
 	}
 	
 	private int getTileX(double dx) {
@@ -292,6 +306,10 @@ public class Enemy {
 
 	public int random(int max) {
 		return (int) (Math.random() * max);
+	}
+	
+	public boolean isAlive() {
+		return isAlive;
 	}
 	
 	

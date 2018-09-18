@@ -9,22 +9,26 @@ import data.Tiles.Tile;
 
 
 public class EnemySpawner {
-
-	private ArrayList<Enemy> enemysInWorld;
+	
+	
+	
 	private int maxEnemy;
 	private int maxX, maxY;
 	private int blockSize;
+
+	private Player player;
 	private Camera camera;
+	
 	private ArrayList<Tetro> worldTetros;
 	private boolean[][] tetroWorldHitbox;
 	private Tile[][] tileWorld;
-	private Player player;
+	private ArrayList<Enemy> enemysInWorld;
+	
 	
 	public EnemySpawner(int maxEnemy, int maxX, int maxY, int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld){
 		
 		enemysInWorld = new ArrayList<>();
 		this.maxEnemy = maxEnemy;
-		
 		this.maxX = maxX;
 		this.maxY = maxY;
 		this.blockSize = blockSize;
@@ -45,6 +49,7 @@ public class EnemySpawner {
 
 	public void draw(Graphics2D g, float interpolation, boolean debugMode) {
 		for(Enemy enemy: enemysInWorld)
+			
 			enemy.draw(g, interpolation, debugMode);
 		
 	}
@@ -54,8 +59,12 @@ public class EnemySpawner {
 			spawn();
 		}
 		
-		for(Enemy enemy: enemysInWorld)
-			enemy.tick();
+		for(int i = 0; i < enemysInWorld.size(); i++) {
+			enemysInWorld.get(i).tick();
+			if(!enemysInWorld.get(i).isAlive()) 
+				enemysInWorld.remove(i);
+			
+		}
 		
 	}
 	
@@ -66,7 +75,7 @@ public class EnemySpawner {
 		if(tileWorld[yPos / blockSize][xPos / blockSize].getKey() == '0' && player != null) {
 			
 			
-			enemysInWorld.add(new Enemy(xPos, yPos, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
+			enemysInWorld.add(new Enemy(xPos, yPos, 10, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
 		}
 		
 	}

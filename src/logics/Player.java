@@ -121,10 +121,10 @@ public class Player {
 	public void hit() {
 		if (weapon != null) {
 			weapon.hit();
-			for (Enemy e : enemies) {
+			for (Enemy enemy : enemies) {
 				if (weapon.isInRange(x - camera.getX(), y - camera.getY(),
-						new Rectangle((int) e.getX() - camera.getX(), (int) e.getY() - camera.getY(), blockSize, blockSize))) {
-					e.applyDamage(weapon);
+						new Rectangle((int) enemy.getX() - camera.getX(), (int) enemy.getY() - camera.getY(), blockSize, blockSize))) {
+					enemy.applyDamage(weapon);
 				}
 			}
 		}

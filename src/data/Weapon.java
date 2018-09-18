@@ -17,6 +17,7 @@ public class Weapon {
 	private Point imgHitOffset;
 	private int blockSize;
 	private int hitTicks = 0;
+	private int damage;
 
 	// Hitbox
 	private double hitWidth;
@@ -25,7 +26,7 @@ public class Weapon {
 
 	private double tmpx, tmpy;
 
-	public Weapon(BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth, double theta,
+	public Weapon(int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth, double theta,
 			double range) {
 		this.img = img;
 		this.imgHit = imgHit;
@@ -35,6 +36,7 @@ public class Weapon {
 		this.hitWidth = hitWidth;
 		this.theta = theta;
 		this.range = range;
+		this.damage = damage;
 	}
 
 	public void draw(Graphics g, int rotation, int x, int y, boolean debugMode) {
@@ -133,4 +135,7 @@ public class Weapon {
 		 npX > nullx || dist == 0);
 	}
 
+	public int getDamage() {
+		return damage;
+	}
 }
