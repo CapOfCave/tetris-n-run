@@ -21,12 +21,13 @@ public class MouseHandler implements MouseInputListener {
 		this.inHandHandler = inHandHandler;
 		this.world = world;
 	}
-	
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			// Linke Maustaste: Aufheben
-			
+
+			System.out.println(inHandHandler.tetroInHand);
 			inHandHandler.setInHandPosition(e.getX(), e.getY());
 			if (!inHandHandler.setInHand(e.getX(), e.getY())) {
 				world.getPlayer().hit();
@@ -35,15 +36,21 @@ public class MouseHandler implements MouseInputListener {
 			// Rechte Maustaste : drehen
 			inHandHandler.rotateInHand(false);
 		} else if (e.getButton() == MouseEvent.BUTTON2) {
-			//TODO temporary save option
+			// TODO temporary save option
 			world.save("C:\\JavaEclipse\\level.txt");
-		} 
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1)
-			inHandHandler.placeInHand();
+		if (e.getButton() == MouseEvent.BUTTON1) {
+
+			try {
+				inHandHandler.placeInHand();
+			} catch (ArrayIndexOutOfBoundsException ex) {
+				System.out.println("ups. drauﬂen");
+			}
+		}
 	}
 
 	@Override
@@ -61,7 +68,6 @@ public class MouseHandler implements MouseInputListener {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
 	}
 
 	@Override

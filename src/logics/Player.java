@@ -3,6 +3,7 @@ package logics;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -72,23 +73,26 @@ public class Player {
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
 		float interpolX = (int) ((x - lastX) * interpolation + lastX);
 		float interpolY = (int) ((y - lastY) * interpolation + lastY);
+
 		g.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize, blockSize, null);
 
 		if (weapon != null)
 			weapon.draw(g, rotation, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), debugMode);
 
 		if (debugMode) {
-			drawDebug(g);
+			drawDebug(g, interpolX, interpolY);
 
 		}
+
 	}
 
-	private void drawDebug(Graphics g) {
+	private void drawDebug(Graphics g, float interpolX, float interpolY) {
+		// Player hitbox
 		g.setColor(Color.ORANGE);
-		g.fillOval((int) (x - camera.getX()), (int) (y - camera.getY()), 5, 5);
-		g.fillOval((int) (x - camera.getX() + blockSize - 1), (int) (y - camera.getY()), 5, 5);
-		g.fillOval((int) (x - camera.getX() + blockSize - 1), (int) (y - camera.getY() + blockSize - 1), 5, 5);
-		g.fillOval((int) (x - camera.getX()), (int) (y - camera.getY() + blockSize - 1), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX()), (int) (interpolY - camera.getY()), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX() + blockSize - 1), (int) (interpolY - camera.getY()), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX() + blockSize - 1), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX()), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
 
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 200, 33);
@@ -96,6 +100,15 @@ public class Player {
 		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
 		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
 
+//		if (weapon != null)
+//			for (int dx = -300; dx <= 300; dx++) {
+//				for (int dy = -100; dy <= 100; dy++) {
+//					if (weapon.isInRange(interpolX - camera.getX(), interpolY - camera.getY(),
+//							new Rectangle((int) (interpolX - camera.getX() + dx), (int) (interpolY - camera.getY() + dy), 0, 0))) {
+//						g.drawOval((int) (interpolX - camera.getX() + dx), (int) (interpolY - camera.getY() + dy), 1, 1);
+//					}
+//				}
+//			}
 	}
 
 	public void tick() {
@@ -107,10 +120,13 @@ public class Player {
 
 	public void hit() {
 		if (weapon != null) {
-			for (Enemy e : enemies) {
-				
-			}
 			weapon.hit();
+			for (Enemy e : enemies) {
+				if (weapon.isInRange(x - camera.getX(), y - camera.getY(),
+						new Rectangle((int) e.getX() - camera.getX(), (int) e.getY() - camera.getY(), blockSize, blockSize))) {
+					e.applyDamage(weapon);
+				}
+			}
 		}
 
 	}

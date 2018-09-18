@@ -23,6 +23,8 @@ public class Weapon {
 	private double theta;
 	private double range;
 
+	private double tmpx, tmpy;
+
 	public Weapon(BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth, double theta,
 			double range) {
 		this.img = img;
@@ -50,7 +52,7 @@ public class Weapon {
 
 	private void drawDebug(Graphics g, int rotation, int x, int y) {
 		Rectangle rect = new Rectangle((int) (x + blockSize / 2 - range), (int) (y + blockSize / 2 - range), (int) (2 * range), (int) (2 * range));
-		g.setColor(Color.BLACK);
+		g.setColor(Color.RED);
 		g.drawArc(rect.x, rect.y, rect.width, rect.height, (int) (-theta / 2), (int) (theta));
 
 		g.drawLine(x + blockSize / 2, (int) (y + blockSize / 2 - hitWidth), x + blockSize / 2, (int) (y + blockSize / 2 + hitWidth));
@@ -66,18 +68,22 @@ public class Weapon {
 		hitTicks = 10;
 	}
 
-	private boolean isInRange(int x, int y, Rectangle eBounds) {
-		double nullx = x + blockSize / 2;
-		double nully = y + blockSize / 2;
+	public boolean isInRange(double x, double y, Rectangle eBounds) {
+		int halfBlockSize = blockSize / 2;
+		double nullx = x + halfBlockSize;
+		double nully = y + halfBlockSize;
 
 		// Calc nearest point
-		double npX = 0;
+		double npX;
+		double npY;
+
+		npX = nullx;
 		if (npX < eBounds.x) {
 			npX = eBounds.x;
 		} else if (npX > eBounds.x + eBounds.width) {
 			npX = eBounds.x + eBounds.width;
 		}
-		double npY = 0;
+		npY = nully;
 		if (npY < eBounds.y) {
 			npY = eBounds.y;
 		} else if (npY > eBounds.y + eBounds.height) {
@@ -88,27 +94,43 @@ public class Weapon {
 		double dist = Math.sqrt((npX - nullx) * (npX - nullx) + (npY - nully) * (npY - nully));
 
 		// Calc angle alpha [degrees]
-		double alpha = Math.atan((npY - nully) / (npX / nullx));
+		double alpha = Math.atan((npY - nully) / (npX - nullx));
 
-		double deltabx = Math.cos(Math.toRadians(theta / 2)) * range;
+		double bx = nullx + Math.cos(Math.toRadians(theta / 2)) * range;
 		double by1 = nully - Math.sin(Math.toRadians(theta / 2)) * range;
 		double by2 = nully + Math.sin(Math.toRadians(theta / 2)) * range;
 
-		double intersectsD1value = (npX - nullx) / (deltabx) + (npY - by1) / (nully - by1);
-		double intersectsD2value = (npX - nullx) / (deltabx) + (npY - by2) / (nully - by2);
-		double intersectsN1value = (npX - nullx) / (deltabx) + (npY - nully) / (nully - hitWidth - by1);
-		double intersectsN2value = (npX - nullx) / (deltabx) + (npY - nully) / (nully + hitWidth - by2);
-		boolean intersectsD1 = intersectsD1value <= 1 && intersectsD1value >= 0;
-		boolean intersectsD2 = intersectsD2value <= 1 && intersectsD2value >= 0;
-		boolean intersectsN1 = intersectsN1value <= 1 && intersectsN1value >= 0;
-		boolean intersectsN2 = intersectsN2value <= 1 && intersectsN2value >= 0;
-		
+		tmpx = bx;
+		tmpy = by1;
+		double xFactor = (npX - nullx) / (bx - nullx);
+
+		double yFactorD1 = (npY - by1) / (nully - by1);
+		double intersectsD1value = xFactor + yFactorD1;
+
+		double yFactorD2 = (npY - by2) / (nully - by2);
+		double intersectsD2value = xFactor + yFactorD2;
+
+		double yFactorN1 = (npY - by1) / (nully - hitWidth - by1);
+		double intersectsN1value = xFactor + yFactorN1;
+
+		double yFactorN2 = (npY - by2) / (nully + hitWidth - by2);
+		double intersectsN2value = xFactor + yFactorN2;
+		boolean intersectsD1 = intersectsD1value <= 1 && xFactor >= 0 && yFactorD1 >= 0;
+		boolean intersectsD2 = intersectsD2value <= 1 && xFactor >= 0 && yFactorD2 >= 0;
+		boolean intersectsN1 = intersectsN1value <= 1 && xFactor >= 0 && yFactorN1 >= 0;
+		boolean intersectsN2 = intersectsN2value <= 1 && xFactor >= 0 && yFactorN2 >= 0;
+
 		boolean intersectsTop = intersectsD1 && !intersectsN1;
 		boolean intersectsBottom = intersectsD2 && !intersectsN2;
-		
-		
-		
-		return false;
+		// if (intersectsTop)
+		// System.out.println("matching top tile");
+		// if (intersectsBottom)
+		// System.out.println("matching bottom tile");
+		// if (dist < range && Math.abs(alpha) < theta / 2)
+		// System.out.println("matching center tile");
+
+		 return intersectsTop || intersectsBottom || (dist < range && Math.abs(Math.toDegrees(alpha)) < theta / 2 &&
+		 npX > nullx || dist == 0);
 	}
 
 }
