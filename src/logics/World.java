@@ -16,6 +16,7 @@ import graphics.Frame;
 import input.KeyHandler;
 import loading.ImageLoader;
 import loading.LevelSaver;
+import logics.entities.Player;
 
 /**
  * @author Lars Created on 05.08.2018

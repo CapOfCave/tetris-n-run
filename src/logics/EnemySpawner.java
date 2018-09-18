@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import data.Tetro;
 import data.Tiles.Tile;
+import logics.entities.Enemy;
+import logics.entities.Player;
 
 
 public class EnemySpawner {
