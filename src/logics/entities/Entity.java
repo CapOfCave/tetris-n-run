@@ -10,7 +10,8 @@ public abstract class Entity {
 	protected double x, y;
 	protected BufferedImage img;
 	protected int blockSize;
-
+    protected int rotation = 90;
+	
 	public Entity(BufferedImage img, int blockSize) {
 		this.img = img;
 		this.blockSize = blockSize;

@@ -39,7 +39,7 @@ public class Weapon {
 		this.damage = damage;
 	}
 
-	public void draw(Graphics g, int rotation, int x, int y, boolean debugMode) {
+	public void draw(Graphics g, int x, int y, boolean debugMode) {
 		if (hitTicks != 0) {
 			g.drawImage(imgHit, x + imgHitOffset.x, y + imgHitOffset.y, blockSize, blockSize, null);
 			hitTicks--;
@@ -48,11 +48,11 @@ public class Weapon {
 		}
 
 		if (debugMode) {
-			drawDebug(g, rotation, x, y);
+			drawDebug(g, x, y);
 		}
 	}
 
-	private void drawDebug(Graphics g, int rotation, int x, int y) {
+	private void drawDebug(Graphics g, int x, int y) {
 		Rectangle rect = new Rectangle((int) (x + blockSize / 2 - range), (int) (y + blockSize / 2 - range), (int) (2 * range), (int) (2 * range));
 		g.setColor(Color.RED);
 		g.drawArc(rect.x, rect.y, rect.width, rect.height, (int) (-theta / 2), (int) (theta));

@@ -6,13 +6,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import data.Level;
 import data.RawTetro;
 import data.TetroType;
 import data.Tiles.LevelGuiTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
-import logics.Level;
 
 /**
  * @author Lars Created on 13.08.2018

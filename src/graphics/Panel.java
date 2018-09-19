@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import data.Level;
 import data.TetroType;
 import input.KeyHandler;
 import input.MouseHandler;
 import logics.InHandHandler;
-import logics.Level;
 import logics.Playable;
 import logics.World;
 

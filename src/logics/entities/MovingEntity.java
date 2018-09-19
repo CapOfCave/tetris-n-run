@@ -49,6 +49,12 @@ public abstract class MovingEntity extends Entity {
 		maxY = (tileWorld.length * blockSize) - blockSize;
 	}
 
+	@Override
+	public void tick() {
+		lastX = x;
+		lastY = y;
+	}
+
 	protected void move() {
 		// Beginn der Bewegung
 
@@ -130,9 +136,27 @@ public abstract class MovingEntity extends Entity {
 			vSpeed = vSpeed * factor;
 		}
 
+		if (Math.abs(hSpeed) > Math.abs(vSpeed)) {
+			rotation = -1 * ((int) Math.copySign(1, hSpeed) - 2);
+		} else if (Math.abs(hSpeed) < Math.abs(vSpeed)) {
+			rotation = (int) (90 * (Math.copySign(1, vSpeed) + 1));
+		}
+		updateRotation();
 		x += hSpeed;
 		y += vSpeed;
 
+	}
+
+	private void updateRotation() {
+		if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
+			rotation = 0;
+		} else if (!wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
+			rotation = 270;
+		} else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && !wantsToGoRight) {
+			rotation = 180;
+		} else if (!wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
+			rotation = 90;
+		}
 	}
 
 	private void move_contact_solid(int i) {

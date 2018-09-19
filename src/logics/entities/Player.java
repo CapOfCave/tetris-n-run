@@ -2,6 +2,7 @@ package logics.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -21,8 +22,6 @@ public class Player extends MovingEntity {
 
 	private ArrayList<Enemy> enemies;
 	private Weapon weapon;
-
-	private int rotation = 0; // TODO rotaion
 
 	public Player(int blockSize, Camera camera, boolean[][] tetroWorldHitbox, ArrayList<Enemy> enemies, KeyHandler keyHandler, Tile[][] tileWorld) {
 		super(ImageLoader.loadImage("/res/character.png"), blockSize, camera, tetroWorldHitbox, tileWorld);
@@ -49,11 +48,18 @@ public class Player extends MovingEntity {
 		float interpolX = (int) ((x - lastX) * interpolation + lastX);
 		float interpolY = (int) ((y - lastY) * interpolation + lastY);
 
-		g.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize, blockSize, null);
-
+		Graphics2D g2d = (Graphics2D) g.create();
+		g2d.setColor(Color.blue);
+ 		g2d.translate(interpolX - camera.getX() + blockSize / 2, interpolY - camera.getY() + blockSize / 2);
+		g2d.rotate(Math.toRadians(rotation - 90));
+		// g2d.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize,
+		// blockSize, null);
+		g2d.drawImage(img, -blockSize / 2, -blockSize / 2, blockSize, blockSize, null);
 		if (weapon != null)
-			weapon.draw(g, rotation, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), debugMode);
+			weapon.draw(g2d, - blockSize / 2, - blockSize / 2, debugMode);
+		g2d.dispose();
 
+		
 		if (debugMode) {
 			drawDebug(g, interpolX, interpolY);
 

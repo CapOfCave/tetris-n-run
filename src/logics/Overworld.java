@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import data.Level;
 import data.Tetro;
 import input.KeyHandler;
 

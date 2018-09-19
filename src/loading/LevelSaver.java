@@ -6,9 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import data.Level;
 import data.RawTetro;
 import data.Tiles.Tile;
-import logics.Level;
 
 /**
  * @author Lars Created on 13.08.2018

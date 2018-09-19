@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import data.Level;
 import data.TetroType;
 import input.GuiMouseHandler;
 import input.KeyHandler;
 import loading.ImageLoader;
-import logics.Level;
 import logics.Overworld;
 import logics.Playable;
 

@@ -1,9 +1,7 @@
-package logics;
+package data;
 
 import java.util.ArrayList;
 
-import data.RawTetro;
-import data.TetroType;
 import data.Tiles.Tile;
 
 /**
