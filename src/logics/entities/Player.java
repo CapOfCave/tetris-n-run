@@ -50,16 +50,15 @@ public class Player extends MovingEntity {
 
 		Graphics2D g2d = (Graphics2D) g.create();
 		g2d.setColor(Color.blue);
- 		g2d.translate(interpolX - camera.getX() + blockSize / 2, interpolY - camera.getY() + blockSize / 2);
+		g2d.translate(interpolX - camera.getX() + blockSize / 2, interpolY - camera.getY() + blockSize / 2);
 		g2d.rotate(Math.toRadians(rotation - 90));
 		// g2d.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize,
 		// blockSize, null);
 		g2d.drawImage(img, -blockSize / 2, -blockSize / 2, blockSize, blockSize, null);
 		if (weapon != null)
-			weapon.draw(g2d, - blockSize / 2, - blockSize / 2, debugMode);
+			weapon.draw(g, g2d, -blockSize / 2, -blockSize / 2, debugMode);
 		g2d.dispose();
 
-		
 		if (debugMode) {
 			drawDebug(g, interpolX, interpolY);
 
@@ -81,15 +80,15 @@ public class Player extends MovingEntity {
 		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
 		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
 
-		// if (weapon != null)
-		// for (int dx = -300; dx <= 300; dx++) {
-		// for (int dy = -100; dy <= 100; dy++) {
-		// if (weapon.isInRange(interpolX - camera.getX(), interpolY - camera.getY(),
-		// new Rectangle((int) (interpolX - camera.getX() + dx), (int) (interpolY - camera.getY() + dy), 0, 0))) {
-		// g.drawOval((int) (interpolX - camera.getX() + dx), (int) (interpolY - camera.getY() + dy), 1, 1);
-		// }
-		// }
-		// }
+		if (weapon != null)
+			for (int dx = -300; dx <= 300; dx++) {
+				for (int dy = -100; dy <= 100; dy++) {
+					if (weapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
+							new Rectangle((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1))) {
+						g.drawOval((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1);
+					}
+				}
+			}
 	}
 
 	@Override
@@ -114,7 +113,7 @@ public class Player extends MovingEntity {
 		if (weapon != null) {
 			weapon.hit();
 			for (Enemy enemy : enemies) {
-				if (weapon.isInRange(x - camera.getX(), y - camera.getY(),
+				if (weapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
 						new Rectangle((int) enemy.getX() - camera.getX(), (int) enemy.getY() - camera.getY(), blockSize, blockSize))) {
 					enemy.applyDamage(weapon);
 				}
