@@ -3,6 +3,7 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import data.Tetro;
@@ -10,6 +11,7 @@ import data.Weapon;
 import data.Tiles.Tile;
 import loading.ImageLoader;
 import logics.Camera;
+import logics.searchalgorithm.SearchAlgorithm;
 
 public class Enemy extends MovingEntity {
 
@@ -19,8 +21,11 @@ public class Enemy extends MovingEntity {
 
 	private boolean isAktive;
 
-	public Enemy(int health, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld,
-			Player player) {
+	private ArrayList<Point> path;
+
+	private Point goal;
+
+	public Enemy(int health, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, Player player) {
 		super(ImageLoader.loadImage("/res/character.png"), blockSize, camera, tetroWorldHitbox, tileWorld);
 
 		this.player = player;
@@ -28,7 +33,7 @@ public class Enemy extends MovingEntity {
 
 		acc = 0.8;
 		brake = 4;
-		maxSpeed = 9;
+		maxSpeed = 4;
 	}
 
 	public Enemy(int enemyX, int enemyY, int health, int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox,
@@ -46,14 +51,13 @@ public class Enemy extends MovingEntity {
 
 		Graphics2D g2d = (Graphics2D) g.create();
 		g2d.setColor(Color.blue);
- 		g2d.translate(interpolX - camera.getX() + blockSize / 2, interpolY - camera.getY() + blockSize / 2);
+		g2d.translate(interpolX - camera.getX() + blockSize / 2, interpolY - camera.getY() + blockSize / 2);
 		g2d.rotate(Math.toRadians(rotation - 90));
 		// g2d.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize,
 		// blockSize, null);
 		g2d.drawImage(img, -blockSize / 2, -blockSize / 2, blockSize, blockSize, null);
 		g2d.dispose();
 
-		
 		if (debugMode) {
 			drawDebug(g);
 
@@ -89,33 +93,57 @@ public class Enemy extends MovingEntity {
 		move();
 	}
 
-	public void aktionInAktivMode() {
+	public void aktionInAktiveMode() {
 
 	}
 
 	public void aktionInPassiveMode() {
-		if ((x - 5) <= player.getX() && (x + 5) >= player.getX() && (y - 5) <= player.getY() && (y + 5) >= player.getY()) {
-			isAktive = true;
-		} else {
-			if (random(10) == 0) {
-				wantsToGoDown = true;
-				wantsToGoUp = false;
 
-			} else if (random(10) == 0) {
-				wantsToGoDown = false;
-				wantsToGoUp = true;
-			}
-
-			if (random(10) == 0) {
-				wantsToGoRight = true;
-				wantsToGoLeft = false;
-
-			} else if (random(10) == 0) {
-				wantsToGoRight = false;
-				wantsToGoLeft = true;
-			}
-
+		if (goal == null || path == null) {
+			goal = new Point(random(15), random(15));
+			path = SearchAlgorithm.calcShortestPath(new Point(getTileX(), getTileY()), goal, tetroWorldHitbox);
+		} else if ((Math.abs(goal.x * blockSize - x) < 5 && Math.abs(goal.y * blockSize - y) < 5) || path.isEmpty()) {
+			goal = new Point(random(15), random(15));
+			path = SearchAlgorithm.calcShortestPath(new Point(getTileX(), getTileY()), goal, tetroWorldHitbox);
 		}
+		if (path == null) {
+			return;
+		} else if (path.isEmpty()) {
+			return;
+		}
+		// System.out.println(path.get(0).x * blockSize + ": " + x + "; " + path.get(0).y * blockSize + ": " + y);
+		if (Math.abs(path.get(0).x * blockSize - x) < 1 && Math.abs(path.get(0).y * blockSize - y) < 1) {
+			path.remove(0);
+		}
+		if (!path.isEmpty()) {
+			wantsToGoUp = y - path.get(0).y * blockSize > 0.1;
+			wantsToGoDown = y - path.get(0).y * blockSize < 0.1;
+			wantsToGoLeft = x - path.get(0).x * blockSize > 0.1;
+			wantsToGoRight = x - path.get(0).x * blockSize < 0.1;
+		}
+		// if ((x - 5) <= player.getX() && (x + 5) >= player.getX() && (y - 5) <= player.getY() && (y + 5) >=
+		// player.getY()) {
+		// isAktive = true;
+		// } else {
+		// if (random(10) == 0) {
+		// wantsToGoDown = true;
+		// wantsToGoUp = false;
+		//
+		// } else if (random(10) == 0) {
+		// wantsToGoDown = false;
+		// wantsToGoUp = true;
+		// }
+		//
+		// if (random(10) == 0) {
+		// wantsToGoRight = true;
+		// wantsToGoLeft = false;
+		//
+		// } else if (random(10) == 0) {
+		// wantsToGoRight = false;
+		// wantsToGoLeft = true;
+		// }
+		//
+		// }
 
 	}
 
@@ -136,7 +164,6 @@ public class Enemy extends MovingEntity {
 		health -= weapon.getDamage();
 
 	}
-
 
 	public int random(int max) {
 		return (int) (Math.random() * max);

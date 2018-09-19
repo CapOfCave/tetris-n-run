@@ -11,7 +11,7 @@ import logics.Camera;
 public abstract class MovingEntity extends Entity {
 
 	protected double maxX, maxY;
-	protected boolean[][] worldTetroHitbox;
+	protected boolean[][] tetroWorldHitbox;
 	protected Tile[][] tileWorld;
 
 	protected double lastX, lastY;
@@ -32,7 +32,7 @@ public abstract class MovingEntity extends Entity {
 	public MovingEntity(BufferedImage img, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld) {
 		super(img, blockSize);
 		this.camera = camera;
-		this.worldTetroHitbox = tetroWorldHitbox;
+		this.tetroWorldHitbox = tetroWorldHitbox;
 		this.tileWorld = tileWorld;
 
 		maxX = (tileWorld[0].length * blockSize) - blockSize;
@@ -42,7 +42,7 @@ public abstract class MovingEntity extends Entity {
 	public MovingEntity(BufferedImage img, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, int x, int y) {
 		super(img, blockSize, x, y);
 		this.camera = camera;
-		this.worldTetroHitbox = tetroWorldHitbox;
+		this.tetroWorldHitbox = tetroWorldHitbox;
 		this.tileWorld = tileWorld;
 
 		maxX = (tileWorld[0].length * blockSize) - blockSize;
@@ -208,6 +208,6 @@ public abstract class MovingEntity extends Entity {
 			return false;
 		}
 
-		return worldTetroHitbox[getTileY(dy)][getTileX(dx)];
+		return tetroWorldHitbox[getTileY(dy)][getTileX(dx)];
 	}
 }
