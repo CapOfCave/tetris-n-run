@@ -80,15 +80,15 @@ public class Player extends MovingEntity {
 		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
 		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
 
-		if (weapon != null)
-			for (int dx = -300; dx <= 300; dx++) {
-				for (int dy = -100; dy <= 100; dy++) {
-					if (weapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
-							new Rectangle((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1))) {
-						g.drawOval((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1);
-					}
-				}
-			}
+//		if (weapon != null)
+//			for (int dx = -300; dx <= 300; dx++) {
+//				for (int dy = -100; dy <= 100; dy++) {
+//					if (weapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
+//							new Rectangle((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1))) {
+//						g.drawOval((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1);
+//					}
+//				}
+//			}
 	}
 
 	@Override
