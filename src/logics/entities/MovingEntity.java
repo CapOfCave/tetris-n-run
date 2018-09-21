@@ -37,8 +37,8 @@ public abstract class MovingEntity extends Entity {
 		this.tetroWorldHitbox = tetroWorldHitbox;
 		this.tileWorld = tileWorld;
 
-		maxX = (tileWorld[0].length * blockSize) - blockSize;
-		maxY = (tileWorld.length * blockSize) - blockSize;
+		maxX = (tileWorld[0].length * blockSize);
+		maxY = (tileWorld.length * blockSize);
 	}
 
 	public MovingEntity(BufferedImage img, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, int x, int y) {
@@ -283,7 +283,7 @@ public abstract class MovingEntity extends Entity {
 
 	private boolean isRelAccessible(double dy, double dx) {
 
-		if ((x + dx) >= maxX || (y + dy) >= maxY || (x + dx) <= 1 || (y + dy) <= 1) {
+		if ((x + blockSize / 2 + dx) >= maxX || (y + blockSize / 2 + dy) >= maxY || (x + blockSize / 2 + dx) < 0 || (y + blockSize / 2 + dy) < 0) {
 			return false;
 		}
 
