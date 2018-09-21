@@ -27,7 +27,6 @@ public class MouseHandler implements MouseInputListener {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			// Linke Maustaste: Aufheben
 
-			System.out.println(inHandHandler.tetroInHand);
 			inHandHandler.setInHandPosition(e.getX(), e.getY());
 			if (!inHandHandler.setInHand(e.getX(), e.getY())) {
 				world.getPlayer().hit();

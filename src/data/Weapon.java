@@ -2,6 +2,7 @@ package data;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -24,10 +25,10 @@ public class Weapon {
 	private double theta;
 	private double range;
 
-//	private double tmpx, tmpy;
+	public static double tmpx, tmpy;
 
-	public Weapon(int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth, double theta,
-			double range) {
+	public Weapon(int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth,
+			double theta, double range) {
 		this.img = img;
 		this.imgHit = imgHit;
 		this.imgOffset = imgOffset;
@@ -39,17 +40,18 @@ public class Weapon {
 		this.damage = damage;
 	}
 
-	public void draw(Graphics g, int x, int y, boolean debugMode) {
+	public void draw(Graphics g, Graphics2D g2d, int x, int y, boolean debugMode) {
 		if (hitTicks != 0) {
-			g.drawImage(imgHit, x + imgHitOffset.x, y + imgHitOffset.y, blockSize, blockSize, null);
+			g2d.drawImage(imgHit, x + imgHitOffset.x, y + imgHitOffset.y, blockSize, blockSize, null);
 			hitTicks--;
 		} else {
-			g.drawImage(img, x + imgOffset.x, y + imgOffset.y, blockSize, blockSize, null);
+			g2d.drawImage(img, x + imgOffset.x, y + imgOffset.y, blockSize, blockSize, null);
 		}
 
 		if (debugMode) {
-			drawDebug(g, x, y);
+			drawDebug(g2d, x, y);
 		}
+
 	}
 
 	private void drawDebug(Graphics g, int x, int y) {
@@ -63,6 +65,7 @@ public class Weapon {
 				(int) (y + blockSize / 2 - range * Math.sin(Math.toRadians(theta / 2))));
 		g.drawLine(x + blockSize / 2, (int) (y + blockSize / 2 + hitWidth), (int) (x + blockSize / 2 + range * Math.cos(Math.toRadians(theta / 2))),
 				(int) (y + blockSize / 2 + range * Math.sin(Math.toRadians(theta / 2))));
+		g.setColor(Color.RED);
 
 	}
 
@@ -70,7 +73,7 @@ public class Weapon {
 		hitTicks = 10;
 	}
 
-	public boolean isInRange(double x, double y, Rectangle eBounds) {
+	public boolean isInRange(double x, double y, double angleDeg, Rectangle eBounds) {
 		int halfBlockSize = blockSize / 2;
 		double nullx = x + halfBlockSize;
 		double nully = y + halfBlockSize;
@@ -94,26 +97,48 @@ public class Weapon {
 
 		// Calc distance np- "0"
 		double dist = Math.sqrt((npX - nullx) * (npX - nullx) + (npY - nully) * (npY - nully));
+		if (dist == 0) {
+			return true;
+		}
 
 		// Calc angle alpha [degrees]
-		double alpha = Math.atan((npY - nully) / (npX - nullx));
+		double alpha;
+		if (npX >= nullx && npY >= nully) {
+			alpha = 90 + Math.toDegrees(Math.atan((npY - nully) / (npX - nullx)));
+		} else if (npX >= nullx && npY < nully) {
+			alpha = 90 + Math.toDegrees(Math.atan((npY - nully) / (npX - nullx)));
+		} else if (npX < nullx && npY < nully) {
+			alpha = 270 + Math.toDegrees(Math.atan((npY - nully) / (npX - nullx)));
+		} else if (npX < nullx && npY >= nully) {
+			alpha = 270 + Math.toDegrees(Math.atan((npY - nully) / (npX - nullx)));
+		} else {
+			alpha = 0;
+			System.out.println("Fehler!!! Weapon#hitbox");
+		}
+		// Math.toDegrees(Math.atan((npY - nully) / (npX - nullx)));
+		// Transformation in ein rechtwinkliges Koordinatensystem
+		double trfx = nullx + dist * Math.cos(Math.toRadians(alpha - angleDeg));
+		double trfy = nully + dist * Math.sin(Math.toRadians(alpha - angleDeg));
+
+		tmpx = trfx;
+		tmpy = trfy;
 
 		double bx = nullx + Math.cos(Math.toRadians(theta / 2)) * range;
 		double by1 = nully - Math.sin(Math.toRadians(theta / 2)) * range;
 		double by2 = nully + Math.sin(Math.toRadians(theta / 2)) * range;
 
-		double xFactor = (npX - nullx) / (bx - nullx);
+		double xFactor = (trfx - nullx) / (bx - nullx);
 
-		double yFactorD1 = (npY - by1) / (nully - by1);
+		double yFactorD1 = (trfy - by1) / (nully - by1);
 		double intersectsD1value = xFactor + yFactorD1;
 
-		double yFactorD2 = (npY - by2) / (nully - by2);
+		double yFactorD2 = (trfy - by2) / (nully - by2);
 		double intersectsD2value = xFactor + yFactorD2;
 
-		double yFactorN1 = (npY - by1) / (nully - hitWidth - by1);
+		double yFactorN1 = (trfy - by1) / (nully - hitWidth - by1);
 		double intersectsN1value = xFactor + yFactorN1;
 
-		double yFactorN2 = (npY - by2) / (nully + hitWidth - by2);
+		double yFactorN2 = (trfy - by2) / (nully + hitWidth - by2);
 		double intersectsN2value = xFactor + yFactorN2;
 		boolean intersectsD1 = intersectsD1value <= 1 && xFactor >= 0 && yFactorD1 >= 0;
 		boolean intersectsD2 = intersectsD2value <= 1 && xFactor >= 0 && yFactorD2 >= 0;
@@ -129,8 +154,8 @@ public class Weapon {
 		// if (dist < range && Math.abs(alpha) < theta / 2)
 		// System.out.println("matching center tile");
 
-		 return intersectsTop || intersectsBottom || (dist < range && Math.abs(Math.toDegrees(alpha)) < theta / 2 &&
-		 npX > nullx || dist == 0);
+		return intersectsTop || intersectsBottom || (dist < range
+				&& ((alpha - angleDeg + 360) % 360 > 360 - theta / 2 || (alpha - angleDeg + 360) % 360 < +theta / 2) && trfx > nullx);
 	}
 
 	public int getDamage() {

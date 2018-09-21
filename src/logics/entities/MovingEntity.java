@@ -11,7 +11,7 @@ import logics.Camera;
 public abstract class MovingEntity extends Entity {
 
 	protected double maxX, maxY;
-	protected boolean[][] worldTetroHitbox;
+	protected boolean[][] tetroWorldHitbox;
 	protected Tile[][] tileWorld;
 
 	protected double lastX, lastY;
@@ -32,7 +32,7 @@ public abstract class MovingEntity extends Entity {
 	public MovingEntity(BufferedImage img, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld) {
 		super(img, blockSize);
 		this.camera = camera;
-		this.worldTetroHitbox = tetroWorldHitbox;
+		this.tetroWorldHitbox = tetroWorldHitbox;
 		this.tileWorld = tileWorld;
 
 		maxX = (tileWorld[0].length * blockSize) - blockSize;
@@ -42,7 +42,7 @@ public abstract class MovingEntity extends Entity {
 	public MovingEntity(BufferedImage img, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, int x, int y) {
 		super(img, blockSize, x, y);
 		this.camera = camera;
-		this.worldTetroHitbox = tetroWorldHitbox;
+		this.tetroWorldHitbox = tetroWorldHitbox;
 		this.tileWorld = tileWorld;
 
 		maxX = (tileWorld[0].length * blockSize) - blockSize;
@@ -137,7 +137,7 @@ public abstract class MovingEntity extends Entity {
 		}
 
 		if (Math.abs(hSpeed) > Math.abs(vSpeed)) {
-			rotation = -1 * ((int) Math.copySign(1, hSpeed) - 2);
+			rotation = -90 * ((int) Math.copySign(1, hSpeed) - 2);
 		} else if (Math.abs(hSpeed) < Math.abs(vSpeed)) {
 			rotation = (int) (90 * (Math.copySign(1, vSpeed) + 1));
 		}
@@ -149,13 +149,21 @@ public abstract class MovingEntity extends Entity {
 
 	private void updateRotation() {
 		if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
-			rotation = 0;
+			rotation = 0; //oben
 		} else if (!wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
-			rotation = 270;
+			rotation = 270; //links
 		} else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && !wantsToGoRight) {
-			rotation = 180;
+			rotation = 180; //unten
 		} else if (!wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
-			rotation = 90;
+			rotation = 90; //rechts
+		} if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
+			rotation = 315; //oben links
+		} else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight) {
+			rotation = 225; //unten links
+		} else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight) {
+			rotation = 135; // unten rechts
+		} else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
+			rotation = 45; // oben rechts
 		}
 	}
 
@@ -200,6 +208,6 @@ public abstract class MovingEntity extends Entity {
 			return false;
 		}
 
-		return worldTetroHitbox[getTileY(dy)][getTileX(dx)];
+		return tetroWorldHitbox[getTileY(dy)][getTileX(dx)];
 	}
 }

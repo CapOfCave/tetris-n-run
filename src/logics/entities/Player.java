@@ -23,7 +23,7 @@ public class Player extends MovingEntity {
 
 	private ArrayList<Enemy> enemies;
 	private Inventory inventory;
-	private Weapon acitvWeapon;
+	private Weapon activWeapon;
 
 	public Player(int blockSize, Camera camera, boolean[][] tetroWorldHitbox, ArrayList<Enemy> enemies, KeyHandler keyHandler, Tile[][] tileWorld) {
 		super(ImageLoader.loadImage("/res/character.png"), blockSize, camera, tetroWorldHitbox, tileWorld);
@@ -53,16 +53,18 @@ public class Player extends MovingEntity {
 
 		Graphics2D g2d = (Graphics2D) g.create();
 		g2d.setColor(Color.blue);
- 		g2d.translate(interpolX - camera.getX() + blockSize / 2, interpolY - camera.getY() + blockSize / 2);
+		g2d.translate(interpolX - camera.getX() + blockSize / 2, interpolY - camera.getY() + blockSize / 2);
 		g2d.rotate(Math.toRadians(rotation - 90));
 		// g2d.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize,
 		// blockSize, null);
 		g2d.drawImage(img, -blockSize / 2, -blockSize / 2, blockSize, blockSize, null);
-		if (acitvWeapon != null)
-			acitvWeapon.draw(g2d, - blockSize / 2, - blockSize / 2, debugMode);
+
+		if (activWeapon != null)
+			
+			activWeapon.draw(g, g2d, - blockSize / 2, - blockSize / 2, debugMode);
+
 		g2d.dispose();
 
-		
 		if (debugMode) {
 			drawDebug(g, interpolX, interpolY);
 
@@ -84,6 +86,7 @@ public class Player extends MovingEntity {
 		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
 		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
 
+
 		
 		// if (weapon != null)
 		// for (int dx = -300; dx <= 300; dx++) {
@@ -94,6 +97,7 @@ public class Player extends MovingEntity {
 		// }
 		// }
 		// }
+
 	}
 
 	@Override
@@ -115,12 +119,15 @@ public class Player extends MovingEntity {
 	}
 
 	public void hit() {
-		if (acitvWeapon != null) {
-			acitvWeapon.hit();
+		if (activWeapon != null) {
+			activWeapon.hit();
 			for (Enemy enemy : enemies) {
-				if (acitvWeapon.isInRange(x - camera.getX(), y - camera.getY(),
+
+			
+				if (activWeapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
+
 						new Rectangle((int) enemy.getX() - camera.getX(), (int) enemy.getY() - camera.getY(), blockSize, blockSize))) {
-					enemy.applyDamage(acitvWeapon);
+					enemy.applyDamage(activWeapon);
 				}
 			}
 		}
@@ -134,7 +141,7 @@ public class Player extends MovingEntity {
 	}
 
 	public void setWeapon(Weapon weapon) {
-		this.acitvWeapon = weapon;
+		this.activWeapon = weapon;
 	}
 
 	public void drawInventory(Graphics2D g) {
