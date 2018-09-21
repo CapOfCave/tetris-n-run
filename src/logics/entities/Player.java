@@ -74,21 +74,28 @@ public class Player extends MovingEntity {
 		g.fillOval((int) (interpolX - camera.getX() + blockSize - 1), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
 		g.fillOval((int) (interpolX - camera.getX()), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
 
+		g.setColor(Color.GREEN);
+		g.fillOval((int) (interpolX + edgeTolerancePercentage * blockSize / 100 - camera.getX()),
+				(int) (interpolY + vSpeed - camera.getY()), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX() + blockSize - 1), (int) (interpolY - camera.getY()), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX() + blockSize - 1), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX()), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
+
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 200, 33);
 		g.setColor(Color.BLACK);
 		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
 		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
 
-//		if (weapon != null)
-//			for (int dx = -300; dx <= 300; dx++) {
-//				for (int dy = -100; dy <= 100; dy++) {
-//					if (weapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
-//							new Rectangle((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1))) {
-//						g.drawOval((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1);
-//					}
-//				}
-//			}
+		// if (weapon != null)
+		// for (int dx = -300; dx <= 300; dx++) {
+		// for (int dy = -100; dy <= 100; dy++) {
+		// if (weapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
+		// new Rectangle((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1))) {
+		// g.drawOval((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1);
+		// }
+		// }
+		// }
 	}
 
 	@Override

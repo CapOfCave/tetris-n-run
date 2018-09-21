@@ -94,7 +94,7 @@ public class Enemy extends MovingEntity {
 	}
 
 	public void aktionInAktiveMode() {
-
+		
 	}
 
 	public void aktionInPassiveMode() {
