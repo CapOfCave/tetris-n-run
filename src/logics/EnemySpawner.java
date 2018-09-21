@@ -17,6 +17,8 @@ public class EnemySpawner {
 	private int maxEnemy;
 	private int maxX, maxY;
 	private int blockSize;
+	private boolean enemyOnlyOnTetros;
+	private int spawnChance;
 
 	private Player player;
 	private Camera camera;
@@ -27,7 +29,7 @@ public class EnemySpawner {
 	private ArrayList<Enemy> enemysInWorld;
 	
 	
-	public EnemySpawner(int maxEnemy, int maxX, int maxY, int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld){
+	public EnemySpawner(int maxEnemy,boolean enemyOnlyOnTetros,int spawnChance, int maxX, int maxY, int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld){
 		
 		enemysInWorld = new ArrayList<>();
 		this.maxEnemy = maxEnemy;
@@ -38,6 +40,8 @@ public class EnemySpawner {
 		this.worldTetros = worldTetros;
 		this.tetroWorldHitbox = tetroWorldHitbox;
 		this.tileWorld = tileWorld;
+		this.enemyOnlyOnTetros = enemyOnlyOnTetros;
+		this.spawnChance = spawnChance;
 		
 	}
 	
@@ -57,7 +61,7 @@ public class EnemySpawner {
 	}
 
 	public void tick() {
-		if(random(50) == 0 && (enemysInWorld.size() + 1) <= maxEnemy) {
+		if(random(spawnChance) == 0 && (enemysInWorld.size() + 1) <= maxEnemy) {
 			spawn();
 		}
 		
@@ -75,10 +79,17 @@ public class EnemySpawner {
 		int yPos = random(maxY);
 		
 		if(tileWorld[yPos / blockSize][xPos / blockSize].getKey() == '0' && player != null) {
-			
-			
-			enemysInWorld.add(new Enemy(xPos, yPos, 10, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
+			if(enemyOnlyOnTetros) {
+				if(tetroWorldHitbox[yPos / blockSize][xPos / blockSize])
+					enemysInWorld.add(new Enemy(xPos, yPos, 10, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
+			}else {
+				enemysInWorld.add(new Enemy(xPos, yPos, 10, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
+			}
+				
 		}
+			
+			;
+		
 		
 	}
 	

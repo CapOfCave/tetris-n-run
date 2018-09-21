@@ -12,6 +12,7 @@ import data.Tiles.Tile;
 import input.KeyHandler;
 import loading.ImageLoader;
 import logics.Camera;
+import logics.Inventory;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -21,12 +22,14 @@ public class Player extends MovingEntity {
 	private KeyHandler keyHandler;
 
 	private ArrayList<Enemy> enemies;
-	private Weapon weapon;
+	private Inventory inventory;
+	private Weapon acitvWeapon;
 
 	public Player(int blockSize, Camera camera, boolean[][] tetroWorldHitbox, ArrayList<Enemy> enemies, KeyHandler keyHandler, Tile[][] tileWorld) {
 		super(ImageLoader.loadImage("/res/character.png"), blockSize, camera, tetroWorldHitbox, tileWorld);
 		this.keyHandler = keyHandler;
 		this.enemies = enemies;
+		inventory = new Inventory();
 
 		acc = 0.8;
 		brake = 4;
@@ -55,8 +58,8 @@ public class Player extends MovingEntity {
 		// g2d.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize,
 		// blockSize, null);
 		g2d.drawImage(img, -blockSize / 2, -blockSize / 2, blockSize, blockSize, null);
-		if (weapon != null)
-			weapon.draw(g2d, - blockSize / 2, - blockSize / 2, debugMode);
+		if (acitvWeapon != null)
+			acitvWeapon.draw(g2d, - blockSize / 2, - blockSize / 2, debugMode);
 		g2d.dispose();
 
 		
@@ -81,6 +84,7 @@ public class Player extends MovingEntity {
 		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
 		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
 
+		
 		// if (weapon != null)
 		// for (int dx = -300; dx <= 300; dx++) {
 		// for (int dy = -100; dy <= 100; dy++) {
@@ -111,12 +115,12 @@ public class Player extends MovingEntity {
 	}
 
 	public void hit() {
-		if (weapon != null) {
-			weapon.hit();
+		if (acitvWeapon != null) {
+			acitvWeapon.hit();
 			for (Enemy enemy : enemies) {
-				if (weapon.isInRange(x - camera.getX(), y - camera.getY(),
+				if (acitvWeapon.isInRange(x - camera.getX(), y - camera.getY(),
 						new Rectangle((int) enemy.getX() - camera.getX(), (int) enemy.getY() - camera.getY(), blockSize, blockSize))) {
-					enemy.applyDamage(weapon);
+					enemy.applyDamage(acitvWeapon);
 				}
 			}
 		}
@@ -130,7 +134,12 @@ public class Player extends MovingEntity {
 	}
 
 	public void setWeapon(Weapon weapon) {
-		this.weapon = weapon;
+		this.acitvWeapon = weapon;
+	}
+
+	public void drawInventory(Graphics2D g) {
+		inventory.draw(g);
+		
 	}
 
 }

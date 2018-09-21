@@ -24,7 +24,7 @@ import logics.Playable;
 
 public class OverworldPanel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
-	private final int width = 1300, height = 640;
+	private final int width = 1300, height = 850;
 	private final Rectangle gamePanel = new Rectangle(20, 20, 901, 601);
 //	private final Rectangle gamePanel = new Rectangle(50, 50, 901, 601);
 	private int blockSize;
