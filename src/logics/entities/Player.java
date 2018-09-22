@@ -14,7 +14,7 @@ import input.KeyHandler;
 import loading.ImageLoader;
 import logics.Camera;
 import logics.Inventory;
-import logics.Item;
+import logics.entities.items.Item;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -36,11 +36,11 @@ public class Player extends MovingEntity {
 		this.itemWorld = itemWorld;
 		inventory = new Inventory();
 
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocka.png"), blockSize));
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockb.png"), blockSize));
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockc.png"), blockSize));
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockd.png"), blockSize));
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocke.png"), blockSize));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocka.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockb.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockc.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockd.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocke.png")));
 		inventory.addItem(new Weapon(20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
 				new Point(30, 5), blockSize, 0, 30, 45, this));
 		acc = 0.8;

@@ -3,7 +3,8 @@ package data;
 import java.util.ArrayList;
 
 import data.Tiles.Tile;
-import logics.Item;
+import logics.entities.items.Item;
+
 
 /**
  * @author Lars Created on 13.08.2018

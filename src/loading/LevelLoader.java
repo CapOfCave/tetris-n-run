@@ -13,7 +13,7 @@ import data.Tiles.LevelGuiTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
-import logics.Item;
+
 
 /**
  * @author Lars Created on 13.08.2018
@@ -26,6 +26,7 @@ public class LevelLoader {
 		ArrayList<TetroType> tetroTypes;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
+		
 		int worldlength = 0;
 		int playerX = 0;
 		int playerY = 0;

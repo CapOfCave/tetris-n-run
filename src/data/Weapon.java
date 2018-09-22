@@ -7,13 +7,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import logics.Item;
 import logics.entities.Player;
+import logics.entities.items.Item;
 
 /**
  * @author Lars Created on 16.09.2018
  */
-public class Weapon extends Item{
+public class Weapon extends Item {
 
 	private BufferedImage img;
 	private BufferedImage imgHit;
@@ -33,7 +33,7 @@ public class Weapon extends Item{
 
 	public Weapon(int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth,
 			double theta, double range, Player player) {
-		super(img, blockSize);
+		super(img);
 		this.img = img;
 		this.imgHit = imgHit;
 		this.imgOffset = imgOffset;
@@ -59,13 +59,13 @@ public class Weapon extends Item{
 		}
 
 	}
-	
+
 	public void equip() {
-		if(player != null) {
+		if (player != null) {
 			player.setWeapon(this);
 		}
 	}
-	
+
 	@Override
 	public void collectingEvent() {
 		player.addToInventory(this, 0);
@@ -183,7 +183,7 @@ public class Weapon extends Item{
 	public int getDamage() {
 		return damage;
 	}
-	
+
 	public void getPlayer(Player player) {
 		this.player = player;
 	}
