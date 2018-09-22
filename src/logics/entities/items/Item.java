@@ -15,8 +15,8 @@ public class Item {
 		this.previewImg = previewImg;
 	}
 	
-	public void drawPreview(Graphics2D g, int position) {
-		g.drawImage(previewImg, 20 + (32 * position + 5 * position), 20, 32, 32, null);
+	public void drawPreview(Graphics2D g, int position, int size) {
+		g.drawImage(previewImg, 20 + (32 * position + 5 * position), 20, size, size, null);
 	}
 
 	public void onClickInInventoryEnvent() {

@@ -25,12 +25,12 @@ public class GuiMouseHandler implements MouseListener {
 		
 		if (x >= 20 && y >= 20 && x < 900 && y < 600) {
 			// in game Rect.
-			System.out.println("Rect.");
+//			System.out.println("Rect.");
 		}
 		
 		if(x >= 970 && y >= 100 && x < 970 + 256 && y < 100 + 64) {
 			//playbutton
-			System.out.println("play");
+//			System.out.println("play");
 			frame.startLevel();
 		}
 		

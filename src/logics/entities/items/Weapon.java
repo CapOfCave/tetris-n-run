@@ -162,12 +162,6 @@ public class Weapon extends Item {
 
 		boolean intersectsTop = intersectsD1 && !intersectsN1;
 		boolean intersectsBottom = intersectsD2 && !intersectsN2;
-		// if (intersectsTop)
-		// System.out.println("matching top tile");
-		// if (intersectsBottom)
-		// System.out.println("matching bottom tile");
-		// if (dist < range && Math.abs(alpha) < theta / 2)
-		// System.out.println("matching center tile");
 
 		return intersectsTop || intersectsBottom || (dist < range
 				&& ((alpha - angleDeg + 360) % 360 > 360 - theta / 2 || (alpha - angleDeg + 360) % 360 < +theta / 2) && trfx > nullx);

@@ -11,7 +11,7 @@ import data.TetroType;
  */
 public class TetroLoader {
 
-	private static final String img_prefix = "/res/";
+	private static final String img_prefix = "/res/tetros/";
 	private static final String img_suffix = "b.png";
 
 	public TetroLoader() {

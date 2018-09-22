@@ -18,19 +18,20 @@ import logics.entities.items.Weapon;
 public class Player extends MovingEntity {
 
 	private Inventory inventory;
-	private Weapon activWeapon;
+	private Weapon activeWeapon;
 
 	public Player(World world) {
 		super(world, ImageLoader.loadImage("/res/character.png"));
 		inventory = new Inventory();
 
-		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocka.png")));
-		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blockb.png")));
-		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blockc.png")));
-		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blockd.png")));
-		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocke.png")));
 		inventory.addItem(new Weapon(world, 20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"),
-				new Point(0, 0), new Point(30, 5), 0, 30, 45));
+				new Point(0, 0), new Point(30, 5), 8, 30, 60));
+		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blocka.png")));
+		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blockb.png")));
+		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blockc.png")));
+		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blockd.png")));
+		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blocke.png")));
+		
 		acc = 0.8;
 		brake = 4;
 		maxSpeed = 9;
@@ -58,8 +59,8 @@ public class Player extends MovingEntity {
 		// world.blockSize(), null);
 		g2d.drawImage(img, -world.blockSize() / 2, -world.blockSize() / 2, world.blockSize(), world.blockSize(), null);
 
-		if (activWeapon != null)
-			activWeapon.draw(g, g2d, -world.blockSize() / 2, -world.blockSize() / 2, debugMode);
+		if (activeWeapon != null)
+			activeWeapon.draw(g, g2d, -world.blockSize() / 2, -world.blockSize() / 2, debugMode);
 
 		g2d.dispose();
 
@@ -115,12 +116,12 @@ public class Player extends MovingEntity {
 	}
 
 	public void hit() {
-		if (activWeapon != null) {
-			activWeapon.hit();
+		if (activeWeapon != null) {
+			activeWeapon.hit();
 			for (Enemy enemy : world.getEnemies()) {
-				if (activWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
+				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
 						new Rectangle((int) (enemy.getX() - world.cameraX()), (int) (enemy.getY() - world.cameraY()), world.blockSize(), world.blockSize()))) {
-					enemy.applyDamage(activWeapon);
+					enemy.applyDamage(activeWeapon);
 				}
 			}
 		}
@@ -137,7 +138,7 @@ public class Player extends MovingEntity {
 	}
 
 	public void setWeapon(Weapon weapon) {
-		this.activWeapon = weapon;
+		this.activeWeapon = weapon;
 	}
 
 	public void drawInventory(Graphics2D g) {

@@ -56,15 +56,16 @@ public class EnemySpawner extends Entity {
 			xPos = (int) (x - diameter / 2. + random(diameter));
 			yPos = (int) (y - diameter / 2. + random(diameter));
 		}
-		if (world.getTileAt(yPos, xPos).isWalkable()) {
-			System.out.println("Spawn2");
-			if (enemyOnlyOnTetros) {
-				if (world.isTetroAt(yPos, xPos))
-					world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);
-			} else {
+		
+		if (enemyOnlyOnTetros) {
+			if (world.isTetroAt(yPos, xPos) || world.getTileAt(yPos, xPos).isWalkable())
 				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);
+				enemyCount++;
+		} else {
+			if (world.getTileAt(yPos, xPos).isWalkable()) {
+				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);
+				enemyCount++;
 			}
-
 		}
 
 	}

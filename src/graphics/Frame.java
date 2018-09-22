@@ -31,7 +31,7 @@ public class Frame extends JFrame {
 
 	public Frame() {
 		keyHandler = new KeyHandler();
-		panel = new OverworldPanel(LevelLoader.loadLevel("/res/overworld" + levelSolved + ".txt", this), keyHandler, this);
+		panel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this), keyHandler, this);
 		setLayout(new CardLayout());
 		add(panel);
 		gameLoop = new GameLoop(panel);
@@ -56,7 +56,7 @@ public class Frame extends JFrame {
 
 	public void startLevel() {
 		if (Character.isLowerCase(nextLevel)) {
-			Panel panel = new Panel(LevelLoader.loadLevel("/res/level" + nextLevel + ".txt ", this), keyHandler);
+			Panel panel = new Panel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt ", this), keyHandler);
 
 			add(panel);
 			remove(this.panel);

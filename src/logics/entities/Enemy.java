@@ -14,9 +14,8 @@ import logics.searchalgorithm.SearchAlgorithm;
 
 public class Enemy extends MovingEntity {
 
-
 	private EnemySpawner parent;
-	
+
 	private boolean isAlive = true;
 	private boolean isAktive;
 
@@ -27,6 +26,7 @@ public class Enemy extends MovingEntity {
 	public Enemy(World world, EnemySpawner parent, int health) {
 		super(world, ImageLoader.loadImage("/res/character.png"));
 		this.health = health;
+		this.parent = parent;
 
 		acc = 0.8;
 		brake = 4;
@@ -107,15 +107,14 @@ public class Enemy extends MovingEntity {
 		} else if (path.isEmpty()) {
 			return;
 		}
-		// System.out.println(path.get(0).x * blockSize + ": " + x + "; " + path.get(0).y * blockSize + ": " + y);
 		if (Math.abs(path.get(0).x * world.blockSize() - x) < 5 && Math.abs(path.get(0).y * world.blockSize() - y) < 5) {
 			path.remove(0);
 		}
 		if (!path.isEmpty()) {
-			wantsToGoUp = y - path.get(0).y * world.blockSize() > 0.1;
-			wantsToGoDown = y - path.get(0).y * world.blockSize() < 0.1;
-			wantsToGoLeft = x - path.get(0).x * world.blockSize() > 0.1;
-			wantsToGoRight = x - path.get(0).x * world.blockSize() < 0.1;
+			wantsToGoUp = y - path.get(0).y * world.blockSize() > 1;
+			wantsToGoDown = y - path.get(0).y * world.blockSize() < -1;
+			wantsToGoLeft = x - path.get(0).x * world.blockSize() > 1;
+			wantsToGoRight = x - path.get(0).x * world.blockSize() < -1;
 		}
 
 	}

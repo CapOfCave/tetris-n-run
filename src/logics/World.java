@@ -85,13 +85,6 @@ public class World {
 			addTetroToHitbox(ft, ft.getX(), ft.getY(), ft.getRotation());
 		}
 		
-		for (int i = 0; i < tetroWorldHitbox.length; i++) {
-			for (int j = 0; j < tetroWorldHitbox[i].length; j++) {
-				System.out.print(tetroWorldHitbox[i][j]||tileWorld[i][j].isWalkable()?1:0);
-			}
-			System.out.println();
-		}
-		
 	}
 
 	public void draw(Graphics2D g, float interpolation, boolean debugMode) {
@@ -297,7 +290,7 @@ public class World {
 	}
 
 	public void addEnemy(int x, int y, int health, EnemySpawner enemySpawner) {
-		enemies.add(new Enemy(this, enemySpawner, x, y, health));
+		enemies.add(new Enemy(this, enemySpawner, health, x, y));
 
 	}
 

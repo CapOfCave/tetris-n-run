@@ -11,7 +11,6 @@ import logics.World;
 public class SearchAlgorithm {
 
 	public static ArrayList<Point> calcShortestPath(World world, Point start, Point end) {
-		// System.out.println("new Path from " + start.x + "|" + start.y + " to "+ end.x + "|" + end.y);
 		ArrayList<Node> openlist = new ArrayList<>();
 		ArrayList<Node> closedlist = new ArrayList<>();
 
@@ -95,12 +94,10 @@ public class SearchAlgorithm {
 		}
 		return path;
 
-		// System.out.println("no path found from " + start + " to " + end);
 	}
 
 	private static float heuristic(Node neighbor, Point end) {
 		return (float) Math.sqrt((neighbor.x - end.x) * (neighbor.x - end.x) + (neighbor.y - end.y) * (neighbor.y - end.y));
-		// return Math.abs(neighbor.x - end.x) + Math.abs(neighbor.y - end.y);
 	}
 
 	private static class Node {

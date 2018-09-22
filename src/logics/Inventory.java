@@ -15,20 +15,21 @@ public class Inventory {
 	public int visibleItems = 4;
 	public BufferedImage arrowLeft, arrowRight;
 	private int x = 0, y = 0;
+	private int size = 32;
 	
 	public Inventory() {
 		items = new ArrayList<>();
-		arrowLeft = ImageLoader.loadImage("/res/block2.png");
-		arrowRight = ImageLoader.loadImage("/res/block2.png");
+		arrowLeft = ImageLoader.loadImage("/res/blocks/block2.png");
+		arrowRight = ImageLoader.loadImage("/res/blocks/block2.png");
 	}
 
 	public void draw(Graphics2D g) {
 		
 		g.drawImage(arrowLeft, 20 + (arrowLeft.getWidth() * 0 + 5 * 0), 20, null);
 		for(int i = firstVisibleItem; i < firstVisibleItem + visibleItems; i++) {
-			items.get(i).drawPreview(g,  i - firstVisibleItem + 1);
+			items.get(i).drawPreview(g,  i - firstVisibleItem + 1, size);
 		}
-		g.drawImage(arrowRight, 20 + (arrowRight.getWidth() * (visibleItems  + 1) + 5 * (visibleItems  + 1)), 20, null);
+		g.drawImage(arrowRight, 20 + (arrowRight.getWidth() * (visibleItems  + 1) + 5 * (visibleItems  + 1)), 20, size, size, null);
 			
 	}
 	
@@ -40,7 +41,6 @@ public class Inventory {
 	public void scrollRight() {
 		if((firstVisibleItem  + visibleItems) <= items.size() - 1) {
 			firstVisibleItem++;
-			System.out.println("right");
 		}
 			
 	}

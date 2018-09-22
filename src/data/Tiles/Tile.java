@@ -26,7 +26,7 @@ public class Tile {
 		this.frame = frame;
 		this.walkable = walkable;
 		isBlockingTetro = false;
-		img = ImageLoader.loadImage("/res/block" + key + ".png");
+		img = ImageLoader.loadImage("/res/blocks/block" + key + ".png");
 
 	}
 
