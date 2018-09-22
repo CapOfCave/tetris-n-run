@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class SearchAlgorithm {
 
 	public static ArrayList<Point> calcShortestPath(Point start, Point end, boolean[][] tetroWorldHitbox) {
-//		System.out.println("new Path from " + start.x + "|" + start.y + " to "+ end.x + "|" + end.y);
+		// System.out.println("new Path from " + start.x + "|" + start.y + " to "+ end.x + "|" + end.y);
 		ArrayList<Node> openlist = new ArrayList<>();
 		ArrayList<Node> closedlist = new ArrayList<>();
 
@@ -21,6 +21,8 @@ public class SearchAlgorithm {
 		}
 		openlist.add(0, grid[start.x][start.y]);
 
+		grid[start.x][start.y].h = heuristic(grid[start.x][start.y], end);
+
 		do {
 			int lowestIndex = 0;
 			for (int i = 0; i < openlist.size(); i++) {
@@ -30,11 +32,10 @@ public class SearchAlgorithm {
 			}
 
 			Node current = openlist.get(lowestIndex);
-			
-			
+
 			if (current.equals(end)) {
 				// TODO done
-//				System.out.println("Found path.");
+				// System.out.println("Found path.");
 				ArrayList<Point> path = new ArrayList<>();
 				Node temp = current;
 				path.add(0, new Point(temp.x, temp.y));
@@ -53,7 +54,8 @@ public class SearchAlgorithm {
 			for (int i = 0; i < neighbors.size(); i++) {
 				Node neighbor = neighbors.get(i);
 				if (!closedlist.contains(neighbor)) {
-					float tempg = current.g + 1;
+					float tempg = current.g + (float) Math
+							.sqrt((current.x - neighbor.x) * (current.x - neighbor.x) + (current.y - neighbor.y) * (current.y - neighbor.y));
 
 					boolean newPath = false;
 					if (openlist.contains(neighbor)) {
@@ -77,30 +79,28 @@ public class SearchAlgorithm {
 		} while (!openlist.isEmpty());
 
 		ArrayList<Point> path = new ArrayList<>();
-		
+
 		int lowestIndex = 0;
-		for (int i = 0; i < openlist.size(); i++) {
-			if (closedlist.get(i).f < closedlist.get(lowestIndex).f) {
+		for (int i = 0; i < closedlist.size(); i++) {
+			if (closedlist.get(i).h < closedlist.get(lowestIndex).h) {
 				lowestIndex = i;
 			}
 		}
-		
+
 		Node temp = closedlist.get(lowestIndex);
 		path.add(0, new Point(temp.x, temp.y));
 		while (temp.previous != null) {
 			path.add(0, new Point(temp.x, temp.y));
 			temp = temp.previous;
 		}
-
 		return path;
-		
-//		System.out.println("no path found from " + start + " to " + end);
+
+		// System.out.println("no path found from " + start + " to " + end);
 	}
 
 	private static float heuristic(Node neighbor, Point end) {
-		// return (float)Math.sqrt((neighbor.x - end.x) * (neighbor.x - end.x) + (neighbor.y - end.y) * (neighbor.y -
-		// end.y));
-		return Math.abs(neighbor.x - end.x) + Math.abs(neighbor.y - end.y);
+		return (float) Math.sqrt((neighbor.x - end.x) * (neighbor.x - end.x) + (neighbor.y - end.y) * (neighbor.y - end.y));
+		// return Math.abs(neighbor.x - end.x) + Math.abs(neighbor.y - end.y);
 	}
 
 	private static class Node {
@@ -126,20 +126,42 @@ public class SearchAlgorithm {
 			if (x > 1) {
 				if (tetroWorldHitbox[y][x - 1])
 					outp.add(grid[x - 1][y]);
+				if (y > 1) {
+					if (tetroWorldHitbox[y - 1][x - 1] && tetroWorldHitbox[y][x - 1] && tetroWorldHitbox[y - 1][x])
+						outp.add(grid[x - 1][y - 1]);
+				}
 			}
 			if (x < grid.length - 2) {
 				if (tetroWorldHitbox[y][x + 1])
 					outp.add(grid[x + 1][y]);
+				if (y < grid[0].length - 2) {
+					if (tetroWorldHitbox[y + 1][x + 1] && tetroWorldHitbox[y][x + 1] && tetroWorldHitbox[y + 1][x])
+						outp.add(grid[x + 1][y + 1]);
+				}
 			}
 			if (y > 1) {
 				if (tetroWorldHitbox[y - 1][x])
 					outp.add(grid[x][y - 1]);
+				if (x < grid.length - 2) {
+					if (tetroWorldHitbox[y - 1][x + 1] && tetroWorldHitbox[y][x + 1] && tetroWorldHitbox[y - 1][x])
+						outp.add(grid[x + 1][y - 1]);
+				}
 			}
 			if (y < grid[0].length - 2) {
 				if (tetroWorldHitbox[y + 1][x])
 					outp.add(grid[x][y + 1]);
+				if (x > 1) {
+					if (tetroWorldHitbox[y + 1][x - 1] && tetroWorldHitbox[y][x - 1] && tetroWorldHitbox[y + 1][x])
+						outp.add(grid[x - 1][y + 1]);
+				}
 			}
+
 			return outp;
+		}
+
+		@Override
+		public String toString() {
+			return "[" + x + "|" + y + "|" + f + "|" + g + "|" + h + "]";
 		}
 
 	}
