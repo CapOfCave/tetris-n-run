@@ -2,53 +2,30 @@ package logics;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
-import data.Tetro;
-import data.Tiles.Tile;
-import logics.entities.Enemy;
 import logics.entities.Entity;
-import logics.entities.Player;
 
 public class EnemySpawner extends Entity {
 
 	private int maxEnemy;
-	private int maxX, maxY;
 	private boolean enemyOnlyOnTetros;
-	private int spawnChance;
+	private double spawnChance;
 	private boolean global = false;
-
-	private Player player;
-	private Camera camera;
-
-	private ArrayList<Tetro> worldTetros;
-	private boolean[][] tetroWorldHitbox;
-	private Tile[][] tileWorld;
-	ArrayList<Enemy> enemies;
 	private int diameter;
+	private int enemyCount = 0;
 
-	public EnemySpawner(int x, int y, int maxEnemy, boolean enemyOnlyOnTetros, int spawnChance, int maxX, int maxY, int blockSize, Camera camera,
-			ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, ArrayList<Enemy> enemies, int diameter) {
-		super(null, blockSize, x, y);
+	public EnemySpawner(World world, int x, int y, int diameter, int maxEnemy, boolean enemyOnlyOnTetros, double d) {
+		super(world, null, x, y);
 
-		this.enemies = enemies;
 		this.maxEnemy = maxEnemy;
-		this.maxX = maxX;
-		this.maxY = maxY;
-		this.camera = camera;
-		this.worldTetros = worldTetros;
-		this.tetroWorldHitbox = tetroWorldHitbox;
-		this.tileWorld = tileWorld;
 		this.enemyOnlyOnTetros = enemyOnlyOnTetros;
-		this.spawnChance = spawnChance;
+		this.spawnChance = d;
 		this.diameter = diameter;
 
 	}
 
-	public EnemySpawner(int maxEnemy, boolean enemyOnlyOnTetros, int spawnChance, int maxX, int maxY, int blockSize, Camera camera,
-			ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, ArrayList<Enemy> enemies) {
-		this(-10, -10, maxEnemy, enemyOnlyOnTetros, spawnChance, maxX, maxY, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, enemies,
-				-1);
+	public EnemySpawner(World world, int maxEnemy, boolean enemyOnlyOnTetros, int spawnChance) {
+		this(world, -10, -10, -1, maxEnemy, enemyOnlyOnTetros, spawnChance);
 		global = true;
 	}
 
@@ -56,13 +33,13 @@ public class EnemySpawner extends Entity {
 
 		if (debugMode) {
 			g.setColor(Color.DARK_GRAY);
-			g.fillRect((int) x / camera.getX(), (int) y / camera.getY(), blockSize, blockSize);
+			g.fillRect((int) (x / world.cameraX()), (int) (y / world.cameraY()), world.blockSize(), world.blockSize());
 		}
 
 	}
 
 	public void tick() {
-		if (Math.random() < spawnChance / 100 && (enemies.size()) < maxEnemy) {
+		if (Math.random() < spawnChance / 100. && enemyCount < maxEnemy) {
 			spawn();
 		}
 
@@ -72,21 +49,20 @@ public class EnemySpawner extends Entity {
 		int xPos;
 		int yPos;
 		if (global) {
-			xPos = random(maxX);
-			yPos = random(maxY);
+			xPos = random(world.getMaxX());
+			yPos = random(world.getMaxY());
 		} else {
 
 			xPos = (int) (x - diameter / 2. + random(diameter));
 			yPos = (int) (y - diameter / 2. + random(diameter));
 		}
-		System.out.println("spawn " + xPos + "|" + yPos + "; " + player + "; " + tileWorld[yPos][xPos].getKey());
-		if (tileWorld[yPos][xPos].getKey() == '0' && player != null) {
-			System.out.println("spawn??aaaaaaaaaddd");
+		if (world.getTileAt(yPos, xPos).isWalkable()) {
+			System.out.println("Spawn2");
 			if (enemyOnlyOnTetros) {
-				if (tetroWorldHitbox[yPos][xPos])
-					enemies.add(new Enemy(xPos* blockSize, yPos * blockSize, 10, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
+				if (world.isTetroAt(yPos, xPos))
+					world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);
 			} else {
-				enemies.add(new Enemy(xPos* blockSize, yPos* blockSize, 10, blockSize, camera, worldTetros, tetroWorldHitbox, tileWorld, player));
+				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);
 			}
 
 		}
@@ -97,8 +73,10 @@ public class EnemySpawner extends Entity {
 		return (int) (Math.random() * max);
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void enemyKilled() {
+		enemyCount--;
+		if (enemyCount < 0) {
+			System.out.println("Fehler @EnemySpawner#enemyKilled");
+		}
 	}
-
 }

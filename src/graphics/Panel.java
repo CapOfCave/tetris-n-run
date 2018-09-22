@@ -49,7 +49,7 @@ public class Panel extends JPanel implements Playable {
 			tetroDrawPositions.add(new Point(972, i * 85 + 40));
 		}
 
-		inHandHandler = new InHandHandler(tetroTypes, tetroDrawPositions, blockSize, gamePanel, world);
+		inHandHandler = new InHandHandler(world, tetroDrawPositions);
 		mouseHandler = new MouseHandler(inHandHandler, world);
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);

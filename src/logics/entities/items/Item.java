@@ -3,11 +3,15 @@ package logics.entities.items;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import logics.World;
+
 public class Item {
 
-	public BufferedImage previewImg;
+	protected World world;
+	private BufferedImage previewImg;
 	
-	public Item(BufferedImage previewImg) {
+	public Item(World world, BufferedImage previewImg) {
+		this.world = world;
 		this.previewImg = previewImg;
 	}
 	

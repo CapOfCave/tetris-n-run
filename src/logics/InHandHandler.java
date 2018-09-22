@@ -3,7 +3,6 @@ package logics;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import data.TetroType;
@@ -21,19 +20,12 @@ public class InHandHandler {
 	private int offset_x;
 	private int offset_y;
 
-	public ArrayList<TetroType> tetroTypes;
-	public ArrayList<Point> tetroOffsets;
-	private int blockSize;
-	private Rectangle gameBounds;
-
 	private World world;
+	private ArrayList<Point> tetroTypeOffsets;
 
-	public InHandHandler(ArrayList<TetroType> tetroTypes, ArrayList<Point> tetroDrawPositions, int blockSize, Rectangle gameBounds, World world) {
-		this.tetroTypes = tetroTypes;
-		this.tetroOffsets = tetroDrawPositions;
-		this.blockSize = blockSize;
+	public InHandHandler(World world, ArrayList<Point> tetroTypeOffsets) {
 		this.world = world;
-		this.gameBounds = gameBounds;
+		this.tetroTypeOffsets = tetroTypeOffsets;
 	}
 
 	public boolean setInHand(int x, int y) {
@@ -60,14 +52,14 @@ public class InHandHandler {
 		rotation = (rotation + 1) % 4;
 		int offset_x_alt = offset_x;
 		offset_x = offset_y;
-		offset_y = (rotation % 2 + 1) * 2 * blockSize - offset_x_alt;
+		offset_y = (rotation % 2 + 1) * 2 * world.blockSize() - offset_x_alt;
 	}
 
 	public void placeInHand() {
 		if (tetroInHand != null) {
 			TetroType t = tetroInHand;
 			tetroInHand = null;
-			world.addTetro(t, (mouse_x - offset_x) - gameBounds.x, (mouse_y - offset_y) - gameBounds.y, rotation);
+			world.addTetro(t, (mouse_x - offset_x) - world.getGameBoundsX(), (mouse_y - offset_y) - world.getGameBoundsY(), rotation);
 			
 		}
 	}
@@ -93,10 +85,10 @@ public class InHandHandler {
 	private TetroType getTetroTypeAt(int x, int y) {
 
 		TetroType tetroApproximation = null;
-		for (int i = 0; i < tetroOffsets.size(); i++) {
-			Point p = tetroOffsets.get(i);
-			if (x > p.x && x < p.x + 4 * blockSize && y > p.y && y < p.y + 2 * blockSize) {
-				tetroApproximation = tetroTypes.get(i);
+		for (int i = 0; i < world.getTetroTypeCount(); i++) {
+			Point p = tetroTypeOffsets.get(i);
+			if (x > p.x && x < p.x + 4 * world.blockSize() && y > p.y && y < p.y + 2 * world.blockSize()) {
+				tetroApproximation = world.getTetroType(i);
 				offset_x = x - p.x;
 				offset_y = y - p.y;
 				rotation = 0;
@@ -104,8 +96,8 @@ public class InHandHandler {
 			}
 		}
 
-		if (tetroApproximation == null && x > mouse_x - offset_x && x < mouse_x - offset_x + 4 * blockSize && y > mouse_y - offset_y
-				&& y < mouse_y - offset_y + 2 * blockSize) {
+		if (tetroApproximation == null && x > mouse_x - offset_x && x < mouse_x - offset_x + 4 * world.blockSize() && y > mouse_y - offset_y
+				&& y < mouse_y - offset_y + 2 * world.blockSize()) {
 			tetroApproximation = tetroInHand;
 			offset_x = x - (mouse_x - offset_x);
 			offset_y = y - (mouse_y - offset_y);

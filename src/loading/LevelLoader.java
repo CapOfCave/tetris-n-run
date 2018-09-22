@@ -14,7 +14,6 @@ import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
 
-
 /**
  * @author Lars Created on 13.08.2018
  */
@@ -26,7 +25,7 @@ public class LevelLoader {
 		ArrayList<TetroType> tetroTypes;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
-		
+
 		int worldlength = 0;
 		int playerX = 0;
 		int playerY = 0;
@@ -94,8 +93,8 @@ public class LevelLoader {
 				world.add(strTemp);
 				worldlength = Math.max(worldlength, strTemp.length());
 			}
-			
-			//TODO: ItemWorld erstellen (Item[][])
+
+			// TODO: ItemWorld erstellen (Item[][])
 		}
 		sc.close();
 		Tile[][] arrWorld = new Tile[world.size()][worldlength];
@@ -107,9 +106,12 @@ public class LevelLoader {
 
 				if (Character.isLowerCase(tileChar)) {
 					arrWorld[j][i] = new LevelGuiTile(worldString.charAt(i), i, j, frame);
-				} else if (tileChar == '1'){
+				} else if (tileChar == '1') {
 					arrWorld[j][i] = new WallTile(worldString.charAt(i), i, j, frame);
+				} else if (tileChar == '0'){
+					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j, false, frame);
 				} else {
+					System.out.println("Unbekanntes Tile bei (" + i + "|" + j + ")");
 					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j, false, frame);
 				}
 
@@ -118,9 +120,9 @@ public class LevelLoader {
 
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
-			
-			//TODO: null ersetzen
-			return new Level(tetroTypes, rawTetros, arrWorld, null,  blockSize, tetrofileUrl, playerX * blockSize, playerY * blockSize);
+
+			// TODO: null ersetzen
+			return new Level(tetroTypes, rawTetros, arrWorld, null, blockSize, tetrofileUrl, playerX * blockSize, playerY * blockSize);
 		} else {
 			System.out.println("Levelerstellung nicht erfolgreich. Keine Tetros");
 			System.exit(1);

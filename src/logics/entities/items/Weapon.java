@@ -1,4 +1,4 @@
-package data;
+package logics.entities.items;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,8 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import logics.entities.Player;
-import logics.entities.items.Item;
+import logics.World;
 
 /**
  * @author Lars Created on 16.09.2018
@@ -19,10 +18,8 @@ public class Weapon extends Item {
 	private BufferedImage imgHit;
 	private Point imgOffset;
 	private Point imgHitOffset;
-	private int blockSize;
 	private int hitTicks = 0;
 	private int damage;
-	private Player player;
 
 	// Hitbox
 	private double hitWidth;
@@ -31,27 +28,25 @@ public class Weapon extends Item {
 
 	public static double tmpx, tmpy;
 
-	public Weapon(int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth,
-			double theta, double range, Player player) {
-		super(img);
+	public Weapon(World world, int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, double hitWidth,
+			double theta, double range) {
+		super(world, imgHit);
 		this.img = img;
 		this.imgHit = imgHit;
 		this.imgOffset = imgOffset;
 		this.imgHitOffset = imgHitOffset;
-		this.blockSize = blockSize;
 		this.hitWidth = hitWidth;
 		this.theta = theta;
 		this.range = range;
 		this.damage = damage;
-		this.player = player;
 	}
 
 	public void draw(Graphics g, Graphics2D g2d, int x, int y, boolean debugMode) {
 		if (hitTicks != 0) {
-			g2d.drawImage(imgHit, x + imgHitOffset.x, y + imgHitOffset.y, blockSize, blockSize, null);
+			g2d.drawImage(imgHit, x + imgHitOffset.x, y + imgHitOffset.y, world.blockSize(), world.blockSize(), null);
 			hitTicks--;
 		} else {
-			g2d.drawImage(img, x + imgOffset.x, y + imgOffset.y, blockSize, blockSize, null);
+			g2d.drawImage(img, x + imgOffset.x, y + imgOffset.y, world.blockSize(), world.blockSize(), null);
 		}
 
 		if (debugMode) {
@@ -60,33 +55,31 @@ public class Weapon extends Item {
 
 	}
 
-	public void equip() {
-		if (player != null) {
-			player.setWeapon(this);
-		}
-	}
+//	public void equip() {
+//		player.setWeapon(this);
+//	}
 
 	@Override
 	public void collectingEvent() {
-		player.addToInventory(this, 0);
+		world.getPlayer().addToInventory(this, 0);
 	}
 	
 	@Override
 	public void onClickInInventoryEnvent() {
-		equip();
+		world.getPlayer().setWeapon(this);
 	}
 
 	private void drawDebug(Graphics g, int x, int y) {
-		Rectangle rect = new Rectangle((int) (x + blockSize / 2 - range), (int) (y + blockSize / 2 - range), (int) (2 * range), (int) (2 * range));
+		Rectangle rect = new Rectangle((int) (x + world.blockSize() / 2 - range), (int) (y + world.blockSize() / 2 - range), (int) (2 * range), (int) (2 * range));
 		g.setColor(Color.RED);
 		g.drawArc(rect.x, rect.y, rect.width, rect.height, (int) (-theta / 2), (int) (theta));
 
-		g.drawLine(x + blockSize / 2, (int) (y + blockSize / 2 - hitWidth), x + blockSize / 2, (int) (y + blockSize / 2 + hitWidth));
+		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 - hitWidth), x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 + hitWidth));
 
-		g.drawLine(x + blockSize / 2, (int) (y + blockSize / 2 - hitWidth), (int) (x + blockSize / 2 + range * Math.cos(Math.toRadians(theta / 2))),
-				(int) (y + blockSize / 2 - range * Math.sin(Math.toRadians(theta / 2))));
-		g.drawLine(x + blockSize / 2, (int) (y + blockSize / 2 + hitWidth), (int) (x + blockSize / 2 + range * Math.cos(Math.toRadians(theta / 2))),
-				(int) (y + blockSize / 2 + range * Math.sin(Math.toRadians(theta / 2))));
+		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 - hitWidth), (int) (x + world.blockSize() / 2 + range * Math.cos(Math.toRadians(theta / 2))),
+				(int) (y + world.blockSize() / 2 - range * Math.sin(Math.toRadians(theta / 2))));
+		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 + hitWidth), (int) (x + world.blockSize() / 2 + range * Math.cos(Math.toRadians(theta / 2))),
+				(int) (y + world.blockSize() / 2 + range * Math.sin(Math.toRadians(theta / 2))));
 		g.setColor(Color.RED);
 
 	}
@@ -96,7 +89,7 @@ public class Weapon extends Item {
 	}
 
 	public boolean isInRange(double x, double y, double angleDeg, Rectangle eBounds) {
-		int halfBlockSize = blockSize / 2;
+		int halfBlockSize = world.blockSize() / 2;
 		double nullx = x + halfBlockSize;
 		double nully = y + halfBlockSize;
 
@@ -184,7 +177,4 @@ public class Weapon extends Item {
 		return damage;
 	}
 
-	public void getPlayer(Player player) {
-		this.player = player;
-	}
 }

@@ -2,19 +2,13 @@ package logics.entities;
 
 import java.awt.image.BufferedImage;
 
-import data.Tiles.Tile;
-import logics.Camera;
+import logics.World;
 
 
 /**
  * @author Lars Created on 18.09.2018
  */
 public abstract class MovingEntity extends Entity {
-
-	protected double maxX, maxY;
-	protected boolean[][] tetroWorldHitbox;
-	protected Tile[][] tileWorld;
-	
 
 	protected double lastX, lastY;
 	protected double hSpeed;
@@ -25,7 +19,6 @@ public abstract class MovingEntity extends Entity {
 	protected double brake;
 	protected double maxSpeed;
 
-	protected Camera camera;
 	protected boolean wantsToGoUp = false;
 	protected boolean wantsToGoDown = false;
 	protected boolean wantsToGoLeft = false;
@@ -33,24 +26,16 @@ public abstract class MovingEntity extends Entity {
 
 	protected double edgeTolerancePercentage = 25;
 
-	public MovingEntity(BufferedImage img, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld) {
-		super(img, blockSize);
-		this.camera = camera;
-		this.tetroWorldHitbox = tetroWorldHitbox;
-		this.tileWorld = tileWorld;
+	public MovingEntity(World world, BufferedImage img) {
+		super(world, img);
+		this.world = world;
 
-		maxX = (tileWorld[0].length * blockSize);
-		maxY = (tileWorld.length * blockSize);
+
 	}
 
-	public MovingEntity(BufferedImage img, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, int x, int y) {
-		super(img, blockSize, x, y);
-		this.camera = camera;
-		this.tetroWorldHitbox = tetroWorldHitbox;
-		this.tileWorld = tileWorld;
+	public MovingEntity(World world, BufferedImage img, int x, int y) {
+		super(world, img, x, y);
 
-		maxX = (tileWorld[0].length * blockSize) - blockSize;
-		maxY = (tileWorld.length * blockSize) - blockSize;
 	}
 
 	@Override
@@ -134,8 +119,8 @@ public abstract class MovingEntity extends Entity {
 		// nach oben-movement (TL-TR)
 		if (vSpeed < 0) {
 			// linker edgecut
-			if (!isRelAccessible(-blockSize / 2 + vSpeed, -blockSize / 2)) {
-				if (isRelAccessible(-blockSize / 2 + vSpeed, -blockSize / 2 + edgeTolerancePercentage * blockSize / 100) && !wantsToGoLeft) {
+			if (!isRelAccessible(-world.blockSize() / 2 + vSpeed, -world.blockSize() / 2)) {
+				if (isRelAccessible(-world.blockSize() / 2 + vSpeed, -world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoLeft) {
 					// TODO edgecut
 				} else {
 					vSpeed = 0;
@@ -145,8 +130,8 @@ public abstract class MovingEntity extends Entity {
 			}
 
 			// rechter edgecut
-			if (!isRelAccessible(-blockSize / 2 + vSpeed, blockSize / 2 - 1)) {
-				if (isRelAccessible(-blockSize / 2 + vSpeed, blockSize / 2 - 1 - edgeTolerancePercentage * blockSize / 100) && !wantsToGoRight) {
+			if (!isRelAccessible(-world.blockSize() / 2 + vSpeed, world.blockSize() / 2 - 1)) {
+				if (isRelAccessible(-world.blockSize() / 2 + vSpeed, world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoRight) {
 
 				} else {
 					vSpeed = 0;
@@ -156,16 +141,16 @@ public abstract class MovingEntity extends Entity {
 		}
 		// nach unten-movement (BL-BR)
 		if (vSpeed > 0) {
-			if (!isRelAccessible(blockSize / 2 - 1 + vSpeed, -blockSize / 2)) {
-				if (isRelAccessible(blockSize / 2 - 1 + vSpeed, -blockSize / 2 + edgeTolerancePercentage * blockSize / 100) && !wantsToGoLeft) {
+			if (!isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, -world.blockSize() / 2)) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, -world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoLeft) {
 
 				} else {
 					vSpeed = 0;
 					move_contact_solid(2);
 				}
 			}
-			if (!isRelAccessible(blockSize / 2 - 1 + vSpeed, blockSize / 2 - 1)) {
-				if (isRelAccessible(blockSize / 2 - 1 + vSpeed, blockSize / 2 - 1 - edgeTolerancePercentage * blockSize / 100) && !wantsToGoRight) {
+			if (!isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, world.blockSize() / 2 - 1)) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoRight) {
 
 				} else {
 					vSpeed = 0;
@@ -178,16 +163,16 @@ public abstract class MovingEntity extends Entity {
 		// Horizontal
 		// nach links-movement (TL-BL)
 		if (hSpeed < 0) {
-			if (!isRelAccessible(-blockSize / 2, -blockSize / 2 + hSpeed)) {
-				if (isRelAccessible(-blockSize / 2 + edgeTolerancePercentage * blockSize / 100, -blockSize / 2 + hSpeed) && !wantsToGoUp) {
+			if (!isRelAccessible(-world.blockSize() / 2, -world.blockSize() / 2 + hSpeed)) {
+				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100, -world.blockSize() / 2 + hSpeed) && !wantsToGoUp) {
 
 				} else {
 					hSpeed = 0;
 					move_contact_solid(3);
 				}
 			}
-			if (!isRelAccessible(blockSize / 2 - 1, -blockSize / 2 + hSpeed)) {
-				if (isRelAccessible(blockSize / 2 - 1 - edgeTolerancePercentage * blockSize / 100, -blockSize / 2 + hSpeed) && !wantsToGoDown) {
+			if (!isRelAccessible(world.blockSize() / 2 - 1, -world.blockSize() / 2 + hSpeed)) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100, -world.blockSize() / 2 + hSpeed) && !wantsToGoDown) {
 
 				} else {
 					hSpeed = 0;
@@ -200,16 +185,16 @@ public abstract class MovingEntity extends Entity {
 
 		// nach rechts-movement (TR-BR)
 		if (hSpeed > 0) {
-			if (!isRelAccessible(-blockSize / 2, blockSize / 2 - 1 + hSpeed)) {
-				if (isRelAccessible(-blockSize / 2 + edgeTolerancePercentage * blockSize / 100, blockSize / 2 - 1 + hSpeed) && !wantsToGoUp) {
+			if (!isRelAccessible(-world.blockSize() / 2, world.blockSize() / 2 - 1 + hSpeed)) {
+				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100, world.blockSize() / 2 - 1 + hSpeed) && !wantsToGoUp) {
 
 				} else {
 					hSpeed = 0;
 					move_contact_solid(1);
 				}
 			}
-			if (!isRelAccessible(blockSize / 2 - 1, blockSize / 2 - 1 + hSpeed)) {
-				if (isRelAccessible(blockSize / 2 - 1 - edgeTolerancePercentage * blockSize / 100, blockSize / 2 - 1 + hSpeed) && !wantsToGoDown) {
+			if (!isRelAccessible(world.blockSize() / 2 - 1, world.blockSize() / 2 - 1 + hSpeed)) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100, world.blockSize() / 2 - 1 + hSpeed) && !wantsToGoDown) {
 
 				} else {
 					hSpeed = 0;
@@ -252,43 +237,43 @@ public abstract class MovingEntity extends Entity {
 	private void move_contact_solid(int i) {
 		switch (i) {
 		case 0:
-			y = getTileY() * blockSize;
+			y = getTileY() * world.blockSize();
 			break;
 		case 1:
-			x = getTileX() * blockSize;
+			x = getTileX() * world.blockSize();
 			break;
 		case 2:
-			y = getTileY() * blockSize;
+			y = getTileY() * world.blockSize();
 			break;
 		case 3:
-			x = getTileX() * blockSize;
+			x = getTileX() * world.blockSize();
 			break;
 		}
 
 	}
 
 	private int getTileX(double dx) {
-		return (int) ((x + dx + blockSize / 2) / blockSize);
+		return (int) ((x + dx + world.blockSize() / 2) / world.blockSize());
 	}
 
 	private int getTileY(double dy) {
-		return (int) ((y + dy + blockSize / 2) / blockSize);
+		return (int) ((y + dy + world.blockSize() / 2) / world.blockSize());
 	}
 
 	public int getTileX() {
-		return (int) ((x + blockSize / 2) / blockSize);
+		return (int) ((x + world.blockSize() / 2) / world.blockSize());
 	}
 
 	public int getTileY() {
-		return (int) ((y + blockSize / 2) / blockSize);
+		return (int) ((y + world.blockSize() / 2) / world.blockSize());
 	}
 
 	private boolean isRelAccessible(double dy, double dx) {
 
-		if ((x + blockSize / 2 + dx) >= maxX || (y + blockSize / 2 + dy) >= maxY || (x + blockSize / 2 + dx) < 0 || (y + blockSize / 2 + dy) < 0) {
+		if ((x + world.blockSize() / 2 + dx) >= world.getMaxX() || (y + world.blockSize() / 2 + dy) >= world.getMaxY() || (x + world.blockSize() / 2 + dx) < 0 || (y + world.blockSize() / 2 + dy) < 0) {
 			return false;
 		}
 
-		return tetroWorldHitbox[getTileY(dy)][getTileX(dx)];
+		return world.isTetroAt(getTileY(dy),getTileX(dx)) || world.getTileAt(getTileY(dy),getTileX(dx)).isWalkable();
 	}
 }
