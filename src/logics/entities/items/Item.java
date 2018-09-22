@@ -19,4 +19,9 @@ public class Item {
 		System.out.println(previewImg);
 		
 	}
+
+	public void collectingEvent() {
+		// TODO Auto-generated method stub
+		
+	}
 }

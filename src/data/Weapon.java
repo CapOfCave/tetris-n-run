@@ -67,6 +67,11 @@ public class Weapon extends Item {
 	}
 
 	@Override
+	public void collectingEvent() {
+		player.addToInventory(this, 0);
+	}
+	
+	@Override
 	public void onClickInInventoryEnvent() {
 		equip();
 	}

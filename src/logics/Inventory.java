@@ -49,6 +49,11 @@ public class Inventory {
 		items.add(item);
 			
 	}
+	
+	public void addItem(int position, Item item) {
+		items.add(position, item);
+			
+	}
 
 	public void click(int x, int y) {
 		

@@ -17,6 +17,7 @@ import loading.LevelSaver;
 import logics.entities.Enemy;
 import logics.entities.Entity;
 import logics.entities.Player;
+import logics.entities.items.Item;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -42,6 +43,7 @@ public class World {
 
 	// Halten die Weltinformationen
 	protected Tile[][] tileWorld;
+	protected Item[][] itemWorld;
 	protected ArrayList<Tetro> tetros;
 	protected boolean[][] tetroWorldHitbox;
 	protected ArrayList<TetroType> tetroTypes;
@@ -58,7 +60,8 @@ public class World {
 		tetros = new ArrayList<>();
 		entities = new ArrayList<>();
 		enemies = new ArrayList<>();
-		tileWorld = level.getArrWorld(); // [columns][rows] //[y][x]
+		tileWorld = level.getArrWorld();
+		itemWorld = level.getItemWorld(); 
 
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
 		for (int i = 0; i < tetroWorldHitbox.length; i++) {
@@ -73,9 +76,15 @@ public class World {
 		camera = new Camera(level.getPlayerX() * blockSize, level.getPlayerY() * blockSize,
 				tileWorld.length * blockSize - (int) graphicClip.getHeight(), tileWorld[0].length * blockSize - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
+
+		
+		
+
 		enemySpawner = new EnemySpawner(10, 10, 2, true, 100, ((tileWorld[0].length) * blockSize) - blockSize * 2,
 				(tileWorld.length * blockSize) - blockSize * 2, blockSize, camera, tetros, tetroWorldHitbox, tileWorld, enemies, 3);
-		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, enemies, level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
+		
+		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, enemies, level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld, itemWorld);
+
 		enemySpawner.setPlayer(player);
 		entities.add(enemySpawner);
 
@@ -238,7 +247,7 @@ public class World {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, blockSize, tetroFileURL, player.getTileX(), player.getTileY());
+		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, itemWorld, blockSize, tetroFileURL, player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path);
 
