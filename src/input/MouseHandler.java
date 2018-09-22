@@ -67,6 +67,15 @@ public class MouseHandler implements MouseInputListener {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		
+		int x = e.getX();
+		int y = e.getY();
+		
+		// klick in Inventory
+		if(x >= 20 && x <= 1280 && y >= 641 && y <= 830) {
+			
+			world.inventoryClick(x, y);
+		}
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package logics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -11,11 +10,9 @@ import data.Level;
 import data.RawTetro;
 import data.Tetro;
 import data.TetroType;
-import data.Weapon;
 import data.Tiles.Tile;
 import graphics.Frame;
 import input.KeyHandler;
-import loading.ImageLoader;
 import loading.LevelSaver;
 import logics.entities.Player;
 
@@ -71,7 +68,7 @@ public class World {
 		camera = new Camera(level.getPlayerX() * blockSize, level.getPlayerY() * blockSize,
 				tileWorld.length * blockSize - (int) graphicClip.getHeight(), tileWorld[0].length * blockSize - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
-		enemySpawner = new EnemySpawner(5, ((tileWorld[0].length ) * blockSize) - blockSize*2, (tileWorld.length  * blockSize) - blockSize*2, blockSize, camera, tetros, tetroWorldHitbox, tileWorld);
+		enemySpawner = new EnemySpawner(2,true, 20, ((tileWorld[0].length ) * blockSize) - blockSize*2, (tileWorld.length  * blockSize) - blockSize*2, blockSize, camera, tetros, tetroWorldHitbox, tileWorld);
 		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, enemySpawner.getEnemyList(),  level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
 		enemySpawner.setPlayer(player);
 
@@ -165,8 +162,8 @@ public class World {
 		tetros.add(tetro);
 		addTetroToHitbox(tetro, placeX, placeY, rotation);
 
-		player.setWeapon(new Weapon(20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
-				new Point(30, 5), blockSize, 0, 30, 45));
+		//player.setWeapon(new Weapon(20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
+				//new Point(30, 5), blockSize, 0, 30, 45));
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {
@@ -208,7 +205,12 @@ public class World {
 		player.draw(g, interpolation, debugMode);
 
 	}
+	
+	public void drawInventory(Graphics2D g) {
+		player.drawInventory(g);
+	}
 
+	
 	public void save(String path) {
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		for (Tetro t : tetros) {
@@ -228,5 +230,12 @@ public class World {
 	public Player getPlayer() {
 		return player;
 	}
+
+	public void inventoryClick(int x, int y) {
+		player.inventoryClick(x, y);
+		
+	}
+	
+	
 
 }

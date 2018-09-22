@@ -7,10 +7,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import logics.Item;
+import logics.entities.Player;
+
 /**
  * @author Lars Created on 16.09.2018
  */
-public class Weapon {
+public class Weapon extends Item{
 
 	private BufferedImage img;
 	private BufferedImage imgHit;
@@ -19,6 +22,7 @@ public class Weapon {
 	private int blockSize;
 	private int hitTicks = 0;
 	private int damage;
+	private Player player;
 
 	// Hitbox
 	private double hitWidth;
@@ -28,7 +32,8 @@ public class Weapon {
 	public static double tmpx, tmpy;
 
 	public Weapon(int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth,
-			double theta, double range) {
+			double theta, double range, Player player) {
+		super(img);
 		this.img = img;
 		this.imgHit = imgHit;
 		this.imgOffset = imgOffset;
@@ -38,6 +43,7 @@ public class Weapon {
 		this.theta = theta;
 		this.range = range;
 		this.damage = damage;
+		this.player = player;
 	}
 
 	public void draw(Graphics g, Graphics2D g2d, int x, int y, boolean debugMode) {
@@ -52,6 +58,17 @@ public class Weapon {
 			drawDebug(g2d, x, y);
 		}
 
+	}
+	
+	public void equip() {
+		if(player != null) {
+			player.setWeapon(this);
+		}
+	}
+	
+	@Override
+	public void onClickInInventoryEnvent() {
+		equip();
 	}
 
 	private void drawDebug(Graphics g, int x, int y) {
@@ -160,5 +177,9 @@ public class Weapon {
 
 	public int getDamage() {
 		return damage;
+	}
+	
+	public void getPlayer(Player player) {
+		this.player = player;
 	}
 }

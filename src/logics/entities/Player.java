@@ -3,6 +3,7 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -12,6 +13,8 @@ import data.Tiles.Tile;
 import input.KeyHandler;
 import loading.ImageLoader;
 import logics.Camera;
+import logics.Inventory;
+import logics.Item;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -21,13 +24,22 @@ public class Player extends MovingEntity {
 	private KeyHandler keyHandler;
 
 	private ArrayList<Enemy> enemies;
-	private Weapon weapon;
+	private Inventory inventory;
+	private Weapon activWeapon;
 
 	public Player(int blockSize, Camera camera, boolean[][] tetroWorldHitbox, ArrayList<Enemy> enemies, KeyHandler keyHandler, Tile[][] tileWorld) {
 		super(ImageLoader.loadImage("/res/character.png"), blockSize, camera, tetroWorldHitbox, tileWorld);
 		this.keyHandler = keyHandler;
 		this.enemies = enemies;
+		inventory = new Inventory();
 
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocka.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockb.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockc.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockd.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocke.png")));
+		inventory.addItem(new Weapon(20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
+				new Point(30, 5), blockSize, 0, 30, 45, this));
 		acc = 0.8;
 		brake = 4;
 		maxSpeed = 9;
@@ -55,8 +67,11 @@ public class Player extends MovingEntity {
 		// g2d.drawImage(img, (int) (interpolX) - camera.getX(), (int) (interpolY) - camera.getY(), blockSize,
 		// blockSize, null);
 		g2d.drawImage(img, -blockSize / 2, -blockSize / 2, blockSize, blockSize, null);
-		if (weapon != null)
-			weapon.draw(g, g2d, -blockSize / 2, -blockSize / 2, debugMode);
+
+		if (activWeapon != null)
+			
+			activWeapon.draw(g, g2d, - blockSize / 2, - blockSize / 2, debugMode);
+
 		g2d.dispose();
 
 		if (debugMode) {
@@ -87,15 +102,20 @@ public class Player extends MovingEntity {
 		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
 		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
 
+
+
+		
 		// if (weapon != null)
 		// for (int dx = -300; dx <= 300; dx++) {
 		// for (int dy = -100; dy <= 100; dy++) {
-		// if (weapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
-		// new Rectangle((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1))) {
-		// g.drawOval((int) (x - camera.getX() + dx), (int) (y - camera.getY() + dy), 1, 1);
+		// if (weapon.isInRange(interpolX - camera.getX(), interpolY - camera.getY(),
+		// new Rectangle((int) (interpolX - camera.getX() + dx), (int) (interpolY - camera.getY() + dy), 0, 0))) {
+		// g.drawOval((int) (interpolX - camera.getX() + dx), (int) (interpolY - camera.getY() + dy), 1, 1);
 		// }
 		// }
 		// }
+
+
 	}
 
 	@Override
@@ -117,12 +137,15 @@ public class Player extends MovingEntity {
 	}
 
 	public void hit() {
-		if (weapon != null) {
-			weapon.hit();
+		if (activWeapon != null) {
+			activWeapon.hit();
 			for (Enemy enemy : enemies) {
-				if (weapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
+
+			
+				if (activWeapon.isInRange(x - camera.getX(), y - camera.getY(), rotation,
+
 						new Rectangle((int) enemy.getX() - camera.getX(), (int) enemy.getY() - camera.getY(), blockSize, blockSize))) {
-					enemy.applyDamage(weapon);
+					enemy.applyDamage(activWeapon);
 				}
 			}
 		}
@@ -136,7 +159,18 @@ public class Player extends MovingEntity {
 	}
 
 	public void setWeapon(Weapon weapon) {
-		this.weapon = weapon;
+		this.activWeapon = weapon;
+	}
+
+	public void drawInventory(Graphics2D g) {
+		inventory.draw(g);
+		
+	}
+
+
+	public void inventoryClick(int x, int y) {
+		inventory.click(x, y);
+		
 	}
 
 }
