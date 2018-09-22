@@ -94,7 +94,7 @@ public class Enemy extends MovingEntity {
 	}
 
 	public void aktionInAktiveMode() {
-
+		
 	}
 
 	public void aktionInPassiveMode() {
@@ -112,38 +112,15 @@ public class Enemy extends MovingEntity {
 			return;
 		}
 		// System.out.println(path.get(0).x * blockSize + ": " + x + "; " + path.get(0).y * blockSize + ": " + y);
-		if (Math.abs(path.get(0).x * blockSize - x) < 1 && Math.abs(path.get(0).y * blockSize - y) < 1) {
+		if (Math.abs(path.get(0).x * blockSize - x) < 0.9 && Math.abs(path.get(0).y * blockSize - y) < 0.9) {
 			path.remove(0);
 		}
 		if (!path.isEmpty()) {
-			wantsToGoUp = y - path.get(0).y * blockSize > 0.1;
-			wantsToGoDown = y - path.get(0).y * blockSize < 0.1;
-			wantsToGoLeft = x - path.get(0).x * blockSize > 0.1;
-			wantsToGoRight = x - path.get(0).x * blockSize < 0.1;
+			wantsToGoUp = y - path.get(0).y * blockSize > 0.01;
+			wantsToGoDown = y - path.get(0).y * blockSize < 0.01;
+			wantsToGoLeft = x - path.get(0).x * blockSize > 0.01;
+			wantsToGoRight = x - path.get(0).x * blockSize < 0.01;
 		}
-		// if ((x - 5) <= player.getX() && (x + 5) >= player.getX() && (y - 5) <= player.getY() && (y + 5) >=
-		// player.getY()) {
-		// isAktive = true;
-		// } else {
-		// if (random(10) == 0) {
-		// wantsToGoDown = true;
-		// wantsToGoUp = false;
-		//
-		// } else if (random(10) == 0) {
-		// wantsToGoDown = false;
-		// wantsToGoUp = true;
-		// }
-		//
-		// if (random(10) == 0) {
-		// wantsToGoRight = true;
-		// wantsToGoLeft = false;
-		//
-		// } else if (random(10) == 0) {
-		// wantsToGoRight = false;
-		// wantsToGoLeft = true;
-		// }
-		//
-		// }
 
 	}
 

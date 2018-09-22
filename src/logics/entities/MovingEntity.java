@@ -29,14 +29,16 @@ public abstract class MovingEntity extends Entity {
 	protected boolean wantsToGoLeft = false;
 	protected boolean wantsToGoRight = false;
 
+	protected double edgeTolerancePercentage = 25;
+
 	public MovingEntity(BufferedImage img, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld) {
 		super(img, blockSize);
 		this.camera = camera;
 		this.tetroWorldHitbox = tetroWorldHitbox;
 		this.tileWorld = tileWorld;
 
-		maxX = (tileWorld[0].length * blockSize) - blockSize;
-		maxY = (tileWorld.length * blockSize) - blockSize;
+		maxX = (tileWorld[0].length * blockSize);
+		maxY = (tileWorld.length * blockSize);
 	}
 
 	public MovingEntity(BufferedImage img, int blockSize, Camera camera, boolean[][] tetroWorldHitbox, Tile[][] tileWorld, int x, int y) {
@@ -56,9 +58,20 @@ public abstract class MovingEntity extends Entity {
 	}
 
 	protected void move() {
-		// Beginn der Bewegung
+		accelerate();
 
-		// Rechts-Links-Movement
+		checkCollisions();
+
+		checkMaxSpeed();
+
+		updateRotation();
+
+		x += hSpeed;
+		y += vSpeed;
+
+	}
+
+	private void accelerate() {
 		double abs_hSpeed = Math.abs(hSpeed);
 		if (wantsToGoLeft && !wantsToGoRight) {
 			hSpeed -= acc;
@@ -102,33 +115,9 @@ public abstract class MovingEntity extends Entity {
 			vSpeed = 0;
 		}
 
-		// Vertikal
-		// nach oben-movement (TL-TR)
-		if (vSpeed < 0)
-			if (!isRelAccessible(-blockSize / 2 + vSpeed, -blockSize / 2) || !isRelAccessible(-blockSize / 2 + vSpeed, blockSize / 2 - 1)) {
-				vSpeed = 0;
-				move_contact_solid(0);
-			}
-		// nach unten-movement (BL-BR)
-		if (vSpeed > 0)
-			if (!isRelAccessible(blockSize / 2 - 1 + vSpeed, -blockSize / 2) || !isRelAccessible(blockSize / 2 - 1 + vSpeed, blockSize / 2 - 1)) {
-				vSpeed = 0;
-				move_contact_solid(2);
-			}
-		// Horizontal
-		// nach links-movement (TL-BL)
-		if (hSpeed < 0)
-			if (!isRelAccessible(-blockSize / 2, -blockSize / 2 + hSpeed) || !isRelAccessible(blockSize / 2 - 1, -blockSize / 2 + hSpeed)) {
-				hSpeed = 0;
-				move_contact_solid(3);
-			}
-		// nach rechts-movement (TR-BR)
-		if (hSpeed > 0)
-			if (!isRelAccessible(-blockSize / 2, blockSize / 2 - 1 + hSpeed) || !isRelAccessible(blockSize / 2 - 1, blockSize / 2 - 1 + hSpeed)) {
-				hSpeed = 0;
-				move_contact_solid(1);
-			}
+	}
 
+	private void checkMaxSpeed() {
 		double gesSpeed = Math.sqrt(hSpeed * hSpeed + vSpeed * vSpeed);
 		if (gesSpeed > maxSpeed) {
 			double factor = maxSpeed / gesSpeed;
@@ -136,30 +125,121 @@ public abstract class MovingEntity extends Entity {
 			vSpeed = vSpeed * factor;
 		}
 
+	}
+
+	private void checkCollisions() {
+		// Vertikal
+		// nach oben-movement (TL-TR)
+		if (vSpeed < 0) {
+			// linker edgecut
+			if (!isRelAccessible(-blockSize / 2 + vSpeed, -blockSize / 2)) {
+				if (isRelAccessible(-blockSize / 2 + vSpeed, -blockSize / 2 + edgeTolerancePercentage * blockSize / 100) && !wantsToGoLeft) {
+					// TODO edgecut
+				} else {
+					vSpeed = 0;
+					move_contact_solid(0);
+				}
+
+			}
+
+			// rechter edgecut
+			if (!isRelAccessible(-blockSize / 2 + vSpeed, blockSize / 2 - 1)) {
+				if (isRelAccessible(-blockSize / 2 + vSpeed, blockSize / 2 - 1 - edgeTolerancePercentage * blockSize / 100) && !wantsToGoRight) {
+
+				} else {
+					vSpeed = 0;
+					move_contact_solid(0);
+				}
+			}
+		}
+		// nach unten-movement (BL-BR)
+		if (vSpeed > 0) {
+			if (!isRelAccessible(blockSize / 2 - 1 + vSpeed, -blockSize / 2)) {
+				if (isRelAccessible(blockSize / 2 - 1 + vSpeed, -blockSize / 2 + edgeTolerancePercentage * blockSize / 100) && !wantsToGoLeft) {
+
+				} else {
+					vSpeed = 0;
+					move_contact_solid(2);
+				}
+			}
+			if (!isRelAccessible(blockSize / 2 - 1 + vSpeed, blockSize / 2 - 1)) {
+				if (isRelAccessible(blockSize / 2 - 1 + vSpeed, blockSize / 2 - 1 - edgeTolerancePercentage * blockSize / 100) && !wantsToGoRight) {
+
+				} else {
+					vSpeed = 0;
+					move_contact_solid(2);
+				}
+
+			}
+
+		}
+		// Horizontal
+		// nach links-movement (TL-BL)
+		if (hSpeed < 0) {
+			if (!isRelAccessible(-blockSize / 2, -blockSize / 2 + hSpeed)) {
+				if (isRelAccessible(-blockSize / 2 + edgeTolerancePercentage * blockSize / 100, -blockSize / 2 + hSpeed) && !wantsToGoUp) {
+
+				} else {
+					hSpeed = 0;
+					move_contact_solid(3);
+				}
+			}
+			if (!isRelAccessible(blockSize / 2 - 1, -blockSize / 2 + hSpeed)) {
+				if (isRelAccessible(blockSize / 2 - 1 - edgeTolerancePercentage * blockSize / 100, -blockSize / 2 + hSpeed) && !wantsToGoDown) {
+
+				} else {
+					hSpeed = 0;
+					move_contact_solid(3);
+				}
+
+			}
+
+		}
+
+		// nach rechts-movement (TR-BR)
+		if (hSpeed > 0) {
+			if (!isRelAccessible(-blockSize / 2, blockSize / 2 - 1 + hSpeed)) {
+				if (isRelAccessible(-blockSize / 2 + edgeTolerancePercentage * blockSize / 100, blockSize / 2 - 1 + hSpeed) && !wantsToGoUp) {
+
+				} else {
+					hSpeed = 0;
+					move_contact_solid(1);
+				}
+			}
+			if (!isRelAccessible(blockSize / 2 - 1, blockSize / 2 - 1 + hSpeed)) {
+				if (isRelAccessible(blockSize / 2 - 1 - edgeTolerancePercentage * blockSize / 100, blockSize / 2 - 1 + hSpeed) && !wantsToGoDown) {
+
+				} else {
+					hSpeed = 0;
+					move_contact_solid(1);
+				}
+			}
+		}
+
+	}
+
+	private void updateRotation() {
+
+		// Wenn Gegensätze gedrückt werden
 		if (Math.abs(hSpeed) > Math.abs(vSpeed)) {
 			rotation = -90 * ((int) Math.copySign(1, hSpeed) - 2);
 		} else if (Math.abs(hSpeed) < Math.abs(vSpeed)) {
 			rotation = (int) (90 * (Math.copySign(1, vSpeed) + 1));
 		}
-		updateRotation();
-		x += hSpeed;
-		y += vSpeed;
 
-	}
-
-	private void updateRotation() {
 		if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
-			rotation = 0; //oben
+			rotation = 0; // oben
 		} else if (!wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
-			rotation = 270; //links
+			rotation = 270; // links
 		} else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && !wantsToGoRight) {
-			rotation = 180; //unten
+			rotation = 180; // unten
 		} else if (!wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
-			rotation = 90; //rechts
-		} if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
-			rotation = 315; //oben links
+			rotation = 90; // rechts
+		}
+		if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
+			rotation = 315; // oben links
 		} else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight) {
-			rotation = 225; //unten links
+			rotation = 225; // unten links
 		} else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight) {
 			rotation = 135; // unten rechts
 		} else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
@@ -203,8 +283,7 @@ public abstract class MovingEntity extends Entity {
 
 	private boolean isRelAccessible(double dy, double dx) {
 
-		if ((x + dx) >= maxX || (y + dy) >= maxY || (x + dx) <= 1 || (y + dy) <= 1) {
-
+		if ((x + blockSize / 2 + dx) >= maxX || (y + blockSize / 2 + dy) >= maxY || (x + blockSize / 2 + dx) < 0 || (y + blockSize / 2 + dy) < 0) {
 			return false;
 		}
 

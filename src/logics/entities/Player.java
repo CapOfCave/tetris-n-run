@@ -89,11 +89,19 @@ public class Player extends MovingEntity {
 		g.fillOval((int) (interpolX - camera.getX() + blockSize - 1), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
 		g.fillOval((int) (interpolX - camera.getX()), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
 
+		g.setColor(Color.GREEN);
+		g.fillOval((int) (interpolX + edgeTolerancePercentage * blockSize / 100 - camera.getX()),
+				(int) (interpolY + vSpeed - camera.getY()), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX() + blockSize - 1), (int) (interpolY - camera.getY()), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX() + blockSize - 1), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
+		g.fillOval((int) (interpolX - camera.getX()), (int) (interpolY - camera.getY() + blockSize - 1), 5, 5);
+
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 200, 33);
 		g.setColor(Color.BLACK);
 		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
 		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
+
 
 
 		
@@ -106,6 +114,7 @@ public class Player extends MovingEntity {
 		// }
 		// }
 		// }
+
 
 	}
 
