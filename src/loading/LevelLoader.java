@@ -13,6 +13,7 @@ import data.Tiles.LevelGuiTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
+import logics.Item;
 
 /**
  * @author Lars Created on 13.08.2018
@@ -92,6 +93,8 @@ public class LevelLoader {
 				world.add(strTemp);
 				worldlength = Math.max(worldlength, strTemp.length());
 			}
+			
+			//TODO: ItemWorld erstellen (Item[][])
 		}
 		sc.close();
 		Tile[][] arrWorld = new Tile[world.size()][worldlength];
@@ -114,7 +117,9 @@ public class LevelLoader {
 
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
-			return new Level(tetroTypes, rawTetros, arrWorld, blockSize, tetrofileUrl, playerX * blockSize, playerY * blockSize);
+			
+			//TODO: null ersetzen
+			return new Level(tetroTypes, rawTetros, arrWorld, null,  blockSize, tetrofileUrl, playerX * blockSize, playerY * blockSize);
 		} else {
 			System.out.println("Levelerstellung nicht erfolgreich. Keine Tetros");
 			System.exit(1);

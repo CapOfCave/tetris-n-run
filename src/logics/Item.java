@@ -1,13 +1,17 @@
 package logics;
 
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-public class Item {
+import logics.entities.Entity;
+
+public class Item extends Entity{
 
 	public BufferedImage previewImg;
 	
-	public Item(BufferedImage previewImg) {
+	public Item(BufferedImage previewImg, int blockSize) {
+		super(previewImg, blockSize);
 		this.previewImg = previewImg;
 	}
 	
@@ -16,7 +20,23 @@ public class Item {
 	}
 
 	public void onClickInInventoryEnvent() {
-		System.out.println(previewImg);
+		
+		
+	}
+	
+	public void collectingEvent() {
+		
+	}
+
+	@Override
+	public void draw(Graphics g, float interpolation, boolean debugMode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -33,7 +33,7 @@ public class Weapon extends Item{
 
 	public Weapon(int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, int blockSize, double hitWidth,
 			double theta, double range, Player player) {
-		super(img);
+		super(img, blockSize);
 		this.img = img;
 		this.imgHit = imgHit;
 		this.imgOffset = imgOffset;
@@ -64,6 +64,11 @@ public class Weapon extends Item{
 		if(player != null) {
 			player.setWeapon(this);
 		}
+	}
+	
+	@Override
+	public void collectingEvent() {
+		player.addToInventory(this, 0);
 	}
 	
 	@Override

@@ -26,18 +26,21 @@ public class Player extends MovingEntity {
 	private ArrayList<Enemy> enemies;
 	private Inventory inventory;
 	private Weapon activWeapon;
+	private Item[][] itemWorld;
+	
 
-	public Player(int blockSize, Camera camera, boolean[][] tetroWorldHitbox, ArrayList<Enemy> enemies, KeyHandler keyHandler, Tile[][] tileWorld) {
+	public Player(int blockSize, Camera camera, boolean[][] tetroWorldHitbox, ArrayList<Enemy> enemies, KeyHandler keyHandler, Tile[][] tileWorld, Item[][] itemWorld) {
 		super(ImageLoader.loadImage("/res/character.png"), blockSize, camera, tetroWorldHitbox, tileWorld);
 		this.keyHandler = keyHandler;
 		this.enemies = enemies;
+		this.itemWorld = itemWorld;
 		inventory = new Inventory();
 
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocka.png")));
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockb.png")));
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockc.png")));
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockd.png")));
-		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocke.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocka.png"), blockSize));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockb.png"), blockSize));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockc.png"), blockSize));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockd.png"), blockSize));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocke.png"), blockSize));
 		inventory.addItem(new Weapon(20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
 				new Point(30, 5), blockSize, 0, 30, 45, this));
 		acc = 0.8;
@@ -47,8 +50,8 @@ public class Player extends MovingEntity {
 	}
 
 	public Player(int blockSize, Camera camera, ArrayList<Tetro> worldTetros, boolean[][] tetroWorldHitbox, ArrayList<Enemy> enemies, int playerX,
-			int playerY, KeyHandler keyHandler, Tile[][] tileWorld) {
-		this(blockSize, camera, tetroWorldHitbox, enemies, keyHandler, tileWorld);
+			int playerY, KeyHandler keyHandler, Tile[][] tileWorld, Item[][] itemWorld) {
+		this(blockSize, camera, tetroWorldHitbox, enemies, keyHandler, tileWorld, itemWorld);
 		x = playerX;
 		y = playerY;
 		lastX = x;
@@ -135,6 +138,10 @@ public class Player extends MovingEntity {
 		wantsToGoRight = keyHandler.getD();
 
 	}
+	
+	public void addToInventory(Item item, int position) {
+		inventory.addItem(position, item);
+	}
 
 	public void hit() {
 		if (activWeapon != null) {
@@ -155,6 +162,9 @@ public class Player extends MovingEntity {
 	private void checkTile() {
 
 		tileWorld[getTileY()][getTileX()].eventWhenEntering();
+		if(itemWorld != null) //TODO: löschen
+			if(itemWorld[getTileY()][getTileX()] != null)
+			itemWorld[getTileY()][getTileX()].collectingEvent();
 
 	}
 

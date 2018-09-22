@@ -43,6 +43,7 @@ public class World {
 
 	// Halten die Weltinformationen
 	protected Tile[][] tileWorld;
+	protected Item[][] itemWorld;
 	protected ArrayList<Tetro> tetros;
 	protected boolean[][] tetroWorldHitbox;
 	protected ArrayList<TetroType> tetroTypes;
@@ -57,6 +58,7 @@ public class World {
 		this.tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
 		tileWorld = level.getArrWorld(); // [columns][rows] //[y][x]
+		itemWorld = level.getItemWorld();
 		
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
 		for (int i = 0; i < tetroWorldHitbox.length; i++) {
@@ -72,7 +74,7 @@ public class World {
 				tileWorld.length * blockSize - (int) graphicClip.getHeight(), tileWorld[0].length * blockSize - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
 		enemySpawner = new EnemySpawner(2,true, 20, ((tileWorld[0].length ) * blockSize) - blockSize*2, (tileWorld.length  * blockSize) - blockSize*2, blockSize, camera, tetros, tetroWorldHitbox, tileWorld);
-		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, enemySpawner.getEnemyList(),  level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld);
+		player = new Player(blockSize, camera, tetros, tetroWorldHitbox, enemySpawner.getEnemyList(),  level.getPlayerX(), level.getPlayerY(), keyHandler, tileWorld, itemWorld);
 		enemySpawner.setPlayer(player);
 
 
@@ -220,7 +222,7 @@ public class World {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, blockSize, tetroFileURL, player.getTileX(), player.getTileY());
+		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, itemWorld, blockSize, tetroFileURL, player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path);
 

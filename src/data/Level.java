@@ -3,6 +3,7 @@ package data;
 import java.util.ArrayList;
 
 import data.Tiles.Tile;
+import logics.Item;
 
 /**
  * @author Lars Created on 13.08.2018
@@ -11,12 +12,13 @@ public class Level {
 	private ArrayList<TetroType> tetroTypes;
 	private ArrayList<RawTetro> rawTetros;
 	private Tile[][] arrWorld;
+	private Item[][] arrItem;
 	private int blockSize;
 	private String tetrofileUrl;
 	private int playerX;
 	private int playerY;
 
-	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld, int blockSize, String tetrofileUrl, int playerX,
+	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld, Item[][] arrItem, int blockSize, String tetrofileUrl, int playerX,
 			int playerY) {
 		this.tetroTypes = tetroTypes;
 		this.rawTetros = rawTetros;
@@ -53,6 +55,11 @@ public class Level {
 
 	public int getBlockSize() {
 		return blockSize;
+	}
+
+	public Item[][] getItemWorld() {
+		
+		return arrItem;
 	}
 
 	// public UnfinishedPlayer getUnfinishedPlayer() {
