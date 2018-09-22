@@ -69,7 +69,6 @@ public class Player extends MovingEntity {
 		g2d.drawImage(img, -blockSize / 2, -blockSize / 2, blockSize, blockSize, null);
 
 		if (activWeapon != null)
-			
 			activWeapon.draw(g, g2d, - blockSize / 2, - blockSize / 2, debugMode);
 
 		g2d.dispose();

@@ -27,13 +27,7 @@ public class Overworld extends World {
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
 
-				// if (world[j][i].get == '1') {
 				g.drawImage(tileWorld[j][i].getImg(), i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize, blockSize, null);
-				// } else if (world[j][i] == '0') {
-				// g.drawImage(backgroundImg, i * blockSize - camera.getX(), j * blockSize - camera.getY(), blockSize,
-				// blockSize, null);
-
-				// }
 			}
 		}
 
