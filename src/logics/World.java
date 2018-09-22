@@ -165,8 +165,8 @@ public class World {
 		tetros.add(tetro);
 		addTetroToHitbox(tetro, placeX, placeY, rotation);
 
-		player.setWeapon(new Weapon(20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
-				new Point(30, 5), blockSize, 0, 30, 45));
+		//player.setWeapon(new Weapon(20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
+				//new Point(30, 5), blockSize, 0, 30, 45));
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {
@@ -213,6 +213,7 @@ public class World {
 		player.drawInventory(g);
 	}
 
+	
 	public void save(String path) {
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		for (Tetro t : tetros) {
@@ -232,5 +233,12 @@ public class World {
 	public Player getPlayer() {
 		return player;
 	}
+
+	public void inventoryClick(int x, int y) {
+		player.inventoryClick(x, y);
+		
+	}
+	
+	
 
 }

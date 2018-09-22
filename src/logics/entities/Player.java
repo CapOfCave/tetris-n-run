@@ -3,6 +3,7 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ import input.KeyHandler;
 import loading.ImageLoader;
 import logics.Camera;
 import logics.Inventory;
+import logics.Item;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -31,6 +33,13 @@ public class Player extends MovingEntity {
 		this.enemies = enemies;
 		inventory = new Inventory();
 
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocka.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockb.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockc.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blockd.png")));
+		inventory.addItem(new Item(ImageLoader.loadImage("/res/blocke.png")));
+		inventory.addItem(new Weapon(20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"), new Point(0, 0),
+				new Point(30, 5), blockSize, 0, 30, 45, this));
 		acc = 0.8;
 		brake = 4;
 		maxSpeed = 9;
@@ -146,6 +155,12 @@ public class Player extends MovingEntity {
 
 	public void drawInventory(Graphics2D g) {
 		inventory.draw(g);
+		
+	}
+
+
+	public void inventoryClick(int x, int y) {
+		inventory.click(x, y);
 		
 	}
 
