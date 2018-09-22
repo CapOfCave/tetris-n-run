@@ -14,7 +14,7 @@ import input.KeyHandler;
 import loading.ImageLoader;
 import logics.Camera;
 import logics.Inventory;
-import logics.Item;
+import logics.entities.items.Item;
 
 /**
  * @author Lars Created on 05.08.2018

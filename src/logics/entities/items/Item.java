@@ -1,4 +1,4 @@
-package logics;
+package logics.entities.items;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

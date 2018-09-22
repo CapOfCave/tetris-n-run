@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import loading.ImageLoader;
+import logics.entities.items.Item;
 
 public class Inventory {
 
