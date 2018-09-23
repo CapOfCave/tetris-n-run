@@ -19,6 +19,7 @@ public class ItemLoader {
 		
 		FileInputStream fin = null;
 		ObjectInputStream ois = null;
+		
 		Item item = null;
 		
 		if(!LevelLoader.isAbsolute(typeUrl)) {
