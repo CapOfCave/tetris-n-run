@@ -32,13 +32,8 @@ public class Player extends MovingEntity {
 
 		ItemSaver.writeItem("C:\\\\JavaEclipse\\\\weapon.txt", weapon);
 		
-		weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
+		weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");	
 		weapon.setWorld(world);
-
-		
-
-
-
 
 		inventory.addItem(weapon);
 		inventory.addItem(new Item(world, "/res/blocks/blocka.png"));

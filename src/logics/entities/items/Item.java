@@ -24,10 +24,8 @@ public class Item extends Entity {
 	}
 	
 	public void init() {
-
 		this.img =  ImageLoader.loadImage(imgPath);
 		setPreviewImg(img);
-
 	}
 	
 	public Item(World world, BufferedImage previewImg, int x, int y) {
