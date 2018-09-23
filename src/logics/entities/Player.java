@@ -26,8 +26,8 @@ public class Player extends MovingEntity {
 		inventory = new Inventory();
 
 
-		//Weapon weapon = new Weapon(world, 20, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(30, 5), 8, 300, 45);
-
+//		Weapon weapon = new Weapon(world, 20, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(30, 5), 8, 300, 45);
+//		ItemSaver.writeItem("C:\\\\JavaEclipse\\\\weapon.txt", weapon);
 		Weapon weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
 
 		weapon.setWorld(world);
