@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 
 import logics.World;
 import logics.entities.Entity;
@@ -18,7 +17,10 @@ public class Item extends Entity {
 		this.previewImg = previewImg;
 
 	}
-
+	
+	public void init() {
+	}
+	
 	public Item(World world, BufferedImage previewImg, int x, int y) {
 		super(world, previewImg);
 		this.previewImg = previewImg;

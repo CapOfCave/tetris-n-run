@@ -15,11 +15,11 @@ import logics.entities.items.Weapon;
  */
 public class ItemLoader {
 
-	public static Weapon readItem(String typeUrl) {
+	public static Item readItem(String typeUrl) {
 		
 		FileInputStream fin = null;
 		ObjectInputStream ois = null;
-		Weapon item = null;
+		Item item = null;
 		
 		if(!LevelLoader.isAbsolute(typeUrl)) {
 			try {
@@ -44,6 +44,7 @@ public class ItemLoader {
 		try {
 			if(ois != null)
 			item = (Weapon)ois.readObject();
+			item.init();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
