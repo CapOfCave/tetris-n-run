@@ -63,8 +63,6 @@ public class EnemySpawner extends Entity {
 
 			xPos = (int) (x - spawnOffsetLeft + random(spawnOffsetRight + spawnOffsetLeft + 1));
 			yPos = (int) (y - spawnOffsetTop + random(spawnOffsetBottom + spawnOffsetTop + 1));
-			System.out.println(x + "|" + y + ",   " + xPos + "|" + yPos);
-			System.out.println(spawnOffsetRight + spawnOffsetLeft);
 		}
 
 		if (enemyOnlyOnTetros) {
