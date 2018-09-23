@@ -148,6 +148,7 @@ public class Player extends MovingEntity {
 
 		for (Item i : itemsOnTile) {
 			i.collectingEvent();
+			world.removeItem(i);
 		}
 
 	}
