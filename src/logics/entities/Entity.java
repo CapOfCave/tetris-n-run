@@ -2,17 +2,20 @@ package logics.entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import logics.World;
 
 /**
  * @author Lars Created on 18.09.2018
  */
-public abstract class Entity {
+public abstract class Entity implements Serializable{
+
+	private static final long serialVersionUID = 6260418655041864529L;
 	protected double x, y;
-	protected BufferedImage img;
+	protected transient BufferedImage img;
     protected int rotation = 90;
-    protected World world;
+    protected transient World world;
 	
 	public Entity(World world, BufferedImage img) {
 		this.world = world;
@@ -44,5 +47,9 @@ public abstract class Entity {
 
 	public void setX(double x) {
 		this.x = x;
+	}
+	
+	public void setWorld(World world) {
+		this.world = world;
 	}
 }

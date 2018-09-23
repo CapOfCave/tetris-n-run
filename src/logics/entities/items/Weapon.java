@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import loading.ImageLoader;
 import logics.World;
 
 /**
@@ -14,8 +15,10 @@ import logics.World;
  */
 public class Weapon extends Item {
 
-	private BufferedImage img;
-	private BufferedImage imgHit;
+	private static final long serialVersionUID = 6454829744487940535L;
+	private transient BufferedImage img;
+	private transient BufferedImage imgHit;
+	private String imgPath, imgHitPath;
 	private Point imgOffset;
 	private Point imgHitOffset;
 	private int hitTicks = 0;
@@ -28,17 +31,26 @@ public class Weapon extends Item {
 
 	public static double tmpx, tmpy;
 
-	public Weapon(World world, int damage, BufferedImage img, BufferedImage imgHit, Point imgOffset, Point imgHitOffset, double hitWidth,
+	public Weapon(World world, int damage, String imgPath, String imgHitPath, Point imgOffset, Point imgHitOffset, double hitWidth,
 			double theta, double range) {
-		super(world, imgHit);
-		this.img = img;
-		this.imgHit = imgHit;
+		super(world, ImageLoader.loadImage(imgHitPath));
+		
+		this.imgPath = imgPath;
+		this.imgHitPath = imgHitPath;		
+		this.img =  ImageLoader.loadImage(imgPath);
+		this.imgHit =  ImageLoader.loadImage(imgHitPath);
 		this.imgOffset = imgOffset;
 		this.imgHitOffset = imgHitOffset;
 		this.hitWidth = hitWidth;
 		this.theta = theta;
 		this.range = range;
 		this.damage = damage;
+	}
+	
+	public void init() {
+		this.img =  ImageLoader.loadImage(imgPath);
+		this.imgHit =  ImageLoader.loadImage(imgHitPath);
+		setPreviewImg(img);
 	}
 
 	public void draw(Graphics g, Graphics2D g2d, int x, int y, boolean debugMode) {

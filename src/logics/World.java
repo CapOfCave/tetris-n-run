@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import data.Level;
@@ -22,8 +23,8 @@ import logics.entities.items.Item;
 /**
  * @author Lars Created on 05.08.2018
  */
-public class World {
-
+public class World{
+	
 	// Variablen
 	protected int blockSize;
 	protected Rectangle graphicClip;
