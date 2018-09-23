@@ -5,22 +5,32 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import loading.ImageLoader;
+
 import logics.World;
 import logics.entities.Entity;
 
 public class Item extends Entity {
 
+	private static final long serialVersionUID = 1L;
+
 	private transient BufferedImage previewImg;
 
-	public Item(World world, BufferedImage previewImg) {
-		super(world, previewImg);
-		this.previewImg = previewImg;
+	private String imgPath;
+
+	public Item(World world, String imgPath) {
+		super(world, ImageLoader.loadImage(imgPath));
+		this.imgPath = imgPath;
+		this.previewImg = ImageLoader.loadImage(imgPath);
+	}
+
+	public void init() {
+
+		this.img = ImageLoader.loadImage(imgPath);
+		setPreviewImg(img);
 
 	}
-	
-	public void init() {
-	}
-	
+
 	public Item(World world, BufferedImage previewImg, int x, int y) {
 		super(world, previewImg);
 		this.previewImg = previewImg;
@@ -42,10 +52,12 @@ public class Item extends Entity {
 
 	@Override
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
-		g.drawImage(img, (int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()), world.blockSize(), world.blockSize(), null);
+		g.drawImage(img, (int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()), world.blockSize(),
+				world.blockSize(), null);
 		if (debugMode) {
 			g.setColor(Color.GREEN);
-			g.fillRect((int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()), world.blockSize(), world.blockSize());
+			g.fillRect((int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()), world.blockSize(),
+					world.blockSize());
 
 		}
 	}

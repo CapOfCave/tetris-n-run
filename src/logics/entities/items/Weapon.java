@@ -33,7 +33,7 @@ public class Weapon extends Item {
 
 	public Weapon(World world, int damage, String imgPath, String imgHitPath, Point imgOffset, Point imgHitOffset, double hitWidth,
 			double theta, double range) {
-		super(world, ImageLoader.loadImage(imgPath));
+		super(world, imgPath);
 		
 		this.imgPath = imgPath;
 		this.imgHitPath = imgHitPath;		

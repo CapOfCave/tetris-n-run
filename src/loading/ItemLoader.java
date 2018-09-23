@@ -42,9 +42,10 @@ public class ItemLoader {
 		
 		
 		try {
-			if(ois != null)
-			item = (Weapon)ois.readObject();
-			item.init();
+			if(ois != null) {
+				item = (Weapon)ois.readObject();
+				item.init();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
