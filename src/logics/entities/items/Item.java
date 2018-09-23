@@ -20,7 +20,6 @@ public class Item extends Entity{
 	public Item(World world, BufferedImage previewImg, int x, int y) {
 		super(world, previewImg);
 		this.previewImg = previewImg;
-		
 	}
 	
 	public void drawPreview(Graphics2D g, int position, int size) {
@@ -33,10 +32,9 @@ public class Item extends Entity{
 	}
 
 	public void collectingEvent() {
-		// TODO Auto-generated method stub
+		System.out.println("Collecting " + this);
 		
 	}
-
 	@Override
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
 		g.drawImage(img, (int)x, (int)y, world.blockSize(), world.blockSize(), null);
@@ -44,7 +42,5 @@ public class Item extends Entity{
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
-		
 	}
 }

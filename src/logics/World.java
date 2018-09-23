@@ -43,7 +43,7 @@ public class World {
 
 	// Halten die Weltinformationen
 	protected Tile[][] tileWorld;
-	protected Item[][] itemWorld;
+	protected ArrayList<Item> itemWorld;
 	protected ArrayList<Tetro> tetros;
 	protected boolean[][] tetroWorldHitbox;
 	protected ArrayList<TetroType> tetroTypes;
@@ -77,7 +77,8 @@ public class World {
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
 
 		player = new Player(this, level.getPlayerX(), level.getPlayerY());
-		addSpawner(10, 10, 5, 3, true, .5);
+		addSpawner(10, 10, 2, 2, 2, 2, 3, true, 5);
+		addSpawner(3, 3, 1, 1, 1, 1, 2, true, 3);
 		// Erstellen der Tetros
 		for (RawTetro ut : level.getUnfinishedTetros()) {
 			Tetro ft = ut.createTetro(level.getTetroTypes(), blockSize, camera);
@@ -294,8 +295,8 @@ public class World {
 
 	}
 
-	public void addSpawner(int x, int y, int diameter, int maxEnemies, boolean enemyOnlyOnTetros, double spawnRate) {
-		entities.add(new EnemySpawner(this, x, y, diameter, maxEnemies, enemyOnlyOnTetros, spawnRate));
+	public void addSpawner(int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight, int spawnOffsetBottom, int maxEnemies, boolean enemyOnlyOnTetros, double spawnRate) {
+		entities.add(new EnemySpawner(this, x, y, spawnOffsetLeft, spawnOffsetTop, spawnOffsetRight, spawnOffsetBottom, maxEnemies, enemyOnlyOnTetros, spawnRate));
 	}
 
 	public int getVirtualMaxY() {
@@ -325,6 +326,16 @@ public class World {
 
 	public TetroType getTetroType(int i) {
 		return tetroTypes.get(i);
+	}
+
+	public ArrayList<Item> getItemsAt(int tileY, int tileX) {
+		ArrayList<Item> outp = new ArrayList<>();
+		for(Item i: itemWorld) {
+			if(i.getY() == tileY && i.getX() == tileX){
+				outp.add(i);
+			}
+		}
+		return outp;
 	}
 
 }

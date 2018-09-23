@@ -26,6 +26,8 @@ public class LevelLoader {
 		ArrayList<TetroType> tetroTypes;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
+		ArrayList<Item> rawItems = new ArrayList<>();
+		
 
 		int worldlength = 0;
 		int playerX = 0;
@@ -109,6 +111,7 @@ public class LevelLoader {
 					Item item = ItemReader.readItem(typeUrl);
 					item.setX(x);
 					item.setY(y);
+					rawItems.add(item);
 				}
 
 			} else if (nextLine.startsWith("w")) {
@@ -117,9 +120,11 @@ public class LevelLoader {
 				worldlength = Math.max(worldlength, strTemp.length());
 			}
 
-			// TODO: ItemWorld erstellen (Item[][])
 		}
 		sc.close();
+		
+		
+		
 		Tile[][] arrWorld = new Tile[world.size()][worldlength];
 		for (int j = 0; j < world.size(); j++) {
 			String worldString = world.get(j);
@@ -143,11 +148,16 @@ public class LevelLoader {
 
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
-
-			// TODO: null ersetzen
-			return new Level(tetroTypes, rawTetros, arrWorld, null, blockSize, tetrofileUrl, playerX * blockSize, playerY * blockSize);
+			ArrayList<Item> arrItems = new ArrayList<>();
+			for(Item i: rawItems) {
+				arrItems.add(i);
+				i.setX(i.getX() * blockSize);
+				i.setY(i.getY() * blockSize);
+			}
+			
+			return new Level(tetroTypes, rawTetros, arrWorld, arrItems, blockSize, tetrofileUrl, playerX * blockSize, playerY * blockSize);
 		} else {
-			System.out.println("Levelerstellung nicht erfolgreich. Keine Tetros");
+			System.out.println("Levelerstellung nicht erfolgreich");
 			System.exit(1);
 			return null;
 		}

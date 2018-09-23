@@ -13,17 +13,18 @@ public class Level {
 	private ArrayList<TetroType> tetroTypes;
 	private ArrayList<RawTetro> rawTetros;
 	private Tile[][] arrWorld;
-	private Item[][] arrItem;
+	private ArrayList<Item> arrItems;
 	private int blockSize;
 	private String tetrofileUrl;
 	private int playerX;
 	private int playerY;
 
-	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld, Item[][] arrItem, int blockSize, String tetrofileUrl, int playerX,
+	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld, ArrayList<Item> arrItems, int blockSize, String tetrofileUrl, int playerX,
 			int playerY) {
 		this.tetroTypes = tetroTypes;
 		this.rawTetros = rawTetros;
 		this.arrWorld = arrWorld;
+		this.arrItems = arrItems;
 		this.blockSize = blockSize;
 		this.tetrofileUrl = tetrofileUrl;
 		this.playerX = playerX;
@@ -58,9 +59,8 @@ public class Level {
 		return blockSize;
 	}
 
-	public Item[][] getItemWorld() {
-		
-		return arrItem;
+	public ArrayList<Item> getItemWorld() {
+		return arrItems;
 	}
 
 	// public UnfinishedPlayer getUnfinishedPlayer() {

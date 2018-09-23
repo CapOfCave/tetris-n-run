@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import loading.ImageLoader;
 import logics.Inventory;
@@ -25,13 +26,13 @@ public class Player extends MovingEntity {
 		inventory = new Inventory();
 
 		inventory.addItem(new Weapon(world, 20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"),
-				new Point(0, 0), new Point(30, 5), 8, 300, 45));
+				new Point(0, 0), new Point(30, 5), 8, 60, 45));
 		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blocka.png")));
 		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blockb.png")));
 		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blockc.png")));
 		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blockd.png")));
 		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blocke.png")));
-		
+
 		acc = 0.8;
 		brake = 4;
 		maxSpeed = 9;
@@ -55,7 +56,8 @@ public class Player extends MovingEntity {
 		g2d.setColor(Color.blue);
 		g2d.translate(interpolX - world.cameraX() + world.blockSize() / 2, interpolY - world.cameraY() + world.blockSize() / 2);
 		g2d.rotate(Math.toRadians(rotation - 90));
-		// g2d.drawImage(img, (int) (interpolX) - world.cameraX(), (int) (interpolY) - world.cameraY(), world.blockSize(),
+		// g2d.drawImage(img, (int) (interpolX) - world.cameraX(), (int) (interpolY) - world.cameraY(),
+		// world.blockSize(),
 		// world.blockSize(), null);
 		g2d.drawImage(img, -world.blockSize() / 2, -world.blockSize() / 2, world.blockSize(), world.blockSize(), null);
 
@@ -80,7 +82,8 @@ public class Player extends MovingEntity {
 		g.fillOval((int) (interpolX - world.cameraX()), (int) (interpolY - world.cameraY() + world.blockSize() - 1), 5, 5);
 
 		g.setColor(Color.GREEN);
-		g.fillOval((int) (interpolX + edgeTolerancePercentage * world.blockSize() / 100 - world.cameraX()), (int) (interpolY + vSpeed - world.cameraY()), 5, 5);
+		g.fillOval((int) (interpolX + edgeTolerancePercentage * world.blockSize() / 100 - world.cameraX()),
+				(int) (interpolY + vSpeed - world.cameraY()), 5, 5);
 		g.fillOval((int) (interpolX - world.cameraX() + world.blockSize() - 1), (int) (interpolY - world.cameraY()), 5, 5);
 		g.fillOval((int) (interpolX - world.cameraX() + world.blockSize() - 1), (int) (interpolY - world.cameraY() + world.blockSize() - 1), 5, 5);
 		g.fillOval((int) (interpolX - world.cameraX()), (int) (interpolY - world.cameraY() + world.blockSize() - 1), 5, 5);
@@ -119,8 +122,8 @@ public class Player extends MovingEntity {
 		if (activeWeapon != null) {
 			activeWeapon.hit();
 			for (Enemy enemy : world.getEnemies()) {
-				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
-						new Rectangle((int) (enemy.getX() - world.cameraX()), (int) (enemy.getY() - world.cameraY()), world.blockSize(), world.blockSize()))) {
+				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation, new Rectangle((int) (enemy.getX() - world.cameraX()),
+						(int) (enemy.getY() - world.cameraY()), world.blockSize(), world.blockSize()))) {
 					enemy.applyDamage(activeWeapon);
 				}
 			}
@@ -130,10 +133,13 @@ public class Player extends MovingEntity {
 
 	private void checkTile() {
 
-		world.getTileAt(getTileY(),getTileX()).eventWhenEntering();
-		// if (itemWorld != null) // TODO: löschen
-		// if (itemWorld[getTileY()][getTileX()] != null)
-		// itemWorld[getTileY()][getTileX()].collectingEvent();
+		world.getTileAt(getTileY(), getTileX()).eventWhenEntering();
+
+		ArrayList<Item> itemsOnTile = world.getItemsAt(getTileY(), getTileX());
+
+		for (Item i : itemsOnTile) {
+			i.collectingEvent();
+		}
 
 	}
 

@@ -11,21 +11,27 @@ public class EnemySpawner extends Entity {
 	private boolean enemyOnlyOnTetros;
 	private double spawnChance;
 	private boolean global = false;
-	private int diameter;
 	private int enemyCount = 0;
+	int spawnOffsetLeft;
+	int spawnOffsetTop;
+	int spawnOffsetRight;
+	int spawnOffsetBottom;
 
-	public EnemySpawner(World world, int x, int y, int diameter, int maxEnemy, boolean enemyOnlyOnTetros, double d) {
+	public EnemySpawner(World world, int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight, int spawnOffsetBottom, int maxEnemy,
+			boolean enemyOnlyOnTetros, double d) {
 		super(world, null, x, y);
 
 		this.maxEnemy = maxEnemy;
 		this.enemyOnlyOnTetros = enemyOnlyOnTetros;
 		this.spawnChance = d;
-		this.diameter = diameter;
-
+		this.spawnOffsetLeft = spawnOffsetLeft;
+		this.spawnOffsetTop = spawnOffsetTop;
+		this.spawnOffsetRight = spawnOffsetRight;
+		this.spawnOffsetBottom = spawnOffsetBottom;
 	}
 
 	public EnemySpawner(World world, int maxEnemy, boolean enemyOnlyOnTetros, int spawnChance) {
-		this(world, -10, -10, -1, maxEnemy, enemyOnlyOnTetros, spawnChance);
+		this(world, -10, -10, -1, -1, -1, -1, maxEnemy, enemyOnlyOnTetros, spawnChance);
 		global = true;
 	}
 
@@ -33,7 +39,8 @@ public class EnemySpawner extends Entity {
 
 		if (debugMode) {
 			g.setColor(Color.DARK_GRAY);
-			g.fillRect((int) (x / world.cameraX()), (int) (y / world.cameraY()), world.blockSize(), world.blockSize());
+			g.fillRect((int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()), world.blockSize(),
+					world.blockSize());
 		}
 
 	}
@@ -54,8 +61,10 @@ public class EnemySpawner extends Entity {
 			yPos = random(world.getMaxY());
 		} else {
 
-			xPos = (int) (x - diameter / 2. + random(diameter));
-			yPos = (int) (y - diameter / 2. + random(diameter));
+			xPos = (int) (x - spawnOffsetLeft + random(spawnOffsetRight + spawnOffsetLeft + 1));
+			yPos = (int) (y - spawnOffsetTop + random(spawnOffsetBottom + spawnOffsetTop + 1));
+			System.out.println(x + "|" + y + ",   " + xPos + "|" + yPos);
+			System.out.println(spawnOffsetRight + spawnOffsetLeft);
 		}
 
 		if (enemyOnlyOnTetros) {
@@ -79,6 +88,40 @@ public class EnemySpawner extends Entity {
 		enemyCount--;
 		if (enemyCount < 0) {
 			System.out.println("Fehler @EnemySpawner#enemyKilled");
+		}
+	}
+
+	public int getMinX() {
+		if (global) {
+			return 0;
+		} else {
+
+			return (int) (x - spawnOffsetLeft);
+		}
+
+	}
+
+	public int getMinY() {
+		if (global) {
+			return 0;
+		} else {
+			return (int) (y - spawnOffsetTop);
+		}
+	}
+
+	public int getMaxX() {
+		if (global) {
+			return world.getMaxX();
+		} else {
+			return (int) (x + spawnOffsetRight);
+		}
+	}
+
+	public int getMaxY() {
+		if (global) {
+			return world.getMaxY();
+		} else {
+			return (int) (y + spawnOffsetBottom);
 		}
 	}
 }

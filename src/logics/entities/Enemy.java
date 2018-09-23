@@ -19,11 +19,13 @@ public class Enemy extends MovingEntity {
 	private boolean isAlive = true;
 	private boolean isAktive;
 
+	private int minX, minY, maxX, maxY;
+
 	private ArrayList<Point> path;
 
 	private Point goal;
 
-	public Enemy(World world, EnemySpawner parent, int health) {
+	public Enemy(World world, EnemySpawner parent, int health, int x, int y) {
 		super(world, ImageLoader.loadImage("/res/character.png"));
 		this.health = health;
 		this.parent = parent;
@@ -31,14 +33,17 @@ public class Enemy extends MovingEntity {
 		acc = 0.8;
 		brake = 4;
 		maxSpeed = 4;
-	}
 
-	public Enemy(World world, EnemySpawner parent, int health, int x, int y) {
-		this(world, parent, health);
+		minX = parent.getMinX();
+		minY = parent.getMinY();
+		maxX = parent.getMaxX();
+		maxY = parent.getMaxY();
+
 		this.x = x;
 		this.y = y;
 		lastX = x;
 		lastY = y;
+
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
@@ -66,13 +71,14 @@ public class Enemy extends MovingEntity {
 		g.fillOval((int) (x - world.cameraX() + world.blockSize() - 1), (int) (y - world.cameraY()), 5, 5);
 		g.fillOval((int) (x - world.cameraX() + world.blockSize() - 1), (int) (y - world.cameraY() + world.blockSize() - 1), 5, 5);
 		g.fillOval((int) (x - world.cameraX()), (int) (y - world.cameraY() + world.blockSize() - 1), 5, 5);
-
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 200, 33);
-		g.setColor(Color.BLACK);
-		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
-		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
-
+		
+		if (isAktive) {
+			g.setColor(Color.RED);
+		} else {
+			g.setColor(Color.GREEN);
+		}
+		g.fillOval((int)(x - world.cameraX() + world.blockSize() / 2), (int)(y - world.cameraY() - 6), 5, 5);
+		
 	}
 
 	public void tick() {
@@ -96,10 +102,10 @@ public class Enemy extends MovingEntity {
 	public void aktionInPassiveMode() {
 
 		if (goal == null || path == null) {
-			goal = new Point(random(15), random(15));
+			goal = new Point(minX + random(maxX - minX + 1), minY + random(maxY - minY + 1));
 			path = SearchAlgorithm.calcShortestPath(world, new Point(getTileX(), getTileY()), goal);
 		} else if ((Math.abs(goal.x * world.blockSize() - x) < 5 && Math.abs(goal.y * world.blockSize() - y) < 5) || path.isEmpty()) {
-			goal = new Point(random(15), random(15));
+			goal = new Point(minX + random(maxX - minX + 1), minY + random(maxY - minY + 1));
 			path = SearchAlgorithm.calcShortestPath(world, new Point(getTileX(), getTileY()), goal);
 		}
 		if (path == null) {
