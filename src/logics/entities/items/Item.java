@@ -4,23 +4,26 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-
+import loading.ImageLoader;
 import logics.World;
 import logics.entities.Entity;
 
 public class Item extends Entity {
 	
 	private transient BufferedImage previewImg;
+	private String imgPath;
 	
 	
-	public Item(World world, BufferedImage previewImg) {
-		super(world, previewImg);
-		this.previewImg = previewImg;
+	public Item(World world, String imgPath) {
+		super(world, ImageLoader.loadImage(imgPath));
+		this.imgPath = imgPath;
+		this.previewImg = ImageLoader.loadImage(imgPath);
 		
 	}
 	
 	public void init() {
-		
+		this.img =  ImageLoader.loadImage(imgPath);
+		setPreviewImg(img);
 	}
 	
 	public Item(World world, BufferedImage previewImg, int x, int y) {
