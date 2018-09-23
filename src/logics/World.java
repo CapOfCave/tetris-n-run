@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import data.Level;
@@ -23,8 +22,8 @@ import logics.entities.items.Item;
 /**
  * @author Lars Created on 05.08.2018
  */
-public class World{
-	
+public class World {
+
 	// Variablen
 	protected int blockSize;
 	protected Rectangle graphicClip;
@@ -65,6 +64,9 @@ public class World{
 		enemies = new ArrayList<>();
 		tileWorld = level.getArrWorld();
 		itemWorld = level.getItemWorld();
+		for (Item i : itemWorld) {
+			i.setWorld(this);
+		}
 
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
 		for (int i = 0; i < tetroWorldHitbox.length; i++) {
@@ -86,7 +88,7 @@ public class World{
 			tetros.add(ft);
 			addTetroToHitbox(ft, ft.getX(), ft.getY(), ft.getRotation());
 		}
-		
+
 	}
 
 	public void draw(Graphics2D g, float interpolation, boolean debugMode) {
@@ -131,6 +133,9 @@ public class World{
 		}
 		for (Entity entity : entities) {
 			entity.draw(g, interpolation, debugMode);
+		}
+		for (Item i : itemWorld) {
+			i.draw(g, interpolation, debugMode);
 		}
 		if (debugMode)
 			for (int j = 0; j < tileWorld.length; j++) {
@@ -296,8 +301,10 @@ public class World{
 
 	}
 
-	public void addSpawner(int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight, int spawnOffsetBottom, int maxEnemies, boolean enemyOnlyOnTetros, double spawnRate) {
-		entities.add(new EnemySpawner(this, x, y, spawnOffsetLeft, spawnOffsetTop, spawnOffsetRight, spawnOffsetBottom, maxEnemies, enemyOnlyOnTetros, spawnRate));
+	public void addSpawner(int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight, int spawnOffsetBottom, int maxEnemies,
+			boolean enemyOnlyOnTetros, double spawnRate) {
+		entities.add(new EnemySpawner(this, x, y, spawnOffsetLeft, spawnOffsetTop, spawnOffsetRight, spawnOffsetBottom, maxEnemies, enemyOnlyOnTetros,
+				spawnRate));
 	}
 
 	public int getVirtualMaxY() {
@@ -331,12 +338,16 @@ public class World{
 
 	public ArrayList<Item> getItemsAt(int tileY, int tileX) {
 		ArrayList<Item> outp = new ArrayList<>();
-		for(Item i: itemWorld) {
-			if(i.getY() == tileY && i.getX() == tileX){
+		for (Item i : itemWorld) {
+			if (i.getY() == tileY && i.getX() == tileX) {
 				outp.add(i);
 			}
 		}
 		return outp;
+	}
+
+	public void removeItem(Item i) {
+		itemWorld.remove(i);
 	}
 
 }
