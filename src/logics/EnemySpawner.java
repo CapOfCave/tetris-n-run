@@ -7,6 +7,7 @@ import logics.entities.Entity;
 
 public class EnemySpawner extends Entity {
 
+	private static final long serialVersionUID = 1L;
 	private int maxEnemy;
 	private boolean enemyOnlyOnTetros;
 	private double spawnChance;

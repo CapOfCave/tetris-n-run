@@ -66,6 +66,7 @@ public class World {
 		itemWorld = level.getItemWorld();
 		for (Item i : itemWorld) {
 			i.setWorld(this);
+			i.init();
 		}
 
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
