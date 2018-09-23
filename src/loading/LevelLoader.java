@@ -13,6 +13,7 @@ import data.Tiles.LevelGuiTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
+import logics.entities.items.Item;
 
 /**
  * @author Lars Created on 13.08.2018
@@ -81,13 +82,35 @@ public class LevelLoader {
 						y = Integer.parseInt(str.substring(2));
 					} else if (str.startsWith("rotation=") || str.startsWith("r=")) {
 						rotation = Integer.parseInt(str.substring(str.indexOf("=") + 1));
-					} else if (str.startsWith("tetroType=") || str.startsWith("tetro=") || str.startsWith("type") || str.startsWith("t")) {
+					} else if (str.startsWith("tetroType=") || str.startsWith("tetro=") || str.startsWith("type=") || str.startsWith("t=")) {
 						type = Integer.parseInt(str.substring(str.indexOf("=") + 1));
 					}
 				}
 				if (x != -100 && y != -100 && rotation != -1 && type != -1) {
 					rawTetros.add(new RawTetro(type, x, y, rotation));
 				}
+			} else if (nextLine.startsWith("i")) {
+				String strSplit[] = nextLine.split(";");
+				int x = -100;
+				int y = -100;
+				String typeUrl = null;
+				for (String str : strSplit) {
+					if (str == strSplit[0])
+						continue;
+					if (str.startsWith("x=")) {
+						x = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("y=")) {
+						y = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("type=") || str.startsWith("t=")) {
+						typeUrl = str.substring(str.indexOf("=") + 1);
+					}
+				}
+				if (x != -100 && y != -100 && typeUrl != null) {
+					Item item = ItemReader.readItem(typeUrl);
+					item.setX(x);
+					item.setY(y);
+				}
+
 			} else if (nextLine.startsWith("w")) {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
 				world.add(strTemp);
@@ -108,7 +131,7 @@ public class LevelLoader {
 					arrWorld[j][i] = new LevelGuiTile(worldString.charAt(i), i, j, frame);
 				} else if (tileChar == '1') {
 					arrWorld[j][i] = new WallTile(worldString.charAt(i), i, j, frame);
-				} else if (tileChar == '0'){
+				} else if (tileChar == '0') {
 					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j, false, frame);
 				} else {
 					System.out.println("Unbekanntes Tile bei (" + i + "|" + j + ")");

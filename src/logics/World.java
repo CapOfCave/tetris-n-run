@@ -77,7 +77,7 @@ public class World {
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
 
 		player = new Player(this, level.getPlayerX(), level.getPlayerY());
-		addSpawner(10, 10, 5, 3, true, 5);
+		addSpawner(10, 10, 5, 3, true, .5);
 		// Erstellen der Tetros
 		for (RawTetro ut : level.getUnfinishedTetros()) {
 			Tetro ft = ut.createTetro(level.getTetroTypes(), blockSize, camera);

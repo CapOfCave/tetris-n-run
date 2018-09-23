@@ -25,7 +25,7 @@ public class Player extends MovingEntity {
 		inventory = new Inventory();
 
 		inventory.addItem(new Weapon(world, 20, ImageLoader.loadImage("/res/sword-in-hand.png"), ImageLoader.loadImage("/res/sword-hit.png"),
-				new Point(0, 0), new Point(30, 5), 8, 30, 60));
+				new Point(0, 0), new Point(30, 5), 8, 300, 45));
 		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blocka.png")));
 		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blockb.png")));
 		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blockc.png")));

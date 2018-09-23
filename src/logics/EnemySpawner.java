@@ -39,7 +39,8 @@ public class EnemySpawner extends Entity {
 	}
 
 	public void tick() {
-		if (Math.random() < spawnChance / 100. && enemyCount < maxEnemy) {
+		double r = Math.random();
+		if (r < spawnChance / 100. && enemyCount < maxEnemy) {
 			spawn();
 		}
 
@@ -56,11 +57,11 @@ public class EnemySpawner extends Entity {
 			xPos = (int) (x - diameter / 2. + random(diameter));
 			yPos = (int) (y - diameter / 2. + random(diameter));
 		}
-		
+
 		if (enemyOnlyOnTetros) {
 			if (world.isTetroAt(yPos, xPos) || world.getTileAt(yPos, xPos).isWalkable())
 				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);
-				enemyCount++;
+			enemyCount++;
 		} else {
 			if (world.getTileAt(yPos, xPos).isWalkable()) {
 				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);

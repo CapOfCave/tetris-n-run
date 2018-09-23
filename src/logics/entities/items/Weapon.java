@@ -94,7 +94,7 @@ public class Weapon extends Item {
 		double nully = y + halfBlockSize;
 
 		// Calc nearest point
-		double npX;
+		double npX; //TODO not optimal & x < 0 unmöglich
 		double npY;
 
 		npX = nullx;

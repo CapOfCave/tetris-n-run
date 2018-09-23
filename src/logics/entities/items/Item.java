@@ -1,18 +1,26 @@
 package logics.entities.items;
 
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import logics.World;
+import logics.entities.Entity;
 
-public class Item {
+public class Item extends Entity{
 
-	protected World world;
 	private BufferedImage previewImg;
 	
 	public Item(World world, BufferedImage previewImg) {
-		this.world = world;
+		super(world, previewImg);
 		this.previewImg = previewImg;
+		
+	}
+	
+	public Item(World world, BufferedImage previewImg, int x, int y) {
+		super(world, previewImg);
+		this.previewImg = previewImg;
+		
 	}
 	
 	public void drawPreview(Graphics2D g, int position, int size) {
@@ -25,6 +33,17 @@ public class Item {
 	}
 
 	public void collectingEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(Graphics g, float interpolation, boolean debugMode) {
+		g.drawImage(img, (int)x, (int)y, world.blockSize(), world.blockSize(), null);
+	}
+
+	@Override
+	public void tick() {
 		// TODO Auto-generated method stub
 		
 	}
