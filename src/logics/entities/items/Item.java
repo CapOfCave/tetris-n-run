@@ -3,13 +3,15 @@ package logics.entities.items;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import logics.World;
 import logics.entities.Entity;
 
-public class Item extends Entity{
-
-	private BufferedImage previewImg;
+public class Item extends Entity {
+	
+	private transient BufferedImage previewImg;
+	
 	
 	public Item(World world, BufferedImage previewImg) {
 		super(world, previewImg);
@@ -42,5 +44,9 @@ public class Item extends Entity{
 
 	@Override
 	public void tick() {
+	}
+	
+	public void setPreviewImg(BufferedImage img) {
+		previewImg = img;
 	}
 }

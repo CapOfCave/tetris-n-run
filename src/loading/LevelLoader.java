@@ -108,7 +108,7 @@ public class LevelLoader {
 					}
 				}
 				if (x != -100 && y != -100 && typeUrl != null) {
-					Item item = ItemReader.readItem(typeUrl);
+					Item item = ItemLoader.readItem(typeUrl);
 					item.setX(x);
 					item.setY(y);
 					rawItems.add(item);
@@ -163,7 +163,7 @@ public class LevelLoader {
 		}
 	}
 
-	private static boolean isAbsolute(String url) {
+	public static boolean isAbsolute(String url) {
 		return !url.startsWith("/") && !url.startsWith("\\") && !url.startsWith(File.separator);
 	}
 
