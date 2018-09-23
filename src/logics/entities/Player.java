@@ -3,13 +3,11 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import loading.ImageLoader;
 import loading.ItemLoader;
-import loading.ItemSaver;
 import logics.Inventory;
 import logics.World;
 import logics.entities.items.Item;
@@ -27,14 +25,13 @@ public class Player extends MovingEntity {
 		super(world, ImageLoader.loadImage("/res/character.png"));
 		inventory = new Inventory();
 
-		Weapon weapon = new Weapon(world, 20, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(30, 5), 8, 300, 45);
+		//Weapon weapon = new Weapon(world, 20, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(30, 5), 8, 300, 45);
 
-		ItemSaver.writeItem("C:\\JavaEclipse\\weapon.txt", weapon);
+		//ItemSaver.writeItem("C:\\JavaEclipse\\weapon.txt", weapon);
 
-//		Weapon weapon = ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
+		Weapon weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
 		weapon.setWorld(world);
-		weapon.init();
-		System.out.println(weapon);
+		
 
 		inventory.addItem(weapon);
 		inventory.addItem(new Item(world, ImageLoader.loadImage("/res/blocks/blocka.png")));
