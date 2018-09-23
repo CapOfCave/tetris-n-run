@@ -25,7 +25,7 @@ public class Item extends Entity {
 	}
 
 	public void init() {
-
+		System.out.println("ItemInit");
 		this.img = ImageLoader.loadImage(imgPath);
 		setPreviewImg(img);
 

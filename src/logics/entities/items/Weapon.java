@@ -16,7 +16,6 @@ import logics.World;
 public class Weapon extends Item {
 
 	private static final long serialVersionUID = 6454829744487940535L;
-	private transient BufferedImage img;
 	private transient BufferedImage imgHit;
 	private String imgPath, imgHitPath;
 	private Point imgOffset;
@@ -48,6 +47,7 @@ public class Weapon extends Item {
 	}
 	
 	public void init() {
+		System.out.println("WeaponInit");
 		this.img =  ImageLoader.loadImage(imgPath);
 		this.imgHit =  ImageLoader.loadImage(imgHitPath);
 		setPreviewImg(img);
