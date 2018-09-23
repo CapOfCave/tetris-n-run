@@ -29,7 +29,7 @@ public class Item extends Entity {
 	}
 
 	public void onClickInInventoryEnvent() {
-		System.out.println(previewImg);
+		System.out.println("Cliccc " + this);
 		
 	}
 

@@ -30,7 +30,6 @@ public class GuiMouseHandler implements MouseListener {
 		
 		if(x >= 970 && y >= 100 && x < 970 + 256 && y < 100 + 64) {
 			//playbutton
-//			System.out.println("play");
 			frame.startLevel();
 		}
 		
