@@ -89,13 +89,6 @@ public class Player extends MovingEntity {
 		g.fillOval((int) (interpolX - world.cameraX() + world.blockSize() - 1), (int) (interpolY - world.cameraY() + world.blockSize() - 1), 5, 5);
 		g.fillOval((int) (interpolX - world.cameraX()), (int) (interpolY - world.cameraY() + world.blockSize() - 1), 5, 5);
 
-		g.setColor(Color.GREEN);
-		g.fillOval((int) (interpolX + edgeTolerancePercentage * world.blockSize() / 100 - world.cameraX()),
-				(int) (interpolY + vSpeed - world.cameraY()), 5, 5);
-		g.fillOval((int) (interpolX - world.cameraX() + world.blockSize() - 1), (int) (interpolY - world.cameraY()), 5, 5);
-		g.fillOval((int) (interpolX - world.cameraX() + world.blockSize() - 1), (int) (interpolY - world.cameraY() + world.blockSize() - 1), 5, 5);
-		g.fillOval((int) (interpolX - world.cameraX()), (int) (interpolY - world.cameraY() + world.blockSize() - 1), 5, 5);
-
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 200, 33);
 		g.setColor(Color.BLACK);

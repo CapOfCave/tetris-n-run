@@ -14,12 +14,15 @@ import logics.searchalgorithm.SearchAlgorithm;
 
 public class Enemy extends MovingEntity {
 
+	private static final long serialVersionUID = 1L;
+
 	private EnemySpawner parent;
 
-	private boolean isAlive = true;
-	private boolean isAktive;
+	private boolean alive = true;
+	private boolean active;
 
 	private int minX, minY, maxX, maxY;
+	private int playerx, playery;
 
 	private ArrayList<Point> path;
 
@@ -71,14 +74,14 @@ public class Enemy extends MovingEntity {
 		g.fillOval((int) (x - world.cameraX() + world.blockSize() - 1), (int) (y - world.cameraY()), 5, 5);
 		g.fillOval((int) (x - world.cameraX() + world.blockSize() - 1), (int) (y - world.cameraY() + world.blockSize() - 1), 5, 5);
 		g.fillOval((int) (x - world.cameraX()), (int) (y - world.cameraY() + world.blockSize() - 1), 5, 5);
-		
-		if (isAktive) {
+
+		if (active) {
 			g.setColor(Color.RED);
 		} else {
 			g.setColor(Color.GREEN);
 		}
-		g.fillOval((int)(x - world.cameraX() + world.blockSize() / 2), (int)(y - world.cameraY() - 6), 5, 5);
-		
+		g.fillOval((int) (x - world.cameraX() + world.blockSize() / 2), (int) (y - world.cameraY() - 6), 5, 5);
+
 	}
 
 	public void tick() {
@@ -87,16 +90,28 @@ public class Enemy extends MovingEntity {
 
 		checkHealth();
 
-		if (isAktive)
-			aktionInPassiveMode();
+		if (active)
+			aktionInActiveMode();
 		else
 			aktionInPassiveMode();
 
 		move();
 	}
 
-	public void aktionInAktiveMode() {
+	public void aktionInActiveMode() {
 
+		if (playerx != world.getPlayer().getTileX() && playery != world.getPlayer().getY()) {
+			playerx = world.getPlayer().getTileX();
+			playery = world.getPlayer().getTileY();
+
+			goal = new Point(playerx, playery);
+			path = SearchAlgorithm.calcShortestPath(world, new Point(getTileX(), getTileY()), goal);
+		}
+		continuePath();
+
+		if (distanceToPlayer() > 5 * world.blockSize()) {
+			active = false;
+		}
 	}
 
 	public void aktionInPassiveMode() {
@@ -108,6 +123,14 @@ public class Enemy extends MovingEntity {
 			goal = new Point(minX + random(maxX - minX + 1), minY + random(maxY - minY + 1));
 			path = SearchAlgorithm.calcShortestPath(world, new Point(getTileX(), getTileY()), goal);
 		}
+
+		if (distanceToPlayer() < 3 * world.blockSize()) {
+			active = true;
+		}
+		continuePath();
+	}
+
+	private void continuePath() {
 		if (path == null) {
 			return;
 		} else if (path.isEmpty()) {
@@ -122,7 +145,11 @@ public class Enemy extends MovingEntity {
 			wantsToGoLeft = x - path.get(0).x * world.blockSize() > 1;
 			wantsToGoRight = x - path.get(0).x * world.blockSize() < -1;
 		}
+	}
 
+	private double distanceToPlayer() {
+		return Math.sqrt(
+				(x - world.getPlayer().getX()) * (x - world.getPlayer().getX()) + (y - world.getPlayer().getY()) * (y - world.getPlayer().getY()));
 	}
 
 	private void checkHealth() {
@@ -151,7 +178,7 @@ public class Enemy extends MovingEntity {
 	}
 
 	public boolean isAlive() {
-		return isAlive;
+		return alive;
 	}
 
 }
