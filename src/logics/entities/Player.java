@@ -42,6 +42,7 @@ public class Player extends LivingEntity {
 		inventory.addItem(new Item(world, "/res/blocks/blockd.png"));
 		inventory.addItem(new Item(world, "/res/blocks/blocke.png"));
 
+		
 		acc = 0.8;
 		brake = 4;
 		maxSpeed = 9;
