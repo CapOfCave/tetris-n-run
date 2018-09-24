@@ -25,7 +25,7 @@ public class Player extends MovingEntity {
 	private Weapon activeWeapon;
 
 	public Player(World world) {
-		super(world, ImageLoader.loadImage("/res/character.png"));
+		super(world, ImageLoader.loadImage("/res/character1.png"));
 		inventory = new Inventory();
 
 		Weapon weapon = new Weapon(world, 20, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(30, 5), 8, 60, 45);
