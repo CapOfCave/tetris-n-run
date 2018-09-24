@@ -12,13 +12,12 @@ import logics.World;
 import logics.entities.items.Weapon;
 import logics.searchalgorithm.SearchAlgorithm;
 
-public class Enemy extends MovingEntity {
+public class Enemy extends LivingEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	private EnemySpawner parent;
 
-	private boolean alive = true;
 	private boolean active;
 
 	private int minX, minY, maxX, maxY;
@@ -100,18 +99,27 @@ public class Enemy extends MovingEntity {
 
 	public void aktionInActiveMode() {
 
-		if (playerx != world.getPlayer().getTileX() && playery != world.getPlayer().getY()) {
+		if (playerx != world.getPlayer().getTileX() || playery != world.getPlayer().getY()) {
 			playerx = world.getPlayer().getTileX();
 			playery = world.getPlayer().getTileY();
 
 			goal = new Point(playerx, playery);
 			path = SearchAlgorithm.calcShortestPath(world, new Point(getTileX(), getTileY()), goal);
 		}
+
+		if (distanceToPlayer() <= world.blockSize()) {
+			attack();
+		}
+
 		continuePath();
 
 		if (distanceToPlayer() > 5 * world.blockSize()) {
 			active = false;
 		}
+	}
+
+	private void attack() {
+
 	}
 
 	public void aktionInPassiveMode() {
@@ -132,8 +140,10 @@ public class Enemy extends MovingEntity {
 
 	private void continuePath() {
 		if (path == null) {
+			resetMoveDirections();
 			return;
 		} else if (path.isEmpty()) {
+			resetMoveDirections();
 			return;
 		}
 		if (Math.abs(path.get(0).x * world.blockSize() - x) < 5 && Math.abs(path.get(0).y * world.blockSize() - y) < 5) {
@@ -147,25 +157,23 @@ public class Enemy extends MovingEntity {
 		}
 	}
 
+	private void resetMoveDirections() {
+		wantsToGoUp = false;
+		wantsToGoDown = false;
+		wantsToGoLeft = false;
+		wantsToGoRight = false;
+	}
+
 	private double distanceToPlayer() {
 		return Math.sqrt(
 				(x - world.getPlayer().getX()) * (x - world.getPlayer().getX()) + (y - world.getPlayer().getY()) * (y - world.getPlayer().getY()));
 	}
 
-	private void checkHealth() {
-		if (health <= 0) {
-			kill();
-		}
-	}
-
-	private void kill() {
+	
+	@Override
+	protected void kill() {
 		world.removeEnemy(this);
 		parent.enemyKilled();
-	}
-
-	public boolean isHittingPlayer(double x2, double y2) {
-		return false;
-
 	}
 
 	public void applyDamage(Weapon weapon) {
@@ -173,12 +181,8 @@ public class Enemy extends MovingEntity {
 
 	}
 
-	public int random(int max) {
+	private int random(int max) {
 		return (int) (Math.random() * max);
-	}
-
-	public boolean isAlive() {
-		return alive;
 	}
 
 }

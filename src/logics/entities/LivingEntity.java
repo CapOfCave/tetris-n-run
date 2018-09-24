@@ -8,8 +8,9 @@ import logics.World;
 /**
  * @author Lars Created on 18.09.2018
  */
-public abstract class MovingEntity extends Entity {
+public abstract class LivingEntity extends Entity {
 
+	private static final long serialVersionUID = 1L;
 	protected double lastX, lastY;
 	protected double hSpeed;
 	protected double vSpeed;
@@ -26,14 +27,14 @@ public abstract class MovingEntity extends Entity {
 
 	protected double edgeTolerancePercentage = 25;
 
-	public MovingEntity(World world, BufferedImage img) {
+	public LivingEntity(World world, BufferedImage img) {
 		super(world, img);
 		this.world = world;
 
 
 	}
 
-	public MovingEntity(World world, BufferedImage img, int x, int y) {
+	public LivingEntity(World world, BufferedImage img, int x, int y) {
 		super(world, img, x, y);
 
 	}
@@ -103,6 +104,14 @@ public abstract class MovingEntity extends Entity {
 		}
 
 	}
+	
+	protected void checkHealth() {
+		if (health <= 0) {
+			kill();
+		}
+	}
+	
+	protected abstract void kill();
 
 	private void checkMaxSpeed() {
 		double gesSpeed = Math.sqrt(hSpeed * hSpeed + vSpeed * vSpeed);

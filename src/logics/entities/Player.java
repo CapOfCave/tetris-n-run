@@ -18,7 +18,7 @@ import logics.entities.items.Weapon;
 /**
  * @author Lars Created on 05.08.2018
  */
-public class Player extends MovingEntity {
+public class Player extends LivingEntity {
 
 	private static final long serialVersionUID = 1L;
 	private Inventory inventory;
@@ -30,8 +30,8 @@ public class Player extends MovingEntity {
 
 		Weapon weapon = new Weapon(world, 20, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(30, 5), 8, 60, 45);
 		ItemSaver.writeItem("C:\\\\JavaEclipse\\\\weapon.txt", weapon);
-		
-		weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");	
+
+		weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
 
 		weapon.setWorld(world);
 
@@ -158,6 +158,12 @@ public class Player extends MovingEntity {
 	public void inventoryClick(int x, int y) {
 		inventory.click(x, y);
 
+	}
+
+	@Override
+	protected void kill() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
