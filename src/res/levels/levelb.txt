@@ -1,4 +1,4 @@
-s;tetrofile=/res/tetros.txt;blockSize=40
+s;tetrofile=/res/tetros.txt;blockSize=45
 p;x=3;y=6
 t;x=0;y=0;r=0;t=0
 t;x=0;y=1;r=0;t=0

@@ -24,10 +24,12 @@ public class Item extends Entity {
 		this.previewImg = ImageLoader.loadImage(imgPath);
 	}
 
+
 	public void init() {
 		System.out.println("ItemInit");
 		this.img = ImageLoader.loadImage(imgPath);
 		setPreviewImg(img);
+
 
 	}
 

@@ -29,7 +29,7 @@ public class Enemy extends MovingEntity {
 	private Point goal;
 
 	public Enemy(World world, EnemySpawner parent, int health, int x, int y) {
-		super(world, ImageLoader.loadImage("/res/character.png"));
+		super(world, ImageLoader.loadImage("/res/gegner.png"));
 		this.health = health;
 		this.parent = parent;
 
