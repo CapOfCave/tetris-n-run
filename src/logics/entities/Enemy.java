@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import loading.ImageLoader;
@@ -17,6 +18,7 @@ public class Enemy extends LivingEntity {
 	private static final long serialVersionUID = 1L;
 
 	private EnemySpawner parent;
+	private Weapon activeWeapon;
 
 	private boolean active;
 
@@ -46,6 +48,7 @@ public class Enemy extends LivingEntity {
 		lastX = x;
 		lastY = y;
 
+		activeWeapon = new Weapon(world, 5, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(0, 0), 10, 50, 30, 50);
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
@@ -59,15 +62,17 @@ public class Enemy extends LivingEntity {
 		// g2d.drawImage(img, (int) (interpolX) - world.cameraX(), (int) (interpolY) - world.cameraY(), blockSize,
 		// blockSize, null);
 		g2d.drawImage(img, -world.blockSize() / 2, -world.blockSize() / 2, world.blockSize(), world.blockSize(), null);
-		g2d.dispose();
-
+		if (activeWeapon != null)
+			activeWeapon.draw(g2d, -world.blockSize() / 2, -world.blockSize() / 2, debugMode);
 		if (debugMode) {
-			drawDebug(g);
+			drawDebug(g, g2d);
 
 		}
+		g2d.dispose();
+
 	}
 
-	private void drawDebug(Graphics g) {
+	private void drawDebug(Graphics g, Graphics2D g2d) {
 		g.setColor(Color.ORANGE);
 		g.fillOval((int) (x - world.cameraX()), (int) (y - world.cameraY()), 5, 5);
 		g.fillOval((int) (x - world.cameraX() + world.blockSize() - 1), (int) (y - world.cameraY()), 5, 5);
@@ -81,6 +86,8 @@ public class Enemy extends LivingEntity {
 		}
 		g.fillOval((int) (x - world.cameraX() + world.blockSize() / 2), (int) (y - world.cameraY() - 6), 5, 5);
 
+		g2d.setColor(Color.RED);
+		g2d.drawString(Integer.toString(health), 10, -20);
 	}
 
 	public void tick() {
@@ -95,31 +102,41 @@ public class Enemy extends LivingEntity {
 			aktionInPassiveMode();
 
 		move();
+
+		if (activeWeapon != null)
+			activeWeapon.tick();
 	}
 
 	public void aktionInActiveMode() {
 
-		if (playerx != world.getPlayer().getTileX() || playery != world.getPlayer().getY()) {
+		if (distanceToPlayer() <= world.blockSize()) {
+			hit();
+			resetMoveDirections();
+		} else if (playerx != world.getPlayer().getTileX() || playery != world.getPlayer().getY()) {
 			playerx = world.getPlayer().getTileX();
 			playery = world.getPlayer().getTileY();
 
 			goal = new Point(playerx, playery);
 			path = SearchAlgorithm.calcShortestPath(world, new Point(getTileX(), getTileY()), goal);
+
+			continuePath();
+
+			if (distanceToPlayer() > 5 * world.blockSize()) {
+				active = false;
+			}
 		}
 
-		if (distanceToPlayer() <= world.blockSize()) {
-			attack();
-		}
-
-		continuePath();
-
-		if (distanceToPlayer() > 5 * world.blockSize()) {
-			active = false;
-		}
 	}
 
-	private void attack() {
-
+	private void hit() {
+		if (activeWeapon != null && activeWeapon.attackReady()) {
+			activeWeapon.hit();
+			if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
+					new Rectangle((int) (world.getPlayer().getX() - world.cameraX()), (int) (world.getPlayer().getY() - world.cameraY()),
+							world.blockSize(), world.blockSize()))) {
+				world.getPlayer().applyDamage(activeWeapon, rotation);
+			}
+		}
 	}
 
 	public void aktionInPassiveMode() {
@@ -169,16 +186,10 @@ public class Enemy extends LivingEntity {
 				(x - world.getPlayer().getX()) * (x - world.getPlayer().getX()) + (y - world.getPlayer().getY()) * (y - world.getPlayer().getY()));
 	}
 
-	
 	@Override
 	protected void kill() {
 		world.removeEnemy(this);
 		parent.enemyKilled();
-	}
-
-	public void applyDamage(Weapon weapon) {
-		health -= weapon.getDamage();
-
 	}
 
 	private int random(int max) {

@@ -3,7 +3,7 @@ package logics.entities;
 import java.awt.image.BufferedImage;
 
 import logics.World;
-
+import logics.entities.items.Weapon;
 
 /**
  * @author Lars Created on 18.09.2018
@@ -25,12 +25,11 @@ public abstract class LivingEntity extends Entity {
 	protected boolean wantsToGoLeft = false;
 	protected boolean wantsToGoRight = false;
 
-	protected double edgeTolerancePercentage = 25;
+	protected double edgeTolerancePercentage = 25; 
 
 	public LivingEntity(World world, BufferedImage img) {
 		super(world, img);
 		this.world = world;
-
 
 	}
 
@@ -104,13 +103,22 @@ public abstract class LivingEntity extends Entity {
 		}
 
 	}
-	
+
 	protected void checkHealth() {
 		if (health <= 0) {
 			kill();
 		}
 	}
-	
+
+	public void applyDamage(Weapon weapon, int direction) {
+		health -= weapon.getDamage();
+//		int angle;
+//		TODO knockback
+//		x += weapon.getKnockback() * Math.sin(Math.toRadians(direction));
+//		y += weapon.getKnockback() * Math.cos(Math.toRadians(direction));
+
+	}
+
 	protected abstract void kill();
 
 	private void checkMaxSpeed() {
@@ -129,7 +137,8 @@ public abstract class LivingEntity extends Entity {
 		if (vSpeed < 0) {
 			// linker edgecut
 			if (!isRelAccessible(-world.blockSize() / 2 + vSpeed, -world.blockSize() / 2)) {
-				if (isRelAccessible(-world.blockSize() / 2 + vSpeed, -world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoLeft) {
+				if (isRelAccessible(-world.blockSize() / 2 + vSpeed, -world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100)
+						&& !wantsToGoLeft) {
 					// TODO edgecut
 				} else {
 					vSpeed = 0;
@@ -140,7 +149,8 @@ public abstract class LivingEntity extends Entity {
 
 			// rechter edgecut
 			if (!isRelAccessible(-world.blockSize() / 2 + vSpeed, world.blockSize() / 2 - 1)) {
-				if (isRelAccessible(-world.blockSize() / 2 + vSpeed, world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoRight) {
+				if (isRelAccessible(-world.blockSize() / 2 + vSpeed, world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100)
+						&& !wantsToGoRight) {
 
 				} else {
 					vSpeed = 0;
@@ -151,7 +161,8 @@ public abstract class LivingEntity extends Entity {
 		// nach unten-movement (BL-BR)
 		if (vSpeed > 0) {
 			if (!isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, -world.blockSize() / 2)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, -world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoLeft) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, -world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100)
+						&& !wantsToGoLeft) {
 
 				} else {
 					vSpeed = 0;
@@ -159,7 +170,8 @@ public abstract class LivingEntity extends Entity {
 				}
 			}
 			if (!isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, world.blockSize() / 2 - 1)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoRight) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100)
+						&& !wantsToGoRight) {
 
 				} else {
 					vSpeed = 0;
@@ -173,7 +185,8 @@ public abstract class LivingEntity extends Entity {
 		// nach links-movement (TL-BL)
 		if (hSpeed < 0) {
 			if (!isRelAccessible(-world.blockSize() / 2, -world.blockSize() / 2 + hSpeed)) {
-				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100, -world.blockSize() / 2 + hSpeed) && !wantsToGoUp) {
+				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100, -world.blockSize() / 2 + hSpeed)
+						&& !wantsToGoUp) {
 
 				} else {
 					hSpeed = 0;
@@ -181,7 +194,8 @@ public abstract class LivingEntity extends Entity {
 				}
 			}
 			if (!isRelAccessible(world.blockSize() / 2 - 1, -world.blockSize() / 2 + hSpeed)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100, -world.blockSize() / 2 + hSpeed) && !wantsToGoDown) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100, -world.blockSize() / 2 + hSpeed)
+						&& !wantsToGoDown) {
 
 				} else {
 					hSpeed = 0;
@@ -195,7 +209,8 @@ public abstract class LivingEntity extends Entity {
 		// nach rechts-movement (TR-BR)
 		if (hSpeed > 0) {
 			if (!isRelAccessible(-world.blockSize() / 2, world.blockSize() / 2 - 1 + hSpeed)) {
-				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100, world.blockSize() / 2 - 1 + hSpeed) && !wantsToGoUp) {
+				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100, world.blockSize() / 2 - 1 + hSpeed)
+						&& !wantsToGoUp) {
 
 				} else {
 					hSpeed = 0;
@@ -203,7 +218,8 @@ public abstract class LivingEntity extends Entity {
 				}
 			}
 			if (!isRelAccessible(world.blockSize() / 2 - 1, world.blockSize() / 2 - 1 + hSpeed)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100, world.blockSize() / 2 - 1 + hSpeed) && !wantsToGoDown) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100, world.blockSize() / 2 - 1 + hSpeed)
+						&& !wantsToGoDown) {
 
 				} else {
 					hSpeed = 0;
@@ -279,10 +295,11 @@ public abstract class LivingEntity extends Entity {
 
 	private boolean isRelAccessible(double dy, double dx) {
 
-		if ((x + world.blockSize() / 2 + dx) >= world.getMaxX() || (y + world.blockSize() / 2 + dy) >= world.getMaxY() || (x + world.blockSize() / 2 + dx) < 0 || (y + world.blockSize() / 2 + dy) < 0) {
+		if ((x + world.blockSize() / 2 + dx) >= world.getMaxX() || (y + world.blockSize() / 2 + dy) >= world.getMaxY()
+				|| (x + world.blockSize() / 2 + dx) < 0 || (y + world.blockSize() / 2 + dy) < 0) {
 			return false;
 		}
 
-		return world.isTetroAt(getTileY(dy),getTileX(dx)) || world.getTileAt(getTileY(dy),getTileX(dx)).isWalkable();
+		return world.isTetroAt(getTileY(dy), getTileX(dx)) || world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();
 	}
 }

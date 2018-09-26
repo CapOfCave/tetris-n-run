@@ -11,7 +11,7 @@ import logics.World;
  */
 public abstract class Entity implements Serializable{
 
-	private static final long serialVersionUID = 6260418655041864529L;
+	private static final long serialVersionUID = 1L;
 	protected double x, y;
 	protected transient BufferedImage img;
     protected int rotation = 90;
