@@ -93,8 +93,7 @@ public class Player extends LivingEntity {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 200, 33);
 		g.setColor(Color.BLACK);
-		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
-		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
+		g.drawString("Rot.:=" + rotation, 2, 15);
 
 		g2d.setColor(Color.RED);
 		g2d.drawString(Integer.toString(health), 10, -20);
@@ -118,8 +117,7 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void applyDamage(Weapon weapon, int direction) {
-		super.applyDamage(weapon, rotation);
-		System.out.println("ouch");
+		super.applyDamage(weapon, direction);
 	}
 
 	private void checkInput() {

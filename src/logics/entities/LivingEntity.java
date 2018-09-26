@@ -25,7 +25,7 @@ public abstract class LivingEntity extends Entity {
 	protected boolean wantsToGoLeft = false;
 	protected boolean wantsToGoRight = false;
 
-	protected double edgeTolerancePercentage = 25; 
+	protected double edgeTolerancePercentage = 25;
 
 	public LivingEntity(World world, BufferedImage img) {
 		super(world, img);
@@ -112,10 +112,34 @@ public abstract class LivingEntity extends Entity {
 
 	public void applyDamage(Weapon weapon, int direction) {
 		health -= weapon.getDamage();
-//		int angle;
-//		TODO knockback
-//		x += weapon.getKnockback() * Math.sin(Math.toRadians(direction));
-//		y += weapon.getKnockback() * Math.cos(Math.toRadians(direction));
+
+//		double h;
+//		double v;
+//		double ges = weapon.getKnockback();
+//		if (0 <= direction && direction < 90) {
+//			h = +ges * Math.sin(Math.toRadians(direction % 90));
+//			v = -ges * Math.cos(Math.toRadians(direction % 90));
+//		} else if (90 <= direction && direction < 180) {
+//			h = +ges * Math.cos(Math.toRadians(direction % 90));
+//			v = +ges * Math.sin(Math.toRadians(direction % 90));
+//
+//		} else if (180 <= direction && direction < 270) {
+//			h = -ges * Math.sin(Math.toRadians(direction % 90));
+//			v = +ges * Math.cos(Math.toRadians(direction % 90));
+//
+//		} else if (270 <= direction && direction < 360) {
+//			h = -ges * Math.cos(Math.toRadians(direction % 90));
+//			v = -ges * Math.sin(Math.toRadians(direction % 90));
+//
+//		} else {
+//			System.out.println("Fehler @LivingEntity#applyDamage");
+//			System.exit(1);
+//			h = -1;
+//			v = -1;
+//		}
+//
+//		x += h;
+//		y += v;
 
 	}
 
