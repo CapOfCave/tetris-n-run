@@ -30,7 +30,7 @@ public class Player extends LivingEntity {
 		super(world, ImageLoader.loadImage("/res/character/characterLeft.png"));
 		inventory = new Inventory();
 
-		Weapon weapon = new Weapon(world, 20, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(30, 5), 8, 60, 45);
+		Weapon weapon = new Weapon(world, 20, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(30, 5), 8, 60, 60, 10);
 		ItemSaver.writeItem("C:\\\\JavaEclipse\\\\weapon.txt", weapon);
 
 		weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
@@ -44,10 +44,10 @@ public class Player extends LivingEntity {
 		inventory.addItem(new Item(world, "/res/blocks/blockd.png"));
 		inventory.addItem(new Item(world, "/res/blocks/blocke.png"));
 
-		
 		acc = 0.8;
 		brake = 4;
 		maxSpeed = 9;
+		health = 50;
 
 	}
 
@@ -76,30 +76,31 @@ public class Player extends LivingEntity {
 		
 		
 		if (activeWeapon != null)
-			activeWeapon.draw(g, g2d, -world.blockSize() / 2, -world.blockSize() / 2, debugMode);
-
-		g2d.dispose();
+			activeWeapon.draw(g2d, -world.blockSize() / 2, -world.blockSize() / 2, debugMode);
 
 		if (debugMode) {
-			drawDebug(g, interpolX, interpolY);
+			drawDebug(g, g2d, interpolX, interpolY);
 
 		}
 
+		g2d.dispose();
+
 	}
 
-	private void drawDebug(Graphics g, float interpolX, float interpolY) {
+	private void drawDebug(Graphics g, Graphics2D g2d, float interpolX, float interpolY) {
 		// Player hitbox
 		g.setColor(Color.ORANGE);
-		g.fillOval((int) (interpolX - world.cameraX()), (int) (interpolY - world.cameraY()), 5, 5);
-		g.fillOval((int) (interpolX - world.cameraX() + world.blockSize() - 1), (int) (interpolY - world.cameraY()), 5, 5);
-		g.fillOval((int) (interpolX - world.cameraX() + world.blockSize() - 1), (int) (interpolY - world.cameraY() + world.blockSize() - 1), 5, 5);
-		g.fillOval((int) (interpolX - world.cameraX()), (int) (interpolY - world.cameraY() + world.blockSize() - 1), 5, 5);
-
+		g2d.fillOval(-world.blockSize() / 2, -world.blockSize() / 2, 5, 5);
+		g2d.fillOval(-world.blockSize() / 2, world.blockSize() / 2, 5, 5);
+		g2d.fillOval(world.blockSize() / 2, world.blockSize() / 2, 5, 5);
+		g2d.fillOval(world.blockSize() / 2, -world.blockSize() / 2, 5, 5);
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 200, 33);
 		g.setColor(Color.BLACK);
-		g.drawString(" x=" + x + " |  y=" + y, 2, 15);
-		g.drawString("dx=" + hSpeed + " | dy=" + vSpeed, 2, 30);
+		g.drawString("Rot.:=" + rotation, 2, 15);
+
+		g2d.setColor(Color.RED);
+		g2d.drawString(Integer.toString(health), 10, -20);
 
 	}
 
@@ -117,9 +118,22 @@ public class Player extends LivingEntity {
 		//zahl = 0;
 		//}
 		zahl++;
+
+
+		checkHealth();
+
+
 		checkInput();
 		move();
 		checkTile();
+
+		if (activeWeapon != null)
+			activeWeapon.tick();
+	}
+
+	@Override
+	public void applyDamage(Weapon weapon, int direction) {
+		super.applyDamage(weapon, direction);
 	}
 
 	private void checkInput() {
@@ -135,12 +149,12 @@ public class Player extends LivingEntity {
 	}
 
 	public void hit() {
-		if (activeWeapon != null) {
+		if (activeWeapon != null && activeWeapon.attackReady()) {
 			activeWeapon.hit();
 			for (Enemy enemy : world.getEnemies()) {
 				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation, new Rectangle((int) (enemy.getX() - world.cameraX()),
 						(int) (enemy.getY() - world.cameraY()), world.blockSize(), world.blockSize()))) {
-					enemy.applyDamage(activeWeapon);
+					enemy.applyDamage(activeWeapon, rotation);
 				}
 			}
 		}
@@ -176,8 +190,7 @@ public class Player extends LivingEntity {
 
 	@Override
 	protected void kill() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("U ded mate");
 	}
 
 }

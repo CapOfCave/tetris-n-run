@@ -15,13 +15,15 @@ import logics.World;
  */
 public class Weapon extends Item {
 
-	private static final long serialVersionUID = 6454829744487940535L;
+	private static final long serialVersionUID = 1L;
 	private transient BufferedImage imgHit;
 	private String imgPath, imgHitPath;
 	private Point imgOffset;
 	private Point imgHitOffset;
 	private int hitTicks = 0;
 	private int damage;
+	protected int attackCooldown;
+	protected int attackCooldownState = 0;
 
 	// Hitbox
 	private double hitWidth;
@@ -30,30 +32,31 @@ public class Weapon extends Item {
 
 	public static double tmpx, tmpy;
 
-	public Weapon(World world, int damage, String imgPath, String imgHitPath, Point imgOffset, Point imgHitOffset, double hitWidth,
-			double theta, double range) {
+	public Weapon(World world, int damage, String imgPath, String imgHitPath, Point imgOffset, Point imgHitOffset, double hitWidth, double theta,
+			double range, int cooldownTicks) {
 		super(world, imgPath);
-		
+
 		this.imgPath = imgPath;
-		this.imgHitPath = imgHitPath;		
-		this.img =  ImageLoader.loadImage(imgPath);
-		this.imgHit =  ImageLoader.loadImage(imgHitPath);
+		this.imgHitPath = imgHitPath;
+		this.img = ImageLoader.loadImage(imgPath);
+		this.imgHit = ImageLoader.loadImage(imgHitPath);
 		this.imgOffset = imgOffset;
 		this.imgHitOffset = imgHitOffset;
 		this.hitWidth = hitWidth;
 		this.theta = theta;
 		this.range = range;
 		this.damage = damage;
+		this.attackCooldown = cooldownTicks;
 	}
-	
+
 	public void init() {
-		System.out.println("WeaponInit");
-		this.img =  ImageLoader.loadImage(imgPath);
-		this.imgHit =  ImageLoader.loadImage(imgHitPath);
+		this.img = ImageLoader.loadImage(imgPath);
+		this.imgHit = ImageLoader.loadImage(imgHitPath);
 		setPreviewImg(img);
 	}
 
-	public void draw(Graphics g, Graphics2D g2d, int x, int y, boolean debugMode) {
+	public void draw(Graphics2D g2d, int x, int y, boolean debugMode) {
+
 		if (hitTicks != 0) {
 			g2d.drawImage(imgHit, x + imgHitOffset.x, y + imgHitOffset.y, world.blockSize(), world.blockSize(), null);
 			hitTicks--;
@@ -67,37 +70,43 @@ public class Weapon extends Item {
 
 	}
 
-//	public void equip() {
-//		player.setWeapon(this);
-//	}
+	public void tick() {
+		if (attackCooldownState > 0) {
+			attackCooldownState--;
+		}
+	}
 
 	@Override
 	public void collectingEvent() {
 		world.getPlayer().addToInventory(this, 0);
 	}
-	
+
 	@Override
 	public void onClickInInventoryEnvent() {
 		world.getPlayer().setWeapon(this);
 	}
 
 	private void drawDebug(Graphics g, int x, int y) {
-		Rectangle rect = new Rectangle((int) (x + world.blockSize() / 2 - range), (int) (y + world.blockSize() / 2 - range), (int) (2 * range), (int) (2 * range));
+		Rectangle rect = new Rectangle((int) (x + world.blockSize() / 2 - range), (int) (y + world.blockSize() / 2 - range), (int) (2 * range),
+				(int) (2 * range));
 		g.setColor(Color.RED);
 		g.drawArc(rect.x, rect.y, rect.width, rect.height, (int) (-theta / 2), (int) (theta));
+		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 - hitWidth), x + world.blockSize() / 2,
+				(int) (y + world.blockSize() / 2 + hitWidth));
 
-		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 - hitWidth), x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 + hitWidth));
-
-		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 - hitWidth), (int) (x + world.blockSize() / 2 + range * Math.cos(Math.toRadians(theta / 2))),
+		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 - hitWidth),
+				(int) (x + world.blockSize() / 2 + range * Math.cos(Math.toRadians(theta / 2))),
 				(int) (y + world.blockSize() / 2 - range * Math.sin(Math.toRadians(theta / 2))));
-		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 + hitWidth), (int) (x + world.blockSize() / 2 + range * Math.cos(Math.toRadians(theta / 2))),
+		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 + hitWidth),
+				(int) (x + world.blockSize() / 2 + range * Math.cos(Math.toRadians(theta / 2))),
 				(int) (y + world.blockSize() / 2 + range * Math.sin(Math.toRadians(theta / 2))));
-		g.setColor(Color.RED);
-
+		g.setColor(Color.YELLOW);
+		g.drawString(Integer.toString(attackCooldownState), (int) x + world.blockSize() / 2 - 5, (int) y);
 	}
 
 	public void hit() {
 		hitTicks = 10;
+		attackCooldownState = attackCooldown;
 	}
 
 	public boolean isInRange(double x, double y, double angleDeg, Rectangle eBounds) {
@@ -106,7 +115,7 @@ public class Weapon extends Item {
 		double nully = y + halfBlockSize;
 
 		// Calc nearest point
-		double npX; //TODO not optimal & x < 0 unmöglich
+		double npX; // TODO not optimal & x < 0 unmöglich
 		double npY;
 
 		npX = nullx;
@@ -181,6 +190,14 @@ public class Weapon extends Item {
 
 	public int getDamage() {
 		return damage;
+	}
+
+	public boolean attackReady() {
+		return attackCooldownState == 0;
+	}
+
+	public double getKnockback() {
+		return 20;
 	}
 
 }

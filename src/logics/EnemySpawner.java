@@ -68,7 +68,7 @@ public class EnemySpawner extends Entity {
 
 		if (enemyOnlyOnTetros) {
 			if (world.isTetroAt(yPos, xPos) || world.getTileAt(yPos, xPos).isWalkable())
-				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);
+				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 25, this);
 			enemyCount++;
 		} else {
 			if (world.getTileAt(yPos, xPos).isWalkable()) {
