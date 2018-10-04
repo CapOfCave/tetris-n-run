@@ -23,9 +23,11 @@ public class Player extends LivingEntity {
 	private static final long serialVersionUID = 1L;
 	private Inventory inventory;
 	private Weapon activeWeapon;
+	private int imgIndex = 0;
+	private int zahl = 0;
 
 	public Player(World world) {
-		super(world, ImageLoader.loadImage("/res/character1.png"));
+		super(world, ImageLoader.loadImage("/res/character/characterLeft.png"));
 		inventory = new Inventory();
 
 		Weapon weapon = new Weapon(world, 20, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(30, 5), 8, 60, 45);
@@ -69,8 +71,10 @@ public class Player extends LivingEntity {
 		// g2d.drawImage(img, (int) (interpolX) - world.cameraX(), (int) (interpolY) - world.cameraY(),
 		// world.blockSize(),
 		// world.blockSize(), null);
-		g2d.drawImage(img, -world.blockSize() / 2, -world.blockSize() / 2, world.blockSize(), world.blockSize(), null);
+		g2d.drawImage(img, -world.blockSize() / 2, -world.blockSize() / 2, world.blockSize(), world.blockSize(), imgIndex, 0, imgIndex + 32, 32, null);
 
+		
+		
 		if (activeWeapon != null)
 			activeWeapon.draw(g, g2d, -world.blockSize() / 2, -world.blockSize() / 2, debugMode);
 
@@ -103,7 +107,16 @@ public class Player extends LivingEntity {
 	public void tick() {
 		lastX = x;
 		lastY = y;
-
+		
+		//if(zahl == 3) {
+		//if(!((imgIndex + 32) >= img.getWidth()))
+		//	imgIndex += 32;
+		//else
+		//	imgIndex = 0;
+		
+		//zahl = 0;
+		//}
+		zahl++;
 		checkInput();
 		move();
 		checkTile();
