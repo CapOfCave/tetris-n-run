@@ -20,7 +20,7 @@ public class EnemySpawner extends Entity {
 
 	public EnemySpawner(World world, int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight, int spawnOffsetBottom, int maxEnemy,
 			boolean enemyOnlyOnTetros, double d) {
-		super(world, null, x, y);
+		super(world, x, y, null);
 
 		this.maxEnemy = maxEnemy;
 		this.enemyOnlyOnTetros = enemyOnlyOnTetros;
@@ -36,6 +36,7 @@ public class EnemySpawner extends Entity {
 		global = true;
 	}
 
+	@Override
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
 
 		if (debugMode) {

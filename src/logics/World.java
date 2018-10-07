@@ -13,6 +13,7 @@ import data.TetroType;
 import data.Tiles.Tile;
 import graphics.Frame;
 import input.KeyHandler;
+import loading.EntityLoader;
 import loading.LevelSaver;
 import logics.entities.Enemy;
 import logics.entities.Entity;
@@ -80,7 +81,7 @@ public class World {
 				tileWorld.length * blockSize - (int) graphicClip.getHeight(), tileWorld[0].length * blockSize - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - blockSize / 2), (int) (graphicClip.getHeight() / 2 - blockSize / 2.));
 
-		player = new Player(this, level.getPlayerX(), level.getPlayerY());
+		player = new Player(this, level.getPlayerX(), level.getPlayerY(), EntityLoader.loadAnimations("/res/character.txt"));
 		addSpawner(10, 10, 2, 2, 2, 2, 3, true, 5);
 		addSpawner(3, 3, 1, 1, 1, 1, 2, true, 3);
 		// Erstellen der Tetros
@@ -298,7 +299,7 @@ public class World {
 	}
 
 	public void addEnemy(int x, int y, int health, EnemySpawner enemySpawner) {
-		enemies.add(new Enemy(this, enemySpawner, health, x, y));
+		enemies.add(new Enemy(this, enemySpawner, health, x, y, EntityLoader.loadAnimations("/res/enemyAnims.txt")));
 
 	}
 

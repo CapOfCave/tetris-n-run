@@ -1,7 +1,9 @@
 package logics.entities;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
+import data.Animation;
 import logics.World;
 import logics.entities.items.Weapon;
 
@@ -27,14 +29,14 @@ public abstract class LivingEntity extends Entity {
 
 	protected double edgeTolerancePercentage = 25;
 
-	public LivingEntity(World world, BufferedImage img) {
-		super(world, img);
+	public LivingEntity(World world, HashMap<String, Animation> anims) {
+		super(world, anims);
 		this.world = world;
 
 	}
 
-	public LivingEntity(World world, BufferedImage img, int x, int y) {
-		super(world, img, x, y);
+	public LivingEntity(World world, int x, int y, HashMap<String, Animation> anims) {
+		super(world, x, y, anims);
 
 	}
 
@@ -113,33 +115,33 @@ public abstract class LivingEntity extends Entity {
 	public void applyDamage(Weapon weapon, int direction) {
 		health -= weapon.getDamage();
 
-//		double h;
-//		double v;
-//		double ges = weapon.getKnockback();
-//		if (0 <= direction && direction < 90) {
-//			h = +ges * Math.sin(Math.toRadians(direction % 90));
-//			v = -ges * Math.cos(Math.toRadians(direction % 90));
-//		} else if (90 <= direction && direction < 180) {
-//			h = +ges * Math.cos(Math.toRadians(direction % 90));
-//			v = +ges * Math.sin(Math.toRadians(direction % 90));
-//
-//		} else if (180 <= direction && direction < 270) {
-//			h = -ges * Math.sin(Math.toRadians(direction % 90));
-//			v = +ges * Math.cos(Math.toRadians(direction % 90));
-//
-//		} else if (270 <= direction && direction < 360) {
-//			h = -ges * Math.cos(Math.toRadians(direction % 90));
-//			v = -ges * Math.sin(Math.toRadians(direction % 90));
-//
-//		} else {
-//			System.out.println("Fehler @LivingEntity#applyDamage");
-//			System.exit(1);
-//			h = -1;
-//			v = -1;
-//		}
-//
-//		x += h;
-//		y += v;
+		// double h;
+		// double v;
+		// double ges = weapon.getKnockback();
+		// if (0 <= direction && direction < 90) {
+		// h = +ges * Math.sin(Math.toRadians(direction % 90));
+		// v = -ges * Math.cos(Math.toRadians(direction % 90));
+		// } else if (90 <= direction && direction < 180) {
+		// h = +ges * Math.cos(Math.toRadians(direction % 90));
+		// v = +ges * Math.sin(Math.toRadians(direction % 90));
+		//
+		// } else if (180 <= direction && direction < 270) {
+		// h = -ges * Math.sin(Math.toRadians(direction % 90));
+		// v = +ges * Math.cos(Math.toRadians(direction % 90));
+		//
+		// } else if (270 <= direction && direction < 360) {
+		// h = -ges * Math.cos(Math.toRadians(direction % 90));
+		// v = -ges * Math.sin(Math.toRadians(direction % 90));
+		//
+		// } else {
+		// System.out.println("Fehler @LivingEntity#applyDamage");
+		// System.exit(1);
+		// h = -1;
+		// v = -1;
+		// }
+		//
+		// x += h;
+		// y += v;
 
 	}
 
@@ -256,6 +258,8 @@ public abstract class LivingEntity extends Entity {
 
 	private void updateRotation() {
 
+		
+
 		// Wenn Gegensätze gedrückt werden
 		if (Math.abs(hSpeed) > Math.abs(vSpeed)) {
 			rotation = -90 * ((int) Math.copySign(1, hSpeed) - 2);
@@ -272,15 +276,21 @@ public abstract class LivingEntity extends Entity {
 		} else if (!wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
 			rotation = 90; // rechts
 		}
-		if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
-			rotation = 315; // oben links
-		} else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight) {
-			rotation = 225; // unten links
-		} else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight) {
-			rotation = 135; // unten rechts
-		} else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
-			rotation = 45; // oben rechts
+		
+		if (Math.abs(hSpeed) < 1 && Math.abs(vSpeed) < 1) {
+			akt_animation = anims.get("stand" + rotation / 90);
+		} else {
+			akt_animation = anims.get("walk" + rotation / 90);
 		}
+		// if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
+		// rotation = 315; // oben links
+		// } else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight) {
+		// rotation = 225; // unten links
+		// } else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight) {
+		// rotation = 135; // unten rechts
+		// } else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
+		// rotation = 45; // oben rechts
+		// }
 	}
 
 	private void move_contact_solid(int i) {

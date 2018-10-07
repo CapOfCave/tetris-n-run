@@ -1,0 +1,3 @@
+pics32 block = "/res/blocks/blocka.png"
+
+anim aniNull = block.0

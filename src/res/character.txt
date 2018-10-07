@@ -1,0 +1,14 @@
+pics32 u = "/res/character/characterUpPics.png"
+pics32 d = "/res/character/characterDownPics.png"
+pics32 l = "/res/character/characterLeftPics.png"
+pics32 r="/res/character/characterRightPics.png"
+
+anim stand0=u.0
+anim stand1=r.0
+anim stand2=d.0
+anim stand3=l.0
+
+anim walk0=u.3+u.4+u.4+u.3+u.2+u.1+u.1+u.2
+anim walk1=r.3+r.4+r.4+r.3+r.2+r.1+r.1+r.2
+anim walk2=d.3+d.4+d.4+d.3+d.2+d.1+d.1+d.2
+anim walk3=l.3+l.4+l.4+l.3+l.2+l.1+l.1+l.2

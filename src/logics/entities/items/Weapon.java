@@ -2,11 +2,12 @@ package logics.entities.items;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
+import loading.EntityLoader;
 import loading.ImageLoader;
 import logics.World;
 
@@ -16,8 +17,9 @@ import logics.World;
 public class Weapon extends Item {
 
 	private static final long serialVersionUID = 1L;
-	private transient BufferedImage imgHit;
-	private String imgPath, imgHitPath;
+//	private transient BufferedImage imgHit;
+//	private String imgPath, imgHitPath;
+	
 	private Point imgOffset;
 	private Point imgHitOffset;
 	private int hitTicks = 0;
@@ -36,10 +38,8 @@ public class Weapon extends Item {
 			double range, int cooldownTicks) {
 		super(world, imgPath);
 
-		this.imgPath = imgPath;
-		this.imgHitPath = imgHitPath;
-		this.img = ImageLoader.loadImage(imgPath);
-		this.imgHit = ImageLoader.loadImage(imgHitPath);
+//		this.imgPath = imgPath;
+//		this.imgHitPath = imgHitPath;
 		this.imgOffset = imgOffset;
 		this.imgHitOffset = imgHitOffset;
 		this.hitWidth = hitWidth;
@@ -50,22 +50,27 @@ public class Weapon extends Item {
 	}
 
 	public void init() {
-		this.img = ImageLoader.loadImage(imgPath);
-		this.imgHit = ImageLoader.loadImage(imgHitPath);
-		setPreviewImg(img);
+//		this.img = ImageLoader.loadImage(imgPath);
+//		this.imgHit = ImageLoader.loadImage(imgHitPath);
+//		setPreviewImg(img);
 	}
 
-	public void draw(Graphics2D g2d, int x, int y, boolean debugMode) {
+	public void draw(Graphics g, int x, int y, String animkey, int animFrame, boolean debugMode) {
 
 		if (hitTicks != 0) {
-			g2d.drawImage(imgHit, x + imgHitOffset.x, y + imgHitOffset.y, world.blockSize(), world.blockSize(), null);
+			akt_animation = anims.get("hit" + animkey);
+			akt_animation.setFrame(animFrame);
+			
 			hitTicks--;
 		} else {
-			g2d.drawImage(img, x + imgOffset.x, y + imgOffset.y, world.blockSize(), world.blockSize(), null);
+			akt_animation = anims.get(animkey);
+			akt_animation.setFrame(animFrame);
 		}
+		
+		g.drawImage(akt_animation.getImage(), x + imgHitOffset.x, y + imgHitOffset.y, world.blockSize(), world.blockSize(), null);
 
 		if (debugMode) {
-			drawDebug(g2d, x, y);
+			drawDebug(g, x, y);
 		}
 
 	}
