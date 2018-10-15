@@ -19,7 +19,7 @@ public class Weapon extends Item {
 	private static final long serialVersionUID = 1L;
 //	private transient BufferedImage imgHit;
 //	private String imgPath, imgHitPath;
-	
+
 	private Point imgOffset;
 	private Point imgHitOffset;
 	private int hitTicks = 0;
@@ -34,11 +34,10 @@ public class Weapon extends Item {
 
 	public static double tmpx, tmpy;
 
-	public Weapon(World world, int damage, String imgPath, String imgHitPath, Point imgOffset, Point imgHitOffset, double hitWidth, double theta,
-			double range, int cooldownTicks) {
+	public Weapon(World world, int damage, String imgPath, Point imgOffset, Point imgHitOffset, double hitWidth,
+			double theta, double range, int cooldownTicks) {
 		super(world, imgPath);
 
-//		this.imgPath = imgPath;
 //		this.imgHitPath = imgHitPath;
 		this.imgOffset = imgOffset;
 		this.imgHitOffset = imgHitOffset;
@@ -49,7 +48,12 @@ public class Weapon extends Item {
 		this.attackCooldown = cooldownTicks;
 	}
 
+	@Override
 	public void init() {
+		super.init();
+//		System.out.println(this + ": Weapon init");
+		anims = EntityLoader.loadAnimations(imgPath);
+		akt_animation = anims.get(anims.keySet().toArray()[0]);
 //		this.img = ImageLoader.loadImage(imgPath);
 //		this.imgHit = ImageLoader.loadImage(imgHitPath);
 //		setPreviewImg(img);
@@ -59,15 +63,15 @@ public class Weapon extends Item {
 
 		if (hitTicks != 0) {
 			akt_animation = anims.get("hit" + animkey);
-			akt_animation.setFrame(animFrame);
-			
+
 			hitTicks--;
 		} else {
 			akt_animation = anims.get(animkey);
-			akt_animation.setFrame(animFrame);
 		}
-		
-		g.drawImage(akt_animation.getImage(), x + imgHitOffset.x, y + imgHitOffset.y, world.blockSize(), world.blockSize(), null);
+		akt_animation.setFrame(animFrame);
+
+		g.drawImage(akt_animation.getImage(), x + imgHitOffset.x, y + imgHitOffset.y, world.blockSize(),
+				world.blockSize(), null);
 
 		if (debugMode) {
 			drawDebug(g, x, y);
@@ -92,8 +96,8 @@ public class Weapon extends Item {
 	}
 
 	private void drawDebug(Graphics g, int x, int y) {
-		Rectangle rect = new Rectangle((int) (x + world.blockSize() / 2 - range), (int) (y + world.blockSize() / 2 - range), (int) (2 * range),
-				(int) (2 * range));
+		Rectangle rect = new Rectangle((int) (x + world.blockSize() / 2 - range),
+				(int) (y + world.blockSize() / 2 - range), (int) (2 * range), (int) (2 * range));
 		g.setColor(Color.RED);
 		g.drawArc(rect.x, rect.y, rect.width, rect.height, (int) (-theta / 2), (int) (theta));
 		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 - hitWidth), x + world.blockSize() / 2,
@@ -190,7 +194,8 @@ public class Weapon extends Item {
 		boolean intersectsBottom = intersectsD2 && !intersectsN2;
 
 		return intersectsTop || intersectsBottom || (dist < range
-				&& ((alpha - angleDeg + 360) % 360 > 360 - theta / 2 || (alpha - angleDeg + 360) % 360 < +theta / 2) && trfx > nullx);
+				&& ((alpha - angleDeg + 360) % 360 > 360 - theta / 2 || (alpha - angleDeg + 360) % 360 < +theta / 2)
+				&& trfx > nullx);
 	}
 
 	public int getDamage() {

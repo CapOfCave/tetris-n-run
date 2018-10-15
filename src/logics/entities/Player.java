@@ -29,19 +29,18 @@ public class Player extends LivingEntity {
 		super(world, anims);
 		inventory = new Inventory();
 
-		Weapon weapon = new Weapon(world, 20, "/res/blocks/blocka.txt", "/res/blocks/blocka.txt", new Point(0, 0), new Point(30, 5), 8, 60, 60, 10);
-//		ItemSaver.writeItem("C:\\\\JavaEclipse\\\\weapon.txt", weapon);
-//
-//		weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
-//
-//		weapon.setWorld(world);
+		Weapon weapon = new Weapon(world, 20, "/res/anims/sword.txt", new Point(0, 0), new Point(30, 5), 8, 60, 60, 10);
+		ItemSaver.writeItem("C:\\\\JavaEclipse\\\\weapon.txt", weapon);
+		weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
+
+		weapon.setWorld(world);
 
 		inventory.addItem(weapon);
-		inventory.addItem(new Item(world, "/res/blocks/blocka.txt"));
-		inventory.addItem(new Item(world, "/res/blocks/blocka.txt"));
-		inventory.addItem(new Item(world, "/res/blocks/blocka.txt"));
-		inventory.addItem(new Item(world, "/res/blocks/blocka.txt"));
-		inventory.addItem(new Item(world, "/res/blocks/blocka.txt"));
+		inventory.addItem(new Item(world, "/res/anims/item.txt"));
+		inventory.addItem(new Item(world, "/res/anims/item.txt"));
+		inventory.addItem(new Item(world, "/res/anims/item.txt"));
+		inventory.addItem(new Item(world, "/res/anims/item.txt"));
+		inventory.addItem(new Item(world, "/res/anims/item.txt"));
 
 		acc = 0.8;
 		brake = 4;
@@ -64,10 +63,12 @@ public class Player extends LivingEntity {
 		int interpolX = (int) ((x - lastX) * interpolation + lastX);
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 
-		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX(), interpolY - world.cameraY(), world.blockSize(), world.blockSize(), null);
+		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX(), interpolY - world.cameraY(),
+				world.blockSize(), world.blockSize(), null);
 
 		if (activeWeapon != null)
-			activeWeapon.draw(g, -world.blockSize() / 2, -world.blockSize() / 2, "", 0, debugMode);
+			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
+					akt_animation.getAnimFrame(), debugMode);
 
 		if (debugMode) {
 			drawDebug(g, interpolX, interpolY);
@@ -126,8 +127,9 @@ public class Player extends LivingEntity {
 		if (activeWeapon != null && activeWeapon.attackReady()) {
 			activeWeapon.hit();
 			for (Enemy enemy : world.getEnemies()) {
-				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation, new Rectangle((int) (enemy.getX() - world.cameraX()),
-						(int) (enemy.getY() - world.cameraY()), world.blockSize(), world.blockSize()))) {
+				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
+						new Rectangle((int) (enemy.getX() - world.cameraX()), (int) (enemy.getY() - world.cameraY()),
+								world.blockSize(), world.blockSize()))) {
 					enemy.applyDamage(activeWeapon, rotation);
 				}
 			}

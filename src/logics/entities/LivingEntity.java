@@ -163,8 +163,8 @@ public abstract class LivingEntity extends Entity {
 		if (vSpeed < 0) {
 			// linker edgecut
 			if (!isRelAccessible(-world.blockSize() / 2 + vSpeed, -world.blockSize() / 2)) {
-				if (isRelAccessible(-world.blockSize() / 2 + vSpeed, -world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100)
-						&& !wantsToGoLeft) {
+				if (isRelAccessible(-world.blockSize() / 2 + vSpeed,
+						-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoLeft) {
 					// TODO edgecut
 				} else {
 					vSpeed = 0;
@@ -175,7 +175,8 @@ public abstract class LivingEntity extends Entity {
 
 			// rechter edgecut
 			if (!isRelAccessible(-world.blockSize() / 2 + vSpeed, world.blockSize() / 2 - 1)) {
-				if (isRelAccessible(-world.blockSize() / 2 + vSpeed, world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100)
+				if (isRelAccessible(-world.blockSize() / 2 + vSpeed,
+						world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100)
 						&& !wantsToGoRight) {
 
 				} else {
@@ -187,8 +188,8 @@ public abstract class LivingEntity extends Entity {
 		// nach unten-movement (BL-BR)
 		if (vSpeed > 0) {
 			if (!isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, -world.blockSize() / 2)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, -world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100)
-						&& !wantsToGoLeft) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed,
+						-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoLeft) {
 
 				} else {
 					vSpeed = 0;
@@ -196,7 +197,8 @@ public abstract class LivingEntity extends Entity {
 				}
 			}
 			if (!isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, world.blockSize() / 2 - 1)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100)
+				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed,
+						world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100)
 						&& !wantsToGoRight) {
 
 				} else {
@@ -211,8 +213,8 @@ public abstract class LivingEntity extends Entity {
 		// nach links-movement (TL-BL)
 		if (hSpeed < 0) {
 			if (!isRelAccessible(-world.blockSize() / 2, -world.blockSize() / 2 + hSpeed)) {
-				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100, -world.blockSize() / 2 + hSpeed)
-						&& !wantsToGoUp) {
+				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100,
+						-world.blockSize() / 2 + hSpeed) && !wantsToGoUp) {
 
 				} else {
 					hSpeed = 0;
@@ -220,8 +222,8 @@ public abstract class LivingEntity extends Entity {
 				}
 			}
 			if (!isRelAccessible(world.blockSize() / 2 - 1, -world.blockSize() / 2 + hSpeed)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100, -world.blockSize() / 2 + hSpeed)
-						&& !wantsToGoDown) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100,
+						-world.blockSize() / 2 + hSpeed) && !wantsToGoDown) {
 
 				} else {
 					hSpeed = 0;
@@ -235,8 +237,8 @@ public abstract class LivingEntity extends Entity {
 		// nach rechts-movement (TR-BR)
 		if (hSpeed > 0) {
 			if (!isRelAccessible(-world.blockSize() / 2, world.blockSize() / 2 - 1 + hSpeed)) {
-				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100, world.blockSize() / 2 - 1 + hSpeed)
-						&& !wantsToGoUp) {
+				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100,
+						world.blockSize() / 2 - 1 + hSpeed) && !wantsToGoUp) {
 
 				} else {
 					hSpeed = 0;
@@ -244,8 +246,8 @@ public abstract class LivingEntity extends Entity {
 				}
 			}
 			if (!isRelAccessible(world.blockSize() / 2 - 1, world.blockSize() / 2 - 1 + hSpeed)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100, world.blockSize() / 2 - 1 + hSpeed)
-						&& !wantsToGoDown) {
+				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100,
+						world.blockSize() / 2 - 1 + hSpeed) && !wantsToGoDown) {
 
 				} else {
 					hSpeed = 0;
@@ -257,8 +259,6 @@ public abstract class LivingEntity extends Entity {
 	}
 
 	private void updateRotation() {
-
-		
 
 		// Wenn Gegensätze gedrückt werden
 		if (Math.abs(hSpeed) > Math.abs(vSpeed)) {
@@ -276,19 +276,23 @@ public abstract class LivingEntity extends Entity {
 		} else if (!wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
 			rotation = 90; // rechts
 		}
-		
+
 		if (Math.abs(hSpeed) < 1 && Math.abs(vSpeed) < 1) {
-			akt_animation = anims.get("stand" + rotation / 90);
+			animation_key = "stand" + rotation / 90;
 		} else {
-			akt_animation = anims.get("walk" + rotation / 90);
+			animation_key = "walk" + rotation / 90;
 		}
+		akt_animation = anims.get(animation_key);
 		// if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
 		// rotation = 315; // oben links
-		// } else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight) {
+		// } else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight)
+		// {
 		// rotation = 225; // unten links
-		// } else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight) {
+		// } else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight)
+		// {
 		// rotation = 135; // unten rechts
-		// } else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
+		// } else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight)
+		// {
 		// rotation = 45; // oben rechts
 		// }
 	}

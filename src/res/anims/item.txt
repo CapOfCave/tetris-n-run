@@ -1,0 +1,4 @@
+pics190 p = "/res/sword-in-hand.png"
+
+anim stand0 = p.0
+anim preview = p.0

@@ -50,7 +50,7 @@ public class Enemy extends LivingEntity {
 		lastX = x;
 		lastY = y;
 
-		activeWeapon = new Weapon(world, 5, "/res/sword-in-hand.png", "/res/sword-hit.png", new Point(0, 0), new Point(0, 0), 10, 50, 30, 50);
+		activeWeapon = new Weapon(world, 5, "/res/anims/sword.txt", new Point(0, 0), new Point(0, 0), 10, 50, 30, 50);
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {

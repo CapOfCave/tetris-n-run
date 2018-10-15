@@ -22,7 +22,7 @@ public class Animation {
 	}
 
 	public BufferedImage getImage() {
-		return frames.get(index / frame_ticks);
+		return frames.get((index % (frames.size() * frame_ticks)) / frame_ticks);
 	}
 
 	public void reset() {
@@ -34,4 +34,12 @@ public class Animation {
 
 	}
 
+	@Override
+	public String toString() {
+		return "Animation" + frames.toString();
+	}
+
+	public int getAnimFrame() {
+		return index;
+	}
 }

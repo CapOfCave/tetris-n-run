@@ -1,0 +1,23 @@
+pics190 p = "/res/sword-in-hand.png"
+
+anim stand0=p.0
+anim stand1=p.0
+anim stand2=p.0
+anim stand3=p.0
+
+anim walk0=p.0
+anim walk1=p.0
+anim walk2=p.0
+anim walk3=p.0
+
+anim hitstand0=p.0
+anim hitstand1=p.0
+anim hitstand2=p.0
+anim hitstand3=p.0
+
+anim hitwalk0=p.0
+anim hitwalk1=p.0
+anim hitwalk2=p.0
+anim hitwalk3=p.0
+
+anim preview = p.0

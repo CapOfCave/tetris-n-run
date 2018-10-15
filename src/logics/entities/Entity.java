@@ -18,14 +18,15 @@ public abstract class Entity implements Serializable {
 	protected int rotation = 90;
 	protected transient World world;
 
-	protected HashMap<String, Animation> anims;
-	protected Animation akt_animation;
+	protected transient HashMap<String, Animation> anims;
+	
+	protected transient Animation akt_animation;
+	protected transient String animation_key;
 
 	public Entity(World world, HashMap<String, Animation> anims) {
 		this.world = world;
 		this.anims = anims;
 
-		System.out.println(anims);
 		if (anims != null)
 			akt_animation = anims.get(anims.keySet().toArray()[0]);
 		else

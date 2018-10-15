@@ -21,6 +21,11 @@ public class Pics {
 		this.img = img;
 		this.width = width;
 		amount = img.getWidth() / width;
+		if (amount == 0) {
+			amount = 1;
+			width = img.getWidth();
+			System.out.println("Changed width @" + this);
+		}
 	}
 
 	public BufferedImage get(int i) {
@@ -29,6 +34,11 @@ public class Pics {
 		} else {
 			return img.getSubimage(i * width, 0, width, width);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Pics(width=" + width + ",amount=" + amount + ", img=" + img + ")";
 	}
 
 }

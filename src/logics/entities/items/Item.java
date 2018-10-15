@@ -14,30 +14,29 @@ public class Item extends Entity {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient BufferedImage previewImg;
-
-//	private String imgPath;
+	protected String imgPath;
 
 	public Item(World world, String imgPath) {
 		super(world, EntityLoader.loadAnimations(imgPath));
-//		this.imgPath = imgPath;
-		this.previewImg = ImageLoader.loadImage(imgPath);
+		this.imgPath = imgPath;
+		this.init();
 	}
 
 	public void init() {
-		// System.out.println("ItemInit");
+//		System.out.println(this + ": ItemInit");
 		// this.img = ImageLoader.loadImage(imgPath);
 		// setPreviewImg(img);
 
 	}
 
-	// public Item(World world, BufferedImage previewImg, int x, int y) {
-	// super(world, previewImg);
-	// this.previewImg = previewImg;
-	// }
 
 	public void drawPreview(Graphics2D g, int position, int size) {
-		g.drawImage(previewImg, 20 + (32 * position + 5 * position), 20, size, size, null);
+		
+		g.drawRect(20 + (32 * position + 5 * position), 20, size, size);
+		
+		akt_animation = anims.get("preview");
+		g.drawImage(akt_animation.getImage(), 20 + (32 * position + 5 * position), 20, size, size, null);
+		akt_animation.next();
 	}
 
 	public void onClickInInventoryEnvent() {
@@ -52,13 +51,12 @@ public class Item extends Entity {
 
 	@Override
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
-		System.out.println(this);
-		g.drawImage(akt_animation.getImage(), (int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()),
-				world.blockSize(), world.blockSize(), null);
+		g.drawImage(akt_animation.getImage(), (int) (x * world.blockSize() - world.cameraX()),
+				(int) (y * world.blockSize() - world.cameraY()), world.blockSize(), world.blockSize(), null);
 		if (debugMode) {
 			g.setColor(Color.GREEN);
-			g.fillRect((int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()), world.blockSize(),
-					world.blockSize());
+			g.fillRect((int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()),
+					world.blockSize(), world.blockSize());
 
 		}
 	}
@@ -68,7 +66,4 @@ public class Item extends Entity {
 		akt_animation.next();
 	}
 
-	public void setPreviewImg(BufferedImage img) {
-		previewImg = img;
-	}
 }

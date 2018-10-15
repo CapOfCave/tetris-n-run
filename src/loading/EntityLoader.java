@@ -42,13 +42,14 @@ public class EntityLoader {
 				Animation anim = new Animation();
 				for (String strFrame : values) {
 					strFrame = strFrame.trim();
+//					System.out.println((strFrame.substring(0, strFrame.indexOf("."))) + ";;;;;"
+//							+ (Integer.parseInt(strFrame.substring(strFrame.indexOf(".") + 1))));
 					anim.addFrame(pics.get(strFrame.substring(0, strFrame.indexOf(".")))
 							.get(Integer.parseInt(strFrame.substring(strFrame.indexOf(".") + 1))));
 				}
 				anims.put(name, anim);
 			}
 		}
-
 		return anims;
 	}
 
