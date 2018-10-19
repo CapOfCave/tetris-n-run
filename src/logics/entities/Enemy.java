@@ -2,14 +2,12 @@ package logics.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import data.Animation;
-import loading.ImageLoader;
 import logics.EnemySpawner;
 import logics.World;
 import logics.entities.items.Weapon;
@@ -64,7 +62,7 @@ public class Enemy extends LivingEntity {
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX(), interpolY - world.cameraY(),
 				world.blockSize(), world.blockSize(), null);
 //		if (activeWeapon != null)
-//			activeWeapon.draw(g2d, -world.blockSize() / 2, -world.blockSize() / 2, debugMode);
+//			activeWeapon.draw(g, -world.blockSize() / 2, -world.blockSize() / 2, debugMode);
 //		if (debugMode) {
 //			drawDebug(g, g2d);
 //TODO waffen
@@ -97,7 +95,7 @@ public class Enemy extends LivingEntity {
 	public void tick() {
 		super.tick();
 
-		checkHealth();
+		
 
 		if (active)
 			aktionInActiveMode();
@@ -131,13 +129,14 @@ public class Enemy extends LivingEntity {
 	}
 
 	private void hit() {
-		if (activeWeapon != null && activeWeapon.attackReady()) {
+		if (activeWeapon != null && attackReady()) {
 			activeWeapon.hit();
+			hitTicks += activeWeapon.getCooldownTicks();
 			if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
 					new Rectangle((int) (world.getPlayer().getX() - world.cameraX()),
 							(int) (world.getPlayer().getY() - world.cameraY()), world.blockSize(),
 							world.blockSize()))) {
-				world.getPlayer().applyDamage(activeWeapon, rotation);
+				world.getPlayer().applyDamage(activeWeapon);
 			}
 		}
 	}

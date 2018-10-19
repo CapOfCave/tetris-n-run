@@ -9,8 +9,8 @@ import loading.ImageLoader;
  */
 public class WallTile extends Tile{
 
-	public WallTile(int posX, int posY, Frame frame) {
-		super('1', posX, posY, false, false, frame);
+	public WallTile(char key, int posX, int posY, Frame frame) {
+		super(key, posX, posY, false, false, frame);
 		isBlockingTetro = true;
 		img = ImageLoader.loadImage("/res/blocks/block1.png");
 	}

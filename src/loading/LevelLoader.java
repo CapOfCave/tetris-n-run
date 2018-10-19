@@ -11,7 +11,6 @@ import data.RawTetro;
 import data.TetroType;
 import data.Tiles.DoorTile;
 import data.Tiles.EmptyTile;
-import data.Tiles.GoalTile;
 import data.Tiles.LevelGuiTile;
 import data.Tiles.Switch;
 import data.Tiles.Tile;
@@ -168,9 +167,9 @@ public class LevelLoader {
 				char tileChar = worldString.charAt(i);
 
 				if (tileChar == '1') {
-					arrWorld[j][i] = new WallTile(i, j, frame);
+					arrWorld[j][i] = new WallTile(tileChar, i, j, frame);
 				} else if (tileChar == '0') {
-					arrWorld[j][i] = new EmptyTile(i, j, frame);
+					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 				} else if (tileChar == 'D') {
 					for (DoorTile dT : doors) {
 						if (dT.getPosX() == i && dT.getPosY() == j) {
@@ -179,19 +178,17 @@ public class LevelLoader {
 					}
 					if (arrWorld[j][i] == null) {
 						System.out.println("Fehler im Level \"" + url + "\": Tür nicht bestimmt");
-						arrWorld[j][i] = new EmptyTile(i, j, frame);
+						arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 
 					}
 
 				} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò') {
 					arrWorld[j][i] = new Switch(tileChar, i, j, frame);
-				} else if (tileChar == '!'){
-					arrWorld[j][i] = new GoalTile(i, j, frame);
 				} else if (Character.isLowerCase(tileChar)) {
 					arrWorld[j][i] = new LevelGuiTile(tileChar, i, j, frame);
 				} else {
 					System.out.println("Unbekanntes Tile bei (" + i + "|" + j + ")");
-					arrWorld[j][i] = new EmptyTile(i, j, frame);
+					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 				}
 
 			}

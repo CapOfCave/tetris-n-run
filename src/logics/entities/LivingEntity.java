@@ -45,6 +45,8 @@ public abstract class LivingEntity extends Entity {
 		lastX = x;
 		lastY = y;
 		hitTicks = Math.max(0, --hitTicks);
+		akt_animation.next();
+		checkHealth();
 	}
 
 	protected void move() {
@@ -56,25 +58,25 @@ public abstract class LivingEntity extends Entity {
 
 		updateRotation();
 
-		x += hSpeed;
-		y += vSpeed;
+		x += hSpeed * world.blockSize() / 45;
+		y += vSpeed * world.blockSize() / 45;
 
 	}
 
 	private void accelerate() {
 		double abs_hSpeed = Math.abs(hSpeed);
 		if (wantsToGoLeft && !wantsToGoRight) {
-			hSpeed -= acc;
+			hSpeed -= acc * world.blockSize() / 45;
 			if (hSpeed > 0) {
-				hSpeed -= brake;
+				hSpeed -= brake * world.blockSize() / 45;
 			}
 		} else if (!wantsToGoLeft && wantsToGoRight) {
-			hSpeed += acc;
+			hSpeed += acc * world.blockSize() / 45;
 			if (hSpeed < 0) {
-				hSpeed += brake;
+				hSpeed += brake * world.blockSize() / 45;
 			}
 		} else if (abs_hSpeed > 0.001) {
-			abs_hSpeed -= brake;
+			abs_hSpeed -= brake * world.blockSize() / 45;
 			if (abs_hSpeed < 0) {
 				abs_hSpeed = 0;
 			}
@@ -86,17 +88,17 @@ public abstract class LivingEntity extends Entity {
 		// Unten-Oben-Movement
 		double abs_vSpeed = Math.abs(vSpeed);
 		if (wantsToGoUp && !wantsToGoDown) {
-			vSpeed -= acc;
+			vSpeed -= acc * world.blockSize() / 45;
 			if (vSpeed > 0) {
-				vSpeed -= brake;
+				vSpeed -= brake * world.blockSize() / 45;
 			}
 		} else if (!wantsToGoUp && wantsToGoDown) {
-			vSpeed += acc;
+			vSpeed += acc * world.blockSize() / 45;
 			if (vSpeed < 0) {
-				vSpeed += brake;
+				vSpeed += brake * world.blockSize() / 45;
 			}
 		} else if (abs_vSpeed > 0.001) {
-			abs_vSpeed -= brake;
+			abs_vSpeed -= brake * world.blockSize() / 45;
 			if (abs_vSpeed < 0) {
 				abs_vSpeed = 0;
 			}
@@ -113,37 +115,8 @@ public abstract class LivingEntity extends Entity {
 		}
 	}
 
-	public void applyDamage(Weapon weapon, int direction) {
+	public void applyDamage(Weapon weapon) {
 		health -= weapon.getDamage();
-
-		// double h;
-		// double v;
-		// double ges = weapon.getKnockback();
-		// if (0 <= direction && direction < 90) {
-		// h = +ges * Math.sin(Math.toRadians(direction % 90));
-		// v = -ges * Math.cos(Math.toRadians(direction % 90));
-		// } else if (90 <= direction && direction < 180) {
-		// h = +ges * Math.cos(Math.toRadians(direction % 90));
-		// v = +ges * Math.sin(Math.toRadians(direction % 90));
-		//
-		// } else if (180 <= direction && direction < 270) {
-		// h = -ges * Math.sin(Math.toRadians(direction % 90));
-		// v = +ges * Math.cos(Math.toRadians(direction % 90));
-		//
-		// } else if (270 <= direction && direction < 360) {
-		// h = -ges * Math.cos(Math.toRadians(direction % 90));
-		// v = -ges * Math.sin(Math.toRadians(direction % 90));
-		//
-		// } else {
-		// System.out.println("Fehler @LivingEntity#applyDamage");
-		// System.exit(1);
-		// h = -1;
-		// v = -1;
-		// }
-		//
-		// x += h;
-		// y += v;
-
 	}
 
 	protected abstract void kill();
@@ -298,6 +271,10 @@ public abstract class LivingEntity extends Entity {
 		// {
 		// rotation = 45; // oben rechts
 		// }
+	}
+
+	protected boolean attackReady() {
+		return hitTicks == 0;
 	}
 
 	private void move_contact_solid(int i) {

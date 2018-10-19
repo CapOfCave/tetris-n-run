@@ -21,8 +21,6 @@ public class Weapon extends Item {
 	private Point imgHitOffset;
 
 	private int damage;
-	protected int attackCooldown;
-	protected int attackCooldownState = 0;
 
 	// Hitbox
 	private double hitWidth;
@@ -44,7 +42,7 @@ public class Weapon extends Item {
 		this.theta = theta;
 		this.range = range;
 		this.damage = damage;
-		this.attackCooldown = cooldownTicks;
+		this.cooldownTicks = cooldownTicks;
 	}
 
 	@Override
@@ -69,9 +67,7 @@ public class Weapon extends Item {
 	}
 
 	public void tick() {
-		if (attackCooldownState > 0) {
-			attackCooldownState--;
-		}
+		
 	}
 
 	@Override
@@ -99,11 +95,9 @@ public class Weapon extends Item {
 				(int) (x + world.blockSize() / 2 + range * Math.cos(Math.toRadians(theta / 2))),
 				(int) (y + world.blockSize() / 2 + range * Math.sin(Math.toRadians(theta / 2))));
 		g.setColor(Color.YELLOW);
-		g.drawString(Integer.toString(attackCooldownState), (int) x + world.blockSize() / 2 - 5, (int) y);
 	}
 
 	public void hit() {
-		attackCooldownState = attackCooldown;
 	}
 
 	public boolean isInRange(double x, double y, double angleDeg, Rectangle eBounds) {
@@ -188,10 +182,6 @@ public class Weapon extends Item {
 
 	public int getDamage() {
 		return damage;
-	}
-
-	public boolean attackReady() {
-		return attackCooldownState == 0;
 	}
 
 	public int getCooldownTicks() {

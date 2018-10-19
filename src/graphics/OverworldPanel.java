@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -30,9 +31,9 @@ public class OverworldPanel extends JPanel implements Playable {
 	private int blockSize;
 
 	private Overworld overworld;
-	
+
 	private GuiMouseHandler guiMouseHandler;
-	
+
 	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
 	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
 
@@ -42,7 +43,7 @@ public class OverworldPanel extends JPanel implements Playable {
 	private float interpolation;
 	private Frame frame;
 	private KeyHandler keyHandler;
-	
+
 	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame) {
 		this.keyHandler = keyHandler;
 		setPreferredSize(new Dimension(width, height));
@@ -54,8 +55,7 @@ public class OverworldPanel extends JPanel implements Playable {
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroDrawPositions.add(new Point(972, i * 100 + 72));
 		}
-		
-		
+
 		guiMouseHandler = new GuiMouseHandler(frame);
 		addMouseListener(guiMouseHandler);
 	}
@@ -63,23 +63,23 @@ public class OverworldPanel extends JPanel implements Playable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
-		Graphics2D gameGraphics = (Graphics2D)g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
+
+		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		overworld.draw(gameGraphics, interpolation, debugMode);
-		//guiMouseHandler.drawSideBar(g, debugMode);
+		// guiMouseHandler.drawSideBar(g, debugMode);
 		overworld.drawPlayer(gameGraphics, interpolation, debugMode);
-		
-		
-		
-		if(Character.isLowerCase(frame.getNextLevel())) {
+
+		if (Character.isLowerCase(frame.getNextLevel())) {
 			g.drawString("Spiele Level: " + frame.getNextLevel(), 970, 80);
 			g.drawImage(playButtonAkt, 970, 100, null);
-		}else {
+		} else {
 			g.drawString("Kein Level ausgewählt", 970, 80);
 			g.drawImage(playButtonDeakt, 970, 100, null);
 		}
-			
-		
+//		x >= 970 && y >= 100 && x < 970 + 256 && y < 100 + 64) {
+		g.setColor(Color.RED);
+		g.drawRect(970, 100, 256, 64);
+
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class OverworldPanel extends JPanel implements Playable {
 			debugMode = !debugMode;
 			keyHandler.setF3pressed(false);
 		}
-		
+
 	}
 
 }
