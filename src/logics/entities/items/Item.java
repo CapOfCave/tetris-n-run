@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import loading.EntityLoader;
+import loading.AnimationLoader;
 import loading.ImageLoader;
 import logics.World;
 import logics.entities.Entity;
@@ -19,7 +19,7 @@ public class Item extends Entity {
 	private String typeUrl;
 
 	public Item(World world, String imgPath) {
-		super(world, EntityLoader.loadAnimations(imgPath));
+		super(world, AnimationLoader.loadAnimations(imgPath));
 		this.imgPath = imgPath;
 		this.init();
 	}

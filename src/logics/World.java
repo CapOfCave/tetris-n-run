@@ -14,7 +14,7 @@ import data.Tiles.DoorTile;
 import data.Tiles.Tile;
 import graphics.Frame;
 import input.KeyHandler;
-import loading.EntityLoader;
+import loading.AnimationLoader;
 import loading.LevelSaver;
 import logics.entities.Enemy;
 import logics.entities.Entity;
@@ -93,7 +93,7 @@ public class World {
 				(int) (graphicClip.getHeight() / 2 - blockSize / 2.));
 
 		player = new Player(this, level.getPlayerX(), level.getPlayerY(),
-				EntityLoader.loadAnimations("/res/anims/character.txt"));
+				AnimationLoader.loadAnimations("/res/anims/character.txt"));
 		addSpawner(10, 10, 2, 2, 2, 2, 3, true, 5);
 		addSpawner(3, 3, 1, 1, 1, 1, 2, true, 3);
 		// Erstellen der Tetros
@@ -321,7 +321,7 @@ public class World {
 
 	public void addEnemy(int x, int y, int health, EnemySpawner enemySpawner) {
 		enemies.add(
-				new Enemy(this, enemySpawner, health, x, y, EntityLoader.loadAnimations("/res/anims/enemyAnims.txt")));
+				new Enemy(this, enemySpawner, health, x, y, AnimationLoader.loadAnimations("/res/anims/enemyAnims.txt")));
 
 	}
 

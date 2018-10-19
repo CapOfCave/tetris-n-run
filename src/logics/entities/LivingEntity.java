@@ -1,6 +1,5 @@
 package logics.entities;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import data.Animation;

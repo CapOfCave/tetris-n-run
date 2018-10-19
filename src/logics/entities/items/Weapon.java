@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import loading.EntityLoader;
+import loading.AnimationLoader;
 import logics.World;
 
 /**
@@ -50,12 +50,9 @@ public class Weapon extends Item {
 	@Override
 	public void init() {
 		super.init();
-//		System.out.println(this + ": Weapon init");
-		anims = EntityLoader.loadAnimations(imgPath);
+		anims = AnimationLoader.loadAnimations(imgPath);
+		cooldownTicks = anims.get("hit0").getFrameNumber() * anims.get("hit0").getAnimTicks();
 		akt_animation = anims.get(anims.keySet().toArray()[0]);
-//		this.img = ImageLoader.loadImage(imgPath);
-//		this.imgHit = ImageLoader.loadImage(imgHitPath);
-//		setPreviewImg(img);
 	}
 
 	public void draw(Graphics g, int x, int y, String animkey, int animFrame, boolean debugMode) {
