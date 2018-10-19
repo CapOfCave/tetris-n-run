@@ -51,7 +51,6 @@ public class Weapon extends Item {
 	public void init() {
 		super.init();
 		anims = AnimationLoader.loadAnimations(imgPath);
-		cooldownTicks = anims.get("hit0").getFrameNumber() * anims.get("hit0").getAnimTicks();
 		akt_animation = anims.get(anims.keySet().toArray()[0]);
 	}
 
@@ -197,6 +196,10 @@ public class Weapon extends Item {
 
 	public int getCooldownTicks() {
 		return cooldownTicks;
+	}
+
+	public void setCooldownTicks(int cooldownTicks) {
+		this.cooldownTicks = cooldownTicks;
 	}
 	
 	
