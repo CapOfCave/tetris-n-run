@@ -12,7 +12,7 @@ import data.Pics;
 /**
  * @author Lars Created on 07.10.2018
  */
-public class EntityLoader {
+public class AnimationLoader {
 
 	public static HashMap<String, Animation> loadAnimations(String url) {
 		Scanner sc = null;
@@ -37,9 +37,15 @@ public class EntityLoader {
 				pics.put(name, new Pics(nextLine.substring(nextLine.indexOf("\"") + 1, nextLine.length() - 1),
 						Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" ")))));
 			} else if (nextLine.startsWith("anim")) {
-				String name = nextLine.substring(5, nextLine.indexOf("=")).trim();
+				int animTicks;
+				if(nextLine.indexOf(" ") == 4) {
+					animTicks = 3;
+				} else {
+					animTicks = Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" ")));
+				}
+				String name = nextLine.substring(nextLine.indexOf(" "), nextLine.indexOf("=")).trim();
 				String[] values = nextLine.substring(nextLine.indexOf("=") + 1).trim().split("\\+");
-				Animation anim = new Animation();
+				Animation anim = new Animation(animTicks);
 				for (String strFrame : values) {
 					strFrame = strFrame.trim();
 //					System.out.println((strFrame.substring(0, strFrame.indexOf("."))) + ";;;;;"

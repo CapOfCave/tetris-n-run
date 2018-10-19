@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import data.Animation;
 import graphics.Frame;
-import loading.EntityLoader;
+import loading.AnimationLoader;
 
 public class DoorTile extends Tile {
 
@@ -16,7 +16,7 @@ public class DoorTile extends Tile {
 		super('D', x, y, open, open, frame);
 		this.rotation = rotation;
 		this.color = color;
-		pictures = EntityLoader.loadAnimations("/res/anims/door.txt");
+		pictures = AnimationLoader.loadAnimations("/res/anims/door.txt");
 		img = pictures.get((open ? "opened" : "closed") + rotation).getImage();
 	}
 

@@ -8,9 +8,13 @@ import java.util.ArrayList;
  */
 public class Animation {
 
-	static int frame_ticks = 3;
 	ArrayList<BufferedImage> frames = new ArrayList<>();
 	int index = 0;
+	private int animTicks;
+
+	public Animation(int animTicks) {
+		this.animTicks = animTicks;
+	}
 
 	public void addFrame(BufferedImage bufferedImage) {
 		frames.add(bufferedImage);
@@ -18,11 +22,11 @@ public class Animation {
 
 	public void next() {
 		index++;
-		index %= frames.size() * frame_ticks;
+		index %= frames.size() * animTicks;
 	}
 
 	public BufferedImage getImage() {
-		return frames.get((index % (frames.size() * frame_ticks)) / frame_ticks);
+		return frames.get((index % (frames.size() * animTicks)) / animTicks);
 	}
 
 	public void reset() {
@@ -30,7 +34,7 @@ public class Animation {
 	}
 
 	public void setFrame(int animFrame) {
-		index = animFrame * frame_ticks;
+		index = animFrame * animTicks;
 
 	}
 
@@ -41,5 +45,13 @@ public class Animation {
 
 	public int getAnimFrame() {
 		return index;
+	}
+
+	public int getAnimTicks() {
+		return animTicks;
+	}
+
+	public int getFrameNumber() {
+		return frames.size();
 	}
 }
