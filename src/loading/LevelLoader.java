@@ -30,6 +30,7 @@ public class LevelLoader {
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
 		ArrayList<Item> rawItems = new ArrayList<>();
+		ArrayList<DoorTile> doors = new ArrayList<>();
 
 		int worldlength = 0;
 		int playerX = 0;
@@ -115,9 +116,40 @@ public class LevelLoader {
 					Item item = ItemLoader.readItem(typeUrl);
 					item.setX(x);
 					item.setY(y);
+					item.setTypeUrl(typeUrl);
 					rawItems.add(item);
 				}
 
+			} else if (nextLine.startsWith("d")) {
+				int x = -100;
+				int y = -100;
+				int rotation = -1;
+				int color = -1;
+				boolean open = false;
+				String strSplit[] = nextLine.split(";");
+				for (String str : strSplit) {
+					if (str == strSplit[0])
+						continue;
+					if (str.startsWith("x=")) {
+						x = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("y=")) {
+						y = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("r=") || str.startsWith("rotation=")) {
+						rotation = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+					} else if (str.startsWith("c=") || str.startsWith("color=")) {
+						color = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+						System.out.println("Color: " +color);
+					} else if (str.startsWith("o=") || str.startsWith("open=")) {
+						open = Boolean.parseBoolean(str.substring(str.indexOf("=") + 1));
+					}
+
+				}
+				if (x >= 0 && y >= 0 && rotation >= 0 && color >= 0) {
+					doors.add(new DoorTile(color, x, y, rotation, open, frame));
+				} else {
+					System.out.println("Fehler im Level \"" + url + "\": Tür kann nicht erstellt werden wegen "
+							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
+				}
 			} else if (nextLine.startsWith("w")) {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
 				world.add(strTemp);
@@ -127,7 +159,6 @@ public class LevelLoader {
 		}
 		sc.close();
 
-		ArrayList<DoorTile> doors = new ArrayList<>();
 		Tile[][] arrWorld = new Tile[world.size()][worldlength];
 		for (int j = 0; j < world.size(); j++) {
 			String worldString = world.get(j);
@@ -139,11 +170,18 @@ public class LevelLoader {
 					arrWorld[j][i] = new WallTile(tileChar, i, j, frame);
 				} else if (tileChar == '0') {
 					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
-				} else if (tileChar == 'i' || tileChar == 'I' || tileChar == 'j' || tileChar == 'J' || tileChar == 'k'
-						|| tileChar == 'K' || tileChar == 'l' || tileChar == 'L') {
-					DoorTile dT = new DoorTile(tileChar, i, j, frame);
-					arrWorld[j][i] = dT;
-					doors.add(dT);
+				} else if (tileChar == 'D') {
+					for (DoorTile dT : doors) {
+						if (dT.getPosX() == i && dT.getPosY() == j) {
+							arrWorld[j][i] = dT;
+						}
+					}
+					if (arrWorld[j][i] == null) {
+						System.out.println("Fehler im Level \"" + url + "\": Tür nicht bestimmt");
+						arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
+
+					}
+
 				} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò') {
 					arrWorld[j][i] = new Switch(tileChar, i, j, frame);
 				} else if (Character.isLowerCase(tileChar)) {
@@ -159,8 +197,8 @@ public class LevelLoader {
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
 
-			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, blockSize, tetrofileUrl, playerX * blockSize,
-					playerY * blockSize);
+			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, blockSize, tetrofileUrl,
+					playerX * blockSize, playerY * blockSize);
 		} else {
 			System.out.println("Levelerstellung nicht erfolgreich");
 			System.exit(1);

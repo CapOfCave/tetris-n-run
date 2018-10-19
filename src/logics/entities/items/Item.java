@@ -16,6 +16,8 @@ public class Item extends Entity {
 
 	protected String imgPath;
 
+	private String typeUrl;
+
 	public Item(World world, String imgPath) {
 		super(world, EntityLoader.loadAnimations(imgPath));
 		this.imgPath = imgPath;
@@ -23,17 +25,13 @@ public class Item extends Entity {
 	}
 
 	public void init() {
-//		System.out.println(this + ": ItemInit");
-		// this.img = ImageLoader.loadImage(imgPath);
-		// setPreviewImg(img);
-
+		//TODO empty method body
 	}
 
-
 	public void drawPreview(Graphics2D g, int position, int size) {
-		
+
 		g.drawRect(20 + (32 * position + 5 * position), 20, size, size);
-		
+
 		akt_animation = anims.get("preview");
 		g.drawImage(akt_animation.getImage(), 20 + (32 * position + 5 * position), 20, size, size, null);
 		akt_animation.next();
@@ -64,6 +62,15 @@ public class Item extends Entity {
 	@Override
 	public void tick() {
 		akt_animation.next();
+	}
+
+	public String getPath() {
+		return typeUrl;
+	}
+
+	public void setTypeUrl(String typeUrl) {
+		this.typeUrl = typeUrl;
+
 	}
 
 }
