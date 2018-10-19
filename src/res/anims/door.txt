@@ -1,0 +1,12 @@
+pics32 open = "/res/blocks/dooropen.png"
+pics32 close = "/res/blocks/doorpics.png"
+
+anim opened0 = open.0
+anim opened1 = open.1
+anim opened2 = open.2
+anim opened3 = open.3
+
+anim closed0 = close.0
+anim closed1 = close.1
+anim closed2 = close.2
+anim closed3 = close.3

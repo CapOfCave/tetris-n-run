@@ -8,7 +8,9 @@ import java.util.ArrayList;
 
 import data.Level;
 import data.RawTetro;
+import data.Tiles.DoorTile;
 import data.Tiles.Tile;
+import logics.entities.items.Item;
 
 /**
  * @author Lars Created on 13.08.2018
@@ -18,7 +20,7 @@ public class LevelSaver {
 	public void saveLevel(Level level, String path) {
 		print(createOutput(level), path);
 	}
-	
+
 	private void print(ArrayList<String> content, String path) {
 		File file = new File(path);
 		if (!file.exists()) {
@@ -31,7 +33,7 @@ public class LevelSaver {
 
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			for(String str: content) {
+			for (String str : content) {
 				bw.write(str);
 				bw.newLine();
 			}
@@ -40,7 +42,7 @@ public class LevelSaver {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private ArrayList<String> createOutput(Level level) {
 		ArrayList<String> outpLines = new ArrayList<>();
 
@@ -58,15 +60,26 @@ public class LevelSaver {
 		if (!strSettings.equals("s")) {
 			outpLines.add(strSettings);
 		}
-		
-		//player position
+
+		// player position
 		outpLines.add("p;x=" + level.getPlayerX() + ";y=" + level.getPlayerY());
-		
-		
+
 		// tetros
 		ArrayList<RawTetro> rawTetros = level.getUnfinishedTetros();
 		for (RawTetro rt : rawTetros) {
 			outpLines.add("t;x=" + rt.getX() + ";y=" + rt.getY() + ";r=" + rt.getRotation() + ";t=" + rt.getType());
+		}
+
+		// items
+		ArrayList<Item> items = level.getItemWorld();
+		for (Item i : items) {
+			outpLines.add("i;x=" + i.getX() + ";y=" + i.getY() + ";t=" + i.getPath());
+		}
+
+		// doord
+		ArrayList<DoorTile> doors = level.getDoors();
+		for (DoorTile dT : doors) {
+			outpLines.add("d;x=" + dT.getPosX() + ";y=" + dT.getPosY() + ";r=" + dT.getRotation() + ";c=" + dT.getColor() + ";o=" + dT.isWalkable());
 		}
 
 		// world
@@ -80,7 +93,5 @@ public class LevelSaver {
 		}
 		return outpLines;
 	}
-
-	
 
 }
