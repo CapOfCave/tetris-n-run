@@ -11,6 +11,7 @@ import logics.World;
 public class SearchAlgorithm {
 
 	public static ArrayList<Point> calcShortestPath(World world, Point start, Point end) {
+
 		ArrayList<Node> openlist = new ArrayList<>();
 		ArrayList<Node> closedlist = new ArrayList<>();
 
@@ -37,12 +38,13 @@ public class SearchAlgorithm {
 			if (current.equals(end)) {
 				ArrayList<Point> path = new ArrayList<>();
 				Node temp = current;
+
 				path.add(0, new Point(temp.x, temp.y));
+
 				while (temp.previous != null) {
 					path.add(0, new Point(temp.x, temp.y));
 					temp = temp.previous;
 				}
-
 				return path;
 			}
 
@@ -53,8 +55,8 @@ public class SearchAlgorithm {
 			for (int i = 0; i < neighbors.size(); i++) {
 				Node neighbor = neighbors.get(i);
 				if (!closedlist.contains(neighbor)) {
-					float tempg = current.g + (float) Math
-							.sqrt((current.x - neighbor.x) * (current.x - neighbor.x) + (current.y - neighbor.y) * (current.y - neighbor.y));
+					float tempg = current.g + (float) Math.sqrt((current.x - neighbor.x) * (current.x - neighbor.x)
+							+ (current.y - neighbor.y) * (current.y - neighbor.y));
 
 					boolean newPath = false;
 					if (openlist.contains(neighbor)) {
@@ -97,7 +99,8 @@ public class SearchAlgorithm {
 	}
 
 	private static float heuristic(Node neighbor, Point end) {
-		return (float) Math.sqrt((neighbor.x - end.x) * (neighbor.x - end.x) + (neighbor.y - end.y) * (neighbor.y - end.y));
+		return (float) Math
+				.sqrt((neighbor.x - end.x) * (neighbor.x - end.x) + (neighbor.y - end.y) * (neighbor.y - end.y));
 	}
 
 	private static class Node {
@@ -108,7 +111,7 @@ public class SearchAlgorithm {
 		public float g = 0;
 		public float h = 0;
 		public Node previous = null;
-		
+
 		private World world;
 
 		public Node(World world, int x, int y) {
@@ -123,34 +126,34 @@ public class SearchAlgorithm {
 
 		public ArrayList<Node> getNeighbors(Node[][] grid) {
 			ArrayList<Node> outp = new ArrayList<>();
-			if (x > 1) {
+			if (x >= 1) {
 				if (isPassable(0, -1))
 					outp.add(grid[x - 1][y]);
-				if (y > 1) {
+				if (y >= 1) {
 					if (isPassableDiagonally(-1, -1))
 						outp.add(grid[x - 1][y - 1]);
 				}
 			}
-			if (x < grid.length - 2) {
+			if (x <= grid.length - 2) {
 				if (isPassable(0, 1))
 					outp.add(grid[x + 1][y]);
-				if (y < grid[0].length - 2) {
+				if (y <= grid[0].length - 2) {
 					if (isPassableDiagonally(1, 1))
 						outp.add(grid[x + 1][y + 1]);
 				}
 			}
-			if (y > 1) {
+			if (y >= 1) {
 				if (isPassable(-1, 0))
 					outp.add(grid[x][y - 1]);
-				if (x < grid.length - 2) {
+				if (x <= grid.length - 2) {
 					if (isPassableDiagonally(-1, 1))
 						outp.add(grid[x + 1][y - 1]);
 				}
 			}
-			if (y < grid[0].length - 2) {
+			if (y <= grid[0].length - 2) {
 				if (isPassable(1, 0))
 					outp.add(grid[x][y + 1]);
-				if (x > 1) {
+				if (x >= 1) {
 					if (isPassableDiagonally(1, -1))
 						outp.add(grid[x - 1][y + 1]);
 				}
@@ -165,7 +168,7 @@ public class SearchAlgorithm {
 		}
 
 		private boolean isPassable(int dy, int dx) {
-			return world.isTetroAt(y + dy, x + dx) || world.getTileAt(y + dy, x + dx).isWalkable();
+			return (world.isTetroAt(y + dy, x + dx) && world.getTileAt(y + dy, x + dx).isWalkableWithTetro()) || world.getTileAt(y + dy, x + dx).isWalkable();
 		}
 
 		private boolean isPassableDiagonally(int dy, int dx) {

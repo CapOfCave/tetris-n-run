@@ -10,6 +10,7 @@ import data.Level;
 import data.RawTetro;
 import data.Tetro;
 import data.TetroType;
+import data.Tiles.DoorTile;
 import data.Tiles.Tile;
 import graphics.Frame;
 import input.KeyHandler;
@@ -50,6 +51,7 @@ public class World {
 	protected ArrayList<TetroType> tetroTypes;
 	protected ArrayList<Enemy> enemies;
 	protected ArrayList<Entity> entities;
+	protected ArrayList<DoorTile> doors;
 
 	public World(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler, Frame frame) {
 
@@ -64,7 +66,13 @@ public class World {
 		tetros = new ArrayList<>();
 		entities = new ArrayList<>();
 		enemies = new ArrayList<>();
+		doors = level.getDoors();
 		tileWorld = level.getArrWorld();
+		for (Tile[] tt : tileWorld) {
+			for (Tile t : tt) {
+				t.setWorld(this);
+			}
+		}
 		itemWorld = level.getItemWorld();
 		for (Item i : itemWorld) {
 			i.setWorld(this);
@@ -211,26 +219,22 @@ public class World {
 					switch (rotation % 4) {
 					case 0:
 						if (j + y >= 0 && i + x >= 0 && j + y <= tileWorld.length && i + x <= tileWorld[0].length)
-							if (!tileWorld[j + y][i + x].isBlockingTetro())
-								tetroWorldHitbox[j + y][i + x] = true;
+							tetroWorldHitbox[j + y][i + x] = true;
 						break;
 					case 1:
 						if (-i + y + 3 >= 0 && j + x >= 0 && -i + y + 3 <= tileWorld.length
 								&& j + x <= tileWorld[0].length)
-							if (!tileWorld[-i + y + 3][j + x].isBlockingTetro())
-								tetroWorldHitbox[-i + y + 3][j + x] = true;
+							tetroWorldHitbox[-i + y + 3][j + x] = true;
 						break;
 					case 2:
 						if (-j + y + 1 >= 0 && -i + x + 3 >= 0 && -j + y + 1 <= tileWorld.length
 								&& -i + x + 3 <= tileWorld[0].length)
-							if (!tileWorld[-j + y + 1][-i + x + 3].isBlockingTetro())
-								tetroWorldHitbox[-j + y + 1][-i + x + 3] = true;
+							tetroWorldHitbox[-j + y + 1][-i + x + 3] = true;
 						break;
 					case 3:
 						if (i + y >= 0 && -j + x + 1 >= 0 && i + y <= tileWorld.length
 								&& -j + x + 1 <= tileWorld[0].length)
-							if (!tileWorld[i + y][-j + x + 1].isBlockingTetro())
-								tetroWorldHitbox[i + y][-j + x + 1] = true;
+							tetroWorldHitbox[i + y][-j + x + 1] = true;
 						break;
 					}
 				}
@@ -255,13 +259,13 @@ public class World {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, itemWorld, blockSize, tetroFileURL,
+		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, itemWorld, doors, blockSize, tetroFileURL,
 				player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path);
 
 	}
-	
+
 	public void backToTheOverworld() {
 		frame.changeToOverworld();
 	}
@@ -368,6 +372,14 @@ public class World {
 
 	public void removeItem(Item i) {
 		itemWorld.remove(i);
+	}
+
+	public void switchDoors(int color) {
+		for (DoorTile dT : doors) {
+			if (dT.getColor() == color) {
+				dT.changeState();
+			}
+		}
 	}
 
 }
