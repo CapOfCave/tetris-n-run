@@ -32,6 +32,7 @@ public class Player extends LivingEntity {
 		inventory = new Inventory();
 
 		Weapon weapon = new Weapon(world, 20, "/res/anims/sword.txt", new Point(0, 0), new Point(30, 5), 8, 60, 60, 10);
+		weapon.setCooldownTicks(anims.get("hit0").getFrameNumber() * anims.get("hit0").getAnimTicks());
 		ItemSaver.writeItem("C:\\\\JavaEclipse\\\\weapon.txt", weapon);
 		weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
 
