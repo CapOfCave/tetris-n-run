@@ -16,7 +16,8 @@ import logics.GameLoop;
 public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private OverworldPanel panel;
+	private OverworldPanel oPanel;
+	private Panel lPanel;
 	private GameLoop gameLoop;
 	private char nextLevel;
 	private int levelSolved = 8;
@@ -30,10 +31,10 @@ public class Frame extends JFrame {
 
 	public Frame() {
 		keyHandler = new KeyHandler();
-		panel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this), keyHandler, this);
+		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this), keyHandler, this);
 		setLayout(new CardLayout());
-		add(panel);
-		gameLoop = new GameLoop(panel);
+		add(oPanel);
+		gameLoop = new GameLoop(oPanel);
 		addKeyListener(keyHandler);
 		setResizable(false);
 		pack();
@@ -45,21 +46,21 @@ public class Frame extends JFrame {
 	}
 
 	public void changeToOverworld() {
-		OverworldPanel oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/overworld" + levelSolved + ".txt", this), keyHandler, this);
+		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this), keyHandler, this);
 
 		add(oPanel);
-		remove(panel);
+		remove(lPanel);
 		gameLoop.changePlayable(oPanel);
 
 	}
 
 	public void startLevel() {
 		if (Character.isLowerCase(nextLevel)) {
-			Panel panel = new Panel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt ", this), keyHandler);
+			lPanel = new Panel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt ", this), keyHandler, this);
 
-			add(panel);
-			remove(this.panel);
-			gameLoop.changePlayable(panel);
+			add(lPanel);
+			remove(oPanel);
+			gameLoop.changePlayable(lPanel);
 		}
 	}
 

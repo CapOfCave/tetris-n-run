@@ -167,6 +167,7 @@ public class Player extends LivingEntity {
 	@Override
 	protected void kill() {
 		System.out.println("U ded mate");
+		world.backToTheOverworld();
 	}
 
 }

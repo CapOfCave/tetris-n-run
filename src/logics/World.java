@@ -51,13 +51,14 @@ public class World {
 	protected ArrayList<Enemy> enemies;
 	protected ArrayList<Entity> entities;
 
-	public World(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler) {
+	public World(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler, Frame frame) {
 
 		// Initialisierungen
 		this.graphicClip = graphicClip;
 		this.blockSize = blockSize;
 		this.tetroTypes = level.getTetroTypes();
 		this.keyHandler = keyHandler;
+		this.frame = frame;
 
 		tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
@@ -259,6 +260,10 @@ public class World {
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path);
 
+	}
+	
+	public void backToTheOverworld() {
+		frame.changeToOverworld();
 	}
 
 	private RawTetro createRawTetro(Tetro tetro) {

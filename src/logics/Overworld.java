@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 
 import data.Level;
 import data.Tetro;
+import graphics.Frame;
 import input.KeyHandler;
 
 /**
@@ -13,8 +14,8 @@ import input.KeyHandler;
  */
 public class Overworld extends World {
 
-	public Overworld(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler) {
-		super(graphicClip, blockSize, level, keyHandler);
+	public Overworld(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler, Frame frame) {
+		super(graphicClip, blockSize, level, keyHandler, frame);
 
 	}
 
