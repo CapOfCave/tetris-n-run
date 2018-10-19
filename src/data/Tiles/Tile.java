@@ -3,31 +3,32 @@ package data.Tiles;
 import java.awt.image.BufferedImage;
 
 import graphics.Frame;
-import loading.ImageLoader;
+import logics.World;
 
 /**
  * @author Lars Created on 11.09.2018
  */
-public class Tile {
+public abstract class Tile {
 
-	private BufferedImage img;
+	protected BufferedImage img;
 
 	protected char key;
 	protected int posX, posY;
 	protected Frame frame;
 	protected boolean walkable;
-	protected boolean isBlockingTetro;
-	
+	protected boolean walkableWithTetro;
 
-	public Tile(char key, int posX, int posY, boolean walkable, Frame frame) {
+	protected boolean isBlockingTetro;
+	protected World world;
+
+	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, Frame frame) {
 		this.key = key;
 		this.posX = posX;
 		this.posY = posY;
 		this.frame = frame;
 		this.walkable = walkable;
+		this.walkableWithTetro = walkableWithTetro;
 		isBlockingTetro = false;
-		img = ImageLoader.loadImage("/res/blocks/block" + key + ".png");
-
 	}
 
 	public BufferedImage getImg() {
@@ -62,21 +63,21 @@ public class Tile {
 		this.posY = posY;
 	}
 
-	public void eventWhenEntering() {
-		frame.setNextLevel(key);
-	}
+	public abstract void eventWhenEntering();
 
 	public boolean isWalkable() {
 		return walkable;
-	}
-
-	public boolean isBlockingTetro() {
-		return isBlockingTetro;
 	}
 
 	public void setBlockingTetro(boolean isBlockingTetro) {
 		this.isBlockingTetro = isBlockingTetro;
 	}
 
-	
+	public void setWorld(World world) {
+		this.world = world;
+	}
+
+	public boolean isWalkableWithTetro() {
+		return walkableWithTetro;
+	}
 }

@@ -9,7 +9,10 @@ import java.util.Scanner;
 import data.Level;
 import data.RawTetro;
 import data.TetroType;
+import data.Tiles.DoorTile;
+import data.Tiles.EmptyTile;
 import data.Tiles.LevelGuiTile;
+import data.Tiles.Switch;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
@@ -52,7 +55,8 @@ public class LevelLoader {
 						continue;
 					if (str.startsWith("tetrofile=")) {
 						tetrofileUrl = str.substring(10);
-					} else if (str.startsWith("blockSize=") || str.startsWith("size=") || str.startsWith("blocksize=")) {
+					} else if (str.startsWith("blockSize=") || str.startsWith("size=")
+							|| str.startsWith("blocksize=")) {
 						blockSize = Integer.parseInt(str.substring(10));
 					}
 
@@ -83,7 +87,8 @@ public class LevelLoader {
 						y = Integer.parseInt(str.substring(2));
 					} else if (str.startsWith("rotation=") || str.startsWith("r=")) {
 						rotation = Integer.parseInt(str.substring(str.indexOf("=") + 1));
-					} else if (str.startsWith("tetroType=") || str.startsWith("tetro=") || str.startsWith("type=") || str.startsWith("t=")) {
+					} else if (str.startsWith("tetroType=") || str.startsWith("tetro=") || str.startsWith("type=")
+							|| str.startsWith("t=")) {
 						type = Integer.parseInt(str.substring(str.indexOf("=") + 1));
 					}
 				}
@@ -122,6 +127,7 @@ public class LevelLoader {
 		}
 		sc.close();
 
+		ArrayList<DoorTile> doors = new ArrayList<>();
 		Tile[][] arrWorld = new Tile[world.size()][worldlength];
 		for (int j = 0; j < world.size(); j++) {
 			String worldString = world.get(j);
@@ -129,15 +135,22 @@ public class LevelLoader {
 
 				char tileChar = worldString.charAt(i);
 
-				if (Character.isLowerCase(tileChar)) {
-					arrWorld[j][i] = new LevelGuiTile(worldString.charAt(i), i, j, frame);
-				} else if (tileChar == '1') {
-					arrWorld[j][i] = new WallTile(worldString.charAt(i), i, j, frame);
+				if (tileChar == '1') {
+					arrWorld[j][i] = new WallTile(tileChar, i, j, frame);
 				} else if (tileChar == '0') {
-					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j, false, frame);
+					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
+				} else if (tileChar == 'i' || tileChar == 'I' || tileChar == 'j' || tileChar == 'J' || tileChar == 'k'
+						|| tileChar == 'K' || tileChar == 'l' || tileChar == 'L') {
+					DoorTile dT = new DoorTile(tileChar, i, j, frame);
+					arrWorld[j][i] = dT;
+					doors.add(dT);
+				} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò') {
+					arrWorld[j][i] = new Switch(tileChar, i, j, frame);
+				} else if (Character.isLowerCase(tileChar)) {
+					arrWorld[j][i] = new LevelGuiTile(tileChar, i, j, frame);
 				} else {
 					System.out.println("Unbekanntes Tile bei (" + i + "|" + j + ")");
-					arrWorld[j][i] = new Tile(worldString.charAt(i), i, j, false, frame);
+					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 				}
 
 			}
@@ -146,7 +159,8 @@ public class LevelLoader {
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
 
-			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, blockSize, tetrofileUrl, playerX * blockSize, playerY * blockSize);
+			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, blockSize, tetrofileUrl, playerX * blockSize,
+					playerY * blockSize);
 		} else {
 			System.out.println("Levelerstellung nicht erfolgreich");
 			System.exit(1);

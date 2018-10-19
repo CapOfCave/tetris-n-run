@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import data.Animation;
+import data.Tiles.Tile;
 import loading.ItemLoader;
 import loading.ItemSaver;
 import logics.Inventory;
@@ -24,6 +25,7 @@ public class Player extends LivingEntity {
 	private static final long serialVersionUID = 1L;
 	private Inventory inventory;
 	private Weapon activeWeapon;
+	private Tile akt_Tile;
 
 	public Player(World world, HashMap<String, Animation> anims) {
 		super(world, anims);
@@ -139,7 +141,10 @@ public class Player extends LivingEntity {
 
 	private void checkTile() {
 
-		world.getTileAt(getTileY(), getTileX()).eventWhenEntering();
+		if (akt_Tile != world.getTileAt(getTileY(), getTileX())) {
+			akt_Tile = world.getTileAt(getTileY(), getTileX());
+			akt_Tile.eventWhenEntering();
+		}
 
 		ArrayList<Item> itemsOnTile = world.getItemsAt(getTileY(), getTileX());
 

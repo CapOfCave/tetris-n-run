@@ -338,6 +338,6 @@ public abstract class LivingEntity extends Entity {
 			return false;
 		}
 
-		return world.isTetroAt(getTileY(dy), getTileX(dx)) || world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();
+		return (world.isTetroAt(getTileY(dy), getTileX(dx)) && world.getTileAt(getTileY(dy), getTileX(dx)).isWalkableWithTetro())|| world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();
 	}
 }
