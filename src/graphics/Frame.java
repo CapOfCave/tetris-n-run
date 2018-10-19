@@ -20,7 +20,7 @@ public class Frame extends JFrame {
 	private Panel lPanel;
 	private GameLoop gameLoop;
 	private char nextLevel;
-	private int levelSolved = 8;
+	private int levelSolved = 2;
 
 	private KeyHandler keyHandler;
 
@@ -45,7 +45,12 @@ public class Frame extends JFrame {
 
 	}
 
-	public void changeToOverworld() {
+	public void changeToOverworld(boolean died) {
+		
+		
+		if(((int)nextLevel - 96) > levelSolved && !died)
+			levelSolved = ((int)nextLevel - 96);
+		
 		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this), keyHandler, this);
 
 		add(oPanel);

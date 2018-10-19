@@ -266,8 +266,8 @@ public class World {
 
 	}
 
-	public void backToTheOverworld() {
-		frame.changeToOverworld();
+	public void backToTheOverworld(boolean died) {
+		frame.changeToOverworld(died);
 	}
 
 	private RawTetro createRawTetro(Tetro tetro) {
