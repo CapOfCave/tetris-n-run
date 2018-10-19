@@ -1,4 +1,8 @@
 pics190 p = "/res/sword-in-hand.png"
+pics32 pixD = "/res/character/characterDownPics.png"
+pics32 pixU = "/res/character/characterUpPics.png"
+pics32 pixL = "/res/character/characterLeftPics.png"
+pics32 pixR = "/res/character/characterRightPics.png"
 
 anim stand0=p.0
 anim stand1=p.0
