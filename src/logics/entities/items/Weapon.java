@@ -28,7 +28,7 @@ public class Weapon extends Item {
 	private double hitWidth;
 	private double theta;
 	private double range;
-	private int cooldownTicks = 10;
+	private int cooldownTicks = 50;
 	
 
 	public static double tmpx, tmpy;
