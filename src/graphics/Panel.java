@@ -38,11 +38,11 @@ public class Panel extends JPanel implements Playable {
 	private boolean debugMode = false;
 	private float interpolation;
 
-	public Panel(Level level, KeyHandler keyHandler) {
+	public Panel(Level level, KeyHandler keyHandler, Frame frame) {
 		this.keyHandler = keyHandler;
 		setPreferredSize(new Dimension(width, height));
 		blockSize = level.getBlockSize();
-		world = new World(gamePanel, blockSize, level, keyHandler);
+		world = new World(gamePanel, blockSize, level, keyHandler, frame);
 		tetroTypes = level.getTetroTypes();
 		tetroDrawPositions = new ArrayList<>();
 		for (int i = 0; i < tetroTypes.size(); i++) {

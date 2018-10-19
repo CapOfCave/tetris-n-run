@@ -48,7 +48,7 @@ public class OverworldPanel extends JPanel implements Playable {
 		setPreferredSize(new Dimension(width, height));
 		blockSize = level.getBlockSize();
 		this.frame = frame;
-		overworld = new Overworld(gamePanel, blockSize, level, keyHandler);
+		overworld = new Overworld(gamePanel, blockSize, level, keyHandler, frame);
 		tetroTypes = level.getTetroTypes();
 		tetroDrawPositions = new ArrayList<>();
 		for (int i = 0; i < tetroTypes.size(); i++) {
