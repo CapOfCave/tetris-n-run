@@ -95,8 +95,7 @@ public class Enemy extends LivingEntity {
 	}
 
 	public void tick() {
-		lastX = x;
-		lastY = y;
+		super.tick();
 
 		checkHealth();
 

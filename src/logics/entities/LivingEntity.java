@@ -18,6 +18,7 @@ public abstract class LivingEntity extends Entity {
 	protected double vSpeed;
 	protected int health;
 
+	protected int hitTicks = 0;
 	protected double acc;
 	protected double brake;
 	protected double maxSpeed;
@@ -44,6 +45,7 @@ public abstract class LivingEntity extends Entity {
 	public void tick() {
 		lastX = x;
 		lastY = y;
+		hitTicks = Math.max(0, --hitTicks);
 	}
 
 	protected void move() {
@@ -277,7 +279,9 @@ public abstract class LivingEntity extends Entity {
 			rotation = 90; // rechts
 		}
 
-		if (Math.abs(hSpeed) < 1 && Math.abs(vSpeed) < 1) {
+		if (hitTicks > 0) {
+			animation_key = "hit" + rotation / 90;
+		} else if (Math.abs(hSpeed) < 1 && Math.abs(vSpeed) < 1) {
 			animation_key = "stand" + rotation / 90;
 		} else {
 			animation_key = "walk" + rotation / 90;
@@ -338,6 +342,8 @@ public abstract class LivingEntity extends Entity {
 			return false;
 		}
 
-		return (world.isTetroAt(getTileY(dy), getTileX(dx)) && world.getTileAt(getTileY(dy), getTileX(dx)).isWalkableWithTetro())|| world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();
+		return (world.isTetroAt(getTileY(dy), getTileX(dx))
+				&& world.getTileAt(getTileY(dy), getTileX(dx)).isWalkableWithTetro())
+				|| world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();
 	}
 }

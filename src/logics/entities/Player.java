@@ -94,8 +94,7 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void tick() {
-		lastX = x;
-		lastY = y;
+		super.tick();
 
 		akt_animation.next();
 		checkHealth();
@@ -128,6 +127,7 @@ public class Player extends LivingEntity {
 	public void hit() {
 		if (activeWeapon != null && activeWeapon.attackReady()) {
 			activeWeapon.hit();
+			hitTicks += activeWeapon.getCooldownTicks();
 			for (Enemy enemy : world.getEnemies()) {
 				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
 						new Rectangle((int) (enemy.getX() - world.cameraX()), (int) (enemy.getY() - world.cameraY()),

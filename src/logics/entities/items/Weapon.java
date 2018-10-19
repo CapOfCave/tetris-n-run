@@ -4,11 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 import loading.EntityLoader;
-import loading.ImageLoader;
 import logics.World;
 
 /**
@@ -22,7 +19,7 @@ public class Weapon extends Item {
 
 	private Point imgOffset;
 	private Point imgHitOffset;
-	private int hitTicks = 0;
+
 	private int damage;
 	protected int attackCooldown;
 	protected int attackCooldownState = 0;
@@ -31,6 +28,8 @@ public class Weapon extends Item {
 	private double hitWidth;
 	private double theta;
 	private double range;
+	private int cooldownTicks = 10;
+	
 
 	public static double tmpx, tmpy;
 
@@ -61,13 +60,7 @@ public class Weapon extends Item {
 
 	public void draw(Graphics g, int x, int y, String animkey, int animFrame, boolean debugMode) {
 
-		if (hitTicks != 0) {
-			akt_animation = anims.get("hit" + animkey);
-
-			hitTicks--;
-		} else {
-			akt_animation = anims.get(animkey);
-		}
+		akt_animation = anims.get(animkey);
 		akt_animation.setFrame(animFrame);
 
 		g.drawImage(akt_animation.getImage(), x + imgHitOffset.x, y + imgHitOffset.y, world.blockSize(),
@@ -114,7 +107,6 @@ public class Weapon extends Item {
 	}
 
 	public void hit() {
-		hitTicks = 10;
 		attackCooldownState = attackCooldown;
 	}
 
@@ -206,8 +198,9 @@ public class Weapon extends Item {
 		return attackCooldownState == 0;
 	}
 
-	public double getKnockback() {
-		return 20;
+	public int getCooldownTicks() {
+		return cooldownTicks;
 	}
-
+	
+	
 }
