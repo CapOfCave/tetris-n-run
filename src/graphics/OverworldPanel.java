@@ -33,12 +33,15 @@ public class OverworldPanel extends Panel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		
+		
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
+		
+		
 		world.draw(gameGraphics, interpolation, debugMode);
 		// guiMouseHandler.drawSideBar(g, debugMode);
 		world.drawPlayer(gameGraphics, interpolation, debugMode);
-
+		
 		if (Character.isLowerCase(frame.getNextLevel())) {
 			g.drawString("Spiele Level: " + frame.getNextLevel(), 970, 80);
 			g.drawImage(playButtonAkt, 970, 100, null);
@@ -46,6 +49,10 @@ public class OverworldPanel extends Panel {
 			g.drawString("Kein Level ausgewählt", 970, 80);
 			g.drawImage(playButtonDeakt, 970, 100, null);
 		}
+//		gameGraphics.drawLine(0, 0, gamePanel.width - 1, 0);
+//		gameGraphics.drawLine(0, 0, 0, gamePanel.height - 1);
+//		gameGraphics.drawLine(gamePanel.width - 1, 0, gamePanel.width - 1, gamePanel.height - 1);
+//		gameGraphics.drawLine(0, gamePanel.height - 1, gamePanel.width - 1, gamePanel.height - 1);
 
 	}
 
