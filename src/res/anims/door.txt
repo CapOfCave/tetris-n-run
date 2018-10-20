@@ -1,18 +1,18 @@
-pics32 open = "/res/blocks/door.png"
+pics45 open = "/res/blocks/door.png"
 pics32 background = "/res/blocks/block0.png"
 
 
 
-anim opened0 = open.1;0;-60
-anim opened1 = open.3;0;-60
-anim opened2 = open.1;0;-60
-anim opened3 = open.3;0;-60
+anim opened0 = open.1;0;-45
+anim opened1 = open.3;0;-45
+anim opened2 = open.1;0;-45
+anim opened3 = open.3;0;-45
 
 
 
-anim closed0 = open.0;0;-60
-anim closed1 = open.2;0;-60
-anim closed2 = open.0;0;-60
-anim closed3 = open.2;0;-60
+anim closed0 = open.0;0;-45
+anim closed1 = open.2;0;-45
+anim closed2 = open.0;0;-45
+anim closed3 = open.2;0;-45
 
 anim background = background.0
