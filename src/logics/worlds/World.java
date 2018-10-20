@@ -142,11 +142,11 @@ public abstract class World {
 					BufferedImage tile = tileWorld[j][i].getImg();
 
 					g.drawImage(tileWorld[j][i].getImg(),
-							i * Frame.BLOCKSIZE - camera.getX() - (tile.getWidth() / 32 * Frame.BLOCKSIZE)
-									+ Frame.BLOCKSIZE,
-							j * Frame.BLOCKSIZE - camera.getY() - (tile.getHeight() / 32 * Frame.BLOCKSIZE)
-									+ Frame.BLOCKSIZE,
-							tile.getWidth() / 32 * Frame.BLOCKSIZE, tile.getHeight() / 32 * Frame.BLOCKSIZE, null);
+							(int)(i * Frame.BLOCKSIZE - camera.getX() - tile.getWidth() / 32. * Frame.BLOCKSIZE
+									+ Frame.BLOCKSIZE),
+							(int)(j * Frame.BLOCKSIZE - camera.getY() - tile.getHeight() / 32. * Frame.BLOCKSIZE
+									+ Frame.BLOCKSIZE),
+							(int)(tile.getWidth() / 32. * Frame.BLOCKSIZE), (int)(tile.getHeight() / 32. * Frame.BLOCKSIZE), null);
 				}
 
 			}
