@@ -20,8 +20,8 @@ public class EnemySpawner extends Entity {
 	int spawnOffsetRight;
 	int spawnOffsetBottom;
 
-	public EnemySpawner(World world, int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight, int spawnOffsetBottom, int maxEnemy,
-			boolean enemyOnlyOnTetros, double d) {
+	public EnemySpawner(World world, int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
+			int spawnOffsetBottom, int maxEnemy, boolean enemyOnlyOnTetros, double d) {
 		super(world, x, y, null);
 
 		this.maxEnemy = maxEnemy;
@@ -43,8 +43,17 @@ public class EnemySpawner extends Entity {
 
 		if (debugMode) {
 			g.setColor(Color.DARK_GRAY);
-			g.fillRect((int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()), world.blockSize(),
-					world.blockSize());
+			g.fillRect((int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()),
+					world.blockSize(), world.blockSize());
+			for (int i = (int) (x - spawnOffsetLeft); i < (int) (x - spawnOffsetLeft + spawnOffsetRight
+					+ spawnOffsetLeft + 1); i++) {
+				for (int j = (int) (y - spawnOffsetTop); j < (int) (y - spawnOffsetTop + spawnOffsetBottom
+						+ spawnOffsetTop + 1); j++) {
+					g.drawLine(i * world.blockSize() - world.cameraX(), j * world.blockSize() - world.cameraY(),
+							(i + 1) * world.blockSize() - world.cameraX(),
+							(j + 1) * world.blockSize() - world.cameraY());
+				}
+			}
 		}
 
 	}
@@ -53,6 +62,7 @@ public class EnemySpawner extends Entity {
 		double r = Math.random();
 		if (r < spawnChance / 100. && enemyCount < maxEnemy) {
 			spawn();
+
 		}
 
 	}
@@ -70,9 +80,11 @@ public class EnemySpawner extends Entity {
 		}
 
 		if (enemyOnlyOnTetros) {
-			if (world.isTetroAt(yPos, xPos) || world.getTileAt(yPos, xPos).isWalkable())
+			if ((world.isTetroAt(yPos, xPos) && world.getTileAt(yPos, xPos).isWalkableWithTetro())
+					|| world.getTileAt(yPos, xPos).isWalkable()) {
 				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 25, this);
-			enemyCount++;
+				enemyCount++;
+			}
 		} else {
 			if (world.getTileAt(yPos, xPos).isWalkable()) {
 				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);
@@ -125,5 +137,33 @@ public class EnemySpawner extends Entity {
 		} else {
 			return (int) (y + spawnOffsetBottom);
 		}
+	}
+
+	public int getLoff() {
+		return spawnOffsetLeft;
+	}
+
+	public int getToff() {
+		return spawnOffsetTop;
+	}
+
+	public int getRoff() {
+		return spawnOffsetRight;
+	}
+
+	public int getBoff() {
+		return spawnOffsetBottom;
+	}
+
+	public int getMax() {
+		return maxEnemy;
+	}
+
+	public boolean getTetroonly() {
+		return enemyOnlyOnTetros;
+	}
+
+	public double getRate() {
+		return spawnChance;
 	}
 }

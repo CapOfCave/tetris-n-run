@@ -35,7 +35,6 @@ public class LevelLoader {
 		ArrayList<DoorTile> doors = new ArrayList<>();
 		ArrayList<RawSpawner> spawner = new ArrayList<>();
 
-		
 		int worldlength = 0;
 		int playerX = 0;
 		int playerY = 0;
@@ -186,11 +185,11 @@ public class LevelLoader {
 						rate = Double.parseDouble(str.substring(5).replace(",", "."));
 					}
 				}
-				if (x >= 0 && y >= 0 &&rate >= 0) {
+				if (x >= 0 && y >= 0 && rate >= 0) {
 					spawner.add(new RawSpawner(x, y, loff, toff, roff, boff, max, tetroonly, rate));
+				} else {
+					System.err.println("Fehler im Level \"" + url + "\": Spawner nicht bestimmt");
 				}
-				
-//				s;x=5,y=4,loff=2,toff=2,roff=2,boff=2,max=1,tetroonly=false,rate=0.01
 			} else if (nextLine.startsWith("w")) {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
 				world.add(strTemp);
