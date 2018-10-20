@@ -11,6 +11,7 @@ import data.RawTetro;
 import data.TetroType;
 import data.Tiles.DoorTile;
 import data.Tiles.EmptyTile;
+import data.Tiles.GoalTile;
 import data.Tiles.LevelGuiTile;
 import data.Tiles.Switch;
 import data.Tiles.Tile;
@@ -185,6 +186,8 @@ public class LevelLoader {
 
 				} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò') {
 					arrWorld[j][i] = new Switch(tileChar, i, j, frame);
+				} else if (tileChar == '!') {
+					arrWorld[j][i] = new GoalTile(i, j, frame);
 				} else if (Character.isLowerCase(tileChar)) {
 					arrWorld[j][i] = new LevelGuiTile(tileChar, i, j, frame);
 				} else {
