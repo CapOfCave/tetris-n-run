@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import data.Level;
+import data.RawSpawner;
 import data.RawTetro;
 import data.TetroType;
 import data.Tiles.DoorTile;
@@ -32,7 +33,9 @@ public class LevelLoader {
 		ArrayList<String> world = new ArrayList<>();
 		ArrayList<Item> rawItems = new ArrayList<>();
 		ArrayList<DoorTile> doors = new ArrayList<>();
+		ArrayList<RawSpawner> spawner = new ArrayList<>();
 
+		
 		int worldlength = 0;
 		int playerX = 0;
 		int playerY = 0;
@@ -50,7 +53,7 @@ public class LevelLoader {
 		}
 		while (sc.hasNext()) {
 			String nextLine = sc.nextLine();
-			if (nextLine.startsWith("s")) {
+			if (nextLine.startsWith("i")) {
 				String[] strSettings = nextLine.split(";");
 				for (String str : strSettings) {
 					if (str == strSettings[0])
@@ -151,6 +154,43 @@ public class LevelLoader {
 							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
 					System.exit(3);
 				}
+			} else if (nextLine.startsWith("s")) {
+				int x = -1;
+				int y = -1;
+				int loff = 0;
+				int toff = 0;
+				int roff = 0;
+				int boff = 0;
+				int max = 1;
+				boolean tetroonly = true;
+				double rate = -1;
+				String strSplit[] = nextLine.split(";");
+				for (String str : strSplit) {
+					if (str.startsWith("x=")) {
+						x = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("y=")) {
+						y = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("loff=")) {
+						loff = Integer.parseInt(str.substring(5));
+					} else if (str.startsWith("toff=")) {
+						toff = Integer.parseInt(str.substring(5));
+					} else if (str.startsWith("roff=")) {
+						roff = Integer.parseInt(str.substring(5));
+					} else if (str.startsWith("boff=")) {
+						boff = Integer.parseInt(str.substring(5));
+					} else if (str.startsWith("max=")) {
+						max = Integer.parseInt(str.substring(4));
+					} else if (str.startsWith("tetroonly=")) {
+						tetroonly = Boolean.parseBoolean(str.substring(10));
+					} else if (str.startsWith("rate=")) {
+						rate = Double.parseDouble(str.substring(5).replace(",", "."));
+					}
+				}
+				if (x >= 0 && y >= 0 &&rate >= 0) {
+					spawner.add(new RawSpawner(x, y, loff, toff, roff, boff, max, tetroonly, rate));
+				}
+				
+//				s;x=5,y=4,loff=2,toff=2,roff=2,boff=2,max=1,tetroonly=false,rate=0.01
 			} else if (nextLine.startsWith("w")) {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
 				world.add(strTemp);
@@ -200,7 +240,7 @@ public class LevelLoader {
 		if (blockSize > 0 && tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
 
-			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, blockSize, tetrofileUrl,
+			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, blockSize, tetrofileUrl,
 					playerX * blockSize, playerY * blockSize);
 		} else {
 			System.err.println("Levelerstellung nicht erfolgreich");

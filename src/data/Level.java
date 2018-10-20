@@ -20,8 +20,9 @@ public class Level {
 	private int playerX;
 	private int playerY;
 	private ArrayList<DoorTile> doors;
+	private ArrayList<RawSpawner> spawner;
 
-	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld, ArrayList<Item> arrItems, ArrayList<DoorTile> doors, int blockSize, String tetrofileUrl, int playerX,
+	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld, ArrayList<Item> arrItems, ArrayList<DoorTile> doors, ArrayList<RawSpawner> spawner, int blockSize, String tetrofileUrl, int playerX,
 			int playerY) {
 		this.tetroTypes = tetroTypes;
 		this.rawTetros = rawTetros;
@@ -32,6 +33,7 @@ public class Level {
 		this.playerX = playerX;
 		this.playerY = playerY;
 		this.doors = doors;
+		this.spawner = spawner;
 	}
 
 	public int getPlayerY() {
@@ -68,6 +70,10 @@ public class Level {
 
 	public ArrayList<DoorTile> getDoors() {
 		return doors;
+	}
+
+	public ArrayList<RawSpawner> getSpawner() {
+		return spawner;
 	}
 
 }

@@ -262,15 +262,15 @@ public abstract class World {
 	}
 
 	public void save(String path) {
-		ArrayList<RawTetro> rawTetros = new ArrayList<>();
-		for (Tetro t : tetros) {
-			rawTetros.add(createRawTetro(t));
-		}
-
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, itemWorld, doors, blockSize, tetroFileURL,
-				player.getTileX(), player.getTileY());
-		LevelSaver saver = new LevelSaver();
-		saver.saveLevel(temporaryLevel, path);
+//		ArrayList<RawTetro> rawTetros = new ArrayList<>();
+//		for (Tetro t : tetros) {
+//			rawTetros.add(createRawTetro(t));
+//		}
+//
+////		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, itemWorld, doors, blockSize, tetroFileURL,
+////				player.getTileX(), player.getTileY(), spawner);
+//		LevelSaver saver = new LevelSaver();
+//		saver.saveLevel(temporaryLevel, path);
 
 	}
 

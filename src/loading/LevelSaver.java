@@ -47,7 +47,7 @@ public class LevelSaver {
 		ArrayList<String> outpLines = new ArrayList<>();
 
 		// settings
-		StringBuilder settings = new StringBuilder("s");
+		StringBuilder settings = new StringBuilder("i");
 		String tetroFileUrl = level.getTetrofileUrl();
 		if (tetroFileUrl != null && tetroFileUrl != "") {
 			settings.append(";tetrofile=" + tetroFileUrl);
