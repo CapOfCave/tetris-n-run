@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import loading.AnimationLoader;
-import logics.World;
+import logics.worlds.World;
 
 /**
  * @author Lars Created on 16.09.2018
@@ -17,6 +17,8 @@ public class Weapon extends Item {
 //	private transient BufferedImage imgHit;
 //	private String imgPath, imgHitPath;
 
+	//TODO offsets
+	@SuppressWarnings("unused")
 	private Point imgOffset;
 	private Point imgHitOffset;
 

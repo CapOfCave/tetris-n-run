@@ -3,7 +3,7 @@ package data.Tiles;
 import java.awt.image.BufferedImage;
 
 import graphics.Frame;
-import logics.World;
+import logics.worlds.World;
 
 /**
  * @author Lars Created on 11.09.2018

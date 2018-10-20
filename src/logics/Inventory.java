@@ -14,7 +14,7 @@ public class Inventory {
 	private int firstVisibleItem = 0;
 	public int visibleItems = 4;
 	public BufferedImage arrowLeft, arrowRight;
-	private int x = 0, y = 0;
+	//TODO ? private int x = 0, y = 0;
 	private int size = 32;
 	
 	public Inventory() {
@@ -57,8 +57,8 @@ public class Inventory {
 
 	public void click(int x, int y) {
 		
-	this.x = x;
-	this.y = y;
+//	this.x = x;
+//	this.y = y;
 	
 	
 		if(x-40 >= 0 && x-40 <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())

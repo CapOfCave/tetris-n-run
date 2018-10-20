@@ -18,7 +18,7 @@ public class TetroType {
 		this.strHitbox = strHitbox;
 		this.img = img;
 		this.blockSize = blockSize;
-
+		
 		hitbox = new boolean[2][4];
 		for (int y = 0; y < hitbox.length; y++) {
 			for (int x = 0; x < hitbox[y].length; x++) {
@@ -29,6 +29,7 @@ public class TetroType {
 	}
 
 	public void draw(Graphics g, int x, int y, int rotation, boolean debugMode) {
+		
 		for (int j = 0; j < hitbox.length; j++) {
 			for (int i = 0; i < hitbox[j].length; i++) {
 				if (hitbox[j][i]) {

@@ -17,7 +17,7 @@ public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private OverworldPanel oPanel;
-	private Panel lPanel;
+	private GameWorldPanel lPanel;
 	private GameLoop gameLoop;
 	private char nextLevel;
 	private int levelSolved = 2;
@@ -61,7 +61,7 @@ public class Frame extends JFrame {
 
 	public void startLevel() {
 		if (Character.isLowerCase(nextLevel)) {
-			lPanel = new Panel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt ", this), keyHandler, this);
+			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt ", this), keyHandler, this);
 
 			add(lPanel);
 			remove(oPanel);

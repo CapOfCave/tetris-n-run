@@ -9,9 +9,9 @@ import java.util.HashMap;
 
 import data.Animation;
 import logics.EnemySpawner;
-import logics.World;
 import logics.entities.items.Weapon;
 import logics.searchalgorithm.SearchAlgorithm;
+import logics.worlds.World;
 
 public class Enemy extends LivingEntity {
 

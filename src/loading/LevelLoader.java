@@ -11,6 +11,7 @@ import data.RawTetro;
 import data.TetroType;
 import data.Tiles.DoorTile;
 import data.Tiles.EmptyTile;
+import data.Tiles.GoalTile;
 import data.Tiles.LevelGuiTile;
 import data.Tiles.Switch;
 import data.Tiles.Tile;
@@ -147,8 +148,9 @@ public class LevelLoader {
 				if (x >= 0 && y >= 0 && rotation >= 0 && color >= 0) {
 					doors.add(new DoorTile(color, x, y, rotation, open, frame));
 				} else {
-					System.out.println("Fehler im Level \"" + url + "\": Tür kann nicht erstellt werden wegen "
+					System.err.println("Fehler im Level \"" + url + "\": Tür kann nicht erstellt werden wegen "
 							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
+					System.exit(3);
 				}
 			} else if (nextLine.startsWith("w")) {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
@@ -184,6 +186,8 @@ public class LevelLoader {
 
 				} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò') {
 					arrWorld[j][i] = new Switch(tileChar, i, j, frame);
+				} else if (tileChar == '!') {
+					arrWorld[j][i] = new GoalTile(i, j, frame);
 				} else if (Character.isLowerCase(tileChar)) {
 					arrWorld[j][i] = new LevelGuiTile(tileChar, i, j, frame);
 				} else {

@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputListener;
 
 import logics.InHandHandler;
-import logics.World;
+import logics.worlds.GameWorld;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -15,9 +15,9 @@ public class MouseHandler implements MouseInputListener {
 	private int mouseX = -1;
 	private int mouseY = -1;
 	private InHandHandler inHandHandler;
-	private World world;
+	private GameWorld world;
 
-	public MouseHandler(InHandHandler inHandHandler, World world) {
+	public MouseHandler(InHandHandler inHandHandler, GameWorld world) {
 		this.inHandHandler = inHandHandler;
 		this.world = world;
 	}

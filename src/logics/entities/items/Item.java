@@ -3,12 +3,10 @@ package logics.entities.items;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import loading.AnimationLoader;
-import loading.ImageLoader;
-import logics.World;
 import logics.entities.Entity;
+import logics.worlds.World;
 
 public class Item extends Entity {
 

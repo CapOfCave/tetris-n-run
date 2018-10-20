@@ -13,9 +13,9 @@ import data.Tiles.Tile;
 import loading.ItemLoader;
 import loading.ItemSaver;
 import logics.Inventory;
-import logics.World;
 import logics.entities.items.Item;
 import logics.entities.items.Weapon;
+import logics.worlds.World;
 
 /**
  * @author Lars Created on 05.08.2018

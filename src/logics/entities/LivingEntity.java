@@ -3,8 +3,9 @@ package logics.entities;
 import java.util.HashMap;
 
 import data.Animation;
-import logics.World;
 import logics.entities.items.Weapon;
+import logics.worlds.GameWorld;
+import logics.worlds.World;
 
 /**
  * @author Lars Created on 18.09.2018
@@ -35,7 +36,7 @@ public abstract class LivingEntity extends Entity {
 
 	}
 
-	public LivingEntity(World world, int x, int y, HashMap<String, Animation> anims) {
+	public LivingEntity(GameWorld world, int x, int y, HashMap<String, Animation> anims) {
 		super(world, x, y, anims);
 
 	}
