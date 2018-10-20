@@ -13,7 +13,6 @@ public class Overworld extends World {
 
 	public Overworld(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler, Frame frame) {
 		super(graphicClip, blockSize, level, keyHandler, frame);
-
 	}
 
 }

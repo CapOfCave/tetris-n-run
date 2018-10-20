@@ -13,7 +13,7 @@ import input.KeyHandler;
 import logics.Playable;
 import logics.worlds.World;
 
-public abstract class Panel extends JPanel implements Playable{
+public abstract class Panel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
 	protected final int width = 1300, height = 850;
 	protected final Rectangle gamePanel = new Rectangle(20, 20, 901, 601);
@@ -25,7 +25,7 @@ public abstract class Panel extends JPanel implements Playable{
 	protected float interpolation;
 	protected Frame frame;
 	protected World world;
-	
+
 	public Panel(Level level, KeyHandler keyHandler, Frame frame) {
 		this.keyHandler = keyHandler;
 		this.frame = frame;
@@ -37,14 +37,14 @@ public abstract class Panel extends JPanel implements Playable{
 			tetroDrawPositions.add(new Point(972, i * 100 + 72));
 		}
 	}
-	
+
 	@Override
 	public void render(float interpolation) {
 		this.interpolation = interpolation;
 		repaint();
 
 	}
-	
+
 	@Override
 	public void tick() {
 		world.tick();
@@ -53,7 +53,7 @@ public abstract class Panel extends JPanel implements Playable{
 			debugMode = !debugMode;
 			keyHandler.setF3pressed(false);
 		}
-		
+
 	}
-	
+
 }

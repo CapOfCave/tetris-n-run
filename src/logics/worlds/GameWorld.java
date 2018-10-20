@@ -14,6 +14,8 @@ public class GameWorld extends World {
 
 	public GameWorld(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler, Frame frame) {
 		super(graphicClip, blockSize, level, keyHandler, frame);
+		addSpawner(10, 10, 2, 2, 2, 2, 3, true, 5);
+		addSpawner(3, 3, 1, 1, 1, 1, 2, true, 3);
 	}
 
 	public void drawInventory(Graphics2D g) {

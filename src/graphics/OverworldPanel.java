@@ -1,6 +1,5 @@
 package graphics;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -47,9 +46,6 @@ public class OverworldPanel extends Panel {
 			g.drawString("Kein Level ausgewählt", 970, 80);
 			g.drawImage(playButtonDeakt, 970, 100, null);
 		}
-//		x >= 970 && y >= 100 && x < 970 + 256 && y < 100 + 64) {
-		g.setColor(Color.RED);
-		g.drawRect(970, 100, 256, 64);
 
 	}
 

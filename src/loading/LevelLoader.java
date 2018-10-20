@@ -147,8 +147,9 @@ public class LevelLoader {
 				if (x >= 0 && y >= 0 && rotation >= 0 && color >= 0) {
 					doors.add(new DoorTile(color, x, y, rotation, open, frame));
 				} else {
-					System.out.println("Fehler im Level \"" + url + "\": Tür kann nicht erstellt werden wegen "
+					System.err.println("Fehler im Level \"" + url + "\": Tür kann nicht erstellt werden wegen "
 							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
+					System.exit(3);
 				}
 			} else if (nextLine.startsWith("w")) {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
