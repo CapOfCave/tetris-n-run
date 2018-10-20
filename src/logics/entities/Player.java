@@ -89,16 +89,15 @@ public class Player extends LivingEntity {
 		g.drawString("Rot.:=" + rotation, 2, 15);
 
 		g.setColor(Color.RED);
-		g.drawString(Integer.toString(health), interpolX + 30, interpolY - 20);
+		g.drawString(Integer.toString(health), interpolX + 30 - world.cameraX(), interpolY - world.cameraY() - 20);
+		g.setColor(Color.GREEN);
+		g.drawString(Integer.toString(hitTicks), interpolX + 40 - world.cameraX(), interpolY - world.cameraY() - 20);
 
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-
-		akt_animation.next();
-		checkHealth();
 
 		checkInput();
 		move();
@@ -109,8 +108,8 @@ public class Player extends LivingEntity {
 	}
 
 	@Override
-	public void applyDamage(Weapon weapon, int direction) {
-		super.applyDamage(weapon, direction);
+	public void applyDamage(Weapon weapon) {
+		super.applyDamage(weapon);
 	}
 
 	private void checkInput() {
@@ -126,14 +125,15 @@ public class Player extends LivingEntity {
 	}
 
 	public void hit() {
-		if (activeWeapon != null && activeWeapon.attackReady()) {
+		if (activeWeapon != null && attackReady()) {
 			activeWeapon.hit();
 			hitTicks += activeWeapon.getCooldownTicks();
+			System.out.println("hit");
 			for (Enemy enemy : world.getEnemies()) {
 				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
 						new Rectangle((int) (enemy.getX() - world.cameraX()), (int) (enemy.getY() - world.cameraY()),
 								world.blockSize(), world.blockSize()))) {
-					enemy.applyDamage(activeWeapon, rotation);
+					enemy.applyDamage(activeWeapon);
 				}
 			}
 		}

@@ -14,7 +14,17 @@ public class KeyHandler implements KeyListener {
 	private boolean d = false;
 	
 	private boolean f3pressed = false;
+	
+	private boolean[] tetroHotkeyPressed;
+	private int[] tetroHotkeys = {KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_7, };
 
+	public KeyHandler() {
+		tetroHotkeyPressed = new boolean[tetroHotkeys.length];
+		for(int i = 0; i < tetroHotkeyPressed.length; i++) {
+			tetroHotkeyPressed[i] = false;
+		}
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_W) {
@@ -32,6 +42,13 @@ public class KeyHandler implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_F3) {
 			f3pressed = true;
 		}
+		for(int i = 0; i < tetroHotkeys.length; i++) {
+			if (e.getKeyCode() == tetroHotkeys[i]) {
+				tetroHotkeyPressed[i] = true;
+			}
+		}
+		
+		
 	}
 
 	@Override
@@ -47,6 +64,12 @@ public class KeyHandler implements KeyListener {
 		}
 		if (e.getKeyCode() == KeyEvent.VK_D) {
 			d = false;
+		}
+		
+		for(int i = 0; i < tetroHotkeys.length; i++) {
+			if (e.getKeyCode() == tetroHotkeys[i]) {
+				tetroHotkeyPressed[i] = false;
+			}
 		}
 	}
 	
@@ -64,6 +87,14 @@ public class KeyHandler implements KeyListener {
 
 	public boolean getD() {
 		return d;
+	}
+	
+	public boolean isHotkeyPressed(int index) {
+		return tetroHotkeyPressed[index];
+	}
+	
+	public void setHotkeyPressed(int index, boolean b) {
+		tetroHotkeyPressed[index] = b;
 	}
 
 	public boolean isF3pressed() {
