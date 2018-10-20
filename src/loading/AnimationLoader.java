@@ -1,5 +1,6 @@
 package loading;
 
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,11 +35,18 @@ public class AnimationLoader {
 			String nextLine = sc.nextLine();
 			if (nextLine.startsWith("pics")) {
 				String name = nextLine.substring(nextLine.indexOf(" "), nextLine.indexOf("=")).trim();
-				pics.put(name, new Pics(nextLine.substring(nextLine.indexOf("\"") + 1, nextLine.length() - 1),
-						Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" ")))));
+				try {
+					pics.put(name, new Pics(nextLine.substring(nextLine.indexOf("\"") + 1, nextLine.length() - 1),
+							Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" ")))));
+				} catch (IllegalArgumentException e) {
+					System.out.println(nextLine.substring(nextLine.indexOf("\"") + 1, nextLine.length() - 1));
+					System.err.println("Fehler mit dem Dateiformat von " + url);
+					e.printStackTrace();
+					System.exit(3);
+				}
 			} else if (nextLine.startsWith("anim")) {
 				int animTicks;
-				if(nextLine.indexOf(" ") == 4) {
+				if (nextLine.indexOf(" ") == 4) {
 					animTicks = 3;
 				} else {
 					animTicks = Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" ")));
@@ -47,9 +55,19 @@ public class AnimationLoader {
 				String[] values = nextLine.substring(nextLine.indexOf("=") + 1).trim().split("\\+");
 				Animation anim = new Animation(animTicks);
 				for (String strFrame : values) {
-					strFrame = strFrame.trim();
-					anim.addFrame(pics.get(strFrame.substring(0, strFrame.indexOf(".")))
-							.get(Integer.parseInt(strFrame.substring(strFrame.indexOf(".") + 1))));
+					String[] valuesSplit = strFrame.split(";");
+					int xOff;
+					int yOff;
+					if (valuesSplit.length < 3|| valuesSplit[1].equals("") || valuesSplit[2].equals("")) {
+						xOff = 0;
+						yOff = 0;
+					} else {
+						xOff = Integer.parseInt(valuesSplit[1].trim());
+						yOff = Integer.parseInt(valuesSplit[2].trim());
+					}
+					valuesSplit[0] = valuesSplit[0].trim();
+					anim.addFrame(pics.get(valuesSplit[0].substring(0, valuesSplit[0].indexOf(".")))
+							.get(Integer.parseInt(valuesSplit[0].substring(valuesSplit[0].indexOf(".") + 1))), new Point(xOff, yOff));
 				}
 				anims.put(name, anim);
 			}

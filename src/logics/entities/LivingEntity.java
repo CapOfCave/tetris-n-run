@@ -3,6 +3,7 @@ package logics.entities;
 import java.util.HashMap;
 
 import data.Animation;
+import graphics.Frame;
 import logics.entities.items.Weapon;
 import logics.worlds.GameWorld;
 import logics.worlds.World;
@@ -59,25 +60,25 @@ public abstract class LivingEntity extends Entity {
 
 		updateRotation();
 
-		x += hSpeed * world.blockSize() / 45;
-		y += vSpeed * world.blockSize() / 45;
+		x += hSpeed;
+		y += vSpeed;
 
 	}
 
 	private void accelerate() {
 		double abs_hSpeed = Math.abs(hSpeed);
 		if (wantsToGoLeft && !wantsToGoRight) {
-			hSpeed -= acc * world.blockSize() / 45;
+			hSpeed -= acc;
 			if (hSpeed > 0) {
-				hSpeed -= brake * world.blockSize() / 45;
+				hSpeed -= brake;
 			}
 		} else if (!wantsToGoLeft && wantsToGoRight) {
-			hSpeed += acc * world.blockSize() / 45;
+			hSpeed += acc;
 			if (hSpeed < 0) {
-				hSpeed += brake * world.blockSize() / 45;
+				hSpeed += brake;
 			}
 		} else if (abs_hSpeed > 0.001) {
-			abs_hSpeed -= brake * world.blockSize() / 45;
+			abs_hSpeed -= brake;
 			if (abs_hSpeed < 0) {
 				abs_hSpeed = 0;
 			}
@@ -89,17 +90,17 @@ public abstract class LivingEntity extends Entity {
 		// Unten-Oben-Movement
 		double abs_vSpeed = Math.abs(vSpeed);
 		if (wantsToGoUp && !wantsToGoDown) {
-			vSpeed -= acc * world.blockSize() / 45;
+			vSpeed -= acc;
 			if (vSpeed > 0) {
-				vSpeed -= brake * world.blockSize() / 45;
+				vSpeed -= brake;
 			}
 		} else if (!wantsToGoUp && wantsToGoDown) {
-			vSpeed += acc * world.blockSize() / 45;
+			vSpeed += acc;
 			if (vSpeed < 0) {
-				vSpeed += brake * world.blockSize() / 45;
+				vSpeed += brake;
 			}
 		} else if (abs_vSpeed > 0.001) {
-			abs_vSpeed -= brake * world.blockSize() / 45;
+			abs_vSpeed -= brake;
 			if (abs_vSpeed < 0) {
 				abs_vSpeed = 0;
 			}
@@ -137,9 +138,9 @@ public abstract class LivingEntity extends Entity {
 		// nach oben-movement (TL-TR)
 		if (vSpeed < 0) {
 			// linker edgecut
-			if (!isRelAccessible(-world.blockSize() / 2 + vSpeed, -world.blockSize() / 2)) {
-				if (isRelAccessible(-world.blockSize() / 2 + vSpeed,
-						-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoLeft) {
+			if (!isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed, -Frame.BLOCKSIZE / 2)) {
+				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed,
+						-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoLeft) {
 					// TODO edgecut
 				} else {
 					vSpeed = 0;
@@ -149,9 +150,9 @@ public abstract class LivingEntity extends Entity {
 			}
 
 			// rechter edgecut
-			if (!isRelAccessible(-world.blockSize() / 2 + vSpeed, world.blockSize() / 2 - 1)) {
-				if (isRelAccessible(-world.blockSize() / 2 + vSpeed,
-						world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100)
+			if (!isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed, Frame.BLOCKSIZE / 2 - 1)) {
+				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed,
+						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100)
 						&& !wantsToGoRight) {
 
 				} else {
@@ -162,18 +163,18 @@ public abstract class LivingEntity extends Entity {
 		}
 		// nach unten-movement (BL-BR)
 		if (vSpeed > 0) {
-			if (!isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, -world.blockSize() / 2)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed,
-						-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100) && !wantsToGoLeft) {
+			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed, -Frame.BLOCKSIZE / 2)) {
+				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed,
+						-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoLeft) {
 
 				} else {
 					vSpeed = 0;
 					move_contact_solid(2);
 				}
 			}
-			if (!isRelAccessible(world.blockSize() / 2 - 1 + vSpeed, world.blockSize() / 2 - 1)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 + vSpeed,
-						world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100)
+			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed, Frame.BLOCKSIZE / 2 - 1)) {
+				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed,
+						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100)
 						&& !wantsToGoRight) {
 
 				} else {
@@ -187,18 +188,18 @@ public abstract class LivingEntity extends Entity {
 		// Horizontal
 		// nach links-movement (TL-BL)
 		if (hSpeed < 0) {
-			if (!isRelAccessible(-world.blockSize() / 2, -world.blockSize() / 2 + hSpeed)) {
-				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100,
-						-world.blockSize() / 2 + hSpeed) && !wantsToGoUp) {
+			if (!isRelAccessible(-Frame.BLOCKSIZE / 2, -Frame.BLOCKSIZE / 2 + hSpeed)) {
+				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
+						-Frame.BLOCKSIZE / 2 + hSpeed) && !wantsToGoUp) {
 
 				} else {
 					hSpeed = 0;
 					move_contact_solid(3);
 				}
 			}
-			if (!isRelAccessible(world.blockSize() / 2 - 1, -world.blockSize() / 2 + hSpeed)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100,
-						-world.blockSize() / 2 + hSpeed) && !wantsToGoDown) {
+			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1, -Frame.BLOCKSIZE / 2 + hSpeed)) {
+				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
+						-Frame.BLOCKSIZE / 2 + hSpeed) && !wantsToGoDown) {
 
 				} else {
 					hSpeed = 0;
@@ -211,18 +212,18 @@ public abstract class LivingEntity extends Entity {
 
 		// nach rechts-movement (TR-BR)
 		if (hSpeed > 0) {
-			if (!isRelAccessible(-world.blockSize() / 2, world.blockSize() / 2 - 1 + hSpeed)) {
-				if (isRelAccessible(-world.blockSize() / 2 + edgeTolerancePercentage * world.blockSize() / 100,
-						world.blockSize() / 2 - 1 + hSpeed) && !wantsToGoUp) {
+			if (!isRelAccessible(-Frame.BLOCKSIZE / 2, Frame.BLOCKSIZE / 2 - 1 + hSpeed)) {
+				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
+						Frame.BLOCKSIZE / 2 - 1 + hSpeed) && !wantsToGoUp) {
 
 				} else {
 					hSpeed = 0;
 					move_contact_solid(1);
 				}
 			}
-			if (!isRelAccessible(world.blockSize() / 2 - 1, world.blockSize() / 2 - 1 + hSpeed)) {
-				if (isRelAccessible(world.blockSize() / 2 - 1 - edgeTolerancePercentage * world.blockSize() / 100,
-						world.blockSize() / 2 - 1 + hSpeed) && !wantsToGoDown) {
+			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1, Frame.BLOCKSIZE / 2 - 1 + hSpeed)) {
+				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
+						Frame.BLOCKSIZE / 2 - 1 + hSpeed) && !wantsToGoDown) {
 
 				} else {
 					hSpeed = 0;
@@ -281,41 +282,41 @@ public abstract class LivingEntity extends Entity {
 	private void move_contact_solid(int i) {
 		switch (i) {
 		case 0:
-			y = getTileY() * world.blockSize();
+			y = getTileY() * Frame.BLOCKSIZE;
 			break;
 		case 1:
-			x = getTileX() * world.blockSize();
+			x = getTileX() * Frame.BLOCKSIZE;
 			break;
 		case 2:
-			y = getTileY() * world.blockSize();
+			y = getTileY() * Frame.BLOCKSIZE;
 			break;
 		case 3:
-			x = getTileX() * world.blockSize();
+			x = getTileX() * Frame.BLOCKSIZE;
 			break;
 		}
 
 	}
 
 	private int getTileX(double dx) {
-		return (int) ((x + dx + world.blockSize() / 2) / world.blockSize());
+		return (int) ((x + dx + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE);
 	}
 
 	private int getTileY(double dy) {
-		return (int) ((y + dy + world.blockSize() / 2) / world.blockSize());
+		return (int) ((y + dy + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE);
 	}
 
 	public int getTileX() {
-		return (int) ((x + world.blockSize() / 2) / world.blockSize());
+		return (int) ((x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE);
 	}
 
 	public int getTileY() {
-		return (int) ((y + world.blockSize() / 2) / world.blockSize());
+		return (int) ((y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE);
 	}
 
 	private boolean isRelAccessible(double dy, double dx) {
 
-		if ((x + world.blockSize() / 2 + dx) >= world.getMaxX() || (y + world.blockSize() / 2 + dy) >= world.getMaxY()
-				|| (x + world.blockSize() / 2 + dx) < 0 || (y + world.blockSize() / 2 + dy) < 0) {
+		if ((x + Frame.BLOCKSIZE / 2 + dx) >= world.getMaxX() || (y + Frame.BLOCKSIZE / 2 + dy) >= world.getMaxY()
+				|| (x + Frame.BLOCKSIZE / 2 + dx) < 0 || (y + Frame.BLOCKSIZE / 2 + dy) < 0) {
 			return false;
 		}
 

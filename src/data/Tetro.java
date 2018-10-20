@@ -2,6 +2,7 @@ package data;
 
 import java.awt.Graphics2D;
 
+import graphics.Frame;
 import logics.Camera;
 
 /**
@@ -9,19 +10,17 @@ import logics.Camera;
  */
 public class Tetro {
 
-	private int blockSize;
 	private TetroType type;
 	private int x, y;
 	private int rotation;
 
 	private Camera camera;
 
-	public static Tetro NULL = new Tetro(null, 0, 0, 0, 0, null);
+	public static Tetro NULL = new Tetro(null, 0, 0, 0, null);
 	
-	public Tetro(TetroType type, int x, int y, int rotation, int blockSize, Camera camera) {
+	public Tetro(TetroType type, int x, int y, int rotation, Camera camera) {
 		this.camera = camera;
 
-		this.blockSize = blockSize;
 		this.type = type;
 		this.x = x;
 		this.y = y;
@@ -47,7 +46,7 @@ public class Tetro {
 	}
 
 	public void draw(Graphics2D g, boolean debugMode) {
-		type.draw(g, x * blockSize - camera.getX(), y * blockSize - camera.getY(), rotation, debugMode);
+		type.draw(g, x * Frame.BLOCKSIZE - camera.getX(), y * Frame.BLOCKSIZE - camera.getY(), rotation, debugMode);
 	}
 
 	public TetroType getType() {

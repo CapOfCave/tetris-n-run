@@ -24,7 +24,7 @@ public class GameWorldPanel extends Panel {
 	public GameWorldPanel(Level level, KeyHandler keyHandler, Frame frame) {
 		super(level, keyHandler, frame);
 
-		world = new GameWorld(gamePanel, blockSize, level, keyHandler, frame);
+		world = new GameWorld(gamePanel, level, keyHandler, frame);
 
 		inHandHandler = new InHandHandler(world, tetroDrawPositions);
 		mouseHandler = new MouseHandler(inHandHandler, (GameWorld) world);

@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import data.TetroType;
+import graphics.Frame;
 import logics.worlds.World;
 
 /**
@@ -53,7 +54,7 @@ public class InHandHandler {
 		rotation = (rotation + 1) % 4;
 		int offset_x_alt = offset_x;
 		offset_x = offset_y;
-		offset_y = (rotation % 2 + 1) * 2 * world.blockSize() - offset_x_alt;
+		offset_y = (rotation % 2 + 1) * 2 * Frame.BLOCKSIZE - offset_x_alt;
 	}
 
 	public void placeInHand() {
@@ -88,7 +89,7 @@ public class InHandHandler {
 		TetroType tetroApproximation = null;
 		for (int i = 0; i < world.getTetroTypeCount(); i++) {
 			Point p = tetroTypeOffsets.get(i);
-			if (x > p.x && x < p.x + 4 * world.blockSize() && y > p.y && y < p.y + 2 * world.blockSize()) {
+			if (x > p.x && x < p.x + 4 * Frame.BLOCKSIZE && y > p.y && y < p.y + 2 * Frame.BLOCKSIZE) {
 				tetroApproximation = world.getTetroType(i);
 				offset_x = x - p.x;
 				offset_y = y - p.y;
@@ -97,8 +98,8 @@ public class InHandHandler {
 			}
 		}
 
-		if (tetroApproximation == null && x > mouse_x - offset_x && x < mouse_x - offset_x + 4 * world.blockSize() && y > mouse_y - offset_y
-				&& y < mouse_y - offset_y + 2 * world.blockSize()) {
+		if (tetroApproximation == null && x > mouse_x - offset_x && x < mouse_x - offset_x + 4 *Frame.BLOCKSIZE && y > mouse_y - offset_y
+				&& y < mouse_y - offset_y + 2 * Frame.BLOCKSIZE) {
 			tetroApproximation = tetroInHand;
 			offset_x = x - (mouse_x - offset_x);
 			offset_y = y - (mouse_y - offset_y);

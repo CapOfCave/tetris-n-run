@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import graphics.Frame;
 import loading.AnimationLoader;
 import logics.worlds.World;
 
@@ -59,8 +60,8 @@ public class Weapon extends Item {
 		akt_animation = anims.get(animkey);
 		akt_animation.setFrame(animFrame);
 
-		g.drawImage(akt_animation.getImage(), x + imgHitOffset.x, y + imgHitOffset.y, world.blockSize(),
-				world.blockSize(), null);
+		g.drawImage(akt_animation.getImage(), x + imgHitOffset.x, y + imgHitOffset.y, Frame.BLOCKSIZE,
+				Frame.BLOCKSIZE, null);
 
 		if (debugMode) {
 			drawDebug(g, x, y);
@@ -83,29 +84,14 @@ public class Weapon extends Item {
 	}
 
 	private void drawDebug(Graphics g, int x, int y) {
-		Rectangle rect = new Rectangle((int) (x + world.blockSize() / 2 - range),
-				(int) (y + world.blockSize() / 2 - range), (int) (2 * range), (int) (2 * range));
-		g.setColor(Color.RED);
-		g.drawArc(rect.x, rect.y, rect.width, rect.height, (int) (-theta / 2), (int) (theta));
-		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 - hitWidth), x + world.blockSize() / 2,
-				(int) (y + world.blockSize() / 2 + hitWidth));
-
-		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 - hitWidth),
-				(int) (x + world.blockSize() / 2 + range * Math.cos(Math.toRadians(theta / 2))),
-				(int) (y + world.blockSize() / 2 - range * Math.sin(Math.toRadians(theta / 2))));
-		g.drawLine(x + world.blockSize() / 2, (int) (y + world.blockSize() / 2 + hitWidth),
-				(int) (x + world.blockSize() / 2 + range * Math.cos(Math.toRadians(theta / 2))),
-				(int) (y + world.blockSize() / 2 + range * Math.sin(Math.toRadians(theta / 2))));
-		g.setColor(Color.YELLOW);
 	}
 
 	public void hit() {
 	}
 
 	public boolean isInRange(double x, double y, double angleDeg, Rectangle eBounds) {
-		int halfBlockSize = world.blockSize() / 2;
-		double nullx = x + halfBlockSize;
-		double nully = y + halfBlockSize;
+		double nullx = x + Frame.BLOCKSIZE / 2;
+		double nully = y + Frame.BLOCKSIZE / 2;
 
 		// Calc nearest point
 		double npX; // TODO not optimal & x < 0 unmöglich

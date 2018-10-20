@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import data.Animation;
 import data.Tiles.Tile;
+import graphics.Frame;
 import loading.ItemLoader;
 import loading.ItemSaver;
 import logics.Inventory;
@@ -67,7 +68,7 @@ public class Player extends LivingEntity {
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX(), interpolY - world.cameraY(),
-				world.blockSize(), world.blockSize(), null);
+				Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
 
 		if (activeWeapon != null)
 			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
@@ -131,7 +132,7 @@ public class Player extends LivingEntity {
 			for (Enemy enemy : world.getEnemies()) {
 				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
 						new Rectangle((int) (enemy.getX() - world.cameraX()), (int) (enemy.getY() - world.cameraY()),
-								world.blockSize(), world.blockSize()))) {
+								Frame.BLOCKSIZE, Frame.BLOCKSIZE))) {
 					enemy.applyDamage(activeWeapon);
 				}
 			}

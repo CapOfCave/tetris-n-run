@@ -1,5 +1,6 @@
 package data;
 
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class Animation {
 
 	ArrayList<BufferedImage> frames = new ArrayList<>();
+	ArrayList<Point> offsets = new ArrayList<>();
 	int index = 0;
 	private int animTicks;
 
@@ -16,8 +18,9 @@ public class Animation {
 		this.animTicks = animTicks;
 	}
 
-	public void addFrame(BufferedImage bufferedImage) {
+	public void addFrame(BufferedImage bufferedImage, Point offset) {
 		frames.add(bufferedImage);
+		offsets.add(offset);
 	}
 
 	public void next() {
@@ -27,6 +30,12 @@ public class Animation {
 
 	public BufferedImage getImage() {
 		return frames.get((index % (frames.size() * animTicks)) / animTicks);
+	}
+	public int getOffsetX() {
+		return offsets.get((index % (frames.size() * animTicks)) / animTicks).x;
+	}
+	public int getOffsetY() {
+		return offsets.get((index % (frames.size() * animTicks)) / animTicks).y;
 	}
 
 	public void reset() {

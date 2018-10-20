@@ -14,13 +14,13 @@ public class TetroLoader {
 	private static final String img_prefix = "/res/tetros/";
 	private static final String img_suffix = "b.png";
 
-	public static ArrayList<TetroType> loadTetros(String path, int blockSize) {
+	public static ArrayList<TetroType> loadTetros(String path) {
 		Scanner sc = new Scanner(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(path));
 		ArrayList<TetroType> tetros = new ArrayList<>();
 		while (sc.hasNextLine()) {
 			String str = sc.nextLine();
 			tetros.add(new TetroType(str.substring(0, 8),
-					ImageLoader.loadImage(img_prefix + str.substring(8) + img_suffix, blockSize), blockSize));
+					ImageLoader.loadImage(img_prefix + str.substring(8) + img_suffix)));
 		}
 		sc.close();
 		return tetros;

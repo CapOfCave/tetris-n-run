@@ -14,7 +14,9 @@ public class Pics {
 	int amount;
 
 	public Pics(String url, int width) {
+
 		this(ImageLoader.loadImage(url), width);
+
 	}
 
 	public Pics(BufferedImage img, int width) {

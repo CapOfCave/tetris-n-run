@@ -52,10 +52,6 @@ public class LevelSaver {
 		if (tetroFileUrl != null && tetroFileUrl != "") {
 			settings.append(";tetrofile=" + tetroFileUrl);
 		}
-		int blockSize = level.getBlockSize();
-		if (blockSize > 0) {
-			settings.append(";blockSize=" + blockSize);
-		}
 		String strSettings = settings.toString();
 		if (!strSettings.equals("s")) {
 			outpLines.add(strSettings);

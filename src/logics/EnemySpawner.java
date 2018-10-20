@@ -3,6 +3,7 @@ package logics;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import graphics.Frame;
 import logics.entities.Entity;
 import logics.worlds.GameWorld;
 import logics.worlds.World;
@@ -43,15 +44,15 @@ public class EnemySpawner extends Entity {
 
 		if (debugMode) {
 			g.setColor(Color.DARK_GRAY);
-			g.fillRect((int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()),
-					world.blockSize(), world.blockSize());
+			g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX()), (int) (y * Frame.BLOCKSIZE - world.cameraY()),
+					Frame.BLOCKSIZE, Frame.BLOCKSIZE);
 			for (int i = (int) (x - spawnOffsetLeft); i < (int) (x - spawnOffsetLeft + spawnOffsetRight
 					+ spawnOffsetLeft + 1); i++) {
 				for (int j = (int) (y - spawnOffsetTop); j < (int) (y - spawnOffsetTop + spawnOffsetBottom
 						+ spawnOffsetTop + 1); j++) {
-					g.drawLine(i * world.blockSize() - world.cameraX(), j * world.blockSize() - world.cameraY(),
-							(i + 1) * world.blockSize() - world.cameraX(),
-							(j + 1) * world.blockSize() - world.cameraY());
+					g.drawLine(i * Frame.BLOCKSIZE - world.cameraX(), j * Frame.BLOCKSIZE - world.cameraY(),
+							(i + 1) * Frame.BLOCKSIZE - world.cameraX(),
+							(j + 1) * Frame.BLOCKSIZE - world.cameraY());
 				}
 			}
 		}
@@ -82,12 +83,12 @@ public class EnemySpawner extends Entity {
 		if (enemyOnlyOnTetros) {
 			if ((world.isTetroAt(yPos, xPos) && world.getTileAt(yPos, xPos).isWalkableWithTetro())
 					|| world.getTileAt(yPos, xPos).isWalkable()) {
-				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 25, this);
+				world.addEnemy(xPos * Frame.BLOCKSIZE, yPos * Frame.BLOCKSIZE, 25, this);
 				enemyCount++;
 			}
 		} else {
 			if (world.getTileAt(yPos, xPos).isWalkable()) {
-				world.addEnemy(xPos * world.blockSize(), yPos * world.blockSize(), 10, this);
+				world.addEnemy(xPos * Frame.BLOCKSIZE, yPos * Frame.BLOCKSIZE, 10, this);
 				enemyCount++;
 			}
 		}
