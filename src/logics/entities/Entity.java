@@ -1,12 +1,11 @@
 package logics.entities;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.HashMap;
 
 import data.Animation;
-import logics.World;
+import logics.worlds.World;
 
 /**
  * @author Lars Created on 18.09.2018

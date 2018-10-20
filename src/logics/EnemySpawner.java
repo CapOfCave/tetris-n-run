@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import logics.entities.Entity;
+import logics.worlds.GameWorld;
+import logics.worlds.World;
 
 public class EnemySpawner extends Entity {
 
@@ -31,7 +33,7 @@ public class EnemySpawner extends Entity {
 		this.spawnOffsetBottom = spawnOffsetBottom;
 	}
 
-	public EnemySpawner(World world, int maxEnemy, boolean enemyOnlyOnTetros, int spawnChance) {
+	public EnemySpawner(GameWorld world, int maxEnemy, boolean enemyOnlyOnTetros, int spawnChance) {
 		this(world, -10, -10, -1, -1, -1, -1, maxEnemy, enemyOnlyOnTetros, spawnChance);
 		global = true;
 	}

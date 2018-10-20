@@ -1,8 +1,6 @@
 package graphics;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -12,74 +10,41 @@ import javax.swing.JPanel;
 import data.Level;
 import data.TetroType;
 import input.KeyHandler;
-import input.MouseHandler;
-import logics.InHandHandler;
 import logics.Playable;
-import logics.World;
+import logics.worlds.World;
 
-/**
- * @author Lars Created on 05.08.2018
- */
-public class Panel extends JPanel implements Playable {
+public abstract class Panel extends JPanel implements Playable{
 	private static final long serialVersionUID = 1L;
-	private final int width = 1300, height = 850;
-	private final Rectangle gamePanel = new Rectangle(20, 20, 901, 601);
-	private final Rectangle inventoryPanel = new Rectangle(20, 641, 1260, 189);
-	// private final Rectangle gamePanel = new Rectangle(50, 50, 901, 601);
-	private int blockSize;
-
-	private World world;
-	private InHandHandler inHandHandler;
-	private MouseHandler mouseHandler;
-	private KeyHandler keyHandler;
-
-	private ArrayList<TetroType> tetroTypes;
-	private ArrayList<Point> tetroDrawPositions;
-	private boolean debugMode = false;
-	private float interpolation;
-
+	protected final int width = 1300, height = 850;
+	protected final Rectangle gamePanel = new Rectangle(20, 20, 901, 601);
+	protected int blockSize;
+	protected boolean debugMode = false;
+	protected KeyHandler keyHandler;
+	protected ArrayList<TetroType> tetroTypes;
+	protected ArrayList<Point> tetroDrawPositions;
+	protected float interpolation;
+	protected Frame frame;
+	protected World world;
+	
 	public Panel(Level level, KeyHandler keyHandler, Frame frame) {
 		this.keyHandler = keyHandler;
+		this.frame = frame;
 		setPreferredSize(new Dimension(width, height));
 		blockSize = level.getBlockSize();
-		world = new World(gamePanel, blockSize, level, keyHandler, frame);
 		tetroTypes = level.getTetroTypes();
 		tetroDrawPositions = new ArrayList<>();
 		for (int i = 0; i < tetroTypes.size(); i++) {
-			tetroDrawPositions.add(new Point(972, i * 85 + 40));
+			tetroDrawPositions.add(new Point(972, i * 100 + 72));
 		}
-
-		inHandHandler = new InHandHandler(world, tetroDrawPositions);
-		mouseHandler = new MouseHandler(inHandHandler, world);
-		addMouseListener(mouseHandler);
-		addMouseMotionListener(mouseHandler);
 	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		Graphics2D inventoryGraphics = (Graphics2D) g.create(inventoryPanel.x, inventoryPanel.y, inventoryPanel.width, inventoryPanel.height);
-		
-		
-		world.draw(gameGraphics, interpolation, debugMode);
-		inHandHandler.drawPreview(g, debugMode);
-		world.drawPlayer(gameGraphics, interpolation, debugMode);
-		world.drawInventory(inventoryGraphics);
-		for (int i = 0; i < tetroTypes.size(); i++) {
-			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, 0, debugMode);
-		}
-
-	}
-
+	
 	@Override
 	public void render(float interpolation) {
 		this.interpolation = interpolation;
 		repaint();
 
 	}
-
+	
 	@Override
 	public void tick() {
 		world.tick();
@@ -90,4 +55,5 @@ public class Panel extends JPanel implements Playable {
 		}
 		
 	}
+	
 }

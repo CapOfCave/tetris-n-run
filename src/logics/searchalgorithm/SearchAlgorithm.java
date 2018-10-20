@@ -3,7 +3,7 @@ package logics.searchalgorithm;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import logics.World;
+import logics.worlds.World;
 
 /**
  * @author Lars Created on 19.09.2018
