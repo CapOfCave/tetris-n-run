@@ -68,7 +68,7 @@ public class Player extends LivingEntity {
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
-				interpolY - world.cameraY() + akt_animation.getOffsetY(), 61, 61, null);
+				interpolY - world.cameraY() + akt_animation.getOffsetY(), 55, 55, null);
 
 		if (activeWeapon != null)
 			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
