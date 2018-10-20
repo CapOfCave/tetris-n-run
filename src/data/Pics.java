@@ -33,7 +33,7 @@ public class Pics {
 		if (i < 0 || i >= amount) {
 			return null;
 		} else {
-			return img.getSubimage(i * width, 0, width, width);
+			return img.getSubimage(i * width, 0, width, img.getHeight());
 		}
 	}
 
