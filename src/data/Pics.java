@@ -24,7 +24,6 @@ public class Pics {
 		if (amount == 0) {
 			amount = 1;
 			width = img.getWidth();
-			System.out.println("Changed width @" + this);
 		}
 	}
 

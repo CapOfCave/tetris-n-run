@@ -47,7 +47,6 @@ public class MouseHandler implements MouseInputListener {
 			try {
 				inHandHandler.placeInHand();
 			} catch (ArrayIndexOutOfBoundsException ex) {
-//				System.out.println("ups. drauﬂen");
 			}
 		}
 	}

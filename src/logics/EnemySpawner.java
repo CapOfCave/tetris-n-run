@@ -89,7 +89,7 @@ public class EnemySpawner extends Entity {
 	public void enemyKilled() {
 		enemyCount--;
 		if (enemyCount < 0) {
-			System.out.println("Fehler @EnemySpawner#enemyKilled");
+			System.err.println("Fehler @EnemySpawner#enemyKilled");
 		}
 	}
 

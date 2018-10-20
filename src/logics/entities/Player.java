@@ -128,7 +128,6 @@ public class Player extends LivingEntity {
 		if (activeWeapon != null && attackReady()) {
 			activeWeapon.hit();
 			hitTicks += activeWeapon.getCooldownTicks();
-			System.out.println("hit");
 			for (Enemy enemy : world.getEnemies()) {
 				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
 						new Rectangle((int) (enemy.getX() - world.cameraX()), (int) (enemy.getY() - world.cameraY()),
@@ -172,7 +171,6 @@ public class Player extends LivingEntity {
 
 	@Override
 	protected void kill() {
-		System.out.println("U ded mate");
 		world.backToTheOverworld(true);
 	}
 

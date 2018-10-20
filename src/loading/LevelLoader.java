@@ -139,7 +139,6 @@ public class LevelLoader {
 						rotation = Integer.parseInt(str.substring(str.indexOf("=") + 1));
 					} else if (str.startsWith("c=") || str.startsWith("color=")) {
 						color = Integer.parseInt(str.substring(str.indexOf("=") + 1));
-						System.out.println("Color: " +color);
 					} else if (str.startsWith("o=") || str.startsWith("open=")) {
 						open = Boolean.parseBoolean(str.substring(str.indexOf("=") + 1));
 					}
@@ -179,7 +178,7 @@ public class LevelLoader {
 						}
 					}
 					if (arrWorld[j][i] == null) {
-						System.out.println("Fehler im Level \"" + url + "\": Tür nicht bestimmt");
+						System.err.println("Fehler im Level \"" + url + "\": Tür nicht bestimmt");
 						arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 
 					}
@@ -191,7 +190,7 @@ public class LevelLoader {
 				} else if (Character.isLowerCase(tileChar)) {
 					arrWorld[j][i] = new LevelGuiTile(tileChar, i, j, frame);
 				} else {
-					System.out.println("Unbekanntes Tile bei (" + i + "|" + j + ")");
+					System.err.println("Unbekanntes Tile bei (" + i + "|" + j + ")");
 					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 				}
 
@@ -204,7 +203,7 @@ public class LevelLoader {
 			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, blockSize, tetrofileUrl,
 					playerX * blockSize, playerY * blockSize);
 		} else {
-			System.out.println("Levelerstellung nicht erfolgreich");
+			System.err.println("Levelerstellung nicht erfolgreich");
 			System.exit(1);
 			return null;
 		}

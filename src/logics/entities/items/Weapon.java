@@ -142,7 +142,7 @@ public class Weapon extends Item {
 			alpha = 270 + Math.toDegrees(Math.atan((npY - nully) / (npX - nullx)));
 		} else {
 			alpha = 0;
-			System.out.println("Fehler!!! Weapon#hitbox");
+			System.err.println("Fehler!!! Weapon#hitbox");
 		}
 		// Math.toDegrees(Math.atan((npY - nully) / (npX - nullx)));
 		// Transformation in ein rechtwinkliges Koordinatensystem
