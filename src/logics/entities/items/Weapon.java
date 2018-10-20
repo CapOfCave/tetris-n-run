@@ -19,9 +19,6 @@ public class Weapon extends Item {
 //	private String imgPath, imgHitPath;
 
 	//TODO offsets
-	@SuppressWarnings("unused")
-	private Point imgOffset;
-	private Point imgHitOffset;
 
 	private int damage;
 
@@ -39,8 +36,6 @@ public class Weapon extends Item {
 		super(world, imgPath);
 
 //		this.imgHitPath = imgHitPath;
-		this.imgOffset = imgOffset;
-		this.imgHitOffset = imgHitOffset;
 		this.hitWidth = hitWidth;
 		this.theta = theta;
 		this.range = range;
@@ -60,7 +55,7 @@ public class Weapon extends Item {
 		akt_animation = anims.get(animkey);
 		akt_animation.setFrame(animFrame);
 
-		g.drawImage(akt_animation.getImage(), x + imgHitOffset.x, y + imgHitOffset.y, Frame.BLOCKSIZE,
+		g.drawImage(akt_animation.getImage(), x + akt_animation.getOffsetX(), y + akt_animation.getOffsetY(), Frame.BLOCKSIZE,
 				Frame.BLOCKSIZE, null);
 
 		if (debugMode) {
