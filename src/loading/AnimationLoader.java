@@ -48,8 +48,6 @@ public class AnimationLoader {
 				Animation anim = new Animation(animTicks);
 				for (String strFrame : values) {
 					strFrame = strFrame.trim();
-//					System.out.println((strFrame.substring(0, strFrame.indexOf("."))) + ";;;;;"
-//							+ (Integer.parseInt(strFrame.substring(strFrame.indexOf(".") + 1))));
 					anim.addFrame(pics.get(strFrame.substring(0, strFrame.indexOf(".")))
 							.get(Integer.parseInt(strFrame.substring(strFrame.indexOf(".") + 1))));
 				}

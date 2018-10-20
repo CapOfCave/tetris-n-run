@@ -20,7 +20,7 @@ public class ItemSaver {
 			oos = new ObjectOutputStream(fout);
 			oos.writeObject(item);
 		} catch (FileNotFoundException e) {
-			System.out.println("File while Item save not found");
+			System.err.println("File while Item save not found");
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

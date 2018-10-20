@@ -106,16 +106,7 @@ public abstract class World {
 
 		camera.prepareDraw(interpolation);
 
-		// Lines - vertikal
-		for (int i = 0; i <= tileWorld[0].length * blockSize; i += blockSize) {
-			g.drawLine((i - camera.getX()), 0, (i - camera.getX()),
-					Math.min(graphicClip.height, tileWorld.length * blockSize - camera.getY()));
-		}
-		// Lines - horizontal
-		for (int i = 0; i <= tileWorld.length * blockSize; i += blockSize) {
-			g.drawLine(0, (i - camera.getY()), Math.min(graphicClip.width, tileWorld[0].length * blockSize),
-					(i - camera.getY()));
-		}
+		
 
 		// background blocks
 		for (int j = 0; j < tileWorld.length; j++) {
@@ -138,6 +129,17 @@ public abstract class World {
 		for (Tetro t : tetros) {
 			t.draw(g, debugMode);
 		}
+		
+		// Lines - vertikal
+				for (int i = 0; i <= tileWorld[0].length * blockSize; i += blockSize) {
+					g.drawLine((i - camera.getX()), 0, (i - camera.getX()),
+							Math.min(graphicClip.height, tileWorld.length * blockSize - camera.getY()));
+				}
+				// Lines - horizontal
+				for (int i = 0; i <= tileWorld.length * blockSize; i += blockSize) {
+					g.drawLine(0, (i - camera.getY()), Math.min(graphicClip.width, tileWorld[0].length * blockSize),
+							(i - camera.getY()));
+				}
 
 		// blocks
 		for (int j = 0; j < tileWorld.length; j++) {

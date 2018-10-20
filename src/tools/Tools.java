@@ -7,7 +7,6 @@ public class Tools {
 
 	public static BufferedImage setColor(BufferedImage image, Color goal) {
 		BufferedImage img = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-//		System.out.println(img.getType() + " und " + BufferedImage.TYPE_CUSTOM + " | " + BufferedImage.TYPE_4BYTE_ABGR );
 		
 		for (int i = 0; i < image.getWidth(); i++) {
 			for (int j = 0; j < image.getHeight(); j++) {
