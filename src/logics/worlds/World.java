@@ -152,16 +152,16 @@ public abstract class World {
 			}
 		}
 
-		// Lines - vertikal
-		for (int i = 0; i <= tileWorld[0].length * Frame.BLOCKSIZE; i += Frame.BLOCKSIZE) {
-			g.drawLine((i - camera.getX()), 0, (i - camera.getX()),
-					Math.min(graphicClip.height, tileWorld.length * Frame.BLOCKSIZE - camera.getY()));
-		}
-		// Lines - horizontal
-		for (int i = 0; i <= tileWorld.length * Frame.BLOCKSIZE; i += Frame.BLOCKSIZE) {
-			g.drawLine(0, (i - camera.getY()), Math.min(graphicClip.width, tileWorld[0].length * Frame.BLOCKSIZE),
-					(i - camera.getY()));
-		}
+//		// Lines - vertikal
+//		for (int i = 0; i <= tileWorld[0].length * Frame.BLOCKSIZE; i += Frame.BLOCKSIZE) {
+//			g.drawLine((i - camera.getX()), 0, (i - camera.getX()),
+//					Math.min(graphicClip.height, tileWorld.length * Frame.BLOCKSIZE - camera.getY()));
+//		}
+//		// Lines - horizontal
+//		for (int i = 0; i <= tileWorld.length * Frame.BLOCKSIZE; i += Frame.BLOCKSIZE) {
+//			g.drawLine(0, (i - camera.getY()), Math.min(graphicClip.width, tileWorld[0].length * Frame.BLOCKSIZE),
+//					(i - camera.getY()));
+//		}
 
 		for (Enemy enemy : enemies) {
 			enemy.draw(g, interpolation, debugMode);
