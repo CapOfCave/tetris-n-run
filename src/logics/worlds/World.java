@@ -139,19 +139,11 @@ public abstract class World {
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
 				if (tileWorld[j][i].getKey() != '0') {
-					BufferedImage tile = tileWorld[j][i].getImg();
-
-					g.drawImage(tileWorld[j][i].getImg(),
-							(int)(i * Frame.BLOCKSIZE - camera.getX() - tile.getWidth() / 32. * Frame.BLOCKSIZE
-									+ Frame.BLOCKSIZE),
-							(int)(j * Frame.BLOCKSIZE - camera.getY() - tile.getHeight() / 32. * Frame.BLOCKSIZE
-									+ Frame.BLOCKSIZE),
-							(int)(tile.getWidth() / 32. * Frame.BLOCKSIZE), (int)(tile.getHeight() / 32. * Frame.BLOCKSIZE), null);
+					tileWorld[j][i].draw(g, i, j);
 				}
 
 			}
 		}
-
 
 		for (Enemy enemy : enemies) {
 			enemy.draw(g, interpolation, debugMode);
