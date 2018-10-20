@@ -4,20 +4,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import graphics.Frame;
+
 /**
  * @author Lars Created on 05.08.2018
  */
 public class TetroType {
 	protected BufferedImage img;
-	private int blockSize;
 
 	private String strHitbox;
 	private boolean[][] hitbox;
 
-	public TetroType(String strHitbox, BufferedImage img, int blockSize) {
+	public TetroType(String strHitbox, BufferedImage img) {
 		this.strHitbox = strHitbox;
 		this.img = img;
-		this.blockSize = blockSize;
 		
 		hitbox = new boolean[2][4];
 		for (int y = 0; y < hitbox.length; y++) {
@@ -46,16 +46,16 @@ public class TetroType {
 		}
 		switch (rotation % 4) {
 		case 0:
-			g.drawImage(img, i * blockSize + x, j * blockSize + y, null);
+			g.drawImage(img, i * Frame.BLOCKSIZE + x, j * Frame.BLOCKSIZE + y, null);
 			break;
 		case 1:
-			g.drawImage(img, j * blockSize + x, -i * blockSize + y + 3 * blockSize, null);
+			g.drawImage(img, j * Frame.BLOCKSIZE + x, -i * Frame.BLOCKSIZE + y + 3 * Frame.BLOCKSIZE, null);
 			break;
 		case 2:
-			g.drawImage(img, -i * blockSize + x + 3 * blockSize, -j * blockSize + y + 1 * blockSize, null);
+			g.drawImage(img, -i * Frame.BLOCKSIZE + x + 3 * Frame.BLOCKSIZE, -j * Frame.BLOCKSIZE + y + 1 * Frame.BLOCKSIZE, null);
 			break;
 		case 3:
-			g.drawImage(img, -j * blockSize + x + 1 * blockSize, i * blockSize + y, null);
+			g.drawImage(img, -j * Frame.BLOCKSIZE + x + 1 * Frame.BLOCKSIZE, i * Frame.BLOCKSIZE + y, null);
 			break;
 		}
 	}

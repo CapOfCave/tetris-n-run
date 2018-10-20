@@ -12,8 +12,8 @@ import input.KeyHandler;
  */
 public class GameWorld extends World {
 
-	public GameWorld(Rectangle graphicClip, int blockSize, Level level, KeyHandler keyHandler, Frame frame) {
-		super(graphicClip, blockSize, level, keyHandler, frame);
+	public GameWorld(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame) {
+		super(graphicClip, level, keyHandler, frame);
 	}
 
 	public void drawInventory(Graphics2D g) {

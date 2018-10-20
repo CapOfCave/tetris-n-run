@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import graphics.Frame;
 import loading.AnimationLoader;
 import logics.entities.Entity;
 import logics.worlds.World;
@@ -47,12 +48,12 @@ public class Item extends Entity {
 
 	@Override
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
-		g.drawImage(akt_animation.getImage(), (int) (x * world.blockSize() - world.cameraX()),
-				(int) (y * world.blockSize() - world.cameraY()), world.blockSize(), world.blockSize(), null);
+		g.drawImage(akt_animation.getImage(), (int) (x * Frame.BLOCKSIZE - world.cameraX()),
+				(int) (y * Frame.BLOCKSIZE - world.cameraY()), Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
 		if (debugMode) {
 			g.setColor(Color.GREEN);
-			g.fillRect((int) (x * world.blockSize() - world.cameraX()), (int) (y * world.blockSize() - world.cameraY()),
-					world.blockSize(), world.blockSize());
+			g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX()), (int) (y * Frame.BLOCKSIZE - world.cameraY()),
+					Frame.BLOCKSIZE, Frame.BLOCKSIZE);
 
 		}
 	}

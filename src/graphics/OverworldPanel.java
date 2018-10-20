@@ -24,7 +24,7 @@ public class OverworldPanel extends Panel {
 	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame) {
 		super(level, keyHandler, frame);
 
-		world = new Overworld(gamePanel, blockSize, level, keyHandler, frame);
+		world = new Overworld(gamePanel, level, keyHandler, frame);
 
 		guiMouseHandler = new GuiMouseHandler(frame);
 		addMouseListener(guiMouseHandler);

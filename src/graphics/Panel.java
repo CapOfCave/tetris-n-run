@@ -17,7 +17,6 @@ public abstract class Panel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
 	protected final int width = 1300, height = 850;
 	protected final Rectangle gamePanel = new Rectangle(20, 20, 901, 601);
-	protected int blockSize;
 	protected boolean debugMode = false;
 	protected KeyHandler keyHandler;
 	protected ArrayList<TetroType> tetroTypes;
@@ -30,7 +29,6 @@ public abstract class Panel extends JPanel implements Playable {
 		this.keyHandler = keyHandler;
 		this.frame = frame;
 		setPreferredSize(new Dimension(width, height));
-		blockSize = level.getBlockSize();
 		tetroTypes = level.getTetroTypes();
 		tetroDrawPositions = new ArrayList<>();
 		for (int i = 0; i < tetroTypes.size(); i++) {

@@ -36,7 +36,7 @@ public class RawTetro {
 		return rotation;
 	}
 
-	public Tetro createTetro(ArrayList<TetroType> tetroTypes, int blockSize, Camera camera) {
-		return new Tetro(tetroTypes.get(type), x, y, rotation, blockSize, camera);
+	public Tetro createTetro(ArrayList<TetroType> tetroTypes, Camera camera) {
+		return new Tetro(tetroTypes.get(type), x, y, rotation, camera);
 	}
 }

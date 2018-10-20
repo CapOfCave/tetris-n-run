@@ -27,7 +27,6 @@ public class LevelLoader {
 
 	public static Level loadLevel(String url, Frame frame) {
 		String tetrofileUrl = null;
-		int blockSize = -1;
 		ArrayList<TetroType> tetroTypes;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
@@ -59,9 +58,6 @@ public class LevelLoader {
 						continue;
 					if (str.startsWith("tetrofile=")) {
 						tetrofileUrl = str.substring(10);
-					} else if (str.startsWith("blockSize=") || str.startsWith("size=")
-							|| str.startsWith("blocksize=")) {
-						blockSize = Integer.parseInt(str.substring(10));
 					}
 
 				}
@@ -236,11 +232,11 @@ public class LevelLoader {
 			}
 		}
 
-		if (blockSize > 0 && tetrofileUrl != null) {
-			tetroTypes = TetroLoader.loadTetros(tetrofileUrl, blockSize);
+		if (tetrofileUrl != null) {
+			tetroTypes = TetroLoader.loadTetros(tetrofileUrl);
 
-			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, blockSize, tetrofileUrl,
-					playerX * blockSize, playerY * blockSize);
+			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, tetrofileUrl,
+					playerX * Frame.BLOCKSIZE, playerY * Frame.BLOCKSIZE);
 		} else {
 			System.err.println("Levelerstellung nicht erfolgreich");
 			System.exit(1);
