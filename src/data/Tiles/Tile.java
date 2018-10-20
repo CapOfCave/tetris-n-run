@@ -1,5 +1,6 @@
 package data.Tiles;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import graphics.Frame;
@@ -79,5 +80,11 @@ public abstract class Tile {
 
 	public boolean isWalkableWithTetro() {
 		return walkableWithTetro;
+	}
+
+	public void draw(Graphics g, int i, int j) {
+		g.drawImage(img, (int) (i * Frame.BLOCKSIZE - world.cameraX()),
+				(int) (j * Frame.BLOCKSIZE - world.cameraY()), null);
+		
 	}
 }

@@ -1,6 +1,7 @@
 package data.Tiles;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.util.HashMap;
 
@@ -17,13 +18,15 @@ public class DoorTile extends Tile {
 	Color drawColor = Color.BLACK;
 	private Image backgroundImage;
 
+	private String str_akt_anim;
+
 	public DoorTile(int color, int x, int y, int rotation, boolean open, Frame frame) {
 		super('D', x, y, open, open, frame);
 		this.rotation = rotation;
 		this.color = color;
 		pictures = AnimationLoader.loadAnimations("/res/anims/door.txt");
 		backgroundImage = pictures.get("background").getImage();
-		
+
 		if (color == 0) {
 			drawColor = Color.RED;
 		} else if (color == 1) {
@@ -33,7 +36,8 @@ public class DoorTile extends Tile {
 		} else if (color == 3) {
 			drawColor = Color.YELLOW;
 		}
-		img = Tools.setColor(pictures.get((open ? "opened" : "closed") + rotation).getImage(), drawColor);
+		str_akt_anim = (open ? "opened" : "closed") + rotation;
+		img = Tools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
 	}
 
 	public DoorTile() {
@@ -43,8 +47,9 @@ public class DoorTile extends Tile {
 	public void changeState() {
 		walkable = !walkable;
 		walkableWithTetro = !walkableWithTetro;
-		
-		img = Tools.setColor(pictures.get((walkable ? "opened" : "closed") + rotation).getImage(), drawColor);
+
+		str_akt_anim = (walkable ? "opened" : "closed") + rotation;
+		img = Tools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
 
 	}
 
@@ -71,4 +76,11 @@ public class DoorTile extends Tile {
 		return backgroundImage;
 	}
 
+	@Override
+	public void draw(Graphics g, int i, int j) {
+		System.out.println(pictures.get(str_akt_anim).getOffsetX() + " " + pictures.get(str_akt_anim).getOffsetY());
+		g.drawImage(img, (int) (i * Frame.BLOCKSIZE - world.cameraX() + pictures.get(str_akt_anim).getOffsetX()),
+				(int) (j * Frame.BLOCKSIZE - world.cameraY() + pictures.get(str_akt_anim).getOffsetX()), null);
+
+	}
 }
