@@ -152,6 +152,7 @@ public abstract class World {
 			}
 		}
 
+
 		for (Enemy enemy : enemies) {
 			enemy.draw(g, interpolation, debugMode);
 		}

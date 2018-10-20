@@ -24,7 +24,7 @@ public class Item extends Entity {
 	}
 
 	public void init() {
-		//TODO empty method body
+		// TODO empty method body
 	}
 
 	public void drawPreview(Graphics2D g, int position, int size) {
@@ -32,7 +32,8 @@ public class Item extends Entity {
 		g.drawRect(20 + (32 * position + 5 * position), 20, size, size);
 
 		akt_animation = anims.get("preview");
-		g.drawImage(akt_animation.getImage(), 20 + (32 * position + 5 * position), 20, size, size, null);
+		g.drawImage(akt_animation.getImage(), 20 + (32 * position + 5 * position) + akt_animation.getOffsetX(),
+				20 + akt_animation.getOffsetY(), size, size, null);
 		akt_animation.next();
 	}
 
@@ -48,12 +49,15 @@ public class Item extends Entity {
 
 	@Override
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
-		g.drawImage(akt_animation.getImage(), (int) (x * Frame.BLOCKSIZE - world.cameraX()),
-				(int) (y * Frame.BLOCKSIZE - world.cameraY()), Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
+		g.drawImage(akt_animation.getImage(),
+				(int) (x * Frame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
+				(int) (y * Frame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), Frame.BLOCKSIZE,
+				Frame.BLOCKSIZE, null);
 		if (debugMode) {
 			g.setColor(Color.GREEN);
-			g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX()), (int) (y * Frame.BLOCKSIZE - world.cameraY()),
-					Frame.BLOCKSIZE, Frame.BLOCKSIZE);
+			g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
+					(int) (y * Frame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), Frame.BLOCKSIZE,
+					Frame.BLOCKSIZE);
 
 		}
 	}

@@ -56,8 +56,8 @@ public class Enemy extends LivingEntity {
 		int interpolX = (int) ((x - lastX) * interpolation + lastX);
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 
-		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() - akt_animation.getOffsetX(),
-				interpolY - world.cameraY() - akt_animation.getOffsetY(), Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
+		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
+				interpolY - world.cameraY() + akt_animation.getOffsetY(), Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
 			//TODO waffen
 		if (debugMode) {
 			drawDebug(g);

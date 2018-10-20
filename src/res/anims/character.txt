@@ -3,17 +3,17 @@ pics32 d = "/res/character/characterDownPics.png"
 pics32 l = "/res/character/characterLeftPics.png"
 pics32 r="/res/character/characterRightPics.png"
 
-anim stand0=u.0
-anim stand1=r.0
-anim stand2=d.0
-anim stand3=l.0
+anim stand0=u.0;0;-20
+anim stand1=r.0;0;-20
+anim stand2=d.0;0;-20
+anim stand3=l.0;0;-20
 
-anim walk0=u.3+u.4+u.4+u.3+u.2+u.1+u.1+u.2
-anim walk1=r.3+r.4+r.4+r.3+r.2+r.1+r.1+r.2
-anim walk2=d.3+d.4+d.4+d.3+d.2+d.1+d.1+d.2
-anim walk3=l.3+l.4+l.4+l.3+l.2+l.1+l.1+l.2
+anim walk0=u.3;0;-20+u.4;0;-20+u.4;0;-20+u.3;0;-20+u.2;0;-20+u.1;0;-20+u.1;0;-20+u.2;0;-20
+anim walk1=r.3;0;-20+r.4;0;-20+r.4;0;-20+r.3;0;-20+r.2;0;-20+r.1;0;-20+r.1;0;-20+r.2;0;-20
+anim walk2=d.3;0;-20+d.4;0;-20+d.4;0;-20+d.3;0;-20+d.2;0;-20+d.1;0;-20+d.1;0;-20+d.2;0;-20
+anim walk3=l.3;0;-20+l.4;0;-20+l.4;0;-20+l.3;0;-20+l.2;0;-20+l.1;0;-20+l.1;0;-20+l.2;0;-20
 
-anim hit0= u.0 + u.5 + u.5 + u.6 + u.6 + u.6 + u.6 + u.5 + u.5 + u.0
-anim hit1= r.0 + r.5 + r.5 + r.6 + r.6 + r.6 + r.6 + r.5 + r.5 + r.0
-anim hit2= d.0 + d.5 + d.5 + d.6 + d.6 + d.6 + d.6 + d.5 + d.5 + d.0
-anim hit3= l.0 + l.5 + l.5 + l.6 + l.6 + l.6 + l.6 + l.5 + l.5 + l.0
+anim hit0= u.0 ;0;-20+ u.5 ;0;-20+ u.5 ;0;-20+ u.6 ;0;-20+ u.6 ;0;-20+ u.6 ;0;-20+ u.6 ;0;-20+ u.5 ;0;-20+ u.5 ;0;-20+ u.0;0;-20
+anim hit1= r.0 ;0;-20+ r.5 ;0;-20+ r.5 ;0;-20+ r.6 ;0;-20+ r.6 ;0;-20+ r.6 ;0;-20+ r.6 ;0;-20+ r.5 ;0;-20+ r.5 ;0;-20+ r.0;0;-20
+anim hit2= d.0 ;0;-20+ d.5 ;0;-20+ d.5 ;0;-20+ d.6 ;0;-20+ d.6 ;0;-20+ d.6 ;0;-20+ d.6 ;0;-20+ d.5 ;0;-20+ d.5 ;0;-20+ d.0;0;-20
+anim hit3= l.0 ;0;-20+ l.5 ;0;-20+ l.5 ;0;-20+ l.6 ;0;-20+ l.6 ;0;-20+ l.6 ;0;-20+ l.6 ;0;-20+ l.5 ;0;-20+ l.5 ;0;-20+ l.0;0;-20
