@@ -1,7 +1,6 @@
 package data.Tiles;
 
 import java.awt.Color;
-import java.awt.Image;
 import java.util.HashMap;
 
 import data.Animation;
@@ -14,7 +13,6 @@ public class Switch extends Tile{
 	
 	private int color;
 	private HashMap<String, Animation> pictures;
-	private Image backgroundImage;
 	boolean state0 = true;
 	Color drawColor = Color.BLACK;
 	
@@ -35,7 +33,6 @@ public class Switch extends Tile{
 			drawColor = Color.YELLOW;
 		}
 		pictures = AnimationLoader.loadAnimations("/res/anims/switch.txt");
-		backgroundImage = pictures.get("background").getImage();
 		img = Tools.setColor(ImageLoader.loadImage("/res/blocks/switch.png"), drawColor);
 	}
 

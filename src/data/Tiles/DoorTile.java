@@ -78,9 +78,8 @@ public class DoorTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, int i, int j) {
-		System.out.println(pictures.get(str_akt_anim).getOffsetX() + " " + pictures.get(str_akt_anim).getOffsetY());
 		g.drawImage(img, (int) (i * Frame.BLOCKSIZE - world.cameraX() + pictures.get(str_akt_anim).getOffsetX()),
-				(int) (j * Frame.BLOCKSIZE - world.cameraY() + pictures.get(str_akt_anim).getOffsetX()), null);
+				(int) (j * Frame.BLOCKSIZE - world.cameraY() + pictures.get(str_akt_anim).getOffsetY()), null);
 
 	}
 }
