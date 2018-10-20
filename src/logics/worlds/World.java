@@ -144,9 +144,15 @@ public abstract class World {
 		// blocks
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
-				if (tileWorld[j][i].getKey() != '0')
-					g.drawImage(tileWorld[j][i].getImg(), i * blockSize - camera.getX(), j * blockSize - camera.getY(),
-							blockSize, blockSize, null);
+				if (tileWorld[j][i].getKey() != '0') {
+					BufferedImage tile = tileWorld[j][i].getImg();
+					
+					g.drawImage(tileWorld[j][i].getImg(),
+							i * blockSize - camera.getX() - (tile.getWidth()/32*blockSize) + blockSize,
+							j * blockSize - camera.getY() - (tile.getHeight()/32*blockSize) + blockSize,
+							tile.getWidth()/32*blockSize, tile.getHeight()/32*blockSize, null);
+				}
+					
 			}
 		}
 
