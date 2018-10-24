@@ -62,7 +62,7 @@ public class Frame extends JFrame {
 
 	public void startLevel() {
 		if (Character.isLowerCase(nextLevel)) {
-			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt ", this), keyHandler, this);
+			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this), keyHandler, this);
 
 			add(lPanel);
 			remove(oPanel);
