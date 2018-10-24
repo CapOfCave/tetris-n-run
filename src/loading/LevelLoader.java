@@ -40,6 +40,10 @@ public class LevelLoader {
 
 		Scanner sc = null;
 		if (!isAbsolute(url)) {
+			System.out.println(url);
+			System.out.println(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(url));
+			System.out.println(Toolkit.getDefaultToolkit().getClass().getResource(""));
+
 			sc = new Scanner(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(url));
 		} else {
 			try {

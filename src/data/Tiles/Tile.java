@@ -9,7 +9,7 @@ import logics.worlds.World;
 /**
  * @author Lars Created on 11.09.2018
  */
-public abstract class Tile {
+public abstract class Tile implements DrawAndSortable{
 
 	protected BufferedImage img;
 
@@ -82,9 +82,32 @@ public abstract class Tile {
 		return walkableWithTetro;
 	}
 
+	
 	public void draw(Graphics g, int i, int j) {
 		g.drawImage(img, (int) (i * Frame.BLOCKSIZE - world.cameraX()),
 				(int) (j * Frame.BLOCKSIZE - world.cameraY()), null);
 		
+	}
+	
+	@Override
+	public void draw(Graphics g) {
+		g.drawImage(img, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
+				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+	}
+	
+	@Override
+	public double getHeight() {
+		return posY * Frame.BLOCKSIZE;
+	}
+	
+	@Override
+	public int compareTo(DrawAndSortable o) {
+		if (this.getHeight() == o.getHeight()) {
+			return 0;
+		} else if (this.getHeight() < o.getHeight()) {
+			return -1;
+		} else {
+			return 1;
+		}
 	}
 }

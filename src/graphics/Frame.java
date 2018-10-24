@@ -22,7 +22,7 @@ public class Frame extends JFrame {
 	private char nextLevel;
 	private int levelSolved = 2;
 	public static final int BLOCKSIZE = 45;
-	
+
 	private KeyHandler keyHandler;
 
 	public static void main(String[] args) {
@@ -32,7 +32,8 @@ public class Frame extends JFrame {
 
 	public Frame() {
 		keyHandler = new KeyHandler();
-		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this), keyHandler, this);
+		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this),
+				keyHandler, this);
 		setLayout(new CardLayout());
 		add(oPanel);
 		gameLoop = new GameLoop(oPanel);
@@ -47,12 +48,12 @@ public class Frame extends JFrame {
 	}
 
 	public void changeToOverworld(boolean died) {
-		
-		
-		if(((int)nextLevel - 96) > levelSolved && !died)
-			levelSolved = ((int)nextLevel - 96);
-		
-		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this), keyHandler, this);
+
+		if (((int) nextLevel - 96) > levelSolved && !died)
+			levelSolved = ((int) nextLevel - 96);
+
+		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this),
+				keyHandler, this);
 
 		add(oPanel);
 		remove(lPanel);
@@ -62,7 +63,8 @@ public class Frame extends JFrame {
 
 	public void startLevel() {
 		if (Character.isLowerCase(nextLevel)) {
-			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt ", this), keyHandler, this);
+			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this),
+					keyHandler, this);
 
 			add(lPanel);
 			remove(oPanel);

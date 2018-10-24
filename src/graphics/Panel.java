@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public abstract class Panel extends JPanel implements Playable {
 	protected float interpolation;
 	protected Frame frame;
 	protected World world;
+	
+	protected Renderer renderer;
 
 	public Panel(Level level, KeyHandler keyHandler, Frame frame) {
 		this.keyHandler = keyHandler;
@@ -34,6 +37,7 @@ public abstract class Panel extends JPanel implements Playable {
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroDrawPositions.add(new Point(972, i * 100 + 72));
 		}
+		renderer = new Renderer();
 	}
 
 	@Override
@@ -52,6 +56,12 @@ public abstract class Panel extends JPanel implements Playable {
 			keyHandler.setF3pressed(false);
 		}
 
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		renderer.draw(g);
 	}
 
 }
