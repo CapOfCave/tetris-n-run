@@ -26,8 +26,6 @@ public abstract class Panel extends JPanel implements Playable {
 	protected Frame frame;
 	protected World world;
 	
-	protected Renderer renderer;
-
 	public Panel(Level level, KeyHandler keyHandler, Frame frame) {
 		this.keyHandler = keyHandler;
 		this.frame = frame;
@@ -37,7 +35,6 @@ public abstract class Panel extends JPanel implements Playable {
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroDrawPositions.add(new Point(972, i * 100 + 72));
 		}
-		renderer = new Renderer();
 	}
 
 	@Override
@@ -61,7 +58,6 @@ public abstract class Panel extends JPanel implements Playable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		renderer.draw(g);
 	}
 
 }

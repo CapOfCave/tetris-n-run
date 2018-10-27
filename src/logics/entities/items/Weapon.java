@@ -14,18 +14,14 @@ import logics.worlds.World;
 public class Weapon extends Item {
 
 	private static final long serialVersionUID = 1L;
-//	private transient BufferedImage imgHit;
-//	private String imgPath, imgHitPath;
+	
 
-	//TODO offsets
-
-	private int damage;
-
-	// Hitbox
+	// stats
 	private double hitWidth;
 	private double theta;
 	private double range;
 	private int cooldownTicks = 50;
+	private int damage;
 	
 
 	public static double tmpx, tmpy;
@@ -49,17 +45,13 @@ public class Weapon extends Item {
 		akt_animation = anims.get(anims.keySet().toArray()[0]);
 	}
 
-	public void draw(Graphics g, int x, int y, String animkey, int animFrame, boolean debugMode) {
+	public void draw(Graphics g, int x, int y, String animkey, int animFrame) {
 
 		akt_animation = anims.get(animkey);
 		akt_animation.setFrame(animFrame);
 
 		g.drawImage(akt_animation.getImage(), x + akt_animation.getOffsetX(), y + akt_animation.getOffsetY(), Frame.BLOCKSIZE,
 				Frame.BLOCKSIZE, null);
-
-		if (debugMode) {
-			drawDebug(g, x, y);
-		}
 
 	}
 
@@ -77,7 +69,7 @@ public class Weapon extends Item {
 		world.getPlayer().setWeapon(this);
 	}
 
-	private void drawDebug(Graphics g, int x, int y) {
+	public void drawDebug(Graphics g, int x, int y) {
 	}
 
 	public void hit() {

@@ -42,10 +42,10 @@ public class GameWorldPanel extends Panel {
 
 		world.draw(gameGraphics, interpolation, debugMode);
 		inHandHandler.drawPreview(g, debugMode);
-		world.drawPlayer(gameGraphics, interpolation, debugMode);
+//		world.drawPlayer(gameGraphics, interpolation);
 		((GameWorld) world).drawInventory(inventoryGraphics);
 		for (int i = 0; i < tetroTypes.size(); i++) {
-			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, 0, debugMode);
+			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, 0);
 		}
 
 	}

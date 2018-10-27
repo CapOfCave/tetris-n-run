@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import data.Tiles.DrawAndSortable;
+import data.DrawAndSortable;
 
 public class Renderer {
 
@@ -18,7 +18,11 @@ public class Renderer {
 		drawables.add(das);
 	}
 
-	public void draw(Graphics g) {
+	public void removeDrawable(DrawAndSortable das) {
+		drawables.remove(das);
+	}
+
+	public void draw(Graphics g, float interpolation) {
 		drawables.sort(new Comparator<DrawAndSortable>() {
 
 			@Override
@@ -32,9 +36,11 @@ public class Renderer {
 				}
 			}
 		});
-	
-		for(DrawAndSortable das:drawables) {
-			das.draw(g);
+		for (DrawAndSortable das : drawables) {
+			das.draw(g, interpolation);
+		}
+		for (int i = 0; i < drawables.size(); i++) {
+			drawables.remove(0);// TODO remove
 		}
 	}
 }

@@ -14,7 +14,6 @@ public class Inventory {
 	private int firstVisibleItem = 0;
 	public int visibleItems = 4;
 	public BufferedImage arrowLeft, arrowRight;
-	//TODO ? private int x = 0, y = 0;
 	private int size = 32;
 	
 	public Inventory() {

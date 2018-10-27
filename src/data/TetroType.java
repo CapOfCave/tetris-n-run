@@ -1,6 +1,5 @@
 package data;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -28,22 +27,18 @@ public class TetroType {
 
 	}
 
-	public void draw(Graphics g, int x, int y, int rotation, boolean debugMode) {
+	public void draw(Graphics g, int x, int y, int rotation) {
 		
 		for (int j = 0; j < hitbox.length; j++) {
 			for (int i = 0; i < hitbox[j].length; i++) {
 				if (hitbox[j][i]) {
-					drawBlock(g, i, j, x, y, rotation, debugMode);
+					drawBlock(g, i, j, x, y, rotation);
 				}
 			}
 		}
 	}
 
-	public void drawBlock(Graphics g, int i, int j, int x, int y, int rotation, boolean debugMode) {
-		if (debugMode) {
-			g.setColor(Color.PINK);
-			g.fillOval(x, y, 5, 5);
-		}
+	public void drawBlock(Graphics g, int i, int j, int x, int y, int rotation) {
 		switch (rotation % 4) {
 		case 0:
 			g.drawImage(img, i * Frame.BLOCKSIZE + x, j * Frame.BLOCKSIZE + y, null);

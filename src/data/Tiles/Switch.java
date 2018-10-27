@@ -1,6 +1,8 @@
 package data.Tiles;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import data.Animation;
@@ -15,6 +17,7 @@ public class Switch extends Tile{
 	private HashMap<String, Animation> pictures;
 	boolean state0 = true;
 	Color drawColor = Color.BLACK;
+	private BufferedImage image3d;
 	
 	public Switch(char key, int posX, int posY, Frame frame) {
 		super(key, posX, posY, true, true, frame);
@@ -33,15 +36,20 @@ public class Switch extends Tile{
 			drawColor = Color.YELLOW;
 		}
 		pictures = AnimationLoader.loadAnimations("/res/anims/switch.txt");
-		img = Tools.setColor(ImageLoader.loadImage("/res/blocks/switch.png"), drawColor);
+		image3d = Tools.setColor(ImageLoader.loadImage("/res/blocks/switch.png"), drawColor);
 	}
 
 	@Override
 	public void eventWhenEntering() {
 		world.switchDoors(color);
 		state0 = !state0;
-		img = Tools.setColor(pictures.get(state0?"state0":"state1").getImage(), drawColor);
+		image3d = Tools.setColor(pictures.get(state0?"state0":"state1").getImage(), drawColor);
 		
+	}
+	@Override
+	public void draw(Graphics g, float interpolation) {
+		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
+				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
 	}
 
 }

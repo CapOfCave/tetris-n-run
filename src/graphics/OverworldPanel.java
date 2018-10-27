@@ -36,7 +36,7 @@ public class OverworldPanel extends Panel {
 		
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		world.draw(gameGraphics, interpolation, debugMode);
-		world.drawPlayer(gameGraphics, interpolation, debugMode);
+		world.drawPlayer(gameGraphics, interpolation);
 		
 		if (Character.isLowerCase(frame.getNextLevel())) {
 			g.drawString("Spiele Level: " + frame.getNextLevel(), 970, 80);

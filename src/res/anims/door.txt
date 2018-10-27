@@ -1,5 +1,5 @@
 pics45 open = "/res/blocks/door.png"
-pics32 background = "/res/blocks/block0.png"
+pics45 bot = "/res/blocks/doorbot.png"
 
 anim opened0 = open.1;0;-45
 anim opened1 = open.3;0;-45
@@ -11,4 +11,4 @@ anim closed1 = open.2;0;-45
 anim closed2 = open.0;0;-45
 anim closed3 = open.2;0;-45
 
-anim background = background.0
+anim bottom_image = bot.0;0;-45

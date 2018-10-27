@@ -24,7 +24,6 @@ public class Item extends Entity {
 	}
 
 	public void init() {
-		// TODO empty method body
 	}
 
 	public void drawPreview(Graphics2D g, int position, int size) {
@@ -48,18 +47,18 @@ public class Item extends Entity {
 	}
 
 	@Override
-	public void draw(Graphics g, float interpolation, boolean debugMode) {
+	public void draw(Graphics g, float interpolation) {
 		g.drawImage(akt_animation.getImage(),
 				(int) (x * Frame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
 				(int) (y * Frame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), Frame.BLOCKSIZE,
 				Frame.BLOCKSIZE, null);
-		if (debugMode) {
-			g.setColor(Color.GREEN);
-			g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
-					(int) (y * Frame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), Frame.BLOCKSIZE,
-					Frame.BLOCKSIZE);
+	}
 
-		}
+	public void drawDebug(Graphics g, float interpolation) {
+		g.setColor(Color.GREEN);
+		g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
+				(int) (y * Frame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), Frame.BLOCKSIZE,
+				Frame.BLOCKSIZE);
 	}
 
 	@Override

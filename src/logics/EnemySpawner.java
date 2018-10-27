@@ -20,9 +20,10 @@ public class EnemySpawner extends Entity {
 	int spawnOffsetTop;
 	int spawnOffsetRight;
 	int spawnOffsetBottom;
+	private boolean start;
 
 	public EnemySpawner(World world, int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
-			int spawnOffsetBottom, int maxEnemy, boolean enemyOnlyOnTetros, double d) {
+			int spawnOffsetBottom, int maxEnemy, boolean enemyOnlyOnTetros, double d, boolean start) {
 		super(world, x, y, null);
 
 		this.maxEnemy = maxEnemy;
@@ -32,31 +33,20 @@ public class EnemySpawner extends Entity {
 		this.spawnOffsetTop = spawnOffsetTop;
 		this.spawnOffsetRight = spawnOffsetRight;
 		this.spawnOffsetBottom = spawnOffsetBottom;
+		this.start = start;
+		if (start) {
+			spawn();
+		}
 	}
 
 	public EnemySpawner(GameWorld world, int maxEnemy, boolean enemyOnlyOnTetros, int spawnChance) {
-		this(world, -10, -10, -1, -1, -1, -1, maxEnemy, enemyOnlyOnTetros, spawnChance);
+		this(world, -10, -10, -1, -1, -1, -1, maxEnemy, enemyOnlyOnTetros, spawnChance, false);
 		global = true;
 	}
 
 	@Override
-	public void draw(Graphics g, float interpolation, boolean debugMode) {
-
-		if (debugMode) {
-			g.setColor(Color.DARK_GRAY);
-			g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX()), (int) (y * Frame.BLOCKSIZE - world.cameraY()),
-					Frame.BLOCKSIZE, Frame.BLOCKSIZE);
-			for (int i = (int) (x - spawnOffsetLeft); i < (int) (x - spawnOffsetLeft + spawnOffsetRight
-					+ spawnOffsetLeft + 1); i++) {
-				for (int j = (int) (y - spawnOffsetTop); j < (int) (y - spawnOffsetTop + spawnOffsetBottom
-						+ spawnOffsetTop + 1); j++) {
-					g.drawLine(i * Frame.BLOCKSIZE - world.cameraX(), j * Frame.BLOCKSIZE - world.cameraY(),
-							(i + 1) * Frame.BLOCKSIZE - world.cameraX(),
-							(j + 1) * Frame.BLOCKSIZE - world.cameraY());
-				}
-			}
-		}
-
+	public void draw(Graphics g, float interpolation) {
+		//invisible
 	}
 
 	public void tick() {
@@ -75,12 +65,14 @@ public class EnemySpawner extends Entity {
 			xPos = random(world.getMaxX());
 			yPos = random(world.getMaxY());
 		} else {
-
 			xPos = (int) (x - spawnOffsetLeft + random(spawnOffsetRight + spawnOffsetLeft + 1));
 			yPos = (int) (y - spawnOffsetTop + random(spawnOffsetBottom + spawnOffsetTop + 1));
 		}
-
+		
+		System.out.println("Spawn?");
 		if (enemyOnlyOnTetros) {
+			System.out.println("Spawn? " + world.isTetroAt(yPos, xPos) + world.getTileAt(yPos, xPos).isWalkableWithTetro()
+					+ world.getTileAt(yPos, xPos).isWalkable());
 			if ((world.isTetroAt(yPos, xPos) && world.getTileAt(yPos, xPos).isWalkableWithTetro())
 					|| world.getTileAt(yPos, xPos).isWalkable()) {
 				world.addEnemy(xPos * Frame.BLOCKSIZE, yPos * Frame.BLOCKSIZE, 25, this);
@@ -167,4 +159,23 @@ public class EnemySpawner extends Entity {
 	public double getRate() {
 		return spawnChance;
 	}
+
+	public void drawDebug(Graphics g, float interpolation) {
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX()), (int) (y * Frame.BLOCKSIZE - world.cameraY()),
+				Frame.BLOCKSIZE, Frame.BLOCKSIZE);
+		for (int i = (int) (x - spawnOffsetLeft); i < (int) (x - spawnOffsetLeft + spawnOffsetRight + spawnOffsetLeft
+				+ 1); i++) {
+			for (int j = (int) (y - spawnOffsetTop); j < (int) (y - spawnOffsetTop + spawnOffsetBottom + spawnOffsetTop
+					+ 1); j++) {
+				g.drawLine(i * Frame.BLOCKSIZE - world.cameraX(), j * Frame.BLOCKSIZE - world.cameraY(),
+						(i + 1) * Frame.BLOCKSIZE - world.cameraX(), (j + 1) * Frame.BLOCKSIZE - world.cameraY());
+			}
+		}
+	}
+
+	public boolean getStart() {
+		return start;
+	}
+
 }

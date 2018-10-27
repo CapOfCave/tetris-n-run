@@ -39,7 +39,6 @@ public class AnimationLoader {
 					pics.put(name, new Pics(nextLine.substring(nextLine.indexOf("\"") + 1, nextLine.length() - 1),
 							Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" ")))));
 				} catch (IllegalArgumentException e) {
-					System.out.println(nextLine.substring(nextLine.indexOf("\"") + 1, nextLine.length() - 1));
 					System.err.println("Fehler mit dem Dateiformat von " + url);
 					e.printStackTrace();
 					System.exit(3);
