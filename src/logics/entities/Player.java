@@ -73,6 +73,13 @@ public class Player extends LivingEntity {
 		if (activeWeapon != null)
 			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
 					akt_animation.getAnimFrame(), debugMode);
+		
+		g.drawImage(akt_animation.getImage(), 60,
+				680, 55, 55, null);
+
+		if (activeWeapon != null)
+			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
+					akt_animation.getAnimFrame(), debugMode);
 
 		if (debugMode) {
 			drawDebug(g, interpolX, interpolY);

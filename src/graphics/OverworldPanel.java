@@ -1,5 +1,7 @@
 package graphics;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -34,6 +36,8 @@ public class OverworldPanel extends Panel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		g.setColor(Color.WHITE);
+		g.drawRect(0, 0, width, height);
 		
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		
@@ -42,12 +46,21 @@ public class OverworldPanel extends Panel {
 		// guiMouseHandler.drawSideBar(g, debugMode);
 		world.drawPlayer(gameGraphics, interpolation, debugMode);
 		
-		if (Character.isLowerCase(frame.getNextLevel())) {
-			g.drawString("Spiele Level: " + frame.getNextLevel(), 970, 80);
+		g.drawImage(ImageLoader.loadImage("/res/backgroundOverworld.png"), 0, 0, null);
+		
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Calibri", 1, 60));
+		
+		
+		if(Character.isLowerCase(frame.getNextLevel())) {
+			g.setColor(Color.BLACK);
+			g.drawString("Level " + frame.getNextLevel(), 1020, 150);
 			g.drawImage(playButtonAkt, 970, 100, null);
+			
 		} else {
 			g.drawString("Kein Level ausgewählt", 970, 80);
 			g.drawImage(playButtonDeakt, 970, 100, null);
+			
 		}
 //		gameGraphics.drawLine(0, 0, gamePanel.width - 1, 0);
 //		gameGraphics.drawLine(0, 0, 0, gamePanel.height - 1);
