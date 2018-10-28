@@ -33,6 +33,8 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 		else
 			akt_animation = null;
 	}
+	
+	
 
 	public Entity(World world, double x, double y, HashMap<String, Animation> anims) {
 		this(world, anims);
@@ -89,4 +91,5 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 	public void addTo(Renderer renderer) {
 		renderer.addDrawable(this);
 	}
+
 }

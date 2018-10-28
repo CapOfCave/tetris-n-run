@@ -49,6 +49,7 @@ public class Player extends LivingEntity {
 		maxSpeed = rawPlayer.getMaxSpeed();
 		inventory = rawPlayer.getInventory();
 		
+		inventory.setWorld(world);
 
 	}
 

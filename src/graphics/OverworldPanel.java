@@ -35,7 +35,7 @@ public class OverworldPanel extends Panel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+	super.paintComponent(g);
 		
 		
 		
@@ -56,17 +56,19 @@ public class OverworldPanel extends Panel {
 		g.drawImage(ImageLoader.loadImage("/res/backgroundOverworld.png"), 0, 0, null);
 		
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("Calibri", 1, 60));
+		g.setFont(new Font("TimesNewRoman", 1, 44));
 		
 		
 		if(Character.isLowerCase(frame.getNextLevel())) {
 			g.setColor(Color.BLACK);
-			g.drawString("Level " + frame.getNextLevel(), 1020, 150);
-			g.drawImage(playButtonAkt, 970, 100, null);
+			g.drawString("Level " + (Character.getNumericValue(frame.getNextLevel()) - 9), 1055, 150);
+			g.drawString("Play", 1080, 290);
 			
 		} else {
-			g.drawString("Kein Level ausgewählt", 970, 80);
-			g.drawImage(playButtonDeakt, 970, 100, null);
+			g.setColor(Color.GRAY);
+			g.drawString("Kein Level", 1020, 150);
+			g.drawString("Play", 1080, 290);
+			
 			
 		}
 
