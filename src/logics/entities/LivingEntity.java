@@ -325,4 +325,38 @@ public abstract class LivingEntity extends Entity {
 				&& world.getTileAt(getTileY(dy), getTileX(dx)).isWalkableWithTetro())
 				|| world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();
 	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public double getAcc() {
+		return acc;
+	}
+
+	public void setAcc(double acc) {
+		this.acc = acc;
+	}
+
+	public double getBrake() {
+		return brake;
+	}
+
+	public void setBrake(double brake) {
+		this.brake = brake;
+	}
+
+	public double getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	public void setMaxSpeed(double maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
+	
+	
 }

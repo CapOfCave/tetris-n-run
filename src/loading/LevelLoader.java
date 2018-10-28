@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import data.Level;
+import data.RawPlayer;
 import data.RawSpawner;
 import data.RawTetro;
 import data.TetroType;
@@ -27,7 +28,7 @@ import logics.entities.items.Item;
  */
 public class LevelLoader {
 
-	public static Level loadLevel(String url, Frame frame) {
+	public static Level loadLevel(String url, Frame frame, RawPlayer rawPlayer) {
 		String tetrofileUrl = null;
 		ArrayList<TetroType> tetroTypes;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();

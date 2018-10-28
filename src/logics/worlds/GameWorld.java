@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import data.Level;
+import data.RawPlayer;
 import graphics.Frame;
 import input.KeyHandler;
 
@@ -12,8 +13,8 @@ import input.KeyHandler;
  */
 public class GameWorld extends World {
 
-	public GameWorld(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame) {
-		super(graphicClip, level, keyHandler, frame);
+	public GameWorld(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
+		super(graphicClip, level, keyHandler, frame, rawPlayer);
 	}
 
 	public void drawInventory(Graphics2D g) {

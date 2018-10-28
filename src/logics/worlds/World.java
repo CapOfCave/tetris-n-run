@@ -2,11 +2,13 @@ package logics.worlds;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data.Level;
+import data.RawPlayer;
 import data.RawSpawner;
 import data.RawTetro;
 import data.Tetro;
@@ -58,7 +60,7 @@ public abstract class World {
 	protected ArrayList<Entity> otherEntities;
 	protected ArrayList<Entity> allEntities;
 
-	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame) {
+	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 
 		// Initialisierungen
 		this.graphicClip = graphicClip;
@@ -104,7 +106,7 @@ public abstract class World {
 				(int) (graphicClip.getHeight() / 2 - Frame.BLOCKSIZE / 2.));
 
 		player = new Player(this, level.getPlayerX(), level.getPlayerY(),
-				AnimationLoader.loadAnimations("/res/anims/character.txt"));
+				AnimationLoader.loadAnimations("/res/anims/character.txt"), rawPlayer);
 
 		// Erstellen der Tetros
 		for (RawTetro ut : level.getUnfinishedTetros()) {
@@ -327,8 +329,8 @@ public abstract class World {
 		renderer.removeDrawable(i);
 	}
 
-	public void backToTheOverworld(boolean died) {
-		frame.changeToOverworld(died);
+	public void backToTheOverworld(boolean died, RawPlayer rawPlayer) {
+		frame.changeToOverworld(died, rawPlayer);
 	}
 
 	public Player getPlayer() {
@@ -384,6 +386,8 @@ public abstract class World {
 	public TetroType getTetroType(int i) {
 		return tetroTypes.get(i);
 	}
+	
+
 
 	public void EPressed(double x, double y) {
 		for (Entity e : allEntities) {
@@ -391,6 +395,10 @@ public abstract class World {
 				e.interact();
 			}
 		}
+	}
+
+	public void drawInventory(Graphics2D inventoryGraphics) {
+		player.drawInventory(inventoryGraphics);	
 	}
 
 }

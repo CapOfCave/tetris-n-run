@@ -41,7 +41,7 @@ public class Weapon extends Item {
 	@Override
 	public void init() {
 		super.init();
-		anims = AnimationLoader.loadAnimations(imgPath);
+		//anims = AnimationLoader.loadAnimations(imgPath);
 		akt_animation = anims.get(anims.keySet().toArray()[0]);
 	}
 

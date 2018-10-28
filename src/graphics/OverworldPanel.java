@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import data.Level;
+import data.RawPlayer;
 import input.GuiMouseHandler;
 import input.KeyHandler;
 import loading.ImageLoader;
@@ -24,12 +25,12 @@ public class OverworldPanel extends Panel {
 	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
 	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
 
-	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame) {
-		super(level, keyHandler, frame);
+	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
+		super(level, keyHandler , frame);
 
-		world = new Overworld(gamePanel, level, keyHandler, frame);
+		 world = new Overworld(gamePanel, level, keyHandler, frame, rawPlayer);
 
-		guiMouseHandler = new GuiMouseHandler(frame);
+		guiMouseHandler = new GuiMouseHandler(frame, (Overworld)world);
 		addMouseListener(guiMouseHandler);
 	}
 
@@ -42,12 +43,16 @@ public class OverworldPanel extends Panel {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
 		
+		Graphics2D inventoryGraphics = (Graphics2D) g.create(inventoryPanel.x, inventoryPanel.y, inventoryPanel.width,
+				inventoryPanel.height);
+
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		world.draw(gameGraphics, interpolation, debugMode);
 		world.drawPlayer(gameGraphics, interpolation);
 		Graphics2D previewGraphics = (Graphics2D) g.create( 54, 680, 1000, 1000);
 		world.drawPlayerPreview(previewGraphics);
+		world.drawInventory(inventoryGraphics);
 		
 		g.drawImage(ImageLoader.loadImage("/res/backgroundOverworld.png"), 0, 0, null);
 		
