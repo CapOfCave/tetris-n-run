@@ -157,6 +157,10 @@ public abstract class World {
 		player.draw(g, interpolation);
 
 	}
+	
+	public void drawPlayerPreview(Graphics g) {
+		player.drawPreview(g);
+	}
 
 	private void drawDebug(Graphics g, float interpolation) {
 		for (int j = 0; j < tileWorld.length; j++) {

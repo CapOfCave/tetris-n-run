@@ -70,10 +70,32 @@ public class Player extends LivingEntity {
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
 				interpolY - world.cameraY() + akt_animation.getOffsetY(), 55, 55, null);
 
-		if (activeWeapon != null)
-			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
-					akt_animation.getAnimFrame());
+		//if (activeWeapon != null)
+			//activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
 
+					//akt_animation.getAnimFrame(), debugMode);
+		
+		//g.drawImage(akt_animation.getImage(), 60,
+		//		680, 55, 55, null);
+
+	//	if (activeWeapon != null)
+		//	activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
+		//			akt_animation.getAnimFrame(), debugMode);
+
+	//	if (debugMode) {
+		//	drawDebug(g, interpolX, interpolY);
+
+		//}
+
+			//		akt_animation.getAnimFrame());
+
+
+	}
+	
+	public void drawPreview(Graphics g) {
+		
+		g.drawImage(akt_animation.getImage(), 0, 0, 110, 110, null);
+		
 	}
 
 	public void drawDebug(Graphics g, int interpolX, int interpolY) {
