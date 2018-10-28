@@ -91,6 +91,13 @@ public class Player extends LivingEntity {
 
 
 	}
+	
+	public void drawPreview(Graphics g) {
+		
+		g.drawImage(akt_animation.getImage(), 1000,
+				500, 55, 55, null);
+		
+	}
 
 	public void drawDebug(Graphics g, int interpolX, int interpolY) {
 		// Player hitbox

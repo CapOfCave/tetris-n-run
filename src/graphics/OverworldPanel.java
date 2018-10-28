@@ -36,9 +36,10 @@ public class OverworldPanel extends Panel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-
+		
+		
 		g.setColor(Color.WHITE);
-		g.drawRect(0, 0, width, height);
+		g.fillRect(0, 0, width, height);
 		
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);

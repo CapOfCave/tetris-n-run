@@ -17,7 +17,7 @@ import logics.worlds.World;
 public abstract class Panel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
 	protected final int width = 1300, height = 900;
-	protected final Rectangle gamePanel = new Rectangle(20, 20, 901, 601);
+	protected final Rectangle gamePanel = new Rectangle(35, 35, 921, 621);
 	protected boolean debugMode = false;
 	protected KeyHandler keyHandler;
 	protected ArrayList<TetroType> tetroTypes;
