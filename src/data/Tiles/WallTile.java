@@ -19,7 +19,8 @@ public class WallTile extends Tile {
 		super(key, posX, posY, false, false, frame);
 		isBlockingTetro = true;
 		img = ImageLoader.loadImage("/res/blocks/block0.png");
-		image3d = ImageLoader.loadImage("/res/blocks/block1.png");
+		image3d = ImageLoader.loadImage("/res/blocks/blockL.png");
+
 	}
 
 	@Override
@@ -28,6 +29,7 @@ public class WallTile extends Tile {
 				(int) (posY * Frame.BLOCKSIZE - world.cameraY() + offset.y), null);
 
 	}
+
 	@Override
 	public void drawBackground(Graphics g, float interpolation) {
 		g.drawImage(img, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
