@@ -20,7 +20,7 @@ public class Switch extends Tile{
 	private BufferedImage image3d;
 	
 	public Switch(char key, int posX, int posY, Frame frame) {
-		super(key, posX, posY, true, true, frame);
+		super(key, posX, posY, false, true, frame);
 		
 		if (key == 'à') {
 			color = 0;

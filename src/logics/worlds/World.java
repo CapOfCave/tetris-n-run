@@ -252,7 +252,6 @@ public abstract class World {
 	public void addEnemy(int x, int y, int health, EnemySpawner enemySpawner) {
 		enemies.add(new Enemy(this, enemySpawner, health, x, y,
 				AnimationLoader.loadAnimations("/res/anims/enemyAnims.txt")));
-		System.out.println("Enemies: " + enemies.size());
 	}
 
 	public void addSpawner(int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
