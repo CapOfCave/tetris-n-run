@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data.Level;
+import data.RawPlayer;
 import data.RawSpawner;
 import data.RawTetro;
 import data.Tetro;
@@ -54,7 +55,7 @@ public abstract class World {
 	protected ArrayList<EnemySpawner> spawner;
 	protected ArrayList<DoorTile> doors;
 
-	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame) {
+	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 
 		// Initialisierungen
 		this.graphicClip = graphicClip;
@@ -94,7 +95,7 @@ public abstract class World {
 				(int) (graphicClip.getHeight() / 2 - Frame.BLOCKSIZE / 2.));
 
 		player = new Player(this, level.getPlayerX(), level.getPlayerY(),
-				AnimationLoader.loadAnimations("/res/anims/character.txt"));
+				AnimationLoader.loadAnimations("/res/anims/character.txt"), rawPlayer);
 
 		// Erstellen der Tetros
 		for (RawTetro ut : level.getUnfinishedTetros()) {
@@ -329,8 +330,8 @@ public abstract class World {
 		itemWorld.remove(i);
 	}
 
-	public void backToTheOverworld(boolean died) {
-		frame.changeToOverworld(died);
+	public void backToTheOverworld(boolean died, RawPlayer rawPlayer) {
+		frame.changeToOverworld(died, rawPlayer);
 	}
 
 	public Player getPlayer() {
@@ -385,5 +386,7 @@ public abstract class World {
 	public TetroType getTetroType(int i) {
 		return tetroTypes.get(i);
 	}
+	
+
 
 }

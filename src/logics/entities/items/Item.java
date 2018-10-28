@@ -24,6 +24,7 @@ public class Item extends Entity {
 	}
 
 	public void init() {
+		anims = AnimationLoader.loadAnimations(imgPath);
 	}
 
 	public void drawPreview(Graphics2D g, int position, int size) {

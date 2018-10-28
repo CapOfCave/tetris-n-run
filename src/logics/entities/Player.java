@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import data.Animation;
+import data.RawPlayer;
 import data.Tiles.Tile;
 import graphics.Frame;
 import loading.ItemLoader;
@@ -28,38 +29,26 @@ public class Player extends LivingEntity {
 	private Weapon activeWeapon;
 	private Tile akt_Tile;
 
-	public Player(World world, HashMap<String, Animation> anims) {
+	public Player(World world, HashMap<String, Animation> anims, RawPlayer rawPlayer) {
 		super(world, anims);
-		inventory = new Inventory();
-
-		Weapon weapon = new Weapon(world, 20, "/res/anims/sword.txt", new Point(0, 0), new Point(30, 5), 8, 60, 60, 10);
-		weapon.setCooldownTicks(anims.get("hit0").getFrameNumber() * anims.get("hit0").getAnimTicks());
-		ItemSaver.writeItem("C:\\\\JavaEclipse\\\\weapon.txt", weapon);
-		weapon = (Weapon) ItemLoader.readItem("C:\\\\JavaEclipse\\\\weapon.txt");
-
-		weapon.setWorld(world);
-
-		inventory.addItem(weapon);
-		inventory.addItem(new Item(world, "/res/anims/item.txt"));
-		inventory.addItem(new Item(world, "/res/anims/item.txt"));
-		inventory.addItem(new Item(world, "/res/anims/item.txt"));
-		inventory.addItem(new Item(world, "/res/anims/item.txt"));
-		inventory.addItem(new Item(world, "/res/anims/item.txt"));
-
-		acc = 0.8;
-		brake = 4;
-		maxSpeed = 9;
-		health = 50;
 
 		akt_animation = anims.get("walk1");
 	}
 
-	public Player(World world, int playerX, int playerY, HashMap<String, Animation> anims) {
-		this(world, anims);
+	public Player(World world, int playerX, int playerY, HashMap<String, Animation> anims, RawPlayer rawPlayer) {
+		this(world, anims, rawPlayer);
 		x = playerX;
 		y = playerY;
 		lastX = x;
 		lastY = y;
+
+		acc = rawPlayer.getAcc();
+		health = rawPlayer.getHealth();
+		brake = rawPlayer.getAcc();
+		maxSpeed = rawPlayer.getMaxSpeed();
+		inventory = rawPlayer.getInventory();
+		
+
 	}
 
 	@Override
@@ -70,32 +59,33 @@ public class Player extends LivingEntity {
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
 				interpolY - world.cameraY() + akt_animation.getOffsetY(), 55, 55, null);
 
-		//if (activeWeapon != null)
-			//activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
+		// if (activeWeapon != null)
+		// activeWeapon.draw(g, interpolX - world.cameraX(), interpolY -
+		// world.cameraY(), animation_key,
 
-					//akt_animation.getAnimFrame(), debugMode);
-		
-		//g.drawImage(akt_animation.getImage(), 60,
-		//		680, 55, 55, null);
+		// akt_animation.getAnimFrame(), debugMode);
 
-	//	if (activeWeapon != null)
-		//	activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
-		//			akt_animation.getAnimFrame(), debugMode);
+		// g.drawImage(akt_animation.getImage(), 60,
+		// 680, 55, 55, null);
 
-	//	if (debugMode) {
-		//	drawDebug(g, interpolX, interpolY);
+		// if (activeWeapon != null)
+		// activeWeapon.draw(g, interpolX - world.cameraX(), interpolY -
+		// world.cameraY(), animation_key,
+		// akt_animation.getAnimFrame(), debugMode);
 
-		//}
+		// if (debugMode) {
+		// drawDebug(g, interpolX, interpolY);
 
-			//		akt_animation.getAnimFrame());
+		// }
 
+		// akt_animation.getAnimFrame());
 
 	}
-	
+
 	public void drawPreview(Graphics g) {
-		
+
 		g.drawImage(akt_animation.getImage(), 0, 0, 110, 110, null);
-		
+
 	}
 
 	public void drawDebug(Graphics g, int interpolX, int interpolY) {
@@ -189,7 +179,15 @@ public class Player extends LivingEntity {
 
 	@Override
 	protected void kill() {
-		world.backToTheOverworld(true);
+		world.backToTheOverworld(true, new RawPlayer(acc, brake, maxSpeed, health, inventory));
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 
 }

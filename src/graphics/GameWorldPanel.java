@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import data.Level;
+import data.RawPlayer;
 import input.KeyHandler;
 import input.MouseHandler;
 import logics.InHandHandler;
@@ -21,10 +22,10 @@ public class GameWorldPanel extends Panel {
 	private InHandHandler inHandHandler;
 	private MouseHandler mouseHandler;
 
-	public GameWorldPanel(Level level, KeyHandler keyHandler, Frame frame) {
+	public GameWorldPanel(Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 		super(level, keyHandler, frame);
 
-		world = new GameWorld(gamePanel, level, keyHandler, frame);
+		world = new GameWorld(gamePanel, level, keyHandler, frame, rawPlayer);
 
 		inHandHandler = new InHandHandler(world, tetroDrawPositions);
 		mouseHandler = new MouseHandler(inHandHandler, (GameWorld) world);

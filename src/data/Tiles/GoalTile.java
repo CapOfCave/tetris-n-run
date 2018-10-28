@@ -3,6 +3,7 @@ package data.Tiles;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import data.RawPlayer;
 import graphics.Frame;
 import loading.ImageLoader;
 
@@ -17,7 +18,8 @@ public class GoalTile extends Tile {
 
 	@Override
 	public void eventWhenEntering() {
-		frame.changeToOverworld(false);
+		frame.changeToOverworld(false, 
+				new RawPlayer(world.getPlayer().getAcc(), world.getPlayer().getBrake(), world.getPlayer().getMaxSpeed(), world.getPlayer().getHealth(), world.getPlayer().getInventory()));
 
 	}
 

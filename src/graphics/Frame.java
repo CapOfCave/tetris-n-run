@@ -2,11 +2,16 @@ package graphics;
 
 import java.awt.CardLayout;
 
+
 import javax.swing.JFrame;
 
+import data.RawPlayer;
 import input.KeyHandler;
 import loading.LevelLoader;
+import loading.RawPlayerLoader;
+import loading.RawPlayerSaver;
 import logics.GameLoop;
+import logics.Inventory;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -18,6 +23,7 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private OverworldPanel oPanel;
 	private GameWorldPanel lPanel;
+	private RawPlayer rawPlayer;
 	private GameLoop gameLoop;
 	private char nextLevel;
 	private int levelSolved = 4;
@@ -32,8 +38,15 @@ public class Frame extends JFrame {
 
 	public Frame() {
 		keyHandler = new KeyHandler();
-		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this),
-				keyHandler, this);
+		
+		
+		
+		
+		rawPlayer = RawPlayerLoader.readRawPlayer("C:\\JavaEclipse\\Player.txt");
+		rawPlayer.init();
+		
+		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer),
+				keyHandler, this, rawPlayer);
 		setLayout(new CardLayout());
 		add(oPanel);
 		gameLoop = new GameLoop(oPanel);
@@ -47,13 +60,15 @@ public class Frame extends JFrame {
 
 	}
 
-	public void changeToOverworld(boolean died) {
-
+	public void changeToOverworld(boolean died, RawPlayer rawPlayer) {
+		
+		RawPlayerSaver.writePlayer("C:\\JavaEclipse\\Player.txt", rawPlayer);
+		
 		if (((int) nextLevel - 96) > levelSolved && !died)
 			levelSolved = ((int) nextLevel - 96);
 
-		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this),
-				keyHandler, this);
+		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer),
+				keyHandler, this, rawPlayer);
 
 		add(oPanel);
 		remove(lPanel);
@@ -63,8 +78,8 @@ public class Frame extends JFrame {
 
 	public void startLevel() {
 		if (Character.isLowerCase(nextLevel)) {
-			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this),
-					keyHandler, this);
+			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer),
+					keyHandler, this, rawPlayer);
 
 			add(lPanel);
 			remove(oPanel);

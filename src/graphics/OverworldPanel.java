@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import data.Level;
+import data.RawPlayer;
 import input.GuiMouseHandler;
 import input.KeyHandler;
 import loading.ImageLoader;
@@ -23,10 +24,10 @@ public class OverworldPanel extends Panel {
 	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
 	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
 
-	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame) {
-		super(level, keyHandler, frame);
+	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
+		super(level, keyHandler , frame);
 
-		world = new Overworld(gamePanel, level, keyHandler, frame);
+		world = new Overworld(gamePanel, level, keyHandler, frame, rawPlayer);
 
 		guiMouseHandler = new GuiMouseHandler(frame);
 		addMouseListener(guiMouseHandler);
