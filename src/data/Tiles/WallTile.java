@@ -19,7 +19,7 @@ public class WallTile extends Tile {
 		super(key, posX, posY, false, false, frame);
 		isBlockingTetro = true;
 		img = ImageLoader.loadImage("/res/blocks/block0.png");
-		image3d = ImageLoader.loadImage("/res/blocks/blockL.png");
+		image3d = ImageLoader.loadImage("/res/blocks/blockr2.png");
 
 	}
 
