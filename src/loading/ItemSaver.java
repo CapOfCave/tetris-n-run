@@ -23,7 +23,6 @@ public class ItemSaver {
 			System.err.println("File while Item save not found");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (fout != null) {

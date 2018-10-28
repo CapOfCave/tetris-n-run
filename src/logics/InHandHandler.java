@@ -73,7 +73,7 @@ public class InHandHandler {
 
 	public void drawPreview(Graphics g, boolean debugMode) {
 		if (tetroInHand != null) {
-			tetroInHand.draw(g, mouse_x - offset_x, mouse_y - offset_y, rotation, debugMode);
+			tetroInHand.draw(g, mouse_x - offset_x, mouse_y - offset_y, rotation);
 		}
 
 		if (debugMode) {

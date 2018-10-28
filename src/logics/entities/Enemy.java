@@ -52,25 +52,22 @@ public class Enemy extends LivingEntity {
 		activeWeapon = new Weapon(world, 5, "/res/anims/sword.txt", new Point(0, 0), new Point(0, 0), 10, 50, 30, 50);
 	}
 
-	public void draw(Graphics g, float interpolation, boolean debugMode) {
+	public void draw(Graphics g, float interpolation) {
 		int interpolX = (int) ((x - lastX) * interpolation + lastX);
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
 				interpolY - world.cameraY() + akt_animation.getOffsetY(), Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
-			//TODO waffen
-		if (debugMode) {
-			drawDebug(g);
-		}
+		// TODO waffen
 
 	}
 
-	private void drawDebug(Graphics g) {
+	public void drawDebug(Graphics g) { //TODO unused
 		g.setColor(Color.ORANGE);
 		g.fillOval((int) (x - world.cameraX()), (int) (y - world.cameraY()), 5, 5);
 		g.fillOval((int) (x - world.cameraX() + Frame.BLOCKSIZE - 1), (int) (y - world.cameraY()), 5, 5);
-		g.fillOval((int) (x - world.cameraX() + Frame.BLOCKSIZE - 1),
-				(int) (y - world.cameraY() + Frame.BLOCKSIZE - 1), 5, 5);
+		g.fillOval((int) (x - world.cameraX() + Frame.BLOCKSIZE - 1), (int) (y - world.cameraY() + Frame.BLOCKSIZE - 1),
+				5, 5);
 		g.fillOval((int) (x - world.cameraX()), (int) (y - world.cameraY() + Frame.BLOCKSIZE - 1), 5, 5);
 
 		if (active) {
@@ -124,8 +121,7 @@ public class Enemy extends LivingEntity {
 			hitTicks += activeWeapon.getCooldownTicks();
 			if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
 					new Rectangle((int) (world.getPlayer().getX() - world.cameraX()),
-							(int) (world.getPlayer().getY() - world.cameraY()), Frame.BLOCKSIZE,
-							Frame.BLOCKSIZE))) {
+							(int) (world.getPlayer().getY() - world.cameraY()), Frame.BLOCKSIZE, Frame.BLOCKSIZE))) {
 				world.getPlayer().applyDamage(activeWeapon);
 			}
 		}
@@ -156,8 +152,7 @@ public class Enemy extends LivingEntity {
 			resetMoveDirections();
 			return;
 		}
-		if (Math.abs(path.get(0).x * Frame.BLOCKSIZE - x) < 5
-				&& Math.abs(path.get(0).y * Frame.BLOCKSIZE - y) < 5) {
+		if (Math.abs(path.get(0).x * Frame.BLOCKSIZE - x) < 5 && Math.abs(path.get(0).y * Frame.BLOCKSIZE - y) < 5) {
 			path.remove(0);
 		}
 		if (!path.isEmpty()) {

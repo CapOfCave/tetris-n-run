@@ -63,32 +63,36 @@ public class Player extends LivingEntity {
 	}
 
 	@Override
-	public void draw(Graphics g, float interpolation, boolean debugMode) {
+	public void draw(Graphics g, float interpolation) {
 		int interpolX = (int) ((x - lastX) * interpolation + lastX);
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
 				interpolY - world.cameraY() + akt_animation.getOffsetY(), 55, 55, null);
 
-		if (activeWeapon != null)
-			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
-					akt_animation.getAnimFrame(), debugMode);
+		//if (activeWeapon != null)
+			//activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
+
+					//akt_animation.getAnimFrame(), debugMode);
 		
-		g.drawImage(akt_animation.getImage(), 60,
-				680, 55, 55, null);
+		//g.drawImage(akt_animation.getImage(), 60,
+		//		680, 55, 55, null);
 
-		if (activeWeapon != null)
-			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
-					akt_animation.getAnimFrame(), debugMode);
+	//	if (activeWeapon != null)
+		//	activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
+		//			akt_animation.getAnimFrame(), debugMode);
 
-		if (debugMode) {
-			drawDebug(g, interpolX, interpolY);
+	//	if (debugMode) {
+		//	drawDebug(g, interpolX, interpolY);
 
-		}
+		//}
+
+			//		akt_animation.getAnimFrame());
+
 
 	}
 
-	private void drawDebug(Graphics g, int interpolX, int interpolY) {
+	public void drawDebug(Graphics g, int interpolX, int interpolY) {
 		// Player hitbox
 		g.setColor(Color.ORANGE);
 		g.setColor(Color.WHITE);

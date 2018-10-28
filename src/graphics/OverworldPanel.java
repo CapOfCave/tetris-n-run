@@ -36,15 +36,14 @@ public class OverworldPanel extends Panel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+
 		g.setColor(Color.WHITE);
 		g.drawRect(0, 0, width, height);
 		
+
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		
-		
 		world.draw(gameGraphics, interpolation, debugMode);
-		// guiMouseHandler.drawSideBar(g, debugMode);
-		world.drawPlayer(gameGraphics, interpolation, debugMode);
+		world.drawPlayer(gameGraphics, interpolation);
 		
 		g.drawImage(ImageLoader.loadImage("/res/backgroundOverworld.png"), 0, 0, null);
 		
@@ -62,10 +61,6 @@ public class OverworldPanel extends Panel {
 			g.drawImage(playButtonDeakt, 970, 100, null);
 			
 		}
-//		gameGraphics.drawLine(0, 0, gamePanel.width - 1, 0);
-//		gameGraphics.drawLine(0, 0, 0, gamePanel.height - 1);
-//		gameGraphics.drawLine(gamePanel.width - 1, 0, gamePanel.width - 1, gamePanel.height - 1);
-//		gameGraphics.drawLine(0, gamePanel.height - 1, gamePanel.width - 1, gamePanel.height - 1);
 
 	}
 

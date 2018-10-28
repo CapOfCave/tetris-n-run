@@ -26,7 +26,6 @@ public class ItemLoader {
 				ois = new ObjectInputStream(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(typeUrl));
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else {
@@ -34,7 +33,6 @@ public class ItemLoader {
 				fin = new FileInputStream(new File(typeUrl));
 				ois = new ObjectInputStream(fin);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -47,10 +45,8 @@ public class ItemLoader {
 				item.init();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

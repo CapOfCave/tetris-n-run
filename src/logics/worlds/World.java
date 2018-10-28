@@ -1,7 +1,7 @@
 package logics.worlds;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import data.TetroType;
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
 import graphics.Frame;
+import graphics.Renderer;
 import input.KeyHandler;
 import loading.AnimationLoader;
 import loading.LevelSaver;
@@ -34,6 +35,7 @@ public abstract class World {
 	// Standard-Bilder
 	protected BufferedImage blockImg;
 	protected BufferedImage backgroundImg;
+	protected Renderer renderer;
 
 	// Wichtigste Bezugsobjekte
 	protected Player player;
@@ -50,7 +52,6 @@ public abstract class World {
 	protected ArrayList<Enemy> enemies;
 	protected ArrayList<Entity> entities;
 	protected ArrayList<EnemySpawner> spawner;
-
 	protected ArrayList<DoorTile> doors;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame) {
@@ -61,6 +62,7 @@ public abstract class World {
 		this.keyHandler = keyHandler;
 		this.frame = frame;
 
+		renderer = new Renderer();
 		tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
 		entities = new ArrayList<>();
@@ -77,11 +79,6 @@ public abstract class World {
 			i.setWorld(this);
 			i.init();
 		}
-		spawner = new ArrayList<>();
-		for (RawSpawner rS : level.getSpawner()) {
-			addSpawner(rS);
-		}
-		level.getSpawner();
 
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
 		for (int i = 0; i < tetroWorldHitbox.length; i++) {
@@ -105,76 +102,75 @@ public abstract class World {
 			tetros.add(ft);
 			addTetroToHitbox(ft, ft.getX(), ft.getY(), ft.getRotation());
 		}
+		spawner = new ArrayList<>();
+		for (RawSpawner rS : level.getSpawner()) {
+			addSpawner(rS);
+		}
+		level.getSpawner();
 
 	}
 
-	public void draw(Graphics2D g, float interpolation, boolean debugMode) {
+	public void draw(Graphics g, float interpolation, boolean debugMode) {
+
+		prepareDraw();
 
 		camera.prepareDraw(interpolation);
-
-		// background blocks
-		for (int j = 0; j < tileWorld.length; j++) {
-			for (int i = 0; i < tileWorld[j].length; i++) {
-				if (tileWorld[j][i].getKey() == '0')
-					g.drawImage(tileWorld[j][i].getImg(), i * Frame.BLOCKSIZE - camera.getX(),
-							j * Frame.BLOCKSIZE - camera.getY(), Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
-				if (tileWorld[j][i].getKey() == 'D') {
-					try {
-						g.drawImage(((DoorTile) tileWorld[j][i]).getBackgroundImage(),
-								i * Frame.BLOCKSIZE - camera.getX(), j * Frame.BLOCKSIZE - camera.getY(),
-								Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
-					} catch (ClassCastException e) {
-						System.err.println("Fehler im Dateiformat des Levels bei x=" + i + ", y=" + j);
-					}
-				}
-			}
-		}
-
+		// 2D-Rendering background
 		// Tetros
-		for (Tetro t : tetros) {
-			t.draw(g, debugMode);
-		}
-
-		// blocks
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
-				if (tileWorld[j][i].getKey() != '0') {
-					tileWorld[j][i].draw(g, i, j);
-				}
-
+				tileWorld[j][i].drawBackground(g, interpolation);
 			}
 		}
-
-		for (Enemy enemy : enemies) {
-			enemy.draw(g, interpolation, debugMode);
+		for (Tetro t : tetros) {
+			t.draw(g);
 		}
-		for (Entity entity : entities) {
-			entity.draw(g, interpolation, debugMode);
-		}
-		for (Item i : itemWorld) {
-			i.draw(g, interpolation, debugMode);
-		}
+		// 3D-Rendering
+		renderer.draw(g, interpolation);
 
 		if (debugMode) {
-			for (int j = 0; j < tileWorld.length; j++) {
-				for (int i = 0; i < tileWorld[j].length; i++) {
-					if (tetroWorldHitbox[j][i]) {
-						g.setColor(Color.RED);
-						g.drawRect(i * Frame.BLOCKSIZE - camera.getX(), j * Frame.BLOCKSIZE - camera.getY(),
-								Frame.BLOCKSIZE, Frame.BLOCKSIZE);
-					}
-				}
-			}
-			for (EnemySpawner eS : spawner) {
-				eS.draw(g, interpolation, debugMode);
-			}
+			drawDebug(g, interpolation);
 		}
 	}
 
-	public void drawPlayer(Graphics2D g, float interpolation, boolean debugMode) {
-		// Player kann an einer anderen Stelle im Programm aufgerufen werden
-		player.draw(g, interpolation, debugMode);
+	private void prepareDraw() {
+		for (int j = 0; j < tileWorld.length; j++) {
+			for (int i = 0; i < tileWorld[j].length; i++) {
+				tileWorld[j][i].addTo(renderer);
+			}
+		}
+		for (Enemy enemy : enemies) {
+			enemy.addTo(renderer);
+		}
+		for (Entity entity : entities) {
+			entity.addTo(renderer);
+		}
+		for (Item i : itemWorld) {
+			i.addTo(renderer);
+		}
+		player.addTo(renderer);
 
+	}
+
+	public void drawPlayer(Graphics g, float interpolation) {
+		// Player kann an einer anderen Stelle im Programm aufgerufen werden
+		player.draw(g, interpolation);
+
+	}
+
+	private void drawDebug(Graphics g, float interpolation) {
+		for (int j = 0; j < tileWorld.length; j++) {
+			for (int i = 0; i < tileWorld[j].length; i++) {
+				if (tetroWorldHitbox[j][i]) {
+					g.setColor(Color.RED);
+					g.drawRect(i * Frame.BLOCKSIZE - camera.getX(), j * Frame.BLOCKSIZE - camera.getY(),
+							Frame.BLOCKSIZE, Frame.BLOCKSIZE);
+				}
+			}
+		}
+		for (EnemySpawner eS : spawner) {
+			eS.drawDebug(g, interpolation);
+		}
 	}
 
 	public void tick() {
@@ -256,18 +252,18 @@ public abstract class World {
 	public void addEnemy(int x, int y, int health, EnemySpawner enemySpawner) {
 		enemies.add(new Enemy(this, enemySpawner, health, x, y,
 				AnimationLoader.loadAnimations("/res/anims/enemyAnims.txt")));
-
+		System.out.println("Enemies: " + enemies.size());
 	}
 
 	public void addSpawner(int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
-			int spawnOffsetBottom, int maxEnemies, boolean enemyOnlyOnTetros, double spawnRate) {
+			int spawnOffsetBottom, int maxEnemies, boolean enemyOnlyOnTetros, double spawnRate, boolean start) {
 		spawner.add(new EnemySpawner(this, x, y, spawnOffsetLeft, spawnOffsetTop, spawnOffsetRight, spawnOffsetBottom,
-				maxEnemies, enemyOnlyOnTetros, spawnRate));
+				maxEnemies, enemyOnlyOnTetros, spawnRate, start));
 	}
 
 	private void addSpawner(RawSpawner rS) {
 		addSpawner(rS.getX(), rS.getY(), rS.getLoff(), rS.getToff(), rS.getRoff(), rS.getBoff(), rS.getMax(),
-				rS.isTetroonly(), rS.getRate());
+				rS.isTetroonly(), rS.getRate(), rS.getStart());
 	}
 
 	public void save(String path) {
@@ -287,7 +283,7 @@ public abstract class World {
 		ArrayList<RawSpawner> outp = new ArrayList<>();
 		for (EnemySpawner eS : spawner) {
 			outp.add(new RawSpawner((int) eS.getX(), (int) eS.getY(), eS.getLoff(), eS.getToff(), eS.getRoff(),
-					eS.getBoff(), eS.getMax(), eS.getTetroonly(), eS.getRate()));
+					eS.getBoff(), eS.getMax(), eS.getTetroonly(), eS.getRate(), eS.getStart()));
 		}
 		return null;
 	}
@@ -386,4 +382,5 @@ public abstract class World {
 	public TetroType getTetroType(int i) {
 		return tetroTypes.get(i);
 	}
+
 }

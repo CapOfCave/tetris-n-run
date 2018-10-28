@@ -3,13 +3,16 @@ package data.Tiles;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import data.DrawAndSortable;
 import graphics.Frame;
+import graphics.Renderer;
+import loading.ImageLoader;
 import logics.worlds.World;
 
 /**
  * @author Lars Created on 11.09.2018
  */
-public abstract class Tile {
+public abstract class Tile implements DrawAndSortable {
 
 	protected BufferedImage img;
 
@@ -30,6 +33,7 @@ public abstract class Tile {
 		this.walkable = walkable;
 		this.walkableWithTetro = walkableWithTetro;
 		isBlockingTetro = false;
+		img = ImageLoader.loadImage("/res/blocks/block0.png");
 	}
 
 	public BufferedImage getImg() {
@@ -64,7 +68,9 @@ public abstract class Tile {
 		this.posY = posY;
 	}
 
-	public abstract void eventWhenEntering();
+	public void eventWhenEntering() {
+
+	}
 
 	public boolean isWalkable() {
 		return walkable;
@@ -82,9 +88,36 @@ public abstract class Tile {
 		return walkableWithTetro;
 	}
 
-	public void draw(Graphics g, int i, int j) {
-		g.drawImage(img, (int) (i * Frame.BLOCKSIZE - world.cameraX()),
-				(int) (j * Frame.BLOCKSIZE - world.cameraY()), null);
-		
+	@Override
+	public void draw(Graphics g, float interpolation) {
+//		g.drawImage(img, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
+//				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+	}
+
+	@Override
+	public double getHeight() {
+		return posY * Frame.BLOCKSIZE;
+	}
+
+	@Override
+	public int compareTo(DrawAndSortable o) {
+		if (this.getHeight() == o.getHeight()) {
+			return 0;
+		} else if (this.getHeight() < o.getHeight()) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
+
+	public void drawBackground(Graphics g, float interpolation) {
+		g.drawImage(img, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
+				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+
+	}
+
+	@Override
+	public void addTo(Renderer renderer) {
+		renderer.addDrawable(this);
 	}
 }

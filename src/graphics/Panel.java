@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public abstract class Panel extends JPanel implements Playable {
 	protected float interpolation;
 	protected Frame frame;
 	protected World world;
-
+	
 	public Panel(Level level, KeyHandler keyHandler, Frame frame) {
 		this.keyHandler = keyHandler;
 		this.frame = frame;
@@ -52,6 +53,11 @@ public abstract class Panel extends JPanel implements Playable {
 			keyHandler.setF3pressed(false);
 		}
 
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 	}
 
 }
