@@ -119,12 +119,21 @@ public abstract class World {
 			addSpawner(rS);
 		}
 		level.getSpawner();
-
+		
+		//add everything to renderer
+		for (int j = 0; j < tileWorld.length; j++) {
+			for (int i = 0; i < tileWorld[j].length; i++) {
+				tileWorld[j][i].addTo(renderer);
+			}
+		}
+		for (Entity entity : allEntities) {
+			entity.addTo(renderer);
+		}
+		player.addTo(renderer);
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
 
-		prepareDraw();
 
 		camera.prepareDraw(interpolation);
 		// 2D-Rendering background
@@ -145,18 +154,6 @@ public abstract class World {
 		}
 	}
 
-	private void prepareDraw() {
-		for (int j = 0; j < tileWorld.length; j++) {
-			for (int i = 0; i < tileWorld[j].length; i++) {
-				tileWorld[j][i].addTo(renderer);
-			}
-		}
-		for (Entity entity : allEntities) {
-			entity.addTo(renderer);
-		}
-		player.addTo(renderer);
-
-	}
 
 	public void drawPlayer(Graphics g, float interpolation) {
 		// Player kann an einer anderen Stelle im Programm aufgerufen werden
@@ -193,7 +190,7 @@ public abstract class World {
 		for (int i = 0; i < allEntities.size(); i++) {
 			allEntities.get(i).tick();
 		}
-
+		renderer.tick();
 	}
 
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
@@ -329,6 +326,7 @@ public abstract class World {
 	public void removeItem(Item i) {
 		items.remove(i);
 		allEntities.remove(i);
+		renderer.removeDrawable(i);
 	}
 
 	public void backToTheOverworld(boolean died, RawPlayer rawPlayer) {
@@ -342,6 +340,7 @@ public abstract class World {
 	public void removeEnemy(Enemy enemy) {
 		enemies.remove(enemy);
 		allEntities.remove(enemy);
+		renderer.removeDrawable(enemy);
 	}
 
 	public int getMaxX() {

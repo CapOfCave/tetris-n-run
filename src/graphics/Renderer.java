@@ -21,8 +21,8 @@ public class Renderer {
 	public void removeDrawable(DrawAndSortable das) {
 		drawables.remove(das);
 	}
-
-	public void draw(Graphics g, float interpolation) {
+	
+	public void tick() {
 		drawables.sort(new Comparator<DrawAndSortable>() {
 
 			@Override
@@ -36,11 +36,15 @@ public class Renderer {
 				}
 			}
 		});
+	}
+
+	public void draw(Graphics g, float interpolation) {
+		
 		for (DrawAndSortable das : drawables) {
 			das.draw(g, interpolation);
 		}
-		for (int i = 0; i < drawables.size(); i++) {
-			drawables.remove(0);// TODO remove
-		}
+//		for (int i = 0; i < drawables.size(); i++) {
+//			drawables.remove(0);// TODO remove
+//		}
 	}
 }

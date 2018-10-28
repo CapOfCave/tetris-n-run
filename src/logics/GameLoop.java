@@ -6,6 +6,7 @@ package logics;
  */
 public class GameLoop implements Runnable {
 
+	public static int acutualframes = 0;
 	private final double FREQUENCY = 30.;
 	private final double TIME_BETWEEN_UPDATES = 1000000000 / FREQUENCY;
 	private final int MAX_UPDATES_BEFORE_RENDER = 5;
@@ -21,6 +22,7 @@ public class GameLoop implements Runnable {
 	@SuppressWarnings("unused")
 	private int fps = 60;
 	private int frameCount = 0;
+	private int secondUpdates = 0;
 
 	public GameLoop(Playable game) {
 		this.game = game;
@@ -43,6 +45,7 @@ public class GameLoop implements Runnable {
 					lastUpdateTime += TIME_BETWEEN_UPDATES;
 					updateCount++;
 				}
+				
 				if (currentTime - lastUpdateTime > TIME_BETWEEN_UPDATES) {
 					lastUpdateTime = currentTime - TIME_BETWEEN_UPDATES;
 				}
@@ -52,13 +55,16 @@ public class GameLoop implements Runnable {
 
 				int currentTimeSeconds = (int) (lastUpdateTime / 1000000000);
 				if (currentTimeSeconds > lastSecondTime) {
-					// System.ot.println("NEW SECOND " + currentTimeSeconds + " " + frameCount);
+					System.out.println("FPS: " + acutualframes + "; Updates: " + secondUpdates);
 					fps = frameCount;
 					frameCount = 0;
+					acutualframes = 0;
 					lastSecondTime = currentTimeSeconds;
+					secondUpdates = 0;
 				}
 
-				while (currentTime - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && currentTime - lastUpdateTime < TIME_BETWEEN_UPDATES) {
+				while (currentTime - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS
+						&& currentTime - lastUpdateTime < TIME_BETWEEN_UPDATES) {
 					Thread.yield();
 					try {
 						Thread.sleep(1);
@@ -95,10 +101,12 @@ public class GameLoop implements Runnable {
 
 	private void tick() {
 		game.tick();
+		secondUpdates++;
 	}
 
 	private void render(float interpolation) {
 		game.render(interpolation);
+		frameCount++;
 	}
 
 	public void changePlayable(Playable game) {
