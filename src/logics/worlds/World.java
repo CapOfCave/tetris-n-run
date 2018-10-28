@@ -26,6 +26,8 @@ import logics.entities.Player;
 import logics.entities.items.Item;
 
 public abstract class World {
+	private static final double min_interaction_distance = 20;
+
 	// Variablen
 	protected Rectangle graphicClip;
 
@@ -45,14 +47,16 @@ public abstract class World {
 
 	// Halten die Weltinformationen
 	protected Tile[][] tileWorld;
-	protected ArrayList<Item> itemWorld;
-	protected ArrayList<Tetro> tetros;
 	protected boolean[][] tetroWorldHitbox;
-	protected ArrayList<TetroType> tetroTypes;
-	protected ArrayList<Enemy> enemies;
-	protected ArrayList<Entity> entities;
-	protected ArrayList<EnemySpawner> spawner;
+
 	protected ArrayList<DoorTile> doors;
+	protected ArrayList<Tetro> tetros;
+	protected ArrayList<TetroType> tetroTypes;
+	protected ArrayList<Item> items;
+	protected ArrayList<Enemy> enemies;
+	protected ArrayList<EnemySpawner> spawner;
+	protected ArrayList<Entity> otherEntities;
+	protected ArrayList<Entity> allEntities;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame) {
 
@@ -65,8 +69,14 @@ public abstract class World {
 		renderer = new Renderer();
 		tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
-		entities = new ArrayList<>();
+		allEntities = new ArrayList<>();
 		enemies = new ArrayList<>();
+		otherEntities = level.getEntities();
+		for (Entity e : otherEntities) {
+			e.setWorld(this);
+		}
+		allEntities.addAll(otherEntities);
+
 		doors = level.getDoors();
 		tileWorld = level.getArrWorld();
 		for (Tile[] tt : tileWorld) {
@@ -74,11 +84,11 @@ public abstract class World {
 				t.setWorld(this);
 			}
 		}
-		itemWorld = level.getItemWorld();
-		for (Item i : itemWorld) {
+		items = level.getItemWorld();
+		for (Item i : items) {
 			i.setWorld(this);
-			i.init();
 		}
+		allEntities.addAll(items);
 
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
 		for (int i = 0; i < tetroWorldHitbox.length; i++) {
@@ -139,14 +149,8 @@ public abstract class World {
 				tileWorld[j][i].addTo(renderer);
 			}
 		}
-		for (Enemy enemy : enemies) {
-			enemy.addTo(renderer);
-		}
-		for (Entity entity : entities) {
+		for (Entity entity : allEntities) {
 			entity.addTo(renderer);
-		}
-		for (Item i : itemWorld) {
-			i.addTo(renderer);
 		}
 		player.addTo(renderer);
 
@@ -157,7 +161,7 @@ public abstract class World {
 		player.draw(g, interpolation);
 
 	}
-	
+
 	public void drawPlayerPreview(Graphics g) {
 		player.drawPreview(g);
 	}
@@ -184,17 +188,8 @@ public abstract class World {
 		// camera adjustment
 		camera.tick(player.getX(), player.getY());
 
-		for (int i = 0; i < enemies.size(); i++) {
-			enemies.get(i).tick();
-
-		}
-
-		for (int i = 0; i < entities.size(); i++) {
-			entities.get(i).tick();
-		}
-
-		for (int i = 0; i < spawner.size(); i++) {
-			spawner.get(i).tick();
+		for (int i = 0; i < allEntities.size(); i++) {
+			allEntities.get(i).tick();
 		}
 
 	}
@@ -254,14 +249,18 @@ public abstract class World {
 	}
 
 	public void addEnemy(int x, int y, int health, EnemySpawner enemySpawner) {
-		enemies.add(new Enemy(this, enemySpawner, health, x, y,
-				AnimationLoader.loadAnimations("/res/anims/enemyAnims.txt")));
+		Enemy e = new Enemy(this, enemySpawner, health, x, y,
+				AnimationLoader.loadAnimations("/res/anims/enemyAnims.txt"));
+		enemies.add(e);
+		allEntities.add(e);
 	}
 
 	public void addSpawner(int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
 			int spawnOffsetBottom, int maxEnemies, boolean enemyOnlyOnTetros, double spawnRate, boolean start) {
-		spawner.add(new EnemySpawner(this, x, y, spawnOffsetLeft, spawnOffsetTop, spawnOffsetRight, spawnOffsetBottom,
-				maxEnemies, enemyOnlyOnTetros, spawnRate, start));
+		EnemySpawner e = new EnemySpawner(this, x, y, spawnOffsetLeft, spawnOffsetTop, spawnOffsetRight,
+				spawnOffsetBottom, maxEnemies, enemyOnlyOnTetros, spawnRate, start);
+		spawner.add(e);
+		allEntities.add(e);
 	}
 
 	private void addSpawner(RawSpawner rS) {
@@ -275,8 +274,8 @@ public abstract class World {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, itemWorld, doors, createRawSpawner(),
-				tetroFileURL, player.getTileX(), player.getTileY());
+		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, items, doors, createRawSpawner(),
+				otherEntities, tetroFileURL, player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path);
 
@@ -317,7 +316,7 @@ public abstract class World {
 
 	public ArrayList<Item> getItemsAt(int tileY, int tileX) {
 		ArrayList<Item> outp = new ArrayList<>();
-		for (Item i : itemWorld) {
+		for (Item i : items) {
 			if (i.getY() == tileY && i.getX() == tileX) {
 				outp.add(i);
 			}
@@ -326,7 +325,8 @@ public abstract class World {
 	}
 
 	public void removeItem(Item i) {
-		itemWorld.remove(i);
+		items.remove(i);
+		allEntities.remove(i);
 	}
 
 	public void backToTheOverworld(boolean died) {
@@ -339,7 +339,7 @@ public abstract class World {
 
 	public void removeEnemy(Enemy enemy) {
 		enemies.remove(enemy);
-
+		allEntities.remove(enemy);
 	}
 
 	public int getMaxX() {
@@ -384,6 +384,14 @@ public abstract class World {
 
 	public TetroType getTetroType(int i) {
 		return tetroTypes.get(i);
+	}
+
+	public void EPressed(double x, double y) {
+		for (Entity e : allEntities) {
+			if (Math.abs(e.getX() - x) < min_interaction_distance && Math.abs(e.getY() - y) < min_interaction_distance) {
+				e.interact();
+			}
+		}
 	}
 
 }

@@ -27,6 +27,7 @@ public class Player extends LivingEntity {
 	private Inventory inventory;
 	private Weapon activeWeapon;
 	private Tile akt_Tile;
+	private boolean ePressed;
 
 	public Player(World world, HashMap<String, Animation> anims) {
 		super(world, anims);
@@ -70,32 +71,10 @@ public class Player extends LivingEntity {
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
 				interpolY - world.cameraY() + akt_animation.getOffsetY(), 55, 55, null);
 
-		//if (activeWeapon != null)
-			//activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
-
-					//akt_animation.getAnimFrame(), debugMode);
-		
-		//g.drawImage(akt_animation.getImage(), 60,
-		//		680, 55, 55, null);
-
-	//	if (activeWeapon != null)
-		//	activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
-		//			akt_animation.getAnimFrame(), debugMode);
-
-	//	if (debugMode) {
-		//	drawDebug(g, interpolX, interpolY);
-
-		//}
-
-			//		akt_animation.getAnimFrame());
-
-
 	}
-	
+
 	public void drawPreview(Graphics g) {
-		
 		g.drawImage(akt_animation.getImage(), 0, 0, 110, 110, null);
-		
 	}
 
 	public void drawDebug(Graphics g, int interpolX, int interpolY) {
@@ -118,12 +97,20 @@ public class Player extends LivingEntity {
 		super.tick();
 
 		checkInput();
+		checkEpressEvent();
 		move();
 		checkTile();
 
 		if (activeWeapon != null)
 			activeWeapon.tick();
 	}
+
+	private void checkEpressEvent() {
+		if(ePressed) {
+			world.EPressed(x, y);
+		}
+	}
+	
 
 	@Override
 	public void applyDamage(Weapon weapon) {
@@ -135,7 +122,8 @@ public class Player extends LivingEntity {
 		wantsToGoLeft = world.getKeyHandler().getA();
 		wantsToGoDown = world.getKeyHandler().getS();
 		wantsToGoRight = world.getKeyHandler().getD();
-
+		ePressed = world.getKeyHandler().isEpressed();
+		world.getKeyHandler().setEpressed(false);
 	}
 
 	public void addToInventory(Item item, int position) {
@@ -160,6 +148,9 @@ public class Player extends LivingEntity {
 	private void checkTile() {
 
 		if (akt_Tile != world.getTileAt(getTileY(), getTileX())) {
+			if (akt_Tile != null) {
+				akt_Tile.eventWhenLeaving();
+			}
 			akt_Tile = world.getTileAt(getTileY(), getTileX());
 			akt_Tile.eventWhenEntering();
 		}
@@ -192,4 +183,5 @@ public class Player extends LivingEntity {
 		world.backToTheOverworld(true);
 	}
 
+	
 }

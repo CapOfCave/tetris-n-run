@@ -45,6 +45,10 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 
 	public abstract void tick();
 
+	public void interact() {
+
+	}
+
 	public double getY() {
 		return y;
 	}
@@ -80,6 +84,7 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 			return 1;
 		}
 	}
+
 	@Override
 	public void addTo(Renderer renderer) {
 		renderer.addDrawable(this);

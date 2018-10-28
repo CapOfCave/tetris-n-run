@@ -17,6 +17,7 @@ public class AnimationLoader {
 
 	public static HashMap<String, Animation> loadAnimations(String url) {
 		Scanner sc = null;
+		try {
 		if (!LevelLoader.isAbsolute(url)) {
 			sc = new Scanner(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(url));
 		} else {
@@ -26,6 +27,11 @@ public class AnimationLoader {
 				e.printStackTrace();
 				System.exit(1);
 			}
+		}
+		} catch(NullPointerException e) {
+			System.err.println("Wrong url or File not found: \"" + url + "\"");
+			e.printStackTrace();
+			System.exit(2);
 		}
 
 		HashMap<String, Pics> pics = new HashMap<>();

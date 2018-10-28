@@ -14,10 +14,12 @@ import data.Tiles.DoorTile;
 import data.Tiles.EmptyTile;
 import data.Tiles.GoalTile;
 import data.Tiles.LevelGuiTile;
-import data.Tiles.Switch;
+import data.Tiles.PressurePlateTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
+import logics.entities.Entity;
+import logics.entities.Switch;
 import logics.entities.items.Item;
 
 /**
@@ -33,6 +35,7 @@ public class LevelLoader {
 		ArrayList<Item> rawItems = new ArrayList<>();
 		ArrayList<DoorTile> doors = new ArrayList<>();
 		ArrayList<RawSpawner> spawner = new ArrayList<>();
+		ArrayList<Entity> entities = new ArrayList<>();
 
 		int worldlength = 0;
 		int playerX = 0;
@@ -117,6 +120,42 @@ public class LevelLoader {
 					item.setY(y);
 					item.setTypeUrl(typeUrl);
 					rawItems.add(item);
+				}
+
+			} else if (nextLine.startsWith("e")) {
+				String strSplit[] = nextLine.split(";");
+				String type = null;
+				double x = -1;
+				double y = -1;
+				String animPath = null;
+				int color = 0;
+
+				for (String str : strSplit) {
+					if (str == strSplit[0])
+						continue;
+					if (str.startsWith("x=")) {
+						x = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("y=")) {
+						y = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("type=")) {
+						type = str.substring(str.indexOf("=") + 1);
+					} else if (str.startsWith("path=") || str.startsWith("url=")) {
+						animPath = str.substring(str.indexOf("=") + 1);
+					} else if (str.startsWith("color=") || str.startsWith("c=")) {
+						color = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+					}
+
+				}
+				if (animPath != null && type != null && x >= 0 && y >= 0) {
+					if (type.equals("switch")) {
+						entities.add(new Switch(null, x * Frame.BLOCKSIZE, y * Frame.BLOCKSIZE,
+								AnimationLoader.loadAnimations(animPath), color));
+					} else {
+						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y+ ")");
+					}
+				} else {
+					System.err.println("Entityerstellung fehlerhaft bei [virtual](" + x + "|" + y
+							+ "). Grund: animPath != null: " + (animPath != null) + " type != null: " + (type != null));
 				}
 
 			} else if (nextLine.startsWith("d")) {
@@ -222,7 +261,7 @@ public class LevelLoader {
 					}
 
 				} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò') {
-					arrWorld[j][i] = new Switch(tileChar, i, j, frame);
+					arrWorld[j][i] = new PressurePlateTile(tileChar, i, j, frame);
 				} else if (tileChar == '!') {
 					arrWorld[j][i] = new GoalTile(i, j, frame);
 				} else if (Character.isLowerCase(tileChar)) {
@@ -238,7 +277,7 @@ public class LevelLoader {
 		if (tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl);
 
-			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, tetrofileUrl,
+			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, entities, tetrofileUrl,
 					playerX * Frame.BLOCKSIZE, playerY * Frame.BLOCKSIZE);
 		} else {
 			System.err.println("Levelerstellung nicht erfolgreich");

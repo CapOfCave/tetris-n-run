@@ -185,4 +185,8 @@ public class Enemy extends LivingEntity {
 		return (int) (Math.random() * max);
 	}
 
+	@Override
+	public void interact() {
+		System.out.println("You should rather run away than talk to me");
+	}
 }

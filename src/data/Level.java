@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
+import logics.entities.Entity;
 import logics.entities.items.Item;
-
 
 /**
  * @author Lars Created on 13.08.2018
@@ -20,9 +20,11 @@ public class Level {
 	private int playerY;
 	private ArrayList<DoorTile> doors;
 	private ArrayList<RawSpawner> spawner;
+	private ArrayList<Entity> entities;
 
-	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld, ArrayList<Item> arrItems, ArrayList<DoorTile> doors, ArrayList<RawSpawner> spawner, String tetrofileUrl, int playerX,
-			int playerY) {
+	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld,
+			ArrayList<Item> arrItems, ArrayList<DoorTile> doors, ArrayList<RawSpawner> spawner,
+			ArrayList<Entity> entities, String tetrofileUrl, int playerX, int playerY) {
 		this.tetroTypes = tetroTypes;
 		this.rawTetros = rawTetros;
 		this.arrWorld = arrWorld;
@@ -32,6 +34,7 @@ public class Level {
 		this.playerY = playerY;
 		this.doors = doors;
 		this.spawner = spawner;
+		this.entities = entities;
 	}
 
 	public int getPlayerY() {
@@ -68,6 +71,10 @@ public class Level {
 
 	public ArrayList<RawSpawner> getSpawner() {
 		return spawner;
+	}
+
+	public ArrayList<Entity> getEntities() {
+		return entities;
 	}
 
 }
