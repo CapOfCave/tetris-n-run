@@ -27,9 +27,9 @@ public class OverworldPanel extends Panel {
 	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 		super(level, keyHandler , frame);
 
-		world = new Overworld(gamePanel, level, keyHandler, frame, rawPlayer);
+		 world = new Overworld(gamePanel, level, keyHandler, frame, rawPlayer);
 
-		guiMouseHandler = new GuiMouseHandler(frame);
+		guiMouseHandler = new GuiMouseHandler(frame, (Overworld)world);
 		addMouseListener(guiMouseHandler);
 	}
 
@@ -42,12 +42,16 @@ public class OverworldPanel extends Panel {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
 		
+		Graphics2D inventoryGraphics = (Graphics2D) g.create(inventoryPanel.x, inventoryPanel.y, inventoryPanel.width,
+				inventoryPanel.height);
+
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		world.draw(gameGraphics, interpolation, debugMode);
 		world.drawPlayer(gameGraphics, interpolation);
 		Graphics2D previewGraphics = (Graphics2D) g.create( 54, 680, 1000, 1000);
 		world.drawPlayerPreview(previewGraphics);
+		world.drawInventory(inventoryGraphics);
 		
 		g.drawImage(ImageLoader.loadImage("/res/backgroundOverworld.png"), 0, 0, null);
 		

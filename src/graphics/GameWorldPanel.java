@@ -17,7 +17,7 @@ import logics.worlds.GameWorld;
 public class GameWorldPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
-	private final Rectangle inventoryPanel = new Rectangle(20, 641, 1260, 189);
+	
 
 	private InHandHandler inHandHandler;
 	private MouseHandler mouseHandler;

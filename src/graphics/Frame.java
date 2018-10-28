@@ -26,7 +26,7 @@ public class Frame extends JFrame {
 	private RawPlayer rawPlayer;
 	private GameLoop gameLoop;
 	private char nextLevel;
-	private int levelSolved = 4;
+	private int levelSolved = 3;
 	public static final int BLOCKSIZE = 45;
 
 	private KeyHandler keyHandler;

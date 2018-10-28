@@ -11,15 +11,15 @@ import loading.AnimationLoader;
 import loading.ImageLoader;
 import tools.Tools;
 
-public class Switch extends Tile{
+public class PressurePlateTile extends Tile{
 	
 	private int color;
 	private HashMap<String, Animation> pictures;
-	boolean state0 = true;
+	boolean pressed = true;
 	Color drawColor = Color.BLACK;
 	private BufferedImage image3d;
 	
-	public Switch(char key, int posX, int posY, Frame frame) {
+	public PressurePlateTile(char key, int posX, int posY, Frame frame) {
 		super(key, posX, posY, false, true, frame);
 		
 		if (key == 'à') {
@@ -42,10 +42,18 @@ public class Switch extends Tile{
 	@Override
 	public void eventWhenEntering() {
 		world.switchDoors(color);
-		state0 = !state0;
-		image3d = Tools.setColor(pictures.get(state0?"state0":"state1").getImage(), drawColor);
+		pressed = true;
+		image3d = Tools.setColor(pictures.get(pressed?"state0":"state1").getImage(), drawColor);
 		
 	}
+	
+	@Override
+	public void eventWhenLeaving() {
+		world.switchDoors(color);
+		pressed = false;
+		image3d = Tools.setColor(pictures.get(pressed?"state0":"state1").getImage(), drawColor);
+	}
+	
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),

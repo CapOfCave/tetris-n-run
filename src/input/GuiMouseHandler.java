@@ -5,14 +5,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import graphics.Frame;
+import logics.worlds.Overworld;
+import logics.worlds.World;
 
 
 public class GuiMouseHandler implements MouseListener {
 
 	Frame frame;
+	Overworld overworld;
 	
-	public GuiMouseHandler(Frame frame) {
+	public GuiMouseHandler(Frame frame, Overworld world) {
 		this.frame = frame;
+		this.overworld = world;
 	}
 
 	
@@ -23,8 +27,8 @@ public class GuiMouseHandler implements MouseListener {
 		int x = e.getX();
 		int y = e.getY();
 		
-		if (x >= 20 && y >= 20 && x < 900 && y < 600) {
-			// in game Rect.
+		if (x >= 180 && y >= 671 && x < 879 && y < 854) {
+			overworld.getPlayer().inventoryClick(e.getX(), e.getY());
 		}
 		
 		if(x >= 970 && y >= 100 && x < 970 + 256 && y < 100 + 64) {

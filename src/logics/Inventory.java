@@ -16,7 +16,6 @@ public class Inventory implements Serializable{
 	private int firstVisibleItem = 0;
 	public int visibleItems = 4;
 	
-	private int size = 32;
 	
 	public Inventory() {
 		items = new ArrayList<>();
@@ -28,7 +27,7 @@ public class Inventory implements Serializable{
 		
 		for(int i = firstVisibleItem; i < firstVisibleItem + visibleItems; i++) {
 			
-			items.get(i).drawPreview(g,  i - firstVisibleItem + 1, size);
+			items.get(i).drawPreview(g,  i - firstVisibleItem, 110);
 		}
 		
 			
@@ -58,12 +57,11 @@ public class Inventory implements Serializable{
 
 	public void click(int x, int y) {
 		
-//	this.x = x;
-//	this.y = y;
+
 	
 	
-//		if(x-40 >= 0 && x-40 <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())
-//			scrollLeft();
+		if(x-40 >= 0 && x-40 <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())
+			scrollLeft();
 		
 //		for(int i = 1; i <= 4; i++) {
 //			if(x - 40 - ((arrowLeft.getWidth() + 5) * i) >= 0 && x - 40 - ((arrowLeft.getWidth() + 5) * i) <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())

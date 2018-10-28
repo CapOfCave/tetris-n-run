@@ -29,11 +29,11 @@ public class Item extends Entity {
 
 	public void drawPreview(Graphics2D g, int position, int size) {
 
-		g.drawRect(20 + (32 * position + 5 * position), 20, size, size);
+		
 
 		akt_animation = anims.get("preview");
-		g.drawImage(akt_animation.getImage(), 20 + (32 * position + 5 * position) + akt_animation.getOffsetX(),
-				20 + akt_animation.getOffsetY(), size, size, null);
+		g.drawImage(akt_animation.getImage(), 105 + (125 * position + 10 * position) + akt_animation.getOffsetX(),
+				30 + akt_animation.getOffsetY(), size, size, null);
 		akt_animation.next();
 	}
 

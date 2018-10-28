@@ -7,5 +7,4 @@ package logics;
 public interface Playable {
 	public void render(float interpolation);
 	public void tick();
-	
 }
