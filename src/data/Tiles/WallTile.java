@@ -27,7 +27,6 @@ public class WallTile extends Tile {
 	public void draw(Graphics g, float interpolation) {
 		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX() + offset.x),
 				(int) (posY * Frame.BLOCKSIZE - world.cameraY() + offset.y), null);
-
 	}
 
 	@Override
