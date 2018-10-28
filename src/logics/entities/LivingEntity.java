@@ -141,7 +141,7 @@ public abstract class LivingEntity extends Entity {
 			if (!isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed, -Frame.BLOCKSIZE / 2)) {
 				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed,
 						-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoLeft) {
-					// TODO edgecut
+					move_contact_solid(3);
 				} else {
 					vSpeed = 0;
 					move_contact_solid(0);
@@ -154,7 +154,7 @@ public abstract class LivingEntity extends Entity {
 				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed,
 						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100)
 						&& !wantsToGoRight) {
-
+					move_contact_solid(1);
 				} else {
 					vSpeed = 0;
 					move_contact_solid(0);
@@ -166,7 +166,7 @@ public abstract class LivingEntity extends Entity {
 			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed, -Frame.BLOCKSIZE / 2)) {
 				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed,
 						-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoLeft) {
-
+					move_contact_solid(3);
 				} else {
 					vSpeed = 0;
 					move_contact_solid(2);
@@ -176,6 +176,7 @@ public abstract class LivingEntity extends Entity {
 				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed,
 						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100)
 						&& !wantsToGoRight) {
+					move_contact_solid(1);
 
 				} else {
 					vSpeed = 0;

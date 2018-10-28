@@ -94,8 +94,7 @@ public class Player extends LivingEntity {
 	
 	public void drawPreview(Graphics g) {
 		
-		g.drawImage(akt_animation.getImage(), 1000,
-				500, 55, 55, null);
+		g.drawImage(akt_animation.getImage(), 0, 0, 110, 110, null);
 		
 	}
 
