@@ -54,7 +54,7 @@ public class OverworldPanel extends Panel {
 		world.drawPlayerPreview(previewGraphics);
 		world.drawInventory(inventoryGraphics);
 		
-		g.drawImage(ImageLoader.loadImage("/res/backgroundOverworld.png"), 0, 0, null);
+		g.drawImage(ImageLoader.loadImage("/res/backOverworld.png"), 0, 0, 1300, 900, null);
 		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("TimesNewRoman", 1, 44));

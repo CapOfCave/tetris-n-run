@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -8,6 +9,7 @@ import data.Level;
 import data.RawPlayer;
 import input.KeyHandler;
 import input.MouseHandler;
+import loading.ImageLoader;
 import logics.InHandHandler;
 import logics.worlds.GameWorld;
 
@@ -37,6 +39,14 @@ public class GameWorldPanel extends Panel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, width, height);
+		
+		
+		
+		Graphics2D previewGraphics = (Graphics2D) g.create( 54, 680, 1000, 1000);
+		world.drawPlayerPreview(previewGraphics);
+		
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		Graphics2D inventoryGraphics = (Graphics2D) g.create(inventoryPanel.x, inventoryPanel.y, inventoryPanel.width,
 				inventoryPanel.height);
@@ -48,6 +58,8 @@ public class GameWorldPanel extends Panel {
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, 0);
 		}
+		
+		g.drawImage(ImageLoader.loadImage("/res/backLevel.png"), 0, 0, 1300, 900, null);
 
 	}
 
