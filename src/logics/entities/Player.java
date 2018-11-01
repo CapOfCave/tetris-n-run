@@ -25,7 +25,7 @@ public class Player extends LivingEntity {
 	private Inventory inventory;
 	private Weapon activeWeapon;
 	private Tile akt_Tile;
-	private boolean ePressed;
+	private boolean actionPressed;
 
 	public Player(World world, HashMap<String, Animation> anims, RawPlayer rawPlayer) {
 		super(world, anims);
@@ -88,7 +88,7 @@ public class Player extends LivingEntity {
 		super.tick();
 
 		checkInput();
-		checkEpressEvent();
+		checkActionPressEvent();
 		move();
 		checkTile();
 
@@ -97,9 +97,9 @@ public class Player extends LivingEntity {
 		brake = 4;
 	}
 
-	private void checkEpressEvent() {
-		if(ePressed) {
-			world.EPressed(x, y);
+	private void checkActionPressEvent() {
+		if(actionPressed) {
+			world.actionPressed(x, y, rotation);
 		}
 	}
 	
@@ -114,7 +114,7 @@ public class Player extends LivingEntity {
 		wantsToGoLeft = world.getKeyHandler().getA();
 		wantsToGoDown = world.getKeyHandler().getS();
 		wantsToGoRight = world.getKeyHandler().getD();
-		ePressed = world.getKeyHandler().isActionPressed();
+		actionPressed = world.getKeyHandler().isActionPressed();
 		world.getKeyHandler().setActionpressed(false);
 	}
 

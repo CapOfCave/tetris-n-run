@@ -11,6 +11,7 @@ public class Renderer {
 	ArrayList<DrawAndSortable> drawables1;
 	ArrayList<DrawAndSortable> toRemove1;
 	ArrayList<DrawAndSortable> toAdd1;
+	
 	ArrayList<DrawAndSortable> drawables2;
 	ArrayList<DrawAndSortable> toRemove2;
 	ArrayList<DrawAndSortable> toAdd2;

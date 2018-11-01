@@ -1,6 +1,8 @@
 package graphics;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -26,6 +28,8 @@ public abstract class Panel extends JPanel implements Playable {
 	protected float interpolation;
 	protected Frame frame;
 	protected World world;
+	protected int ups;
+	protected int fps;
 	
 	public Panel(Level level, KeyHandler keyHandler, Frame frame) {
 		this.keyHandler = keyHandler;
@@ -39,8 +43,10 @@ public abstract class Panel extends JPanel implements Playable {
 	}
 
 	@Override
-	public void render(float interpolation) {
+	public void render(float interpolation, int fps, int ups) {
 		this.interpolation = interpolation;
+		this.fps = fps;
+		this.ups = ups;
 		repaint();
 
 	}
@@ -61,4 +67,14 @@ public abstract class Panel extends JPanel implements Playable {
 		super.paintComponent(g);
 	}
 
+	protected void drawDebug(Graphics g) {
+		world.drawDebug(g, interpolation);
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 170, 55);
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("", Font.PLAIN, 15));
+		g.drawString("FPS: " + fps + " / Updates: " + ups, 15, 25);
+		
+	}
+	
 }

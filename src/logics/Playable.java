@@ -5,6 +5,6 @@ package logics;
  * Created on 12.08.2018
  */
 public interface Playable {
-	public void render(float interpolation);
 	public void tick();
+	public void render(float interpolation, int fps, int ups);
 }

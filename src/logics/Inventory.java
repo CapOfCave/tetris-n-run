@@ -2,12 +2,9 @@ package logics;
 
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import loading.ImageLoader;
-import logics.entities.Entity;
 import logics.entities.items.Item;
 import logics.worlds.World;
 
