@@ -59,9 +59,9 @@ public class Inventory implements Serializable{
 		
 
 	
-	
-		if(x-40 >= 0 && x-40 <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())
-			scrollLeft();
+//	
+//		if(x-40 >= 0 && x-40 <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())
+//			scrollLeft();
 		
 //		for(int i = 1; i <= 4; i++) {
 //			if(x - 40 - ((arrowLeft.getWidth() + 5) * i) >= 0 && x - 40 - ((arrowLeft.getWidth() + 5) * i) <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())

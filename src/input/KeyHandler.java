@@ -13,7 +13,7 @@ public class KeyHandler implements KeyListener {
 	private boolean s = false;
 	private boolean d = false;
 
-	private boolean epressed = false;
+	private boolean actionPressed = false;
 	private boolean f3pressed = false;
 	
 	public KeyHandler() {
@@ -36,8 +36,8 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == KeyEvent.VK_F3) {
 			f3pressed = true;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_E) {
-			epressed = true;
+		if (ev.getKeyCode() == KeyEvent.VK_SPACE) {
+			actionPressed = true;
 		}
 		
 	}
@@ -79,8 +79,8 @@ public class KeyHandler implements KeyListener {
 	public boolean isF3pressed() {
 		return f3pressed;
 	}
-	public boolean isEpressed() {
-		return epressed;
+	public boolean isActionPressed() {
+		return actionPressed;
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -90,8 +90,8 @@ public class KeyHandler implements KeyListener {
 	public void setF3pressed(boolean b) {
 		this.f3pressed = b;
 	}
-	public void setEpressed(boolean b) {
-		this.epressed = b;
+	public void setActionpressed(boolean b) {
+		this.actionPressed = b;
 	}
 	
 }

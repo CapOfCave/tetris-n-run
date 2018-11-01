@@ -3,7 +3,6 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +11,6 @@ import data.Animation;
 import data.RawPlayer;
 import data.Tiles.Tile;
 import graphics.Frame;
-import loading.ItemLoader;
-import loading.ItemSaver;
 import logics.Inventory;
 import logics.entities.items.Item;
 import logics.entities.items.Weapon;
@@ -34,6 +31,7 @@ public class Player extends LivingEntity {
 		super(world, anims);
 
 		akt_animation = anims.get("walk1");
+		
 	}
 
 	public Player(World world, int playerX, int playerY, HashMap<String, Animation> anims, RawPlayer rawPlayer) {
@@ -59,7 +57,7 @@ public class Player extends LivingEntity {
 
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
 				interpolY - world.cameraY() + akt_animation.getOffsetY(), 55, 55, null);
-
+		
 
 	}
 
@@ -95,6 +93,7 @@ public class Player extends LivingEntity {
 
 		if (activeWeapon != null)
 			activeWeapon.tick();
+		brake = 4;
 	}
 
 	private void checkEpressEvent() {
@@ -114,8 +113,8 @@ public class Player extends LivingEntity {
 		wantsToGoLeft = world.getKeyHandler().getA();
 		wantsToGoDown = world.getKeyHandler().getS();
 		wantsToGoRight = world.getKeyHandler().getD();
-		ePressed = world.getKeyHandler().isEpressed();
-		world.getKeyHandler().setEpressed(false);
+		ePressed = world.getKeyHandler().isActionPressed();
+		world.getKeyHandler().setActionpressed(false);
 	}
 
 	public void addToInventory(Item item, int position) {

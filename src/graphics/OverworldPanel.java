@@ -38,7 +38,7 @@ public class OverworldPanel extends Panel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		GameLoop.acutualframes++;
+		
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);

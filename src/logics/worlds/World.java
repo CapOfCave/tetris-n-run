@@ -22,6 +22,7 @@ import loading.AnimationLoader;
 import loading.LevelSaver;
 import logics.Camera;
 import logics.EnemySpawner;
+import logics.GameLoop;
 import logics.entities.Enemy;
 import logics.entities.Entity;
 import logics.entities.Player;
@@ -133,8 +134,7 @@ public abstract class World {
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
-
-
+		GameLoop.acutualframes++;
 		camera.prepareDraw(interpolation);
 		// 2D-Rendering background
 		// Tetros
@@ -181,6 +181,7 @@ public abstract class World {
 	}
 
 	public void tick() {
+		GameLoop.acutualupdates++;
 		// Player movement
 		player.tick();
 
