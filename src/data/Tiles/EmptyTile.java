@@ -8,4 +8,5 @@ public class EmptyTile extends Tile {
 		super(key, posX, posY, false, true, frame);
 	}
 
+	
 }

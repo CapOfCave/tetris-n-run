@@ -17,4 +17,8 @@ public class LevelGuiTile extends Tile {
 		frame.setNextLevel(key);
 		
 	}
+	
+	public void eventWhenLeaving() {
+		frame.setNextLevel(' ');
+	}
 }

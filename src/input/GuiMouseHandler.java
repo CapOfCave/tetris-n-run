@@ -31,7 +31,7 @@ public class GuiMouseHandler implements MouseListener {
 			overworld.getPlayer().inventoryClick(e.getX(), e.getY());
 		}
 		
-		if(x >= 970 && y >= 100 && x < 970 + 256 && y < 100 + 64) {
+		if(x >= 1008 && y >= 225 && x < 1255 && y < 325) {
 			//playbutton
 			frame.startLevel();
 		}

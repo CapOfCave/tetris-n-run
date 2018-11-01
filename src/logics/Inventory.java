@@ -7,7 +7,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import loading.ImageLoader;
+import logics.entities.Entity;
 import logics.entities.items.Item;
+import logics.worlds.World;
 
 public class Inventory implements Serializable{
 
@@ -17,7 +19,9 @@ public class Inventory implements Serializable{
 	public int visibleItems = 4;
 	
 	
+	
 	public Inventory() {
+		
 		items = new ArrayList<>();
 		
 	}
@@ -59,23 +63,29 @@ public class Inventory implements Serializable{
 		
 
 	
-//	
-//		if(x-40 >= 0 && x-40 <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())
-//			scrollLeft();
+	
+		if(x-195 >= 0 && x-195 <= 62 && y - 709 >= 0 && y - 709 <= 110) 
+			scrollLeft();
 		
-//		for(int i = 1; i <= 4; i++) {
-//			if(x - 40 - ((arrowLeft.getWidth() + 5) * i) >= 0 && x - 40 - ((arrowLeft.getWidth() + 5) * i) <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())
-//				items.get(firstVisibleItem + i - 1).onClickInInventoryEnvent();
-//		}
-//		
-//		if(x - 40 - ((arrowLeft.getWidth() + 5) * 5) >= 0 && x - 40 - ((arrowLeft.getWidth() + 5) * 5) <= arrowLeft.getWidth() && y - 661 >= 0 && y - 661 <= arrowLeft.getHeight())
-//			scrollRight();
+		for(int i = 0; i <= 3; i++) {
+			if(x - 267 - ((125 + 10) * i) >= 0 && x - 267 - ((125 + 10) * i) <= 125 && y - 701 >= 0 && y - 701 <= 125)
+				items.get(firstVisibleItem + i).onClickInInventoryEnvent();
+		}
+		
+		if(x - 807 >= 0 && x - 807 <= 62 && y - 708 >= 0 && y - 708 <= 110)
+			scrollRight();
 		
 	}
 
 	public void init() {
-		for(int i = 0; i < items.size(); i++)
+		for(int i = 0; i < items.size(); i++) 
 		items.get(i).init();
 		
+		
+	}
+	
+	public void setWorld(World world) {
+		for(int i = 0; i < items.size(); i++) 
+			items.get(i).setWorld(world);
 	}
 }

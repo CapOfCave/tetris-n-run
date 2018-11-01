@@ -330,8 +330,8 @@ public abstract class World {
 		renderer.removeDrawable(i);
 	}
 
-	public void backToTheOverworld(boolean died, RawPlayer rawPlayer) {
-		frame.changeToOverworld(died, rawPlayer);
+	public void backToTheOverworld(boolean died) {
+		frame.changeToOverworld(died,new RawPlayer(player.getAcc(), player.getBrake(), player.getMaxSpeed(), player.getHealth(), player.getInventory()));
 	}
 
 	public Player getPlayer() {
