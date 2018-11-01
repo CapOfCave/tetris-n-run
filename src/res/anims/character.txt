@@ -1,5 +1,5 @@
-pics45 u = "/res/character/characterUpPics.png"
-pics32 d = "/res/character/characterDownPics.png"
+pics55 u = "/res/character/characterUpPics.png"
+pics55 d = "/res/character/characterDownPics.png"
 pics32 l = "/res/character/characterLeftPics.png"
 pics32 r="/res/character/characterRightPics.png"
 

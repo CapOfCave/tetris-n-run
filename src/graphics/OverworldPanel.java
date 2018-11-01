@@ -57,7 +57,7 @@ public class OverworldPanel extends Panel {
 		g.drawImage(ImageLoader.loadImage("/res/backOverworld.png"), 0, 0, 1300, 900, null);
 		
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("TimesNewRoman", 1, 44));
+		g.setFont(new Font("Timesnewroman", 1, 44));
 		
 		
 		if(Character.isLowerCase(frame.getNextLevel())) {
