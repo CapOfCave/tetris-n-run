@@ -173,7 +173,7 @@ public class Player extends LivingEntity {
 
 	@Override
 	protected void kill() {
-		world.backToTheOverworld(true, new RawPlayer(acc, brake, maxSpeed, health, inventory));
+		world.backToTheOverworld(true);
 	}
 
 	public Inventory getInventory() {

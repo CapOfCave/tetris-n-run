@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -41,6 +42,8 @@ public class GameWorldPanel extends Panel {
 
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
+		g.setFont(new Font("TimesNewRoman", 1, 44));
+		g.setColor(Color.BLACK);
 		
 		
 		
@@ -61,6 +64,7 @@ public class GameWorldPanel extends Panel {
 		
 		g.drawImage(ImageLoader.loadImage("/res/backLevel.png"), 0, 0, 1300, 900, null);
 
+		g.drawString("Overworld", 1020, 585);
 	}
 
 }
