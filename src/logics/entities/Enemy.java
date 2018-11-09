@@ -62,7 +62,7 @@ public class Enemy extends LivingEntity {
 
 	}
 
-	public void drawDebug(Graphics g) { //TODO unused
+	public void drawDebug(Graphics g) { // TODO unused
 		g.setColor(Color.ORANGE);
 		g.fillOval((int) (x - world.cameraX()), (int) (y - world.cameraY()), 5, 5);
 		g.fillOval((int) (x - world.cameraX() + Frame.BLOCKSIZE - 1), (int) (y - world.cameraY()), 5, 5);

@@ -393,13 +393,18 @@ public abstract class World {
 	public void actionPressed(double x, double y, int rotation) {
 		
 		for (Entity e : allEntities) {
-			if ((Math.abs(e.getX() - x) < min_interaction_distance && Math.abs(e.getY() - y) < min_interaction_distance)) { //TODO
+			if ((Math.abs(e.getX() - x) < min_interaction_distance && Math.abs(e.getY() - y) < min_interaction_distance) || isActionInFront(e.getX() - x, e.getY() - y, rotation)) { //TODO
 				e.interact();
 			}
 		}
 		
 	}
 
+
+	private boolean isActionInFront(double d, double e, int rotation) {
+		
+		return false;
+	}
 
 	public void drawInventory(Graphics2D inventoryGraphics) {
 		player.drawInventory(inventoryGraphics);	
