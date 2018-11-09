@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import data.Level;
 import data.RawPlayer;
 import input.GuiMouseHandler;
 import input.KeyHandler;
 import loading.ImageLoader;
-import logics.GameLoop;
 import logics.worlds.Overworld;
 
 /**
@@ -22,8 +20,8 @@ public class OverworldPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 	private GuiMouseHandler guiMouseHandler;
-	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
-	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
+//	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
+//	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
 
 	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 		super(level, keyHandler , frame);
@@ -53,7 +51,9 @@ public class OverworldPanel extends Panel {
 		Graphics2D previewGraphics = (Graphics2D) g.create( 54, 680, 1000, 1000);
 		world.drawPlayerPreview(previewGraphics);
 		world.drawInventory(inventoryGraphics);
-		
+		if (debugMode) {
+			drawDebug(gameGraphics);
+		}
 		g.drawImage(ImageLoader.loadImage("/res/backOverworld.png"), 0, 0, 1300, 900, null);
 		
 		g.setColor(Color.BLACK);
@@ -74,5 +74,7 @@ public class OverworldPanel extends Panel {
 		}
 
 	}
+
+	
 
 }

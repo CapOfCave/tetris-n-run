@@ -2,7 +2,6 @@ package graphics;
 
 import java.awt.CardLayout;
 
-
 import javax.swing.JFrame;
 
 import data.RawPlayer;
@@ -11,7 +10,6 @@ import loading.LevelLoader;
 import loading.RawPlayerLoader;
 import loading.RawPlayerSaver;
 import logics.GameLoop;
-import logics.Inventory;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -38,8 +36,6 @@ public class Frame extends JFrame {
 
 	public Frame() {
 		keyHandler = new KeyHandler();
-		
-		
 		
 		
 		rawPlayer = RawPlayerLoader.readRawPlayer("C:\\JavaEclipse\\Player.txt");

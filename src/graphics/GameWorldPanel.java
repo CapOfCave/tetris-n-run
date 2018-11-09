@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 import data.Level;
 import data.RawPlayer;
@@ -61,10 +60,15 @@ public class GameWorldPanel extends Panel {
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, 0);
 		}
+		if (debugMode) {
+			drawDebug(gameGraphics);
+		}
 		
 		g.drawImage(ImageLoader.loadImage("/res/backLevel.png"), 0, 0, 1300, 900, null);
 
 		g.drawString("Overworld", 1020, 585);
+		
+		
 	}
 
 }

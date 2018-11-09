@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import graphics.Frame;
-import loading.AnimationLoader;
 import logics.worlds.World;
 
 /**

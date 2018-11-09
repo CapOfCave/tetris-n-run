@@ -165,7 +165,7 @@ public abstract class World {
 		player.drawPreview(g);
 	}
 
-	private void drawDebug(Graphics g, float interpolation) {
+	public void drawDebug(Graphics g, float interpolation) {
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
 				if (tetroWorldHitbox[j][i]) {
@@ -390,13 +390,16 @@ public abstract class World {
 	
 
 
-	public void EPressed(double x, double y) {
+	public void actionPressed(double x, double y, int rotation) {
+		
 		for (Entity e : allEntities) {
-			if (Math.abs(e.getX() - x) < min_interaction_distance && Math.abs(e.getY() - y) < min_interaction_distance) {
+			if ((Math.abs(e.getX() - x) < min_interaction_distance && Math.abs(e.getY() - y) < min_interaction_distance)) { //TODO
 				e.interact();
 			}
 		}
+		
 	}
+
 
 	public void drawInventory(Graphics2D inventoryGraphics) {
 		player.drawInventory(inventoryGraphics);	

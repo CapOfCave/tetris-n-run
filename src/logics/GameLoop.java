@@ -21,10 +21,8 @@ public class GameLoop implements Runnable {
 	private boolean running;
 	private boolean paused;
 
-	@SuppressWarnings("unused")
 	private int fps = 60;
-	private int frameCount = 0;
-	private int secondUpdates = 0;
+	private int ups = 30;
 
 	public GameLoop(Playable game) {
 		this.game = game;
@@ -47,7 +45,7 @@ public class GameLoop implements Runnable {
 					lastUpdateTime += TIME_BETWEEN_UPDATES;
 					updateCount++;
 				}
-				
+
 				if (currentTime - lastUpdateTime > TIME_BETWEEN_UPDATES) {
 					lastUpdateTime = currentTime - TIME_BETWEEN_UPDATES;
 				}
@@ -57,13 +55,10 @@ public class GameLoop implements Runnable {
 
 				int currentTimeSeconds = (int) (lastUpdateTime / 1000000000);
 				if (currentTimeSeconds > lastSecondTime) {
-					System.out.println("FPS: " + acutualframes + "von " + frameCount + "; Updates: " + acutualupdates + " von " + secondUpdates );
-					fps = frameCount;
-					frameCount = 0;
+					fps = acutualframes;
 					acutualframes = 0;
 					acutualupdates = 0;
 					lastSecondTime = currentTimeSeconds;
-					secondUpdates = 0;
 				}
 
 				while (currentTime - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS
@@ -104,12 +99,10 @@ public class GameLoop implements Runnable {
 
 	private void tick() {
 		game.tick();
-		secondUpdates++;
 	}
 
 	private void render(float interpolation) {
-		game.render(interpolation);
-		frameCount++;
+		game.render(interpolation, fps, ups);
 	}
 
 	public void changePlayable(Playable game) {
