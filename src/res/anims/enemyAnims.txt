@@ -1,7 +1,7 @@
-pics45 u = "/res/character/characterUpPics.png"
-pics32 d = "/res/character/characterDownPics.png"
-pics32 l = "/res/character/characterLeftPics.png"
-pics32 r="/res/character/characterRightPics.png"
+pics55 u = "/res/character/characterUpPics.png"
+pics55 d = "/res/character/characterDownPics.png"
+pics55 l = "/res/character/characterLeftPics.png"
+pics55 r="/res/character/characterRightPics.png"
 
 anim stand0=u.0
 anim stand1=r.0
