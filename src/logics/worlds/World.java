@@ -27,9 +27,12 @@ import logics.entities.Enemy;
 import logics.entities.Entity;
 import logics.entities.Player;
 import logics.entities.items.Item;
+import tools.Vector;
+import tools.VektorMaths;
 
 public abstract class World {
 	private static final double min_interaction_distance = 20;
+	private static final double min_interaction_looking_distance = 60;
 
 	// Variablen
 	protected Rectangle graphicClip;
@@ -120,8 +123,8 @@ public abstract class World {
 			addSpawner(rS);
 		}
 		level.getSpawner();
-		
-		//add everything to renderer
+
+		// add everything to renderer
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
 				tileWorld[j][i].addTo(renderer);
@@ -153,7 +156,6 @@ public abstract class World {
 			drawDebug(g, interpolation);
 		}
 	}
-
 
 	public void drawPlayer(Graphics g, float interpolation) {
 		// Player kann an einer anderen Stelle im Programm aufgerufen werden
@@ -331,7 +333,8 @@ public abstract class World {
 	}
 
 	public void backToTheOverworld(boolean died) {
-		frame.changeToOverworld(died,new RawPlayer(player.getAcc(), player.getBrake(), player.getMaxSpeed(), player.getHealth(), player.getInventory()));
+		frame.changeToOverworld(died, new RawPlayer(player.getAcc(), player.getBrake(), player.getMaxSpeed(),
+				player.getHealth(), player.getInventory()));
 	}
 
 	public Player getPlayer() {
@@ -387,27 +390,29 @@ public abstract class World {
 	public TetroType getTetroType(int i) {
 		return tetroTypes.get(i);
 	}
-	
-
 
 	public void actionPressed(double x, double y, int rotation) {
-		
+
 		for (Entity e : allEntities) {
-			if ((Math.abs(e.getX() - x) < min_interaction_distance && Math.abs(e.getY() - y) < min_interaction_distance) || isActionInFront(e.getX() - x, e.getY() - y, rotation)) { //TODO
+			if ((Math.abs(e.getX() - x) < min_interaction_distance && Math.abs(e.getY() - y) < min_interaction_distance)
+					|| isInFront(e, x, y, rotation)) { // TODO
 				e.interact();
 			}
 		}
-		
+
 	}
 
-
-	private boolean isActionInFront(double d, double e, int rotation) {
-		
+	private boolean isInFront(Entity e, double x, double y, int rotation) {
+		if (((e.getX() - x) * (e.getX() - x) + (e.getX() - y) * (e.getX() - y) < min_interaction_looking_distance
+				* min_interaction_looking_distance)
+				&& Math.abs(VektorMaths.getAngleDeg(new Vector((int) x, (int) y), new Vector((int)e.getX(), (int)e.getY()))) < 45) {
+			return true;
+		}
 		return false;
 	}
 
 	public void drawInventory(Graphics2D inventoryGraphics) {
-		player.drawInventory(inventoryGraphics);	
+		player.drawInventory(inventoryGraphics);
 	}
 
 }
