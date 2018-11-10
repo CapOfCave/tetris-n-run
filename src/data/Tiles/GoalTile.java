@@ -17,10 +17,10 @@ public class GoalTile extends Tile {
 	}
 
 	@Override
-	public void eventWhenEntering() {
-		frame.changeToOverworld(false,
-				new RawPlayer(world.getPlayer().getAcc(), world.getPlayer().getBrake(), world.getPlayer().getMaxSpeed(), world.getPlayer().getHealth(), world.getPlayer().getInventory()));
-
+	public void interact() {
+		frame.changeToOverworld(false, new RawPlayer(world.getPlayer().getAcc(), world.getPlayer().getBrake(),
+				world.getPlayer().getMaxSpeed(), world.getPlayer().getHealth(), world.getPlayer().getInventory()));
+		world.getPlayer().resetActionPressed();
 	}
 
 	@Override
