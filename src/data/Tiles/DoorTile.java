@@ -51,11 +51,14 @@ public class DoorTile extends Tile {
 			@Override
 			public void draw(Graphics g, float interpolation) {
 
-				g.drawImage(bottomImage,
-						(int) (posX * Frame.BLOCKSIZE - world.cameraX() + pictures.get("bottom_image").getOffsetX()),
-						(int) ((posY) * Frame.BLOCKSIZE - world.cameraY() + pictures.get("bottom_image").getOffsetY()),
-						null);
-
+				if (walkable) {
+					g.drawImage(bottomImage,
+							(int) (posX * Frame.BLOCKSIZE - world.cameraX()
+									+ pictures.get("bottom_image").getOffsetX()),
+							(int) ((posY) * Frame.BLOCKSIZE - world.cameraY()
+									+ pictures.get("bottom_image").getOffsetY()),
+							null);
+				}
 			}
 
 			@Override
@@ -108,7 +111,7 @@ public class DoorTile extends Tile {
 
 		renderer.addDrawable(this);
 		// bottom part
-		if (rotation % 2 == 1 && walkable) {
+		if (rotation % 2 == 1) {
 			renderer.addDrawable(bottomPart);
 		}
 	}

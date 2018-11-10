@@ -66,7 +66,6 @@ public class Inventory implements Serializable{
 		for(int i = 0; i <= 3; i++) {
 			if(x - 267 - ((125 + 10) * i) >= 0 && x - 267 - ((125 + 10) * i) <= 125 && y - 701 >= 0 && y - 701 <= 125) {
 				items.get(firstVisibleItem + i).onClickInInventoryEnvent();
-				System.out.println("Clicc i=" + i);
 			}
 				
 		}

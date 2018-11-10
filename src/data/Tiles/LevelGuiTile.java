@@ -20,6 +20,5 @@ public class LevelGuiTile extends Tile {
 	@Override
 	public void interact() {
 		frame.startLevel();
-		System.out.println("Strating new Level '" + key + "'");
 	}
 }
