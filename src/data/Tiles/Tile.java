@@ -128,4 +128,7 @@ public abstract class Tile implements DrawAndSortable {
 	public void addTo(Renderer renderer) {
 		renderer.addDrawable(this);
 	}
+
+	public void interact() {
+	}
 }

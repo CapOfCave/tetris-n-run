@@ -393,19 +393,27 @@ public abstract class World {
 
 	public void actionPressed(double x, double y, int rotation) {
 
+		// Entities
 		for (Entity e : allEntities) {
 			if ((Math.abs(e.getX() - x) < min_interaction_distance && Math.abs(e.getY() - y) < min_interaction_distance)
 					|| isInFront(e, x, y, rotation)) { // TODO
 				e.interact();
 			}
 		}
+		// Tiles
+		System.out
+				.println(tileWorld[(((int) x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE)][(((int) y + Frame.BLOCKSIZE / 2)
+						/ Frame.BLOCKSIZE)]);
+		tileWorld[((int) y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE][((int) x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE]
+				.interact();
 
 	}
 
 	private boolean isInFront(Entity e, double x, double y, int rotation) {
 		if (((e.getX() - x) * (e.getX() - x) + (e.getX() - y) * (e.getX() - y) < min_interaction_looking_distance
 				* min_interaction_looking_distance)
-				&& Math.abs(VektorMaths.getAngleDeg(new Vector((int) x, (int) y), new Vector((int)e.getX(), (int)e.getY()))) < 45) {
+				&& Math.abs(VektorMaths.getAngleDeg(new Vector((int) x, (int) y),
+						new Vector((int) e.getX(), (int) e.getY()))) < 45) {
 			return true;
 		}
 		return false;

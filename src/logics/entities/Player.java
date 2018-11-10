@@ -59,7 +59,7 @@ public class Player extends LivingEntity {
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
 				interpolY - world.cameraY() + akt_animation.getOffsetY(), 55, 55, null);
 		if (activeWeapon != null) {
-			activeWeapon.draw(g,  interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key, akt_animation.getAnimFrame());
+			activeWeapon.draw(g,  interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key, akt_animation.getAktIndex());
 		}
 
 	}
@@ -104,7 +104,6 @@ public class Player extends LivingEntity {
 			world.actionPressed(x, y, rotation);
 		}
 	}
-	
 
 	@Override
 	public void applyDamage(Weapon weapon) {
