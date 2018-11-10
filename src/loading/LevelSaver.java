@@ -17,14 +17,17 @@ import logics.entities.items.Item;
  */
 public class LevelSaver {
 
-	public void saveLevel(Level level, String path) {
-		print(createOutput(level), path);
+	public void saveLevel(Level level, String path, String fileName) {
+		print(createOutput(level), path, fileName);
 	}
 
-	private void print(ArrayList<String> content, String path) {
-		File file = new File(path);
+	private void print(ArrayList<String> content, String path, String fileName) {
+		File file = new File(path + "\\" + fileName);
 		if (!file.exists()) {
 			try {
+				File temp = new File(path);
+				temp.mkdirs();
+			
 				file.createNewFile();
 			} catch (IOException e1) {
 				e1.printStackTrace();

@@ -270,7 +270,7 @@ public abstract class World {
 				rS.isTetroonly(), rS.getRate(), rS.getStart());
 	}
 
-	public void save(String path) {
+	public void save(String path,String fileName) {
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		for (Tetro t : tetros) {
 			rawTetros.add(createRawTetro(t));
@@ -279,7 +279,7 @@ public abstract class World {
 		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, items, doors, createRawSpawner(),
 				otherEntities, tetroFileURL, player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
-		saver.saveLevel(temporaryLevel, path);
+		saver.saveLevel(temporaryLevel, path, fileName);
 
 	}
 
