@@ -76,6 +76,9 @@ public abstract class Tile implements DrawAndSortable {
 		
 	}
 
+	public void eventWhenKeyPressed() {
+		
+	}
 	
 	public boolean isWalkable() {
 		return walkable;

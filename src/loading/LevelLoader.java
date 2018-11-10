@@ -16,6 +16,7 @@ import data.Tiles.EmptyTile;
 import data.Tiles.GoalTile;
 import data.Tiles.LevelGuiTile;
 import data.Tiles.PressurePlateTile;
+import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
@@ -249,7 +250,10 @@ public class LevelLoader {
 					arrWorld[j][i] = new WallTile(tileChar, i, j, frame);
 				} else if (tileChar == '0') {
 					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
-				} else if (tileChar == 'D') {
+				}else if(tileChar == '2') {
+					arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j,false, true, frame);
+				}else if (tileChar == 'D') {
+				
 					for (DoorTile dT : doors) {
 						if (dT.getPosX() == i && dT.getPosY() == j) {
 							arrWorld[j][i] = dT;
