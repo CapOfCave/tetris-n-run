@@ -38,7 +38,7 @@ public abstract class Panel extends JPanel implements Playable {
 		tetroTypes = level.getTetroTypes();
 		tetroDrawPositions = new ArrayList<>();
 		for (int i = 0; i < tetroTypes.size(); i++) {
-			tetroDrawPositions.add(new Point(972, i * 100 + 72));
+			tetroDrawPositions.add(new Point(1050, i * 100 + 72));
 		}
 	}
 
