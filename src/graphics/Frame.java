@@ -1,8 +1,10 @@
 package graphics;
 
 import java.awt.CardLayout;
+import java.io.File;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import data.RawPlayer;
 import input.KeyHandler;
@@ -10,6 +12,8 @@ import loading.LevelLoader;
 import loading.RawPlayerLoader;
 import loading.RawPlayerSaver;
 import logics.GameLoop;
+import logics.Inventory;
+import logics.worlds.World;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -25,6 +29,7 @@ public class Frame extends JFrame {
 	private GameLoop gameLoop;
 	private char nextLevel;
 	private int levelSolved = 3;
+	private boolean inOverworld = true;
 	public static final int BLOCKSIZE = 45;
 
 	private KeyHandler keyHandler;
@@ -40,6 +45,7 @@ public class Frame extends JFrame {
 		
 		rawPlayer = RawPlayerLoader.readRawPlayer("C:\\JavaEclipse\\Player.txt");
 		rawPlayer.init();
+		
 		
 		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer),
 				keyHandler, this, rawPlayer);
@@ -58,7 +64,13 @@ public class Frame extends JFrame {
 
 	public void changeToOverworld(boolean died, RawPlayer rawPlayer) {
 		
+		
 		RawPlayerSaver.writePlayer("C:\\JavaEclipse\\Player.txt", rawPlayer);
+		
+		if(!died) {
+			File file = new File("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+			file.delete();
+		}
 		
 		if (((int) nextLevel - 96) > levelSolved && !died)
 			levelSolved = ((int) nextLevel - 96);
@@ -69,11 +81,15 @@ public class Frame extends JFrame {
 		add(oPanel);
 		remove(lPanel);
 		gameLoop.changePlayable(oPanel);
+		inOverworld = true;
 
 	}
 
 	public void startLevel() {
 		if (Character.isLowerCase(nextLevel)) {
+			File file = new File("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+			file.delete();
+			
 			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer),
 					keyHandler, this, rawPlayer);
 
@@ -81,6 +97,22 @@ public class Frame extends JFrame {
 			remove(oPanel);
 			gameLoop.changePlayable(lPanel);
 		}
+	}
+	
+	public void swithLevel(String path) {
+		
+			GameWorldPanel tempPanel = lPanel;
+			
+			lPanel = new GameWorldPanel(LevelLoader.loadLevel(path, this, rawPlayer),
+					keyHandler, this, rawPlayer);
+			
+			
+
+			add(lPanel);
+			remove(tempPanel);
+			gameLoop.changePlayable(lPanel);
+			
+		
 	}
 
 	public char getNextLevel() {

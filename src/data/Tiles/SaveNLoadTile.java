@@ -3,6 +3,7 @@ package data.Tiles;
 import java.awt.Graphics;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import graphics.Frame;
 import loading.ImageLoader;
@@ -28,11 +29,20 @@ public class SaveNLoadTile extends Tile{
 				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
 	}
 	
+	
 	@Override
-	public void eventWhenEntering() {
-		super.eventWhenEntering();
+	public void interact() {
+		super.interact();
 		
-		world.save("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves", "saveNLodeTile.txt");
+		File file = new File("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+		
+		
+		if(!file.exists()) {
+			world.save("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves", "saveNLodeTile.txt");
+			canLoad = true;
+		}else {
+			frame.swithLevel("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+		}
 	}
 	
 	
