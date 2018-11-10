@@ -262,18 +262,18 @@ public abstract class LivingEntity extends Entity {
 			animation_key = "walk" + rotation / 90;
 		}
 		akt_animation = anims.get(animation_key);
-		// if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
-		// rotation = 315; // oben links
-		// } else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight)
-		// {
-		// rotation = 225; // unten links
-		// } else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight)
-		// {
-		// rotation = 135; // unten rechts
-		// } else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight)
-		// {
-		// rotation = 45; // oben rechts
-		// }
+		 if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
+		 rotation = 315; // oben links
+		 } else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight)
+		 {
+		 rotation = 225; // unten links
+		 } else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight)
+		 {
+		 rotation = 135; // unten rechts
+		 } else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight)
+		 {
+		 rotation = 45; // oben rechts
+		 }
 	}
 
 	protected boolean attackReady() {

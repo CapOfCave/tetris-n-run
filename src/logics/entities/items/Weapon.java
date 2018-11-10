@@ -23,7 +23,6 @@ public class Weapon extends Item {
 	private int damage;
 	
 
-	public static double tmpx, tmpy;
 
 	public Weapon(World world, int damage, String imgPath, Point imgOffset, Point imgHitOffset, double hitWidth,
 			double theta, double range, int cooldownTicks) {
@@ -120,8 +119,6 @@ public class Weapon extends Item {
 		double trfx = nullx + dist * Math.cos(Math.toRadians(alpha - angleDeg));
 		double trfy = nully + dist * Math.sin(Math.toRadians(alpha - angleDeg));
 
-		tmpx = trfx;
-		tmpy = trfy;
 
 		double bx = nullx + Math.cos(Math.toRadians(theta / 2)) * range;
 		double by1 = nully - Math.sin(Math.toRadians(theta / 2)) * range;
