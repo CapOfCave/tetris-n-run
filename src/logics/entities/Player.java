@@ -48,7 +48,6 @@ public class Player extends LivingEntity {
 		inventory = rawPlayer.getInventory();
 
 		inventory.setWorld(world);
-
 	}
 
 	@Override

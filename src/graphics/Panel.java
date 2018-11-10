@@ -48,7 +48,6 @@ public abstract class Panel extends JPanel implements Playable {
 		this.fps = fps;
 		this.ups = ups;
 		repaint();
-
 	}
 
 	@Override
