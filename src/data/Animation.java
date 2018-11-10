@@ -31,9 +31,11 @@ public class Animation {
 	public BufferedImage getImage() {
 		return frames.get((index % (frames.size() * animTicks)) / animTicks);
 	}
+
 	public int getOffsetX() {
 		return offsets.get((index % (frames.size() * animTicks)) / animTicks).x;
 	}
+
 	public int getOffsetY() {
 		return offsets.get((index % (frames.size() * animTicks)) / animTicks).y;
 	}
@@ -44,7 +46,6 @@ public class Animation {
 
 	public void setFrame(int animFrame) {
 		index = animFrame * animTicks;
-
 	}
 
 	@Override
@@ -52,15 +53,15 @@ public class Animation {
 		return "Animation" + frames.toString();
 	}
 
-	public int getAnimFrame() {
-		return index;
+	public int getAktIndex() {
+		return index / animTicks;
 	}
 
-	public int getAnimTicks() {
+	public int getAnimLengthTicks() {
 		return animTicks;
 	}
 
-	public int getFrameNumber() {
+	public int getFrameAmount() {
 		return frames.size();
 	}
 }

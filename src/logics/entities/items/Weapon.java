@@ -13,7 +13,6 @@ import logics.worlds.World;
 public class Weapon extends Item {
 
 	private static final long serialVersionUID = 1L;
-	
 
 	// stats
 	private double hitWidth;
@@ -21,8 +20,6 @@ public class Weapon extends Item {
 	private double range;
 	private int cooldownTicks = 50;
 	private int damage;
-	
-
 
 	public Weapon(World world, int damage, String imgPath, Point imgOffset, Point imgHitOffset, double hitWidth,
 			double theta, double range, int cooldownTicks) {
@@ -39,21 +36,21 @@ public class Weapon extends Item {
 	@Override
 	public void init() {
 		super.init();
-		//anims = AnimationLoader.loadAnimations(imgPath);
+		// anims = AnimationLoader.loadAnimations(imgPath);
 		akt_animation = anims.get(anims.keySet().toArray()[0]);
+		cooldownTicks = anims.get("hit0").getAnimLengthTicks() * anims.get("hit0").getFrameAmount();
 	}
 
 	public void draw(Graphics g, int x, int y, String animkey, int animFrame) {
 
 		akt_animation = anims.get(animkey);
 		akt_animation.setFrame(animFrame);
-
 		g.drawImage(akt_animation.getImage(), x + akt_animation.getOffsetX(), y + akt_animation.getOffsetY(), null);
 
 	}
 
 	public void tick() {
-		
+
 	}
 
 	@Override
@@ -118,7 +115,6 @@ public class Weapon extends Item {
 		double trfx = nullx + dist * Math.cos(Math.toRadians(alpha - angleDeg));
 		double trfy = nully + dist * Math.sin(Math.toRadians(alpha - angleDeg));
 
-
 		double bx = nullx + Math.cos(Math.toRadians(theta / 2)) * range;
 		double by1 = nully - Math.sin(Math.toRadians(theta / 2)) * range;
 		double by2 = nully + Math.sin(Math.toRadians(theta / 2)) * range;
@@ -160,6 +156,5 @@ public class Weapon extends Item {
 	public void setCooldownTicks(int cooldownTicks) {
 		this.cooldownTicks = cooldownTicks;
 	}
-	
-	
+
 }

@@ -152,8 +152,7 @@ public abstract class LivingEntity extends Entity {
 			// rechter edgecut
 			if (!isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed, Frame.BLOCKSIZE / 2 - 1)) {
 				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed,
-						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100)
-						&& !wantsToGoRight) {
+						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoRight) {
 					move_contact_solid(1);
 				} else {
 					vSpeed = 0;
@@ -174,8 +173,7 @@ public abstract class LivingEntity extends Entity {
 			}
 			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed, Frame.BLOCKSIZE / 2 - 1)) {
 				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed,
-						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100)
-						&& !wantsToGoRight) {
+						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoRight) {
 					move_contact_solid(1);
 
 				} else {
@@ -261,19 +259,20 @@ public abstract class LivingEntity extends Entity {
 		} else {
 			animation_key = "walk" + rotation / 90;
 		}
-		akt_animation = anims.get(animation_key);
-		 if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
-		 rotation = 315; // oben links
-		 } else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight)
-		 {
-		 rotation = 225; // unten links
-		 } else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight)
-		 {
-		 rotation = 135; // unten rechts
-		 } else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight)
-		 {
-		 rotation = 45; // oben rechts
-		 }
+		if (anims.get(animation_key) != akt_animation) {
+			akt_animation = anims.get(animation_key);
+			akt_animation.reset();
+		}
+
+		if (wantsToGoUp && wantsToGoLeft && !wantsToGoDown && !wantsToGoRight) {
+			rotation = 315; // oben links
+		} else if (!wantsToGoUp && wantsToGoLeft && wantsToGoDown && !wantsToGoRight) {
+			rotation = 225; // unten links
+		} else if (!wantsToGoUp && !wantsToGoLeft && wantsToGoDown && wantsToGoRight) {
+			rotation = 135; // unten rechts
+		} else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
+			rotation = 45; // oben rechts
+		}
 	}
 
 	protected boolean attackReady() {
@@ -357,6 +356,5 @@ public abstract class LivingEntity extends Entity {
 	public void setMaxSpeed(double maxSpeed) {
 		this.maxSpeed = maxSpeed;
 	}
-	
-	
+
 }
