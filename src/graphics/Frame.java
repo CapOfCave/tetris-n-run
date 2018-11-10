@@ -65,9 +65,10 @@ public class Frame extends JFrame {
 	public void changeToOverworld(boolean died, RawPlayer rawPlayer) {
 		
 		
-		RawPlayerSaver.writePlayer("C:\\JavaEclipse\\Player.txt", rawPlayer);
+		
 		
 		if(!died) {
+			RawPlayerSaver.writePlayer("C:\\JavaEclipse\\Player.txt", rawPlayer);
 			File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
 			file.delete();
 		}
