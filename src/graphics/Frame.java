@@ -68,7 +68,7 @@ public class Frame extends JFrame {
 		RawPlayerSaver.writePlayer("C:\\JavaEclipse\\Player.txt", rawPlayer);
 		
 		if(!died) {
-			File file = new File("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+			File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
 			file.delete();
 		}
 		
@@ -87,7 +87,7 @@ public class Frame extends JFrame {
 
 	public void startLevel() {
 		if (Character.isLowerCase(nextLevel)) {
-			File file = new File("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+			File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
 			file.delete();
 			
 			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer),

@@ -34,14 +34,14 @@ public class SaveNLoadTile extends Tile{
 	public void interact() {
 		super.interact();
 		
-		File file = new File("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
 		
 		
 		if(!file.exists()) {
-			world.save("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves", "saveNLodeTile.txt");
+			world.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "saveNLodeTile.txt");
 			canLoad = true;
 		}else {
-			frame.swithLevel("C:\\Users\\Marius\\AppData\\Roaming\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+			frame.swithLevel(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
 		}
 	}
 	
