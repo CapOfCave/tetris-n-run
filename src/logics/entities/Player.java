@@ -31,7 +31,7 @@ public class Player extends LivingEntity {
 		super(world, anims);
 
 		akt_animation = anims.get("walk1");
-		
+
 	}
 
 	public Player(World world, int playerX, int playerY, HashMap<String, Animation> anims, RawPlayer rawPlayer) {
@@ -46,7 +46,7 @@ public class Player extends LivingEntity {
 		brake = rawPlayer.getAcc();
 		maxSpeed = rawPlayer.getMaxSpeed();
 		inventory = rawPlayer.getInventory();
-		
+
 		inventory.setWorld(world);
 
 	}
@@ -59,7 +59,8 @@ public class Player extends LivingEntity {
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
 				interpolY - world.cameraY() + akt_animation.getOffsetY(), 55, 55, null);
 		if (activeWeapon != null) {
-			activeWeapon.draw(g,  interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key, akt_animation.getAktIndex());
+			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
+					akt_animation.getAktIndex());
 		}
 
 	}
@@ -100,7 +101,7 @@ public class Player extends LivingEntity {
 	}
 
 	private void checkActionPressEvent() {
-		if(actionPressed) {
+		if (actionPressed) {
 			world.actionPressed(x, y, rotation);
 		}
 	}
@@ -124,7 +125,7 @@ public class Player extends LivingEntity {
 	}
 
 	public void hit() {
-		
+
 		if (activeWeapon != null && attackReady()) {
 			activeWeapon.hit();
 			hitTicks += activeWeapon.getCooldownTicks();
@@ -185,5 +186,10 @@ public class Player extends LivingEntity {
 		this.inventory = inventory;
 	}
 
-	
+	public void resetActionPressed() {
+
+		world.getKeyHandler().setActionpressed(false);
+		actionPressed = false;
+	}
+
 }

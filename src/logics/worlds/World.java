@@ -401,9 +401,6 @@ public abstract class World {
 			}
 		}
 		// Tiles
-		System.out
-				.println(tileWorld[(((int) x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE)][(((int) y + Frame.BLOCKSIZE / 2)
-						/ Frame.BLOCKSIZE)]);
 		tileWorld[((int) y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE][((int) x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE]
 				.interact();
 
