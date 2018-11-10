@@ -48,8 +48,7 @@ public class Weapon extends Item {
 		akt_animation = anims.get(animkey);
 		akt_animation.setFrame(animFrame);
 
-		g.drawImage(akt_animation.getImage(), x + akt_animation.getOffsetX(), y + akt_animation.getOffsetY(), Frame.BLOCKSIZE,
-				Frame.BLOCKSIZE, null);
+		g.drawImage(akt_animation.getImage(), x + akt_animation.getOffsetX(), y + akt_animation.getOffsetY(), null);
 
 	}
 
