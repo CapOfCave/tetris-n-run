@@ -3,6 +3,7 @@ package graphics;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.ConcurrentModificationException;
 
 import data.DrawAndSortable;
 
@@ -90,6 +91,7 @@ public class Renderer {
 
 	public void draw(Graphics g, float interpolation) {
 
+		try {
 		if (drawable1) {
 			for (DrawAndSortable das : drawables1) {
 				das.draw(g, interpolation);
@@ -99,6 +101,8 @@ public class Renderer {
 				das.draw(g, interpolation);
 			}
 		}
-
+		} catch(ConcurrentModificationException ex) {
+			System.err.println("Fehler beim Rendern"); //TODO remove
+		}
 	}
 }

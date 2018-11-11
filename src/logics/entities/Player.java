@@ -3,6 +3,7 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ public class Player extends LivingEntity {
 	private Weapon activeWeapon;
 	private Tile akt_Tile;
 	private boolean actionPressed;
+	private MovingBlock movingBlockInHand = null;
+	private Point movingBlockOffset;
 
 	public Player(World world, HashMap<String, Animation> anims, RawPlayer rawPlayer) {
 		super(world, anims);
@@ -70,7 +73,10 @@ public class Player extends LivingEntity {
 
 	}
 
-	public void drawDebug(Graphics g, int interpolX, int interpolY) {
+	@Override
+	public void drawDebug(Graphics g, float interpolation) {
+		int interpolX = (int) ((x - lastX) * interpolation + lastX);
+		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 		// Player hitbox
 		g.setColor(Color.ORANGE);
 		g.setColor(Color.WHITE);
@@ -93,6 +99,8 @@ public class Player extends LivingEntity {
 		checkActionPressEvent();
 		move();
 		checkTile();
+		if (movingBlockInHand != null)
+			movingBlockInHand.setPosition(x, y);
 
 		if (activeWeapon != null)
 			activeWeapon.tick();
@@ -101,7 +109,12 @@ public class Player extends LivingEntity {
 
 	private void checkActionPressEvent() {
 		if (actionPressed) {
-			world.actionPressed(x, y, rotation);
+			if (movingBlockInHand != null) {
+				movingBlockInHand.unBind();
+				movingBlockInHand = null;
+			} else {
+				world.actionPressed(x, y, rotation);
+			}
 		}
 	}
 
@@ -189,6 +202,15 @@ public class Player extends LivingEntity {
 
 		world.getKeyHandler().setActionpressed(false);
 		actionPressed = false;
+	}
+
+	public void setMovingBlock(MovingBlock movingBlock) {
+		this.movingBlockInHand = movingBlock;
+		this.movingBlockOffset = new Point((int) (movingBlock.getX() - x), (int) (movingBlock.getY() - y));
+	}
+
+	public Point getMovingBlockOffset() {
+		return movingBlockOffset;
 	}
 
 }

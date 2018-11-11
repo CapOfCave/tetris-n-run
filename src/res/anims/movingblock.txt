@@ -1,0 +1,3 @@
+pics500 wall = "/res/blocks/block1.png"
+
+anim normal = wall.0;0;-45

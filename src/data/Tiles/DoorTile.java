@@ -45,7 +45,7 @@ public class DoorTile extends Tile {
 		bottomPart = new DrawAndSortable() {
 
 			public double getHeight() {
-				return DoorTile.this.getHeight() + 1.1;
+				return DoorTile.this.getHeight() + 1;
 			}
 
 			@Override

@@ -25,7 +25,7 @@ public class Pics {
 		amount = img.getWidth() / width;
 		if (amount == 0) {
 			amount = 1;
-			width = img.getWidth();
+			this.width = img.getWidth();
 		}
 	}
 

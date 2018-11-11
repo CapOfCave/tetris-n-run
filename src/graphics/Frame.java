@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.io.File;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import data.RawPlayer;
 import input.KeyHandler;
@@ -12,8 +11,6 @@ import loading.LevelLoader;
 import loading.RawPlayerLoader;
 import loading.RawPlayerSaver;
 import logics.GameLoop;
-import logics.Inventory;
-import logics.worlds.World;
 
 /**
  * @author Lars Created on 05.08.2018

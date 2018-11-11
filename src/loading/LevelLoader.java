@@ -21,6 +21,7 @@ import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
 import logics.entities.Entity;
+import logics.entities.MovingBlock;
 import logics.entities.Switch;
 import logics.entities.items.Item;
 
@@ -152,8 +153,11 @@ public class LevelLoader {
 					if (type.equals("switch")) {
 						entities.add(new Switch(null, x * Frame.BLOCKSIZE, y * Frame.BLOCKSIZE,
 								AnimationLoader.loadAnimations(animPath), color));
+					} else if (type.equals("moveblock")) {
+						entities.add(new MovingBlock(null, x * Frame.BLOCKSIZE, y * Frame.BLOCKSIZE,
+								AnimationLoader.loadAnimations(animPath)));
 					} else {
-						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y+ ")");
+						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y + ")");
 					}
 				} else {
 					System.err.println("Entityerstellung fehlerhaft bei [virtual](" + x + "|" + y
@@ -250,10 +254,10 @@ public class LevelLoader {
 					arrWorld[j][i] = new WallTile(tileChar, i, j, frame);
 				} else if (tileChar == '0') {
 					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
-				}else if(tileChar == '2') {
-					arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j,false, true, frame);
-				}else if (tileChar == 'D') {
-				
+				} else if (tileChar == '2') {
+					arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, false, true, frame);
+				} else if (tileChar == 'D') {
+
 					for (DoorTile dT : doors) {
 						if (dT.getPosX() == i && dT.getPosY() == j) {
 							arrWorld[j][i] = dT;

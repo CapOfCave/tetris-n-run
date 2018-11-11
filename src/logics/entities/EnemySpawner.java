@@ -1,10 +1,9 @@
-package logics;
+package logics.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 import graphics.Frame;
-import logics.entities.Entity;
 import logics.worlds.GameWorld;
 import logics.worlds.World;
 

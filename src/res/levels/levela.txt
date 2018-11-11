@@ -27,6 +27,9 @@ d;x=14;y=5;r=1;c=1;o=false
 d;x=14;y=7;r=1;c=0;open=true
 s;x=5;y=4;loff=2;toff=2;roff=2;boff=2;max=1;tetroonly=false;rate=10
 e;x=10;y=7;type=switch;url=/res/anims/switch.txt
+e;x=12;y=5;type=moveblock;url=/res/anims/movingblock.txt
+e;x=12;y=8;type=moveblock;url=/res/anims/movingblock.txt
+
 w;11111111111111111111111111111
 w;00110000000000100000000010001
 w;00100000000000100000001000001
