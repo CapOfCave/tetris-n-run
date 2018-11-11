@@ -13,14 +13,12 @@ import loading.ImageLoader;
 import logics.InHandHandler;
 import logics.worlds.GameWorld;
 
-
 /**
  * @author Lars Created on 05.08.2018
  */
 public class GameWorldPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
-	
 
 	private InHandHandler inHandHandler;
 	private MouseHandler mouseHandler;
@@ -44,19 +42,17 @@ public class GameWorldPanel extends Panel {
 		g.fillRect(0, 0, width, height);
 		g.setFont(new Font("TimesNewRoman", 1, 44));
 		g.setColor(Color.BLACK);
-		
-		
-		
-		Graphics2D previewGraphics = (Graphics2D) g.create( 54, 680, 1000, 1000);
+
+		Graphics2D previewGraphics = (Graphics2D) g.create(54, 680, 1000, 1000);
 		world.drawPlayerPreview(previewGraphics);
-		
+
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		Graphics2D inventoryGraphics = (Graphics2D) g.create(inventoryPanel.x, inventoryPanel.y, inventoryPanel.width,
 				inventoryPanel.height);
 
 		world.draw(gameGraphics, interpolation, debugMode);
 		inHandHandler.drawPreview(g, debugMode);
-//		world.drawPlayer(gameGraphics, interpolation);
+		// world.drawPlayer(gameGraphics, interpolation);
 		((GameWorld) world).drawInventory(inventoryGraphics);
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, 30, 0);
@@ -64,14 +60,18 @@ public class GameWorldPanel extends Panel {
 		if (debugMode) {
 			drawDebug(gameGraphics);
 		}
-		
+
 		g.drawImage(ImageLoader.loadImage("/res/backLevel.png"), 0, 0, 1300, 900, null);
 
+		g.setColor(Color.BLACK);
 		g.drawString("Overworld", 1020, 585);
-		
-		
+		String[] text = frame.getText();
+		g.setFont(new Font("Timesnewroman", 0, 18));
+		if (text.length > 0) {
+			for (int i = 0; i < text.length; i++) {
+				g.drawString(text[i], 920, 710 + (i * 21));
+			}
+		}
 	}
-
-	
 
 }

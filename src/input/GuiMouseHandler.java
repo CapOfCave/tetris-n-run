@@ -49,6 +49,10 @@ public class GuiMouseHandler implements MouseListener {
 			// playbutton
 			frame.startLevel();
 		}
+		if (x >= 1008 && y >= 325 && x < 1255 && y < 425) {
+			// playbutton
+			frame.loadLevel();
+		}
 	}
 
 }

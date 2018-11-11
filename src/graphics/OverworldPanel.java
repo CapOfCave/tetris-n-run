@@ -69,8 +69,16 @@ public class OverworldPanel extends Panel {
 			g.setColor(Color.GRAY);
 			g.drawString("Kein Level", 1020, 150);
 			g.drawString("Play", 1080, 290);
-			
-			
+		}
+		g.setColor(Color.BLACK);
+		
+		g.drawString("Load", 1080, 400);
+		String[] text = frame.getText();
+		g.setFont(new Font("Timesnewroman", 0, 18));
+		if(text.length > 0){
+		for(int i = 0; i < text.length; i++) {
+			g.drawString(text[i], 920, 710 + (i * 21));
+		}
 		}
 
 	}
