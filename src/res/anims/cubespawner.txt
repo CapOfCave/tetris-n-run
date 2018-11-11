@@ -1,0 +1,3 @@
+pics190 p = "/res/sword-in-hand.png"
+
+anim norm = p.0

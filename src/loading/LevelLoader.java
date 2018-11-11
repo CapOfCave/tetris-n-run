@@ -20,6 +20,7 @@ import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
+import logics.entities.CubeSpawner;
 import logics.entities.Entity;
 import logics.entities.MovingBlock;
 import logics.entities.Switch;
@@ -131,6 +132,9 @@ public class LevelLoader {
 				double x = -1;
 				double y = -1;
 				String animPath = null;
+				double cx = -1;
+				double cy = -1;
+				String canimPath = null;
 				int color = 0;
 
 				for (String str : strSplit) {
@@ -144,11 +148,18 @@ public class LevelLoader {
 						type = str.substring(str.indexOf("=") + 1);
 					} else if (str.startsWith("path=") || str.startsWith("url=")) {
 						animPath = str.substring(str.indexOf("=") + 1);
+					} else if (str.startsWith("cx=")) {
+						cx = Integer.parseInt(str.substring(3));
+					} else if (str.startsWith("cy=")) {
+						cy = Integer.parseInt(str.substring(3));
+					} else if (str.startsWith("cpath=") || str.startsWith("curl=")) {
+						canimPath = str.substring(str.indexOf("=") + 1);
 					} else if (str.startsWith("color=") || str.startsWith("c=")) {
 						color = Integer.parseInt(str.substring(str.indexOf("=") + 1));
 					}
 
 				}
+
 				if (animPath != null && type != null && x >= 0 && y >= 0) {
 					if (type.equals("switch")) {
 						entities.add(new Switch(null, x * Frame.BLOCKSIZE, y * Frame.BLOCKSIZE,
@@ -156,14 +167,17 @@ public class LevelLoader {
 					} else if (type.equals("moveblock")) {
 						entities.add(new MovingBlock(null, x * Frame.BLOCKSIZE, y * Frame.BLOCKSIZE,
 								AnimationLoader.loadAnimations(animPath)));
+					} else if (type.equals("moveblockspawner")) {
+						entities.add(new CubeSpawner(null, x * Frame.BLOCKSIZE, y * Frame.BLOCKSIZE,
+								AnimationLoader.loadAnimations(animPath), cx * Frame.BLOCKSIZE, cy * Frame.BLOCKSIZE,
+								AnimationLoader.loadAnimations(canimPath)));
 					} else {
-						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y + ")");
+						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y + "): \"" + type + "\"");
 					}
 				} else {
 					System.err.println("Entityerstellung fehlerhaft bei [virtual](" + x + "|" + y
 							+ "). Grund: animPath != null: " + (animPath != null) + " type != null: " + (type != null));
 				}
-
 			} else if (nextLine.startsWith("d")) {
 				int x = -100;
 				int y = -100;

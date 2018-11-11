@@ -1,6 +1,5 @@
 package logics.worlds;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -61,6 +60,8 @@ public abstract class World {
 	protected ArrayList<EnemySpawner> spawner;
 	protected ArrayList<Entity> otherEntities;
 	protected ArrayList<Entity> allEntities;
+	private ArrayList<Entity> toAdd;
+	private ArrayList<Entity> toRemove;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 
@@ -70,6 +71,8 @@ public abstract class World {
 		this.keyHandler = keyHandler;
 		this.frame = frame;
 
+		toAdd = new ArrayList<>();
+		toRemove = new ArrayList<>();
 		renderer = new Renderer();
 		tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
@@ -253,6 +256,7 @@ public abstract class World {
 				AnimationLoader.loadAnimations("/res/anims/enemyAnims.txt"));
 		enemies.add(e);
 		allEntities.add(e);
+		renderer.addDrawable(e);
 	}
 
 	public void addSpawner(int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
@@ -261,6 +265,7 @@ public abstract class World {
 				spawnOffsetBottom, maxEnemies, enemyOnlyOnTetros, spawnRate, start);
 		spawner.add(e);
 		allEntities.add(e);
+		renderer.addDrawable(e);
 	}
 
 	private void addSpawner(RawSpawner rS) {
@@ -401,6 +406,16 @@ public abstract class World {
 		// Tiles
 		tileWorld[((int) y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE][((int) x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE]
 				.interact();
+		for (Entity e : toAdd) {
+			allEntities.add(e);
+			renderer.addDrawable(e);
+		}
+		toAdd.clear();
+		for (Entity e : toRemove) {
+			allEntities.remove(e);
+			renderer.removeDrawable(e);
+		}
+		toRemove.clear();
 
 	}
 
@@ -420,6 +435,16 @@ public abstract class World {
 
 	public void drawInventory(Graphics2D inventoryGraphics) {
 		player.drawInventory(inventoryGraphics);
+	}
+
+	public void removeEntity(Entity entity) {
+		toRemove.add(entity);
+
+	}
+
+	public void addEntity(Entity entity) {
+		toAdd.add(entity);
+
 	}
 
 }

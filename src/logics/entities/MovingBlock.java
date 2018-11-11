@@ -76,4 +76,8 @@ public class MovingBlock extends Entity {
 		return direction;
 	}
 
+	public void kill() {
+		world.removeEntity(this);
+	}
+
 }
