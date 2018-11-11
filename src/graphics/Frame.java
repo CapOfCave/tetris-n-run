@@ -27,6 +27,7 @@ public class Frame extends JFrame {
 	private char nextLevel;
 	private int levelSolved = 3;
 	private boolean inOverworld = true;
+	private String[] text;
 	public static final int BLOCKSIZE = 45;
 
 	private KeyHandler keyHandler;
@@ -38,14 +39,21 @@ public class Frame extends JFrame {
 
 	public Frame() {
 		keyHandler = new KeyHandler();
-		
-		
+		text = new String[7];
+		text[0] = "Satz1";
+		text[1] = "Satz2";
+		text[2] = "Satz3";
+		text[3] = "Satz4";
+		text[4] = "Satz5";
+		text[5] = "Satz6";
+		text[6] = "Satz7";
+
 		rawPlayer = RawPlayerLoader.readRawPlayer("C:\\JavaEclipse\\Player.txt");
 		rawPlayer.init();
-		
-		
-		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer),
-				keyHandler, this, rawPlayer);
+
+		oPanel = new OverworldPanel(
+				LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
+				this, rawPlayer);
 		setLayout(new CardLayout());
 		add(oPanel);
 		gameLoop = new GameLoop(oPanel);
@@ -60,21 +68,19 @@ public class Frame extends JFrame {
 	}
 
 	public void changeToOverworld(boolean died, RawPlayer rawPlayer) {
-		
-		
-		
-		
-		if(!died) {
+		clearText();
+		if (!died) {
 			RawPlayerSaver.writePlayer("C:\\JavaEclipse\\Player.txt", rawPlayer);
 			File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
 			file.delete();
 		}
-		
+
 		if (((int) nextLevel - 96) > levelSolved && !died)
 			levelSolved = ((int) nextLevel - 96);
 
-		oPanel = new OverworldPanel(LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer),
-				keyHandler, this, rawPlayer);
+		oPanel = new OverworldPanel(
+				LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
+				this, rawPlayer);
 
 		add(oPanel);
 		remove(lPanel);
@@ -84,33 +90,64 @@ public class Frame extends JFrame {
 	}
 
 	public void startLevel() {
+		clearText();
 		if (Character.isLowerCase(nextLevel)) {
 			File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
 			file.delete();
-			
-			lPanel = new GameWorldPanel(LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer),
-					keyHandler, this, rawPlayer);
+
+			lPanel = new GameWorldPanel(
+					LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer), keyHandler, this,
+					rawPlayer);
 
 			add(lPanel);
 			remove(oPanel);
 			gameLoop.changePlayable(lPanel);
 		}
 	}
-	
+
 	public void swithLevel(String path) {
-		
-			GameWorldPanel tempPanel = lPanel;
-			
-			lPanel = new GameWorldPanel(LevelLoader.loadLevel(path, this, rawPlayer),
+		clearText();
+		GameWorldPanel tempPanel = lPanel;
+
+		lPanel = new GameWorldPanel(LevelLoader.loadLevel(path, this, rawPlayer), keyHandler, this, rawPlayer);
+
+		add(lPanel);
+		remove(tempPanel);
+		gameLoop.changePlayable(lPanel);
+
+	}
+
+	public void loadLevel() {
+		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+		System.out.println("load");
+		if (file.exists()) {
+			lPanel = new GameWorldPanel(
+					LevelLoader.loadLevel(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt",
+							this, rawPlayer),
 					keyHandler, this, rawPlayer);
-			
-			
 
 			add(lPanel);
-			remove(tempPanel);
+			remove(oPanel);
 			gameLoop.changePlayable(lPanel);
-			
-		
+		} else {
+			addLineToText("da kein Zwischenstad existiert.");
+			addLineToText("Es kann kein Level geladen werden, ");
+
+		}
+	}
+
+	public void addLineToText(String line) {
+		for (int i = text.length - 1; i > 0; i--) {
+			text[i] = text[i - 1];
+		}
+		text[0] = line;
+	}
+
+	public void clearText() {
+		for (int i = 0; i < text.length; i++) {
+			text[i] = "";
+		}
+
 	}
 
 	public char getNextLevel() {
@@ -119,6 +156,14 @@ public class Frame extends JFrame {
 
 	public void setNextLevel(char nextLevel) {
 		this.nextLevel = nextLevel;
+	}
+
+	public String[] getText() {
+		return text;
+	}
+
+	public void setText(String[] text) {
+		this.text = text;
 	}
 
 }

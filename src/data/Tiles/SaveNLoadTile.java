@@ -12,7 +12,6 @@ import loading.ImageLoader;
 public class SaveNLoadTile extends Tile{
 	
 	
-	boolean canLoad = false;
 	BufferedImage image3d;
 
 	public SaveNLoadTile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, Frame frame) {
@@ -38,9 +37,11 @@ public class SaveNLoadTile extends Tile{
 		
 		
 		if(!file.exists()) {
+			frame.addLineToText("Spielstand wurde gespeichert.");
 			world.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "saveNLodeTile.txt");
-			canLoad = true;
+
 		}else {
+			frame.addLineToText("Spielstand wurde geladen.");
 			frame.swithLevel(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
 		}
 	}
