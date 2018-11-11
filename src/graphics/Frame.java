@@ -1,6 +1,9 @@
 package graphics;
 
 import java.awt.CardLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -64,12 +67,24 @@ public class Frame extends JFrame {
 		gameLoop = new GameLoop(oPanel);
 		addKeyListener(keyHandler);
 		setResizable(false);
+		setDefaultCloseOperation(0);
 		pack();
 		setDefaultCloseOperation(3);
 		setLocationRelativeTo(null);
 		gameLoop.start();
 		setVisible(true);
 
+		addWindowListener(new WindowAdapter() 
+		 {		
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if(inOverworld)
+					oPanel.save();
+				
+			}
+		});
+		
+		
 	}
 
 	public void changeToOverworld(boolean died, RawPlayer rawPlayer) {
@@ -78,12 +93,14 @@ public class Frame extends JFrame {
 		if (!died) {
 			RawPlayerSaver.writePlayer("C:\\JavaEclipse\\Player.txt", rawPlayer);
 			File file2 = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
-			file1.delete();
 			file2.delete();
 		}
 
-		if (((int) nextLevel - 96) > levelSolved && !died)
+		if (((int) nextLevel - 96) > levelSolved && !died) {
 			levelSolved = ((int) nextLevel - 96);
+			file1.delete();
+		}
+			
 
 		
 		oPanel = new OverworldPanel(

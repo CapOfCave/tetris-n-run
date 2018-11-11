@@ -83,6 +83,14 @@ public class OverworldPanel extends Panel {
 
 	}
 
+	public void save() {
+		world.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "overworldSave.txt");
+		System.out.println("save");
+		
+	}
+	
+	
+
 	
 
 }
