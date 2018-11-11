@@ -315,11 +315,13 @@ public abstract class LivingEntity extends Entity {
 
 	private boolean isRelAccessible(double dy, double dx) {
 
+		//world bounds
 		if ((x + Frame.BLOCKSIZE / 2 + dx) >= world.getMaxX() || (y + Frame.BLOCKSIZE / 2 + dy) >= world.getMaxY()
 				|| (x + Frame.BLOCKSIZE / 2 + dx) < 0 || (y + Frame.BLOCKSIZE / 2 + dy) < 0) {
 			return false;
 		}
 
+		//tetro or walkable tile
 		return (world.isTetroAt(getTileY(dy), getTileX(dx))
 				&& world.getTileAt(getTileY(dy), getTileX(dx)).isWalkableWithTetro())
 				|| world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();

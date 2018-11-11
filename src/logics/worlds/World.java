@@ -21,18 +21,16 @@ import input.KeyHandler;
 import loading.AnimationLoader;
 import loading.LevelSaver;
 import logics.Camera;
-import logics.EnemySpawner;
 import logics.GameLoop;
 import logics.entities.Enemy;
+import logics.entities.EnemySpawner;
 import logics.entities.Entity;
 import logics.entities.Player;
 import logics.entities.items.Item;
-import tools.Vector;
-import tools.VektorMaths;
 
 public abstract class World {
 	private static final double min_interaction_distance = 20;
-	private static final double min_interaction_looking_distance = 60;
+	private static final double min_interaction_looking_distance = 50;
 
 	// Variablen
 	protected Rectangle graphicClip;
@@ -168,17 +166,17 @@ public abstract class World {
 	}
 
 	public void drawDebug(Graphics g, float interpolation) {
-		for (int j = 0; j < tileWorld.length; j++) {
-			for (int i = 0; i < tileWorld[j].length; i++) {
-				if (tetroWorldHitbox[j][i]) {
-					g.setColor(Color.RED);
-					g.drawRect(i * Frame.BLOCKSIZE - camera.getX(), j * Frame.BLOCKSIZE - camera.getY(),
-							Frame.BLOCKSIZE, Frame.BLOCKSIZE);
-				}
-			}
-		}
-		for (EnemySpawner eS : spawner) {
-			eS.drawDebug(g, interpolation);
+//		for (int j = 0; j < tileWorld.length; j++) {
+//			for (int i = 0; i < tileWorld[j].length; i++) {
+//				if (tetroWorldHitbox[j][i]) {
+//					g.setColor(Color.RED);
+//					g.drawRect(i * Frame.BLOCKSIZE - camera.getX(), j * Frame.BLOCKSIZE - camera.getY(),
+//							Frame.BLOCKSIZE, Frame.BLOCKSIZE);
+//				}
+//			}
+//		}
+		for (Entity e : allEntities) {
+			e.drawDebug(g, interpolation);
 		}
 	}
 
@@ -270,7 +268,7 @@ public abstract class World {
 				rS.isTetroonly(), rS.getRate(), rS.getStart());
 	}
 
-	public void save(String path,String fileName) {
+	public void save(String path, String fileName) {
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		for (Tetro t : tetros) {
 			rawTetros.add(createRawTetro(t));
@@ -396,7 +394,7 @@ public abstract class World {
 		// Entities
 		for (Entity e : allEntities) {
 			if ((Math.abs(e.getX() - x) < min_interaction_distance && Math.abs(e.getY() - y) < min_interaction_distance)
-					|| isInFront(e, x, y, rotation)) { // TODO
+					|| isInFront(e, x, y, rotation)) {
 				e.interact();
 			}
 		}
@@ -407,10 +405,14 @@ public abstract class World {
 	}
 
 	private boolean isInFront(Entity e, double x, double y, int rotation) {
-		if (((e.getX() - x) * (e.getX() - x) + (e.getX() - y) * (e.getX() - y) < min_interaction_looking_distance
-				* min_interaction_looking_distance)
-				&& Math.abs(VektorMaths.getAngleDeg(new Vector((int) x, (int) y),
-						new Vector((int) e.getX(), (int) e.getY()))) < 45) {
+		if ((e.getX() > x && e.getX() - x < min_interaction_looking_distance
+				&& Math.abs(e.getY() - y) < min_interaction_distance && rotation / 90 == 1)
+				|| (e.getX() < x && x - e.getX() < min_interaction_looking_distance
+						&& Math.abs(e.getY() - y) < min_interaction_distance && rotation / 90 == 3)
+				|| (e.getY() > y && e.getY() - y < min_interaction_looking_distance
+						&& Math.abs(e.getX() - x) < min_interaction_distance && rotation / 90 == 2)
+				|| (e.getY() < y && y - e.getY() < min_interaction_looking_distance
+						&& Math.abs(e.getX() - x) < min_interaction_distance && rotation / 90 == 0)) {
 			return true;
 		}
 		return false;

@@ -33,8 +33,6 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 		else
 			akt_animation = null;
 	}
-	
-	
 
 	public Entity(World world, double x, double y, HashMap<String, Animation> anims) {
 		this(world, anims);
@@ -71,9 +69,13 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 		this.world = world;
 	}
 
+	static double minh = Double.MAX_VALUE;
+	static double maxh = Double.MIN_VALUE;
+
 	@Override
 	public double getHeight() {
-		return y;
+		return y + (double) (hashCode()) / Integer.MAX_VALUE / 1000; //TODO priority
+
 	}
 
 	@Override
@@ -90,6 +92,10 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 	@Override
 	public void addTo(Renderer renderer) {
 		renderer.addDrawable(this);
+	}
+
+	public void drawDebug(Graphics g, float interpolation) {
+
 	}
 
 }
