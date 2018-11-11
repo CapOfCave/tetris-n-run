@@ -124,10 +124,32 @@ public class Player extends LivingEntity {
 	}
 
 	private void checkInput() {
+
 		wantsToGoUp = world.getKeyHandler().getW();
 		wantsToGoLeft = world.getKeyHandler().getA();
 		wantsToGoDown = world.getKeyHandler().getS();
 		wantsToGoRight = world.getKeyHandler().getD();
+		if (movingBlockInHand != null) {
+			int direction = movingBlockInHand.getDirection();
+			wantsToGoDown = false;
+			wantsToGoLeft = false;
+			wantsToGoRight = false;
+			wantsToGoUp = false;
+			switch (direction) {
+			case 0:
+				wantsToGoUp = world.getKeyHandler().getW();
+				break;
+			case 1:
+				wantsToGoRight = world.getKeyHandler().getD();
+				break;
+			case 2:
+				wantsToGoDown = world.getKeyHandler().getS();
+				break;
+			case 3:
+				wantsToGoLeft = world.getKeyHandler().getA();
+				break;
+			}
+		}
 		actionPressed = world.getKeyHandler().isActionPressed();
 		world.getKeyHandler().setActionpressed(false);
 	}
@@ -211,6 +233,10 @@ public class Player extends LivingEntity {
 
 	public Point getMovingBlockOffset() {
 		return movingBlockOffset;
+	}
+
+	public int getDirection() {
+		return rotation / 90;
 	}
 
 }

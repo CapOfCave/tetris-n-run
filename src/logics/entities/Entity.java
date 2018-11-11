@@ -75,7 +75,6 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 	@Override
 	public double getHeight() {
 		return y + (double) (hashCode()) / Integer.MAX_VALUE / 1000; //TODO priority
-
 	}
 
 	@Override

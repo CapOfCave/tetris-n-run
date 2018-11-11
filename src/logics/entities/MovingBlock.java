@@ -15,6 +15,7 @@ public class MovingBlock extends Entity {
 	protected double lastX, lastY;
 	protected boolean sticky = false;
 	protected Point offset = new Point(0, 0);
+	protected int direction;
 
 	public MovingBlock(World world, double x, double y, HashMap<String, Animation> anims) {
 		super(world, x, y, anims);
@@ -54,6 +55,7 @@ public class MovingBlock extends Entity {
 		world.getPlayer().setMovingBlock(this);
 		offset = world.getPlayer().getMovingBlockOffset();
 		sticky = true;
+		direction = world.getPlayer().getDirection();
 	}
 
 	public void setPosition(double x, double y) {
@@ -68,6 +70,10 @@ public class MovingBlock extends Entity {
 	public void unBind() {
 		sticky = false;
 
+	}
+
+	public int getDirection() {
+		return direction;
 	}
 
 }
