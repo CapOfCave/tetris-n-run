@@ -35,8 +35,8 @@ public class PressurePlateTile extends Tile{
 			color = 3;
 			drawColor = Color.YELLOW;
 		}
-		pictures = AnimationLoader.loadAnimations("/res/anims/switch.txt");
-		image3d = Tools.setColor(ImageLoader.loadImage("/res/blocks/switch.png"), drawColor);
+		pictures = AnimationLoader.loadAnimations("/res/anims/PressurePlate.txt");
+		image3d = Tools.setColor(ImageLoader.loadImage("/res/blocks/PressurePlate.png"), drawColor);
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class GoalTile extends Tile {
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), 55, 55, null);
+				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
 	}
 
 }
