@@ -8,18 +8,31 @@ import java.io.File;
 import graphics.Frame;
 import loading.ImageLoader;
 
+public class SaveNLoadTile extends Tile {
 
-public class SaveNLoadTile extends Tile{
-	
-	
 	BufferedImage image3d;
 
 	public SaveNLoadTile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, Frame frame) {
 		super(key, posX, posY, walkable, walkableWithTetro, frame);
-		
-	
+
 		image3d = ImageLoader.loadImage("/res/blocks/block3.png");
-		
+
+	}
+	@Override
+	public void eventWhenEntering() {
+		String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
+		int prefix = (new File(folderName).listFiles().length + 1);
+		boolean exists = false;
+		for (File f : new File(folderName).listFiles()) {
+			if (f.getName().endsWith("saveNLoadTile_" + posX + "_" + posY + ".txt")) {
+				exists = true;
+			}
+		}
+
+		if (!exists) {
+			frame.addLineToText("Spielstand wurde gespeichert.");
+			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
+		}
 	}
 
 	@Override
@@ -27,26 +40,35 @@ public class SaveNLoadTile extends Tile{
 		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
 				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
 	}
-	
-	
+
 	@Override
 	public void interact() {
 		super.interact();
-		
-		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
-		
-		
-		if(!file.exists()) {
-			frame.addLineToText("Spielstand wurde gespeichert.");
-			world.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "saveNLodeTile.txt");
+		String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
+		int prefix = (new File(folderName).listFiles().length + 1);
+		boolean exists = false;
+		File loadFile = null;
+		for (File f : new File(folderName).listFiles()) {
+			if (f.getName().endsWith("saveNLoadTile_" + posX + "_" + posY + ".txt")) {
+				exists = true;
+				loadFile = f;
+			}
+		}
 
-		}else {
+		if (!exists) {
+			frame.addLineToText("Spielstand wurde gespeichert.");
+			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
+
+		} else {
 			frame.addLineToText("Spielstand wurde geladen.");
-			frame.swithLevel(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+			frame.swichLevel(loadFile.getAbsolutePath());
+			int index = Integer.parseInt(loadFile.getName().substring(0, loadFile.getName().indexOf("save")));
+			for (File f : new File(folderName).listFiles()) {
+				if (Integer.parseInt(f.getName().substring(0, f.getName().indexOf("save"))) > index) {
+					f.delete();
+				}
+			}
 		}
 	}
-	
-	
-	
-	
+
 }

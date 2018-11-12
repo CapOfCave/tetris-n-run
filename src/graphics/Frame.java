@@ -3,7 +3,6 @@ package graphics;
 import java.awt.CardLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -55,12 +54,13 @@ public class Frame extends JFrame {
 		rawPlayer.init();
 
 		File file1 = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
-		if(file1.exists()) {
+		if (file1.exists()) {
+			oPanel = new OverworldPanel(LevelLoader.loadLevel(file1.getPath(), this, rawPlayer), keyHandler, this,
+					rawPlayer);
+		} else {
 			oPanel = new OverworldPanel(
-					LevelLoader.loadLevel(file1.getPath(), this, rawPlayer), keyHandler, this, rawPlayer);
-		}else {
-			oPanel = new OverworldPanel(
-					LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler, this, rawPlayer);
+					LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
+					this, rawPlayer);
 		}
 		setLayout(new CardLayout());
 		add(oPanel);
@@ -74,45 +74,41 @@ public class Frame extends JFrame {
 		gameLoop.start();
 		setVisible(true);
 
-		addWindowListener(new WindowAdapter() 
-		 {		
+		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if(inOverworld)
+				if (inOverworld)
 					oPanel.save();
-				
+
 			}
 		});
-		
-		
+
 	}
 
 	public void changeToOverworld(boolean died, RawPlayer rawPlayer) {
 		clearText();
-		File file1 = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
+		File overworldFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
 		if (!died) {
 			RawPlayerSaver.writePlayer("C:\\JavaEclipse\\Player.txt", rawPlayer);
-			File file2 = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
-			file2.delete();
+			deleteAll();
 		}
 
 		if (((int) nextLevel - 96) > levelSolved && !died) {
 			levelSolved = ((int) nextLevel - 96);
-			file1.delete();
+			overworldFile.delete();
 		}
-			
 
-		
 		oPanel = new OverworldPanel(
 				LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
 				this, rawPlayer);
-		
-		if(file1.exists()) {
+
+		if (overworldFile.exists()) {
+			oPanel = new OverworldPanel(LevelLoader.loadLevel(overworldFile.getPath(), this, rawPlayer), keyHandler,
+					this, rawPlayer);
+		} else {
 			oPanel = new OverworldPanel(
-					LevelLoader.loadLevel(file1.getPath(), this, rawPlayer), keyHandler, this, rawPlayer);
-		}else {
-			oPanel = new OverworldPanel(
-					LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler, this, rawPlayer);
+					LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
+					this, rawPlayer);
 		}
 
 		add(oPanel);
@@ -125,18 +121,10 @@ public class Frame extends JFrame {
 	public void startLevel() {
 		clearText();
 		if (Character.isLowerCase(nextLevel)) {
-			File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
-			file.delete();
-			
-			
-
-			
-				lPanel = new GameWorldPanel(
-						LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer), keyHandler, this,
-						rawPlayer);
-			
-			
-			
+			deleteAll();
+			lPanel = new GameWorldPanel(
+					LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer), keyHandler, this,
+					rawPlayer);
 
 			add(lPanel);
 			remove(oPanel);
@@ -144,7 +132,15 @@ public class Frame extends JFrame {
 		}
 	}
 
-	public void swithLevel(String path) {
+	private void deleteAll() {
+		File tmpSaveFolder = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves");
+		for (File f : tmpSaveFolder.listFiles()) {
+			f.delete();
+		}
+	}
+
+	// Level to level
+	public void swichLevel(String path) {
 		clearText();
 		GameWorldPanel tempPanel = lPanel;
 
@@ -157,13 +153,21 @@ public class Frame extends JFrame {
 	}
 
 	public void loadLevel() {
-		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt");
+		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves");
+		int folder_length = file.listFiles().length;
+		String path = null;
+		for (File f : file.listFiles()) {
+			if (f.getName().startsWith(folder_length + "saveNLoad")) {
+				path = f.getAbsolutePath();
+			}
+		}
+		if (path == null) {
+			System.err.println("Fehler. Pfad nicht gefunden.");
+			return;
+		}
 		System.out.println("load");
 		if (file.exists()) {
-			lPanel = new GameWorldPanel(
-					LevelLoader.loadLevel(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\saveNLodeTile.txt",
-							this, rawPlayer),
-					keyHandler, this, rawPlayer);
+			lPanel = new GameWorldPanel(LevelLoader.loadLevel(path, this, rawPlayer), keyHandler, this, rawPlayer);
 
 			add(lPanel);
 			remove(oPanel);
