@@ -65,7 +65,7 @@ public class TetroType {
 			break;
 		}
 	}
-
+	
 	public boolean[][] getHitbox() {
 		return hitbox;
 	}

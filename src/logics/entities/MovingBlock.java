@@ -30,7 +30,6 @@ public class MovingBlock extends Entity {
 
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
 				interpolY - world.cameraY() + akt_animation.getOffsetY(), null);
-
 	}
 
 	@Override
@@ -69,7 +68,6 @@ public class MovingBlock extends Entity {
 
 	public void unBind() {
 		sticky = false;
-
 	}
 
 	public int getDirection() {
@@ -77,7 +75,9 @@ public class MovingBlock extends Entity {
 	}
 
 	public void kill() {
+		unBind();
 		world.removeEntity(this);
+		
 	}
 
 }

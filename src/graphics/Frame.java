@@ -40,13 +40,13 @@ public class Frame extends JFrame {
 	public Frame() {
 		keyHandler = new KeyHandler();
 		text = new String[7];
-		text[0] = "Satz1";
-		text[1] = "Satz2";
-		text[2] = "Satz3";
-		text[3] = "Satz4";
-		text[4] = "Satz5";
-		text[5] = "Satz6";
-		text[6] = "Satz7";
+		text[0] = "";
+		text[1] = "";
+		text[2] = "";
+		text[3] = "";
+		text[4] = "";
+		text[5] = "";
+		text[6] = "";
 
 		rawPlayer = RawPlayerLoader.readRawPlayer("C:\\JavaEclipse\\Player.txt");
 		rawPlayer.init();

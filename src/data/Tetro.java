@@ -90,6 +90,6 @@ public class Tetro {
 	}
 
 	public int getRotation() {
-		return rotation;
+		return rotation % 4;
 	}
 }
