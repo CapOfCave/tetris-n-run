@@ -56,7 +56,7 @@ public class LevelSaver {
 			settings.append(";tetrofile=" + tetroFileUrl);
 		}
 		String strSettings = settings.toString();
-		if (!strSettings.equals("s")) {
+		if (!strSettings.equals("i")) {
 			outpLines.add(strSettings);
 		}
 
@@ -75,7 +75,7 @@ public class LevelSaver {
 			outpLines.add("i;x=" + i.getX() + ";y=" + i.getY() + ";t=" + i.getPath());
 		}
 
-		// doord
+		// doors
 		ArrayList<DoorTile> doors = level.getDoors();
 		for (DoorTile dT : doors) {
 			outpLines.add("d;x=" + dT.getPosX() + ";y=" + dT.getPosY() + ";r=" + dT.getRotation() + ";c=" + dT.getColor() + ";o=" + dT.isWalkable());
@@ -90,6 +90,7 @@ public class LevelSaver {
 			}
 			outpLines.add(worldLine.toString());
 		}
+		//TODO entities speichern
 		return outpLines;
 	}
 

@@ -213,9 +213,56 @@ public abstract class World {
 			placeY = (y + camera.getY() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
 		}
 		Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
-		tetros.add(tetro);
-		addTetroToHitbox(tetro, placeX, placeY, rotation);
+		if (isAllowed(tetro)) {
+			tetros.add(tetro);
+			addTetroToHitbox(tetro, placeX, placeY, rotation);
+		} else {
+			System.out.println("nicht erlaubt");
+		}
+	}
 
+	private boolean isAllowed(Tetro tetro) {
+		int virX = tetro.getX();
+		int virY = tetro.getY();
+		
+		for (int j = 0; j < tetro.getType().getHitbox().length; j++) {
+			for (int i = 0; i < tetro.getType().getHitbox()[j].length; i++) {
+				if (tetro.getType().getHitbox()[j][i]) {
+
+					switch (tetro.getRotation()) {
+					case 0:
+						if (!isTetroPlacableAt(i + virX, j + virY)) {
+							return false;
+						} else {
+							break;
+						}
+					case 1:
+						if (!isTetroPlacableAt(j + virX, -i + virY)) {
+							return false;
+						} else {
+							break;
+						}
+					case 2:
+						if (!isTetroPlacableAt(-i + virX + 3, -j + virY)) {
+							return false;
+						} else {
+							break;
+						}
+					case 3:
+						if (!isTetroPlacableAt(-j + virX + 1, i + virY)) {
+							return false;
+						} else {
+							break;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean isTetroPlacableAt(int i, int j) {
+		return tileWorld[j][i].isWalkableWithTetro() && !tetroWorldHitbox[j][i];
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {
