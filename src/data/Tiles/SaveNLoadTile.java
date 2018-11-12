@@ -18,7 +18,7 @@ public class SaveNLoadTile extends Tile{
 		super(key, posX, posY, walkable, walkableWithTetro, frame);
 		
 	
-		image3d = ImageLoader.loadImage("/res/blocks/block3.png");
+		image3d = ImageLoader.loadImage("/res/blocks/saveNLoad1.png");
 		
 	}
 
@@ -37,6 +37,7 @@ public class SaveNLoadTile extends Tile{
 		
 		
 		if(!file.exists()) {
+			image3d = ImageLoader.loadImage("/res/blocks/saveNLoad2.png");
 			frame.addLineToText("Spielstand wurde gespeichert.");
 			world.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "saveNLodeTile.txt");
 
