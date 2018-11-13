@@ -217,14 +217,14 @@ public abstract class World {
 			tetros.add(tetro);
 			addTetroToHitbox(tetro, placeX, placeY, rotation);
 		} else {
-			System.out.println("nicht erlaubt");
+			System.err.println("nicht erlaubte Platzierung");
 		}
 	}
 
 	private boolean isAllowed(Tetro tetro) {
 		int virX = tetro.getX();
 		int virY = tetro.getY();
-		
+
 		for (int j = 0; j < tetro.getType().getHitbox().length; j++) {
 			for (int i = 0; i < tetro.getType().getHitbox()[j].length; i++) {
 				if (tetro.getType().getHitbox()[j][i]) {
@@ -232,24 +232,32 @@ public abstract class World {
 					switch (tetro.getRotation()) {
 					case 0:
 						if (!isTetroPlacableAt(i + virX, j + virY)) {
+//							System.err.println(
+//									"Nicht erlaubte Platzierung eines Tetros bei " + (i + virX) + "|" + (j + virY));
 							return false;
 						} else {
 							break;
 						}
 					case 1:
-						if (!isTetroPlacableAt(j + virX, -i + virY)) {
+						if (!isTetroPlacableAt(j + virX, -i + virY + 3)) {
+//							System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (j + virX) + "|"
+//									+ (-i + virY + 3));
 							return false;
 						} else {
 							break;
 						}
 					case 2:
-						if (!isTetroPlacableAt(-i + virX + 3, -j + virY)) {
+						if (!isTetroPlacableAt(-i + virX + 3, -j + virY + 1)) {
+//							System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (-i + virX + 3) + "|"
+//									+ (-j + virY + 1));
 							return false;
 						} else {
 							break;
 						}
 					case 3:
 						if (!isTetroPlacableAt(-j + virX + 1, i + virY)) {
+//							System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (-j + virX + 1) + "|"
+//									+ (i + virY));
 							return false;
 						} else {
 							break;
