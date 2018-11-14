@@ -62,6 +62,7 @@ public abstract class World {
 	protected ArrayList<Entity> allEntities;
 	private ArrayList<Entity> toAdd;
 	private ArrayList<Entity> toRemove;
+	private int tetroAmount[];
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 
@@ -71,6 +72,8 @@ public abstract class World {
 		this.keyHandler = keyHandler;
 		this.frame = frame;
 
+		
+		
 		toAdd = new ArrayList<>();
 		toRemove = new ArrayList<>();
 		renderer = new Renderer();
@@ -199,6 +202,8 @@ public abstract class World {
 
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
 
+		
+			if(tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
 		int placeX;
 		int placeY;
 
@@ -214,11 +219,17 @@ public abstract class World {
 		}
 		Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
 		if (isAllowed(tetro)) {
+			tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
 			tetros.add(tetro);
 			addTetroToHitbox(tetro, placeX, placeY, rotation);
 		} else {
 			System.err.println("nicht erlaubte Platzierung");
 		}
+			}else {
+				frame.addLineToText("mehr da. ");
+				frame.addLineToText("Es sind keine Tetros dieser Art");
+			}
+			
 	}
 
 	private boolean isAllowed(Tetro tetro) {
