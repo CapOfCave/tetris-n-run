@@ -133,10 +133,15 @@ public class Frame extends JFrame {
 	}
 
 	private void deleteAll() {
-		File tmpSaveFolder = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves");
-		for (File f : tmpSaveFolder.listFiles()) {
-			f.delete();
+		try {
+			File tmpSaveFolder = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves");
+			for (File f : tmpSaveFolder.listFiles()) {
+				f.delete();
+			}
+		} catch (Exception e) {
+			System.out.println("Kein Ordner gefunden.");
 		}
+		
 	}
 
 	// Level to level
