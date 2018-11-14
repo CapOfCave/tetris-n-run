@@ -28,5 +28,10 @@ public class GoalTile extends Tile {
 		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
 				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
 	}
+	
+	@Override
+	public double getHeight() {
+		return -1;
+	}
 
 }

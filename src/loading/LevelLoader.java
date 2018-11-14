@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import data.Level;
@@ -40,6 +41,8 @@ public class LevelLoader {
 		ArrayList<DoorTile> doors = new ArrayList<>();
 		ArrayList<RawSpawner> spawner = new ArrayList<>();
 		ArrayList<Entity> entities = new ArrayList<>();
+
+		HashMap<Integer, Integer> rawMaxTetroAmounts = new HashMap<>();
 
 		int worldlength = 0;
 		int playerX = 0;
@@ -101,6 +104,22 @@ public class LevelLoader {
 				}
 				if (x != -100 && y != -100 && rotation != -1 && type != -1) {
 					rawTetros.add(new RawTetro(type, x, y, rotation));
+				}
+			} else if (nextLine.startsWith("m")) {
+				String strSplit[] = nextLine.split(";");
+				int type = -1;
+				int amount = 0;
+				for (String str : strSplit) {
+					if (str == strSplit[0])
+						continue;
+					if (str.startsWith("amount=") || str.startsWith("a=")) {
+						amount = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+					} else if (str.startsWith("type=") || str.startsWith("t=")) {
+						type = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+					}
+				}
+				if (type >= 0) {
+					rawMaxTetroAmounts.put(type, amount);
 				}
 			} else if (nextLine.startsWith("i")) {
 				String strSplit[] = nextLine.split(";");
@@ -297,10 +316,24 @@ public class LevelLoader {
 			}
 		}
 
+		int max_tetroamount_index = 0;
+		// Tetro maximums
+		for (Integer key : rawMaxTetroAmounts.keySet()) {
+			max_tetroamount_index = Math.max(rawMaxTetroAmounts.get(key), max_tetroamount_index);
+		}
+		int[] tetroAmounts = new int[max_tetroamount_index];
+		for (int i = 0; i < tetroAmounts.length; i++) {
+			if (rawMaxTetroAmounts.get(i) != null) {
+				tetroAmounts[i] = rawMaxTetroAmounts.get(i);
+			} else {
+				tetroAmounts[i] = 0;
+			}
+		}
+
 		if (tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl);
 
-			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, entities, tetrofileUrl,
+			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, entities, tetroAmounts, tetrofileUrl,
 					playerX * Frame.BLOCKSIZE, playerY * Frame.BLOCKSIZE);
 		} else {
 			System.err.println("Levelerstellung nicht erfolgreich");

@@ -44,7 +44,8 @@ public class SaveNLoadTile extends Tile {
 
 	@Override
 	public void eventWhenEntering() {
-		String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
+
+		new File(folderName).mkdirs();
 		int prefix = (new File(folderName).listFiles().length + 1);
 
 		if (!fileExists) {
@@ -57,6 +58,7 @@ public class SaveNLoadTile extends Tile {
 	@Override
 	public void interact() {
 		super.interact();
+		new File(folderName).mkdirs();
 		int prefix = (new File(folderName).listFiles().length + 1);
 
 		if (!fileExists) {
@@ -90,5 +92,9 @@ public class SaveNLoadTile extends Tile {
 			fileExists = false;
 		}
 	}
-
+	
+	@Override
+	public double getHeight() {
+		return -1;
+	}
 }

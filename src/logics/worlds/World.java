@@ -83,7 +83,7 @@ public abstract class World {
 			e.setWorld(this);
 		}
 		allEntities.addAll(otherEntities);
-
+		System.out.println(tetroTypes);
 		doors = level.getDoors();
 		tileWorld = level.getArrWorld();
 		for (Tile[] tt : tileWorld) {
@@ -333,9 +333,9 @@ public abstract class World {
 		for (Tetro t : tetros) {
 			rawTetros.add(createRawTetro(t));
 		}
-
+		
 		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, items, doors, createRawSpawner(),
-				otherEntities, tetroFileURL, player.getTileX(), player.getTileY());
+				otherEntities, new int[0], tetroFileURL, player.getTileX(), player.getTileY());//TODO later
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path, fileName);
 

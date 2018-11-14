@@ -60,4 +60,8 @@ public class PressurePlateTile extends Tile{
 				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
 	}
 
+	@Override
+	public double getHeight() {
+		return -1;
+	}
 }
