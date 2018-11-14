@@ -31,8 +31,6 @@ public class SaveNLoadTile extends Tile {
 		checkIfExists();
 	}
 
-	
-
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		if (fileExists) {
@@ -43,6 +41,7 @@ public class SaveNLoadTile extends Tile {
 					(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
 		}
 	}
+
 	@Override
 	public void eventWhenEntering() {
 		String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
@@ -54,6 +53,7 @@ public class SaveNLoadTile extends Tile {
 			checkIfExists();
 		}
 	}
+
 	@Override
 	public void interact() {
 		super.interact();
@@ -65,7 +65,7 @@ public class SaveNLoadTile extends Tile {
 			checkIfExists();
 		} else {
 			frame.addLineToText("Spielstand wurde geladen.");
-			//remove later saves
+			// remove later saves
 			int index = Integer.parseInt(loadFile.getName().substring(0, loadFile.getName().indexOf("save")));
 			for (File f : new File(folderName).listFiles()) {
 				if (Integer.parseInt(f.getName().substring(0, f.getName().indexOf("save"))) > index) {
@@ -73,17 +73,21 @@ public class SaveNLoadTile extends Tile {
 				}
 			}
 			frame.swichLevel(loadFile.getAbsolutePath());
-			
+
 		}
 	}
 
 	private void checkIfExists() {
 
-		for (File f : new File(folderName).listFiles()) {
-			if (f.getName().endsWith("saveNLoadTile_" + posX + "_" + posY + ".txt")) {
-				fileExists = true;
-				loadFile = f;
+		if (new File(folderName).exists()) {
+			for (File f : new File(folderName).listFiles()) {
+				if (f.getName().endsWith("saveNLoadTile_" + posX + "_" + posY + ".txt")) {
+					fileExists = true;
+					loadFile = f;
+				}
 			}
+		} else {
+			fileExists = false;
 		}
 	}
 
