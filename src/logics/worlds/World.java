@@ -77,6 +77,8 @@ public abstract class World {
 		toAdd = new ArrayList<>();
 		toRemove = new ArrayList<>();
 		renderer = new Renderer();
+		
+		tetroAmount = level.getTetroAmounts();
 		tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
 		allEntities = new ArrayList<>();
@@ -86,7 +88,6 @@ public abstract class World {
 			e.setWorld(this);
 		}
 		allEntities.addAll(otherEntities);
-		System.out.println(tetroTypes);
 		doors = level.getDoors();
 		tileWorld = level.getArrWorld();
 		for (Tile[] tt : tileWorld) {
@@ -198,6 +199,7 @@ public abstract class World {
 			allEntities.get(i).tick();
 		}
 		renderer.tick();
+		
 	}
 
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
