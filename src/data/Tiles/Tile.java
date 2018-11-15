@@ -69,17 +69,17 @@ public abstract class Tile implements DrawAndSortable {
 	}
 
 	public void eventWhenEntering() {
-		
+		//do nothing
 	}
-	
+
 	public void eventWhenLeaving() {
-		
+		//do nothing
 	}
 
 	public void eventWhenKeyPressed() {
-		
+		//do nothing
 	}
-	
+
 	public boolean isWalkable() {
 		return walkable;
 	}
@@ -98,8 +98,7 @@ public abstract class Tile implements DrawAndSortable {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-//		g.drawImage(img, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
-//				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+
 	}
 
 	@Override
@@ -130,5 +129,14 @@ public abstract class Tile implements DrawAndSortable {
 	}
 
 	public void interact() {
+	}
+
+	public void eventWhenMoveBlockEntering() {
+		// do nothing
+		
+	}
+
+	public void eventWhenMoveBlockLeaving() {
+		//do nothing
 	}
 }

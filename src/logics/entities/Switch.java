@@ -51,5 +51,10 @@ public class Switch extends Entity {
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
 		akt_image = Tools.setColor(akt_animation.getImage(), drawColor);
 	}
+	
+	@Override
+	public double getHeight(){
+		return -0.5;
+	}
 
 }

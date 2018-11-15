@@ -333,17 +333,16 @@ public abstract class World {
 	}
 
 	public void addSpawner(int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
-			int spawnOffsetBottom, int maxEnemies, boolean enemyOnlyOnTetros, double spawnRate, boolean start) {
+			int spawnOffsetBottom, int maxEnemies, double spawnRate, boolean start) {
 		EnemySpawner e = new EnemySpawner(this, x, y, spawnOffsetLeft, spawnOffsetTop, spawnOffsetRight,
-				spawnOffsetBottom, maxEnemies, enemyOnlyOnTetros, spawnRate, start);
+				spawnOffsetBottom, maxEnemies, spawnRate, start);
 		spawner.add(e);
 		allEntities.add(e);
 		renderer.addDrawable(e);
 	}
 
 	private void addSpawner(RawSpawner rS) {
-		addSpawner(rS.getX(), rS.getY(), rS.getLoff(), rS.getToff(), rS.getRoff(), rS.getBoff(), rS.getMax(),
-				rS.isTetroonly(), rS.getRate(), rS.getStart());
+		addSpawner(rS.getX(), rS.getY(), rS.getLoff(), rS.getToff(), rS.getRoff(), rS.getBoff(), rS.getMax(), rS.getRate(), rS.getStart());
 	}
 
 	public void save(String path, String fileName) {
@@ -363,7 +362,7 @@ public abstract class World {
 		ArrayList<RawSpawner> outp = new ArrayList<>();
 		for (EnemySpawner eS : spawner) {
 			outp.add(new RawSpawner((int) eS.getX(), (int) eS.getY(), eS.getLoff(), eS.getToff(), eS.getRoff(),
-					eS.getBoff(), eS.getMax(), eS.getTetroonly(), eS.getRate(), eS.getStart()));
+					eS.getBoff(), eS.getMax(), eS.getRate(), eS.getStart()));
 		}
 		return null;
 	}

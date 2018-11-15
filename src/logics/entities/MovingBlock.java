@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.util.HashMap;
 
 import data.Animation;
+import data.Tiles.Tile;
 import graphics.Frame;
 import logics.worlds.World;
 
@@ -16,6 +17,7 @@ public class MovingBlock extends Entity {
 	protected boolean sticky = false;
 	protected Point offset = new Point(0, 0);
 	protected int direction;
+	private Tile standingTile;
 
 	public MovingBlock(World world, double x, double y, HashMap<String, Animation> anims) {
 		super(world, x, y, anims);
@@ -43,6 +45,7 @@ public class MovingBlock extends Entity {
 		}
 
 		g.drawRect(interpolX - world.cameraX(), interpolY - world.cameraY(), Frame.BLOCKSIZE, Frame.BLOCKSIZE);
+		g.fillOval(interpolX - world.cameraX(), interpolY - world.cameraY(), 3, 3);
 	}
 
 	@Override
@@ -63,6 +66,16 @@ public class MovingBlock extends Entity {
 
 		this.x = x + offset.x;
 		this.y = y + offset.y;
+		Tile akt_Tile = world.getTileAt((int) ((this.y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE),
+				(int) ((this.x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE));
+		if (standingTile == null) {
+			standingTile = akt_Tile;
+			akt_Tile.eventWhenMoveBlockEntering();
+		} else if (akt_Tile != standingTile) {
+			standingTile.eventWhenMoveBlockLeaving();
+			standingTile = akt_Tile;
+			standingTile.eventWhenMoveBlockEntering();
+		}
 
 	}
 
@@ -77,7 +90,7 @@ public class MovingBlock extends Entity {
 	public void kill() {
 		unBind();
 		world.removeEntity(this);
-		
+
 	}
 
 }

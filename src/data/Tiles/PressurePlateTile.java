@@ -11,17 +11,18 @@ import loading.AnimationLoader;
 import loading.ImageLoader;
 import tools.Tools;
 
-public class PressurePlateTile extends Tile{
-	
+public class PressurePlateTile extends Tile {
+
 	private int color;
 	private HashMap<String, Animation> pictures;
-	boolean pressed = true;
+	boolean pressedByPlayer = false;
+	int moveBlocksOnTile = 0;
 	Color drawColor = Color.BLACK;
 	private BufferedImage image3d;
-	
+
 	public PressurePlateTile(char key, int posX, int posY, Frame frame) {
 		super(key, posX, posY, false, true, frame);
-		
+
 		if (key == 'à') {
 			color = 0;
 			drawColor = Color.RED;
@@ -41,19 +42,43 @@ public class PressurePlateTile extends Tile{
 
 	@Override
 	public void eventWhenEntering() {
-		world.switchDoors(color);
-		pressed = true;
-		image3d = Tools.setColor(pictures.get(pressed?"state0":"state1").getImage(), drawColor);
-		
+		pressedByPlayer = true;
+		if (moveBlocksOnTile == 0) {
+			world.switchDoors(color);
+			image3d = Tools.setColor(
+					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
+		}
 	}
-	
+
+	@Override
+	public void eventWhenMoveBlockEntering() {
+		moveBlocksOnTile++;
+		if (!pressedByPlayer && moveBlocksOnTile == 1) {
+			world.switchDoors(color);
+			image3d = Tools.setColor(
+					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
+		}
+	}
+
+	@Override
+	public void eventWhenMoveBlockLeaving() {
+		moveBlocksOnTile--;
+		if (!pressedByPlayer && moveBlocksOnTile == 0) {
+			world.switchDoors(color);
+			pressedByPlayer = false;
+			image3d = Tools.setColor(pictures.get(pressedByPlayer ? "state0" : "state1").getImage(), drawColor);
+		}
+	}
+
 	@Override
 	public void eventWhenLeaving() {
-		world.switchDoors(color);
-		pressed = false;
-		image3d = Tools.setColor(pictures.get(pressed?"state0":"state1").getImage(), drawColor);
+		if (moveBlocksOnTile == 0) {
+			world.switchDoors(color);
+			pressedByPlayer = false;
+			image3d = Tools.setColor(pictures.get(pressedByPlayer ? "state0" : "state1").getImage(), drawColor);
+		}
 	}
-	
+
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
