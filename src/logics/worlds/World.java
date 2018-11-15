@@ -162,6 +162,10 @@ public abstract class World {
 			drawDebug(g, interpolation);
 		}
 	}
+	
+	public void playSound(String sound) {
+		frame.playSound(sound);
+	}
 
 	public void drawPlayer(Graphics g, float interpolation) {
 		// Player kann an einer anderen Stelle im Programm aufgerufen werden

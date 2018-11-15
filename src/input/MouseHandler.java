@@ -26,6 +26,7 @@ public class MouseHandler implements MouseInputListener {
 	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			if(e.getX() > 1008 && e.getX() < 1255 && e.getY() > 516 && e.getY() < 616) {
+				world.playSound("klick");
 				world.backToTheOverworld(true);
 			}
 			// Linke Maustaste: Aufheben

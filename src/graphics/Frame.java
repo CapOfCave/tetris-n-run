@@ -13,6 +13,7 @@ import loading.LevelLoader;
 import loading.RawPlayerLoader;
 import loading.RawPlayerSaver;
 import logics.GameLoop;
+import sound.SoundPlayer;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -30,6 +31,7 @@ public class Frame extends JFrame {
 	private int levelSolved = 3;
 	private boolean inOverworld = true;
 	private String[] text;
+	private SoundPlayer soundPlayer;
 	public static final int BLOCKSIZE = 45;
 
 	private KeyHandler keyHandler;
@@ -49,6 +51,9 @@ public class Frame extends JFrame {
 		text[4] = "";
 		text[5] = "";
 		text[6] = "";
+		
+		soundPlayer = new SoundPlayer();
+		
 
 		rawPlayer = RawPlayerLoader.readRawPlayer("C:\\JavaEclipse\\Player.txt");
 		rawPlayer.init();
@@ -192,6 +197,10 @@ public class Frame extends JFrame {
 			text[i] = "";
 		}
 
+	}
+	
+	public void playSound(String sound) {
+		soundPlayer.playSound(sound);
 	}
 
 	public char getNextLevel() {
