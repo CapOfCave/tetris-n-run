@@ -516,4 +516,14 @@ public abstract class World {
 
 	}
 
+	public int[] getTetroAmount() {
+		return tetroAmount;
+	}
+
+	public void setTetroAmount(int[] tetroAmount) {
+		this.tetroAmount = tetroAmount;
+	}
+	
+	
+
 }
