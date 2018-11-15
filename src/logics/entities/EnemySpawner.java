@@ -11,7 +11,6 @@ public class EnemySpawner extends Entity {
 
 	private static final long serialVersionUID = 1L;
 	private int maxEnemy;
-	private boolean enemyOnlyOnTetros;
 	private double spawnChance;
 	private boolean global = false;
 	private int enemyCount = 0;
@@ -22,11 +21,10 @@ public class EnemySpawner extends Entity {
 	private boolean start;
 
 	public EnemySpawner(World world, int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
-			int spawnOffsetBottom, int maxEnemy, boolean enemyOnlyOnTetros, double d, boolean start) {
+			int spawnOffsetBottom, int maxEnemy, double d, boolean start) {
 		super(world, x, y, null);
 
 		this.maxEnemy = maxEnemy;
-		this.enemyOnlyOnTetros = enemyOnlyOnTetros;
 		this.spawnChance = d;
 		this.spawnOffsetLeft = spawnOffsetLeft;
 		this.spawnOffsetTop = spawnOffsetTop;
@@ -38,14 +36,14 @@ public class EnemySpawner extends Entity {
 		}
 	}
 
-	public EnemySpawner(GameWorld world, int maxEnemy, boolean enemyOnlyOnTetros, int spawnChance) {
-		this(world, -10, -10, -1, -1, -1, -1, maxEnemy, enemyOnlyOnTetros, spawnChance, false);
+	public EnemySpawner(GameWorld world, int maxEnemy, int spawnChance) {
+		this(world, -10, -10, -1, -1, -1, -1, maxEnemy, spawnChance, false);
 		global = true;
 	}
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		//invisible
+		// invisible
 	}
 
 	public void tick() {
@@ -58,6 +56,7 @@ public class EnemySpawner extends Entity {
 	}
 
 	public void spawn() {
+
 		int xPos;
 		int yPos;
 		if (global) {
@@ -67,18 +66,13 @@ public class EnemySpawner extends Entity {
 			xPos = (int) (x - spawnOffsetLeft + random(spawnOffsetRight + spawnOffsetLeft + 1));
 			yPos = (int) (y - spawnOffsetTop + random(spawnOffsetBottom + spawnOffsetTop + 1));
 		}
-		
-		if (enemyOnlyOnTetros) {
-			if ((world.isTetroAt(yPos, xPos) && world.getTileAt(yPos, xPos).isWalkableWithTetro())
-					|| world.getTileAt(yPos, xPos).isWalkable()) {
-				world.addEnemy(xPos * Frame.BLOCKSIZE, yPos * Frame.BLOCKSIZE, 25, this);
-				enemyCount++;
-			}
-		} else {
-			if (world.getTileAt(yPos, xPos).isWalkable()) {
-				world.addEnemy(xPos * Frame.BLOCKSIZE, yPos * Frame.BLOCKSIZE, 10, this);
-				enemyCount++;
-			}
+
+		System.out.println("spawn@" + xPos + "|" + yPos);
+		if ((world.isTetroAt(yPos, xPos) && world.getTileAt(yPos, xPos).isWalkableWithTetro())
+				|| world.getTileAt(yPos, xPos).isWalkable()) {
+			System.out.println("spawn srsly");
+			world.addEnemy(xPos * Frame.BLOCKSIZE, yPos * Frame.BLOCKSIZE, 25, this);
+			enemyCount++;
 		}
 
 	}
@@ -146,10 +140,6 @@ public class EnemySpawner extends Entity {
 
 	public int getMax() {
 		return maxEnemy;
-	}
-
-	public boolean getTetroonly() {
-		return enemyOnlyOnTetros;
 	}
 
 	public double getRate() {

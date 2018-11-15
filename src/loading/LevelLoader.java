@@ -235,7 +235,6 @@ public class LevelLoader {
 				int roff = 0;
 				int boff = 0;
 				int max = 1;
-				boolean tetroonly = true;
 				double rate = -1;
 				boolean start = false;
 				String strSplit[] = nextLine.split(";");
@@ -254,8 +253,6 @@ public class LevelLoader {
 						boff = Integer.parseInt(str.substring(5));
 					} else if (str.startsWith("max=")) {
 						max = Integer.parseInt(str.substring(4));
-					} else if (str.startsWith("tetroonly=")) {
-						tetroonly = Boolean.parseBoolean(str.substring(10));
 					} else if (str.startsWith("rate=")) {
 						rate = Double.parseDouble(str.substring(5).replace(",", "."));
 					} else if (str.startsWith("start=")) {
@@ -263,7 +260,7 @@ public class LevelLoader {
 					}
 				}
 				if (x >= 0 && y >= 0 && rate >= 0) {
-					spawner.add(new RawSpawner(x, y, loff, toff, roff, boff, max, tetroonly, rate, start));
+					spawner.add(new RawSpawner(x, y, loff, toff, roff, boff, max, rate, start));
 				} else {
 					System.err.println("Fehler im Level \"" + url + "\": Spawner nicht bestimmt");
 				}

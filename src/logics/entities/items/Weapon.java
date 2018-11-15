@@ -74,7 +74,7 @@ public class Weapon extends Item {
 		double nully = y + Frame.BLOCKSIZE / 2;
 
 		// Calc nearest point
-		double npX; // TODO not optimal & x < 0 unmöglich
+		double npX; // TODO never nicht optimal aber fällt vlt nicht auf
 		double npY;
 
 		npX = nullx;

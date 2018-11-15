@@ -9,11 +9,10 @@ public class RawSpawner {
 	private int roff;
 	private int boff;
 	private int max;
-	private boolean tetroonly;
 	private double rate;
 	private boolean start;
 
-	public RawSpawner(int x, int y, int loff, int toff, int roff, int boff, int max, boolean tetroonly, double rate,
+	public RawSpawner(int x, int y, int loff, int toff, int roff, int boff, int max, double rate,
 			boolean start) {
 		super();
 		this.x = x;
@@ -23,7 +22,6 @@ public class RawSpawner {
 		this.roff = roff;
 		this.boff = boff;
 		this.max = max;
-		this.tetroonly = tetroonly;
 		this.rate = rate;
 		this.start = start;
 	}
@@ -54,10 +52,6 @@ public class RawSpawner {
 
 	public int getMax() {
 		return max;
-	}
-
-	public boolean isTetroonly() {
-		return tetroonly;
 	}
 
 	public double getRate() {

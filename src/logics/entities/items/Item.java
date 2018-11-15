@@ -30,8 +30,6 @@ public class Item extends Entity {
 
 	public void drawPreview(Graphics2D g, int position, int size) {
 
-		
-
 		akt_animation = anims.get("preview");
 		g.drawImage(akt_animation.getImage(), 105 + (125 * position + 10 * position) + akt_animation.getOffsetX(),
 				30 + akt_animation.getOffsetY(), size, size, null);
@@ -39,8 +37,7 @@ public class Item extends Entity {
 	}
 
 	public void onClickInInventoryEnvent() {
-		System.out.println("Cliccc " + this);
-
+		System.out.println("Cliccc " + imgPath);
 	}
 
 	public void collectingEvent() {
