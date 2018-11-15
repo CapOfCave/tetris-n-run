@@ -57,6 +57,8 @@ public class GameWorldPanel extends Panel {
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, 30, 0);
 		}
+		
+		
 		if (debugMode) {
 			drawDebug(gameGraphics);
 		}

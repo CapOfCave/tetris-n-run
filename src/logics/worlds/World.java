@@ -141,6 +141,7 @@ public abstract class World {
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
+		
 		GameLoop.acutualframes++;
 		camera.prepareDraw(interpolation);
 		// 2D-Rendering background
