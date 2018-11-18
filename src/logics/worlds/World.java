@@ -163,8 +163,8 @@ public abstract class World {
 		}
 	}
 	
-	public void playSound(String sound) {
-		frame.playSound(sound);
+	public void playSound(String sound, float volume) {
+		frame.playSound(sound, volume);
 	}
 
 	public void drawPlayer(Graphics g, float interpolation) {

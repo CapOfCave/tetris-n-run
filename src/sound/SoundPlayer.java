@@ -11,6 +11,7 @@ public class SoundPlayer {
 
 	Clip clip;
 	HashMap<String, File> sounds;
+	float generalVolume = 0.9f;
 
 	public SoundPlayer() {
 
@@ -20,21 +21,27 @@ public class SoundPlayer {
 
 	}
 
-	public void playSound(String sound) {
+	public void playSound(String sound, float volume) {
 		if (sounds.containsKey(sound)) {
 			try {
 				clip = AudioSystem.getClip();
-				System.out.println(clip.getFormat());
 				clip.open(AudioSystem.getAudioInputStream(sounds.get(sound)));
 				
 				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-				gainControl.setValue(-10f);
+
+				float min = gainControl.getMinimum();
+				float max = gainControl.getMaximum();
+
 				
+				float normalisedVolume = (volume - min) / ( max - min);
+				float normalisedProduct = normalisedVolume * generalVolume;
+				float product = normalisedProduct * (max - min) + min;
+				gainControl.setValue(product);
 				clip.start();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
+
 }

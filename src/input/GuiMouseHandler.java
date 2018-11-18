@@ -48,14 +48,14 @@ public class GuiMouseHandler implements MouseListener {
 		}
 
 		if (x >= 1008 && y >= 225 && x < 1255 && y < 325) {
-			// playbutton
-			frame.playSound("klick");
+			// play button
+			frame.playSound("klick", -5f);
 			frame.startLevel();
 			overworld.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves" , "\\overworldSave.txt");
 		}
 		if (x >= 1008 && y >= 325 && x < 1255 && y < 425) {
-			// playbutton
-			frame.playSound("klick");
+			// load button
+			frame.playSound("klick", -20f);
 			frame.loadLevel();
 			overworld.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves" , "\\overworldSave.txt");
 		}

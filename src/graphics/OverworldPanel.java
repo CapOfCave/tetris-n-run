@@ -47,7 +47,6 @@ public class OverworldPanel extends Panel {
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		world.draw(gameGraphics, interpolation, debugMode);
-		world.drawPlayer(gameGraphics, interpolation);
 		Graphics2D previewGraphics = (Graphics2D) g.create( 54, 680, 1000, 1000);
 		world.drawPlayerPreview(previewGraphics);
 		world.drawInventory(inventoryGraphics);

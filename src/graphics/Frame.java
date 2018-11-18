@@ -199,8 +199,8 @@ public class Frame extends JFrame {
 
 	}
 	
-	public void playSound(String sound) {
-		soundPlayer.playSound(sound);
+	public void playSound(String sound, float volume) {
+		soundPlayer.playSound(sound, volume);
 	}
 
 	public char getNextLevel() {
