@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.CardLayout;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -69,6 +70,7 @@ public class Frame extends JFrame {
 		}
 		setLayout(new CardLayout());
 		add(oPanel);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/res/gegner.png")));
 		gameLoop = new GameLoop(oPanel);
 		addKeyListener(keyHandler);
 		setResizable(false);
