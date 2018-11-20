@@ -22,10 +22,11 @@ public class Level {
 	private ArrayList<RawSpawner> spawner;
 	private ArrayList<Entity> entities;
 	private int[] tetroAmounts;
+	private boolean[] toggleStates;
 
 	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld,
 			ArrayList<Item> arrItems, ArrayList<DoorTile> doors, ArrayList<RawSpawner> spawner,
-			ArrayList<Entity> entities, int[] tetroAmounts, String tetrofileUrl, int playerX, int playerY) {
+			ArrayList<Entity> entities, int[] tetroAmounts, boolean[] toggleStates, String tetrofileUrl, int playerX, int playerY) {
 		this.tetroTypes = tetroTypes;
 		this.rawTetros = rawTetros;
 		this.arrWorld = arrWorld;
@@ -37,6 +38,7 @@ public class Level {
 		this.spawner = spawner;
 		this.entities = entities;
 		this.tetroAmounts = tetroAmounts;
+		this.toggleStates = toggleStates;
 	}
 
 	public int getPlayerY() {
@@ -82,5 +84,10 @@ public class Level {
 	public int[] getTetroAmounts() {
 		return tetroAmounts;
 	}
+	
+	public boolean[] getToggleStates() {
+		return toggleStates;
+	}
+	
 
 }

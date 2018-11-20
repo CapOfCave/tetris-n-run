@@ -1,9 +1,7 @@
 package logics.entities;
 
 import java.awt.Graphics;
-import java.util.HashMap;
 
-import data.Animation;
 import graphics.Frame;
 import logics.worlds.World;
 
@@ -11,16 +9,17 @@ public class CubeSpawner extends Entity {
 
 	private double cubeX;
 	private double cubeY;
-	private HashMap<String, Animation> cubeAnims;
+	private String cubeAnims;
 
 	private MovingBlock child;
 
-	public CubeSpawner(World world, double x, double y, HashMap<String, Animation> anims, double cx, double cy,
-			HashMap<String, Animation> cubeAnims) {
-		super(world, x, y, anims);
+	public CubeSpawner(World world, double x, double y, String animPath, double cx, double cy,
+			String cubeAnims) {
+		super(world, x, y, animPath);
 		this.cubeX = cx;
 		this.cubeY = cy;
 		this.cubeAnims = cubeAnims;
+		type = "moveblockspawner";
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -46,6 +45,18 @@ public class CubeSpawner extends Entity {
 		child = new MovingBlock(world, cubeX, cubeY, cubeAnims);
 		world.addEntity(child);
 		
+	}
+
+	public double getCX() {
+		return cubeX;
+	}
+
+	public double getCY() {
+		return cubeY;
+	}
+
+	public String getCurl() {
+		return cubeAnims;
 	}
 
 }

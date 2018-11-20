@@ -12,13 +12,14 @@ public class KeyHandler implements KeyListener {
 	private boolean a = false;
 	private boolean s = false;
 	private boolean d = false;
+	private boolean shift = false;
 
 	private boolean actionPressed = false;
 	private boolean f3pressed = false;
-	
+
 	public KeyHandler() {
 	}
-	
+
 	@Override
 	public void keyPressed(KeyEvent ev) {
 		if (ev.getKeyCode() == KeyEvent.VK_W) {
@@ -33,13 +34,16 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == KeyEvent.VK_D) {
 			d = true;
 		}
+		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
+			shift = true;
+		}
 		if (ev.getKeyCode() == KeyEvent.VK_F3) {
 			f3pressed = true;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_SPACE) {
 			actionPressed = true;
 		}
-		
+
 	}
 
 	@Override
@@ -56,10 +60,12 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == KeyEvent.VK_D) {
 			d = false;
 		}
-		
-		
+		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
+			shift = false;
+		}
+
 	}
-	
+
 	public boolean getW() {
 		return w;
 	}
@@ -75,23 +81,29 @@ public class KeyHandler implements KeyListener {
 	public boolean getD() {
 		return d;
 	}
-	
+
+	public boolean getShift() {
+		return shift;
+	}
+
 	public boolean isF3pressed() {
 		return f3pressed;
 	}
+
 	public boolean isActionPressed() {
 		return actionPressed;
-	}
-	@Override
-	public void keyTyped(KeyEvent e) {
-
 	}
 
 	public void setF3pressed(boolean b) {
 		this.f3pressed = b;
 	}
+
 	public void setActionpressed(boolean b) {
 		this.actionPressed = b;
 	}
-	
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
 }

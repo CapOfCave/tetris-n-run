@@ -1,5 +1,7 @@
 package logics;
 
+import logics.worlds.World;
+
 /**
  * @author Lars Created on 05.08.2018
  */
@@ -13,8 +15,10 @@ public class Camera {
 	private double stickyness = .3; // höher -> spieler näher an der Mitte
 	private int offsetX;
 	private int offsetY;
+	private World world;
 
-	public Camera(int x, int y, int maxY, int maxX, int offsetX, int offsetY) {
+	public Camera(World world, int x, int y, int maxY, int maxX, int offsetX, int offsetY) {
+		this.world = world;
 		this.maxX = maxX;
 		this.maxY = maxY;
 		this.offsetX = offsetX;
@@ -23,6 +27,7 @@ public class Camera {
 		this.y = clipBorderY(y - offsetY);
 		this.lastX = clipBorderX(x - offsetX);
 		this.lastY = clipBorderY(y - offsetY);
+
 	}
 
 	public void setOffsetX(int offsetX) {
@@ -45,8 +50,10 @@ public class Camera {
 		lastX = x;
 		lastY = y;
 
-		y = clipBorderY((pY - offsetY) * stickyness + lastY * (1 - stickyness));
-		x = clipBorderX((pX - offsetX) * stickyness + lastX * (1 - stickyness));
+		if (!world.getKeyHandler().getShift()) {
+			y = clipBorderY((pY - offsetY) * stickyness + lastY * (1 - stickyness));
+			x = clipBorderX((pX - offsetX) * stickyness + lastX * (1 - stickyness));
+		}
 	}
 
 	public void prepareDraw(float interpolation) {
@@ -57,7 +64,7 @@ public class Camera {
 	private int clipBorderX(double x) {
 		return (int) Math.max(0, Math.min(maxX, x));
 	}
-	
+
 	private int clipBorderY(double y) {
 		return (int) Math.max(0, Math.min(maxY, y));
 	}

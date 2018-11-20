@@ -3,9 +3,7 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
-import data.Animation;
 import logics.worlds.World;
 import tools.Tools;
 
@@ -16,8 +14,8 @@ public class Switch extends Entity {
 	private BufferedImage akt_image;
 	private Color drawColor = Color.PINK;
 
-	public Switch(World world, double x, double y, HashMap<String, Animation> anims, int color) {
-		super(world, x, y, anims);
+	public Switch(World world, double x, double y, String animPath, int color) {
+		super(world, x, y, animPath);
 		this.color = color;
 		if (color == 0) {
 			drawColor = Color.RED;
@@ -28,9 +26,10 @@ public class Switch extends Entity {
 		} else if (color == 3) {
 			drawColor = Color.YELLOW;
 		}
-		
+
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
 		akt_image = Tools.setColor(akt_animation.getImage(), drawColor);
+		type = "switch";
 	}
 
 	@Override
@@ -51,10 +50,18 @@ public class Switch extends Entity {
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
 		akt_image = Tools.setColor(akt_animation.getImage(), drawColor);
 	}
-	
+
 	@Override
-	public double getHeight(){
+	public double getHeight() {
 		return -0.5;
+	}
+
+	public int getColor() {
+		return color;
+	}
+	
+	public boolean isToggled() {
+		return toggled;
 	}
 
 }

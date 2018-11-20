@@ -7,9 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import data.Level;
+import data.RawSpawner;
 import data.RawTetro;
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
+import logics.entities.CubeSpawner;
+import logics.entities.Entity;
+import logics.entities.Switch;
 import logics.entities.items.Item;
 
 /**
@@ -27,7 +31,7 @@ public class LevelSaver {
 			try {
 				File temp = new File(path);
 				temp.mkdirs();
-			
+
 				file.createNewFile();
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -50,7 +54,7 @@ public class LevelSaver {
 		ArrayList<String> outpLines = new ArrayList<>();
 
 		// settings
-		StringBuilder settings = new StringBuilder("i");
+		StringBuilder settings = new StringBuilder("b");
 		String tetroFileUrl = level.getTetrofileUrl();
 		if (tetroFileUrl != null && tetroFileUrl != "") {
 			settings.append(";tetrofile=" + tetroFileUrl);
@@ -62,6 +66,34 @@ public class LevelSaver {
 
 		// player position
 		outpLines.add("p;x=" + level.getPlayerX() + ";y=" + level.getPlayerY());
+
+		// Toggle states
+		boolean[] toggleStates = level.getToggleStates();
+		outpLines.add("o;" + toggleStates[0] + ";" + toggleStates[1] + ";" + toggleStates[2] + ";" + toggleStates[3]
+				+ ";" + toggleStates[4]);
+//	} else if (nextLine.startsWith("m")) {
+//		String strSplit[] = nextLine.split(";");
+//		int type = -1;
+//		int amount = 0;
+//		for (String str : strSplit) {
+//			if (str == strSplit[0])
+//				continue;
+//			if (str.startsWith("amount=") || str.startsWith("a=")) {
+//				amount = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+//			} else if (str.startsWith("type=") || str.startsWith("t=")) {
+//				type = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+//			}
+//		}
+//		if (type >= 0) {
+//			rawMaxTetroAmounts.put(type, amount);
+//		}
+		int[] tetroAmounts = level.getTetroAmounts();
+		for (int i = 0; i < tetroAmounts.length; i++) {
+			if (tetroAmounts[i] != 0) {
+				outpLines.add("m;type=" + i + ";amount=" + tetroAmounts[i]);
+			}
+		}
+		// outp//TODO add "m;"
 
 		// tetros
 		ArrayList<RawTetro> rawTetros = level.getUnfinishedTetros();
@@ -78,7 +110,40 @@ public class LevelSaver {
 		// doors
 		ArrayList<DoorTile> doors = level.getDoors();
 		for (DoorTile dT : doors) {
-			outpLines.add("d;x=" + dT.getPosX() + ";y=" + dT.getPosY() + ";r=" + dT.getRotation() + ";c=" + dT.getColor() + ";o=" + dT.isWalkable());
+			outpLines.add("d;x=" + dT.getPosX() + ";y=" + dT.getPosY() + ";r=" + dT.getRotation() + ";c="
+					+ dT.getColor() + ";o=" + dT.isToggled()); // TODO
+		}
+
+		// Spawners
+		ArrayList<RawSpawner> spawners = level.getSpawner();
+		for (RawSpawner spawner : spawners) {
+			outpLines.add("s;x=" + spawner.getX() + ";y=" + spawner.getY() + ";loff=" + spawner.getLoff() + ";boff="
+					+ spawner.getBoff() + ";toff=" + spawner.getToff() + ";roff=" + spawner.getRoff() + ";max="
+					+ spawner.getMax() + ";rate=" + spawner.getRate() + ";start=" + spawner.getStart());
+		}
+
+		// Other entities
+		ArrayList<Entity> entities = level.getEntities();
+		for (Entity entity : entities) {
+			String outp = "e;rx=" + (int) entity.getX() + ";ry=" + (int) entity.getY() + ";type=" + entity.getType()
+					+ ";url=" + entity.getAnimPath();
+			switch (entity.getType()) {
+			case "moveblock":
+				outpLines.add(outp);
+				break;
+			case "moveblockspawner":
+				CubeSpawner cubeSpawner = (CubeSpawner) entity;
+				outpLines.add(outp + ";cx=" + (int) cubeSpawner.getCX() + ";cy=" + (int) cubeSpawner.getCY() + ";curl="
+						+ cubeSpawner.getCurl());
+				break;
+			case "switch":
+				Switch entitySwitch = (Switch) entity;
+				outpLines.add(outp + ";color=" + entitySwitch.getColor());
+				break;
+			default:
+				System.err.println("Requested Entity (\"" + entity.getType() + "\") undefind in saving process");
+			}
+
 		}
 
 		// world
@@ -90,7 +155,7 @@ public class LevelSaver {
 			}
 			outpLines.add(worldLine.toString());
 		}
-		//TODO entities speichern
+
 		return outpLines;
 	}
 
