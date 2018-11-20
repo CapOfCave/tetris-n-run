@@ -28,8 +28,10 @@ public class SoundPlayer {
 				clip.open(AudioSystem.getAudioInputStream(sounds.get(sound)));
 				
 				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
 				float min = gainControl.getMinimum();
 				float max = gainControl.getMaximum();
+
 				
 				float normalisedVolume = (volume - min) / ( max - min);
 				float normalisedProduct = normalisedVolume * generalVolume;
