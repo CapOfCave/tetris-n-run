@@ -3,9 +3,7 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.HashMap;
 
-import data.Animation;
 import data.Tiles.Tile;
 import graphics.Frame;
 import logics.worlds.World;
@@ -19,10 +17,11 @@ public class MovingBlock extends Entity {
 	protected int direction;
 	private Tile standingTile;
 
-	public MovingBlock(World world, double x, double y, HashMap<String, Animation> anims) {
-		super(world, x, y, anims);
+	public MovingBlock(World world, double x, double y, String animPath) {
+		super(world, x, y, animPath);
 		lastX = x;
 		lastY = y;
+		type = "moveblock";
 	}
 
 	@Override
@@ -50,7 +49,12 @@ public class MovingBlock extends Entity {
 
 	@Override
 	public void tick() {
+		if (!sticky) {
+			lastX = this.x;
+			lastY = this.y;
+		}
 		akt_animation.next();
+		
 	}
 
 	public void interact() {
@@ -63,7 +67,6 @@ public class MovingBlock extends Entity {
 	public void setPosition(double x, double y) {
 		lastX = this.x;
 		lastY = this.y;
-
 		this.x = x + offset.x;
 		this.y = y + offset.y;
 		Tile akt_Tile = world.getTileAt((int) ((this.y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE),
@@ -91,6 +94,11 @@ public class MovingBlock extends Entity {
 		unBind();
 		world.removeEntity(this);
 
+	}
+
+	public void setCurrentTile(Tile currentTile) {
+		standingTile = currentTile;
+		
 	}
 
 }

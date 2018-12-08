@@ -7,6 +7,7 @@ import java.util.HashMap;
 import data.Animation;
 import data.DrawAndSortable;
 import graphics.Renderer;
+import loading.AnimationLoader;
 import logics.worlds.World;
 
 /**
@@ -23,10 +24,13 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 
 	protected transient Animation akt_animation;
 	protected transient String animation_key;
+	protected String type;
+	private String animPath;
 
-	public Entity(World world, HashMap<String, Animation> anims) {
+	public Entity(World world, String animPath) {
 		this.world = world;
-		this.anims = anims;
+		if (animPath != null)
+			this.anims = AnimationLoader.loadAnimations(animPath);
 
 		if (anims != null)
 			akt_animation = anims.get(anims.keySet().toArray()[0]);
@@ -34,10 +38,11 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 			akt_animation = null;
 	}
 
-	public Entity(World world, double x, double y, HashMap<String, Animation> anims) {
-		this(world, anims);
+	public Entity(World world, double x, double y, String animPath) {
+		this(world, animPath);
 		this.x = x;
 		this.y = y;
+		this.animPath = animPath;
 	}
 
 	@Override
@@ -74,7 +79,7 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 
 	@Override
 	public double getHeight() {
-		return y + (double) (hashCode()) / Integer.MAX_VALUE / 1000; //TODO priority
+		return y + (double) (hashCode()) / Integer.MAX_VALUE / 1000;
 	}
 
 	@Override
@@ -95,6 +100,14 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 
 	public void drawDebug(Graphics g, float interpolation) {
 
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getAnimPath() {
+		return animPath;
 	}
 
 }

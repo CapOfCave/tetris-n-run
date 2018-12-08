@@ -1,4 +1,4 @@
-i;tetrofile=/res/tetros.txt
+b;tetrofile=/res/tetros.txt
 p;x=4;y=2
 m;t=0;a=2
 m;t=1;a=1

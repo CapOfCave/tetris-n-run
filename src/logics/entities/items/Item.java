@@ -18,7 +18,7 @@ public class Item extends Entity {
 	private String typeUrl;
 
 	public Item(World world, String imgPath) {
-		super(world, AnimationLoader.loadAnimations(imgPath));
+		super(world, imgPath);
 		this.imgPath = imgPath;
 		this.init();
 	}

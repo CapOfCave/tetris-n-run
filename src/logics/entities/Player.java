@@ -6,9 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import data.Animation;
 import data.RawPlayer;
 import data.Tiles.Tile;
 import graphics.Frame;
@@ -30,15 +28,16 @@ public class Player extends LivingEntity {
 	private MovingBlock movingBlockInHand = null;
 	private Point movingBlockOffset;
 
-	public Player(World world, HashMap<String, Animation> anims, RawPlayer rawPlayer) {
-		super(world, anims);
+	public Player(World world, String animPath, RawPlayer rawPlayer) {
+		super(world, animPath);
 
 		akt_animation = anims.get("walk1");
+		type = "player";
 
 	}
 
-	public Player(World world, int playerX, int playerY, HashMap<String, Animation> anims, RawPlayer rawPlayer) {
-		this(world, anims, rawPlayer);
+	public Player(World world, int playerX, int playerY, String animPath, RawPlayer rawPlayer) {
+		this(world, animPath, rawPlayer);
 		x = playerX;
 		y = playerY;
 		lastX = x;

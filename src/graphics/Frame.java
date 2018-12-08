@@ -173,7 +173,6 @@ public class Frame extends JFrame {
 			System.err.println("Fehler. Pfad nicht gefunden.");
 			return;
 		}
-		System.out.println("load");
 		if (file.exists()) {
 			lPanel = new GameWorldPanel(LevelLoader.loadLevel(path, this, rawPlayer), keyHandler, this, rawPlayer);
 

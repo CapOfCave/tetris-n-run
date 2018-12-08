@@ -1,8 +1,5 @@
 package logics.entities;
 
-import java.util.HashMap;
-
-import data.Animation;
 import graphics.Frame;
 import logics.entities.items.Weapon;
 import logics.worlds.GameWorld;
@@ -31,14 +28,14 @@ public abstract class LivingEntity extends Entity {
 
 	protected double edgeTolerancePercentage = 25;
 
-	public LivingEntity(World world, HashMap<String, Animation> anims) {
-		super(world, anims);
+	public LivingEntity(World world, String animPath) {
+		super(world, animPath);
 		this.world = world;
 
 	}
 
-	public LivingEntity(GameWorld world, int x, int y, HashMap<String, Animation> anims) {
-		super(world, x, y, anims);
+	public LivingEntity(GameWorld world, int x, int y, String animPath) {
+		super(world, x, y, animPath);
 
 	}
 
@@ -315,13 +312,13 @@ public abstract class LivingEntity extends Entity {
 
 	private boolean isRelAccessible(double dy, double dx) {
 
-		//world bounds
+		// world bounds
 		if ((x + Frame.BLOCKSIZE / 2 + dx) >= world.getMaxX() || (y + Frame.BLOCKSIZE / 2 + dy) >= world.getMaxY()
 				|| (x + Frame.BLOCKSIZE / 2 + dx) < 0 || (y + Frame.BLOCKSIZE / 2 + dy) < 0) {
 			return false;
 		}
 
-		//tetro or walkable tile
+		// tetro or walkable tile
 		return (world.isTetroAt(getTileY(dy), getTileX(dx))
 				&& world.getTileAt(getTileY(dy), getTileX(dx)).isWalkableWithTetro())
 				|| world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();

@@ -43,6 +43,10 @@ public class LevelLoader {
 		ArrayList<Entity> entities = new ArrayList<>();
 
 		HashMap<Integer, Integer> rawMaxTetroAmounts = new HashMap<>();
+		boolean[] toggleStates = new boolean[5];
+		for(int i = 0; i < toggleStates.length; i++) {
+			toggleStates[i] = false;
+		}
 
 		int worldlength = 0;
 		int playerX = 0;
@@ -61,7 +65,7 @@ public class LevelLoader {
 		}
 		while (sc.hasNext()) {
 			String nextLine = sc.nextLine();
-			if (nextLine.startsWith("i")) {
+			if (nextLine.startsWith("b")) {
 				String[] strSettings = nextLine.split(";");
 				for (String str : strSettings) {
 					if (str == strSettings[0])
@@ -81,7 +85,11 @@ public class LevelLoader {
 						playerY = Integer.parseInt(attr.substring(attr.indexOf("=") + 1));
 					}
 				}
-
+			} else if (nextLine.startsWith("o")) {
+				String[] attribs = nextLine.split(";");
+				for (int i = 1; i < attribs.length; i++) {
+					toggleStates[i - 1] = Boolean.parseBoolean(attribs[i]);
+				}
 			} else if (nextLine.startsWith("t")) {
 				int x = -100;
 				int y = -100;
@@ -150,9 +158,13 @@ public class LevelLoader {
 				String type = null;
 				double x = -1;
 				double y = -1;
+				double rx = -1;
+				double ry = -1;
 				String animPath = null;
 				double cx = -1;
 				double cy = -1;
+				double rcx = -1;
+				double rcy = -1;
 				String canimPath = null;
 				int color = 0;
 
@@ -163,6 +175,10 @@ public class LevelLoader {
 						x = Integer.parseInt(str.substring(2));
 					} else if (str.startsWith("y=")) {
 						y = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("rx=")) {
+						rx = Integer.parseInt(str.substring(3));
+					} else if (str.startsWith("ry=")) {
+						ry = Integer.parseInt(str.substring(3));
 					} else if (str.startsWith("type=")) {
 						type = str.substring(str.indexOf("=") + 1);
 					} else if (str.startsWith("path=") || str.startsWith("url=")) {
@@ -171,6 +187,10 @@ public class LevelLoader {
 						cx = Integer.parseInt(str.substring(3));
 					} else if (str.startsWith("cy=")) {
 						cy = Integer.parseInt(str.substring(3));
+					} else if (str.startsWith("rcx=")) {
+						rcx = Integer.parseInt(str.substring(4));
+					} else if (str.startsWith("rcy=")) {
+						rcy = Integer.parseInt(str.substring(4));
 					} else if (str.startsWith("cpath=") || str.startsWith("curl=")) {
 						canimPath = str.substring(str.indexOf("=") + 1);
 					} else if (str.startsWith("color=") || str.startsWith("c=")) {
@@ -179,17 +199,21 @@ public class LevelLoader {
 
 				}
 
-				if (animPath != null && type != null && x >= 0 && y >= 0) {
+				if (rcx == -1 || rcy == -1) {
+					rcx = cx * Frame.BLOCKSIZE;
+					rcy = cy * Frame.BLOCKSIZE;
+				}
+				if (rx == -1 || ry == -1) {
+					rx = x * Frame.BLOCKSIZE;
+					ry = y * Frame.BLOCKSIZE;
+				}
+				if (animPath != null && type != null && rx >= 0 && ry >= 0) {
 					if (type.equals("switch")) {
-						entities.add(new Switch(null, x * Frame.BLOCKSIZE, y * Frame.BLOCKSIZE,
-								AnimationLoader.loadAnimations(animPath), color));
+						entities.add(new Switch(null, rx, ry, animPath, color));
 					} else if (type.equals("moveblock")) {
-						entities.add(new MovingBlock(null, x * Frame.BLOCKSIZE, y * Frame.BLOCKSIZE,
-								AnimationLoader.loadAnimations(animPath)));
+						entities.add(new MovingBlock(null, rx, ry, animPath));
 					} else if (type.equals("moveblockspawner")) {
-						entities.add(new CubeSpawner(null, x * Frame.BLOCKSIZE, y * Frame.BLOCKSIZE,
-								AnimationLoader.loadAnimations(animPath), cx * Frame.BLOCKSIZE, cy * Frame.BLOCKSIZE,
-								AnimationLoader.loadAnimations(canimPath)));
+						entities.add(new CubeSpawner(null, rx, ry, animPath, rcx, rcy, canimPath));
 					} else {
 						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y + "): \"" + type + "\"");
 					}
@@ -330,10 +354,10 @@ public class LevelLoader {
 		if (tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl);
 
-			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, entities, tetroAmounts, tetrofileUrl,
-					playerX * Frame.BLOCKSIZE, playerY * Frame.BLOCKSIZE);
+			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, entities, tetroAmounts,
+					toggleStates, tetrofileUrl, playerX * Frame.BLOCKSIZE, playerY * Frame.BLOCKSIZE);
 		} else {
-			System.err.println("Levelerstellung nicht erfolgreich");
+			System.err.println("Levelerstellung nicht erfolgreich: tetrofileUrl = null");
 			System.exit(1);
 			return null;
 		}

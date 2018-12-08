@@ -22,11 +22,13 @@ public class DoorTile extends Tile {
 
 	private String str_akt_anim;
 	private DrawAndSortable bottomPart;
+	private boolean standardOpened;
 
 	public DoorTile(int color, int x, int y, int rotation, boolean open, Frame frame) {
 		super('D', x, y, open, open, frame);
 		this.rotation = rotation;
 		this.color = color;
+		this.standardOpened = open;
 		pictures = AnimationLoader.loadAnimations("/res/anims/door.txt");
 
 		if (color == 0) {
@@ -114,5 +116,9 @@ public class DoorTile extends Tile {
 		if (rotation % 2 == 1) {
 			renderer.addDrawable(bottomPart);
 		}
+	}
+
+	public boolean isToggled() {
+		return standardOpened;
 	}
 }

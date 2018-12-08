@@ -5,9 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import data.Animation;
 import graphics.Frame;
 import logics.entities.items.Weapon;
 import logics.searchalgorithm.SearchAlgorithm;
@@ -29,10 +27,11 @@ public class Enemy extends LivingEntity {
 
 	private Point goal;
 
-	public Enemy(World world, EnemySpawner parent, int health, int x, int y, HashMap<String, Animation> anims) {
-		super(world, anims);
+	public Enemy(World world, EnemySpawner parent, int health, int x, int y, String animPath) {
+		super(world, animPath);
 		this.health = health;
 		this.parent = parent;
+		type = "enemy";
 
 		acc = 0.8;
 		brake = 4;
@@ -49,6 +48,7 @@ public class Enemy extends LivingEntity {
 		lastY = y;
 
 		activeWeapon = new Weapon(world, 5, "/res/anims/sword.txt", new Point(0, 0), new Point(0, 0), 10, 50, 30, 50);
+		
 	}
 
 	public void draw(Graphics g, float interpolation) {
