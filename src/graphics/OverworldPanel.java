@@ -20,6 +20,7 @@ public class OverworldPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 	private GuiMouseHandler guiMouseHandler;
+	
 //	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
 //	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
 
@@ -27,6 +28,7 @@ public class OverworldPanel extends Panel {
 		super(level, keyHandler , frame);
 
 		 world = new Overworld(gamePanel, level, keyHandler, frame, rawPlayer);
+		 
 
 		guiMouseHandler = new GuiMouseHandler(frame, (Overworld)world);
 		addMouseListener(guiMouseHandler);
@@ -71,12 +73,15 @@ public class OverworldPanel extends Panel {
 		}
 		g.setColor(Color.BLACK);
 		
+		Graphics2D chatCraphics = (Graphics2D) g.create( 890, 671, 365, 184);
+		
 		g.drawString("Load", 1080, 400);
 		String[] text = frame.getText();
-		g.setFont(new Font("Timesnewroman", 0, 18));
+		chatCraphics.setFont(new Font("Timesnewroman", 0, 18));
 		if(text.length > 0){
 		for(int i = 0; i < text.length; i++) {
-			g.drawString(text[i], 920, 710 + (i * 21));
+			chatCraphics.drawString(text[i], 30, 40 + (i * 21));
+			
 		}
 		}
 
