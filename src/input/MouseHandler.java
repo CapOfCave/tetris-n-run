@@ -38,10 +38,7 @@ public class MouseHandler implements MouseInputListener {
 		} else if (e.getButton() == MouseEvent.BUTTON3) {
 			// Rechte Maustaste : drehen
 			inHandHandler.rotateInHand(false);
-		} else if (e.getButton() == MouseEvent.BUTTON2) {
-			// TODO temporary save option
-			world.save("C:\\JavaEclipse", "level.txt");
-		}
+		} 
 	}
 
 	@Override

@@ -11,22 +11,34 @@ import data.RawPlayer;
 
 public class RawPlayerLoader {
 
-public static RawPlayer readRawPlayer(String typeUrl) {
+public static RawPlayer readRawPlayer() {
+	
+	boolean isInAppdata = true;
+	
+			File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\player.txt");
+		if(!file.exists()) {
+			file = new File("/res/saves/Player.txt");
+			isInAppdata = false;
+		}
+			
+		
+			System.out.println(file.getPath());
 		
 		FileInputStream fin = null;
 		ObjectInputStream ois = null;
 		RawPlayer rawPlayer = null;
 		
-		if(!LevelLoader.isAbsolute(typeUrl)) {
+		if(!isInAppdata) {
 			try {
-				ois = new ObjectInputStream(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(typeUrl));
+				ois = new ObjectInputStream(Toolkit.getDefaultToolkit().getClass().getResourceAsStream("/res/saves/Player.txt"));
 				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}else {
 			try {
-				fin = new FileInputStream(new File(typeUrl));
+				
+				fin = new FileInputStream(file);
 				ois = new ObjectInputStream(fin);
 			} catch (IOException e) {
 				e.printStackTrace();

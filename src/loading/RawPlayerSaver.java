@@ -1,5 +1,6 @@
 package loading;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,6 +17,9 @@ public class RawPlayerSaver {
 		ObjectOutputStream oos = null;
 
 		try {
+			File file = new File(saveUrl);
+			if(!file.exists())
+				file.createNewFile();
 
 			fout = new FileOutputStream(saveUrl);
 			oos = new ObjectOutputStream(fout);
