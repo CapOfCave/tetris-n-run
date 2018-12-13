@@ -15,7 +15,7 @@ public class SaveNLoadTile extends Tile {
 
 	boolean fileExists = false;
 	File loadFile = null;
-	int[] tetroAmount;
+	
 	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
 
 	public SaveNLoadTile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, Frame frame, int[] tetroAmount) {

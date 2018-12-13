@@ -24,6 +24,7 @@ public abstract class Tile implements DrawAndSortable {
 
 	protected boolean isBlockingTetro;
 	protected World world;
+	protected int[] tetroAmount;
 
 	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, Frame frame) {
 		this.key = key;
@@ -44,6 +45,14 @@ public abstract class Tile implements DrawAndSortable {
 		this.img = img;
 	}
 
+	public int[] getTetroAmount() {
+		return tetroAmount;
+	}
+
+	public void setTetroAmount(int[] tetroAmount) {
+		this.tetroAmount = tetroAmount;
+	}
+	
 	public char getKey() {
 		return key;
 	}
