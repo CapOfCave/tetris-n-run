@@ -20,7 +20,7 @@ import logics.entities.items.Item;
  * @author Lars Created on 13.08.2018
  */
 public class LevelSaver {
-
+//TODO correct save/Load von Cubespawnern
 	public void saveLevel(Level level, String path, String fileName) {
 		print(createOutput(level), path, fileName);
 	}
@@ -71,29 +71,14 @@ public class LevelSaver {
 		boolean[] toggleStates = level.getToggleStates();
 		outpLines.add("o;" + toggleStates[0] + ";" + toggleStates[1] + ";" + toggleStates[2] + ";" + toggleStates[3]
 				+ ";" + toggleStates[4]);
-//	} else if (nextLine.startsWith("m")) {
-//		String strSplit[] = nextLine.split(";");
-//		int type = -1;
-//		int amount = 0;
-//		for (String str : strSplit) {
-//			if (str == strSplit[0])
-//				continue;
-//			if (str.startsWith("amount=") || str.startsWith("a=")) {
-//				amount = Integer.parseInt(str.substring(str.indexOf("=") + 1));
-//			} else if (str.startsWith("type=") || str.startsWith("t=")) {
-//				type = Integer.parseInt(str.substring(str.indexOf("=") + 1));
-//			}
-//		}
-//		if (type >= 0) {
-//			rawMaxTetroAmounts.put(type, amount);
-//		}
+
+		//Tetro Amounts
 		int[] tetroAmounts = level.getTetroAmounts();
 		for (int i = 0; i < tetroAmounts.length; i++) {
 			if (tetroAmounts[i] != 0) {
 				outpLines.add("m;type=" + i + ";amount=" + tetroAmounts[i]);
 			}
 		}
-		// outp//TODO add "m;"
 
 		// tetros
 		ArrayList<RawTetro> rawTetros = level.getUnfinishedTetros();
@@ -104,14 +89,14 @@ public class LevelSaver {
 		// items
 		ArrayList<Item> items = level.getItemWorld();
 		for (Item i : items) {
-			outpLines.add("i;x=" + i.getX() + ";y=" + i.getY() + ";t=" + i.getPath());
+			outpLines.add("i;x=" + (int)i.getX() + ";y=" + (int)i.getY() + ";t=" + i.getPath());
 		}
 
 		// doors
 		ArrayList<DoorTile> doors = level.getDoors();
 		for (DoorTile dT : doors) {
 			outpLines.add("d;x=" + dT.getPosX() + ";y=" + dT.getPosY() + ";r=" + dT.getRotation() + ";c="
-					+ dT.getColor() + ";o=" + dT.isToggled()); // TODO
+					+ dT.getColor() + ";o=" + dT.isToggled());
 		}
 
 		// Spawners

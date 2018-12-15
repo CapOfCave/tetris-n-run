@@ -38,11 +38,10 @@ public class Frame extends JFrame {
 	private KeyHandler keyHandler;
 
 	public static void main(String[] args) {
-		
-		
+
 		File savesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves");
-		
-		if(!savesFile.exists()) {
+
+		if (!savesFile.exists()) {
 			savesFile.mkdirs();
 			System.out.println(savesFile);
 		}
@@ -60,9 +59,8 @@ public class Frame extends JFrame {
 		text[4] = "";
 		text[5] = "";
 		text[6] = "";
-		
+
 		soundPlayer = new SoundPlayer();
-		
 
 		rawPlayer = RawPlayerLoader.readRawPlayer();
 		rawPlayer.init();
@@ -104,7 +102,9 @@ public class Frame extends JFrame {
 		clearText();
 		File overworldFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
 		if (!died) {
-			RawPlayerSaver.writePlayer(("APPDATA") + "\\tetris-n-run\\saves\\player.txt", rawPlayer);
+			RawPlayerSaver.writePlayer(("APPDATA") + "\\tetris-n-run\\saves\\player.txt", rawPlayer); 
+			// TODO fehlermeldung beigelöschtem apdata
+
 			deleteAll();
 		}
 
@@ -207,7 +207,7 @@ public class Frame extends JFrame {
 		}
 
 	}
-	
+
 	public void playSound(String sound, float volume) {
 		soundPlayer.playSound(sound, volume);
 	}
