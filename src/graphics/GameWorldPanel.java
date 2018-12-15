@@ -59,9 +59,9 @@ public class GameWorldPanel extends Panel {
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize , 0);
 			g.setFont(new Font("TimesNewRoman", 1, 25));
-			if(i % 2 == 0  && world.getTetroAmount().length > 0) {
+			if(i % 2 == 0  && world.getTetroAmount().length > 0 && world.getTetroAmount().length-1 >= i) {
 				g.drawString( ""+ world.getTetroAmount()[i], 1212, 153 + 58 * i + i/2);
-			}else if(world.getTetroAmount().length > 0) {
+			}else if(world.getTetroAmount().length > 0 && world.getTetroAmount().length-1 >= i) {
 				g.drawString( ""+ world.getTetroAmount()[i], 1085, 212 + 58 * i + i/2);
 			}
 			g.setFont(new Font("TimesNewRoman", 1, 44));

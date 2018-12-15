@@ -104,7 +104,7 @@ public class Frame extends JFrame {
 		clearText();
 		File overworldFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
 		if (!died) {
-			RawPlayerSaver.writePlayer(("APPDATA") + "\\tetris-n-run\\saves\\player.txt", rawPlayer);
+			RawPlayerSaver.writePlayer(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\player.txt", rawPlayer);
 			deleteAll();
 		}
 

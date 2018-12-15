@@ -67,11 +67,13 @@ public class SaveNLoadTile extends Tile {
 
 		if (!fileExists) {
 			frame.addLineToText("Spielstand wurde gespeichert.");
+			world.setTetroAmount(tetroAmount);
 			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
 			checkIfExists();
 		} else {
 			frame.addLineToText("Spielstand wurde geladen.");
 			// remove later saves
+			
 			int index = Integer.parseInt(loadFile.getName().substring(0, loadFile.getName().indexOf("save")));
 			for (File f : new File(folderName).listFiles()) {
 				if (Integer.parseInt(f.getName().substring(0, f.getName().indexOf("save"))) > index) {
@@ -79,7 +81,7 @@ public class SaveNLoadTile extends Tile {
 				}
 			}
 			frame.swichLevel(loadFile.getAbsolutePath());
-
+			
 		}
 	}
 
