@@ -20,7 +20,7 @@ import logics.entities.items.Item;
  * @author Lars Created on 13.08.2018
  */
 public class LevelSaver {
-
+//TODO correct save/Load von Cubespawnern
 	public void saveLevel(Level level, String path, String fileName) {
 		print(createOutput(level), path, fileName);
 	}
@@ -93,7 +93,6 @@ public class LevelSaver {
 				outpLines.add("m;type=" + i + ";amount=" + tetroAmounts[i]);
 			}
 		}
-		// outp//TODO add "m;"
 
 		// tetros
 		ArrayList<RawTetro> rawTetros = level.getUnfinishedTetros();
@@ -104,14 +103,14 @@ public class LevelSaver {
 		// items
 		ArrayList<Item> items = level.getItemWorld();
 		for (Item i : items) {
-			outpLines.add("i;x=" + i.getX() + ";y=" + i.getY() + ";t=" + i.getPath());
+			outpLines.add("i;x=" + (int)i.getX() + ";y=" + (int)i.getY() + ";t=" + i.getPath());
 		}
 
 		// doors
 		ArrayList<DoorTile> doors = level.getDoors();
 		for (DoorTile dT : doors) {
 			outpLines.add("d;x=" + dT.getPosX() + ";y=" + dT.getPosY() + ";r=" + dT.getRotation() + ";c="
-					+ dT.getColor() + ";o=" + dT.isToggled()); // TODO
+					+ dT.getColor() + ";o=" + dT.isToggled());
 		}
 
 		// Spawners

@@ -362,8 +362,7 @@ public abstract class World {
 		}
 
 		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, items, doors, createRawSpawner(),
-				otherEntities, tetroAmount, toggleStates, tetroFileURL, player.getTileX(), player.getTileY());// TODO
-																												// Saving
+				otherEntities, tetroAmount, toggleStates, tetroFileURL, player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path, fileName);
 
