@@ -41,10 +41,11 @@ public class LevelLoader {
 		ArrayList<DoorTile> doors = new ArrayList<>();
 		ArrayList<RawSpawner> spawner = new ArrayList<>();
 		ArrayList<Entity> entities = new ArrayList<>();
+		Tile[][] arrWorld = null;
 
 		HashMap<Integer, Integer> rawMaxTetroAmounts = new HashMap<>();
 		boolean[] toggleStates = new boolean[5];
-		for(int i = 0; i < toggleStates.length; i++) {
+		for (int i = 0; i < toggleStates.length; i++) {
 			toggleStates[i] = false;
 		}
 
@@ -64,6 +65,8 @@ public class LevelLoader {
 			}
 		}
 		while (sc.hasNext()) {
+
+			// Lines for Tetros, enteties, etc.
 			String nextLine = sc.nextLine();
 			if (nextLine.startsWith("b")) {
 				String[] strSettings = nextLine.split(";");
@@ -294,46 +297,78 @@ public class LevelLoader {
 				worldlength = Math.max(worldlength, strTemp.length());
 			}
 
+			// Lines for Tiles
+			else if (nextLine.startsWith("###")) {
+				if (arrWorld == null)
+					arrWorld = new Tile[world.size()][worldlength];
+			} else if (nextLine.startsWith("Tl")) {
+				String strSplit[] = nextLine.split(";");
+
+				int x = -1;
+				int y = -1;
+				int amountList[] = { 0, 1, 0, 0, 0, 0, 0 };
+				for (String str : strSplit) {
+					
+					if (str.startsWith("x=")) {
+						x = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("y=")) {
+						y = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("amount=")) {
+
+						String[] amounts = str.substring(7).split(",");
+						
+						for (int i = 0; i < amounts.length; i++) {
+							if(amountList.length <=  amounts.length)
+								amountList[i] = Integer.parseInt(amounts[i]);
+						}
+					}
+
+				}
+				arrWorld[y][x] = new SaveNLoadTile('2', x, y, false, true, frame, amountList);
+			}
+
 		}
 		sc.close();
 
-		Tile[][] arrWorld = new Tile[world.size()][worldlength];
+		if (arrWorld == null)
+			arrWorld = new Tile[world.size()][worldlength];
 		for (int j = 0; j < world.size(); j++) {
 			String worldString = world.get(j);
 			for (int i = 0; i < worldString.length(); i++) {
 
-				char tileChar = worldString.charAt(i);
+				if (arrWorld[j][i] == null) {
+					char tileChar = worldString.charAt(i);
 
-				if (tileChar == '1') {
-					arrWorld[j][i] = new WallTile(tileChar, i, j, frame);
-				} else if (tileChar == '0') {
-					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
-				} else if (tileChar == '2') {
-					arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, false, true, frame);
-				} else if (tileChar == 'D') {
-
-					for (DoorTile dT : doors) {
-						if (dT.getPosX() == i && dT.getPosY() == j) {
-							arrWorld[j][i] = dT;
-						}
-					}
-					if (arrWorld[j][i] == null) {
-						System.err.println("Fehler im Level \"" + url + "\": Tür nicht bestimmt");
+					if (tileChar == '1') {
+						arrWorld[j][i] = new WallTile(tileChar, i, j, frame);
+					} else if (tileChar == '0') {
 						arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
+					} else if (tileChar == '2') {
+						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, false, true, frame, new int[] { 0, 0 });
+					} else if (tileChar == 'D') {
 
+						for (DoorTile dT : doors) {
+							if (dT.getPosX() == i && dT.getPosY() == j) {
+								arrWorld[j][i] = dT;
+							}
+						}
+						if (arrWorld[j][i] == null) {
+							System.err.println("Fehler im Level \"" + url + "\": Tür nicht bestimmt");
+							arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
+
+						}
+
+					} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò') {
+						arrWorld[j][i] = new PressurePlateTile(tileChar, i, j, frame);
+					} else if (tileChar == '!') {
+						arrWorld[j][i] = new GoalTile(i, j, frame);
+					} else if (Character.isLowerCase(tileChar)) {
+						arrWorld[j][i] = new LevelGuiTile(tileChar, i, j, frame);
+					} else {
+						System.err.println("Unbekanntes Tile bei (" + i + "|" + j + ")");
+						arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 					}
-
-				} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò') {
-					arrWorld[j][i] = new PressurePlateTile(tileChar, i, j, frame);
-				} else if (tileChar == '!') {
-					arrWorld[j][i] = new GoalTile(i, j, frame);
-				} else if (Character.isLowerCase(tileChar)) {
-					arrWorld[j][i] = new LevelGuiTile(tileChar, i, j, frame);
-				} else {
-					System.err.println("Unbekanntes Tile bei (" + i + "|" + j + ")");
-					arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 				}
-
 			}
 		}
 

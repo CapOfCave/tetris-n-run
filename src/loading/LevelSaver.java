@@ -71,8 +71,22 @@ public class LevelSaver {
 		boolean[] toggleStates = level.getToggleStates();
 		outpLines.add("o;" + toggleStates[0] + ";" + toggleStates[1] + ";" + toggleStates[2] + ";" + toggleStates[3]
 				+ ";" + toggleStates[4]);
-
-		//Tetro Amounts
+		// } else if (nextLine.startsWith("m")) {
+		// String strSplit[] = nextLine.split(";");
+		// int type = -1;
+		// int amount = 0;
+		// for (String str : strSplit) {
+		// if (str == strSplit[0])
+		// continue;
+		// if (str.startsWith("amount=") || str.startsWith("a=")) {
+		// amount = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+		// } else if (str.startsWith("type=") || str.startsWith("t=")) {
+		// type = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+		// }
+		// }
+		// if (type >= 0) {
+		// rawMaxTetroAmounts.put(type, amount);
+		// }
 		int[] tetroAmounts = level.getTetroAmounts();
 		for (int i = 0; i < tetroAmounts.length; i++) {
 			if (tetroAmounts[i] != 0) {
@@ -139,6 +153,26 @@ public class LevelSaver {
 				worldLine.append(field.getKey());
 			}
 			outpLines.add(worldLine.toString());
+		}
+
+		// ###Line
+		outpLines.add("###");
+
+		// Tiles in line
+		for (Tile[] row : world) {
+
+			for (Tile field : row) {
+				if (field.getKey() == '2') {
+					StringBuilder worldLine = new StringBuilder("Tl;");
+					worldLine.append("x=" + field.getPosX() + ";");
+					worldLine.append("y=" + field.getPosY() + ";");
+					worldLine.append("amount=");
+					for (int amount : field.getTetroAmount())
+						worldLine.append(amount + ",");
+					outpLines.add(worldLine.toString());
+				}
+			}
+
 		}
 
 		return outpLines;

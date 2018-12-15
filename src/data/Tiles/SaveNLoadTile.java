@@ -15,13 +15,16 @@ public class SaveNLoadTile extends Tile {
 
 	boolean fileExists = false;
 	File loadFile = null;
+	
 	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
 
-	public SaveNLoadTile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, Frame frame) {
+	public SaveNLoadTile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, Frame frame, int[] tetroAmount) {
 		super(key, posX, posY, walkable, walkableWithTetro, frame);
 
 		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoad2.png");
 		image3dUnSaved = ImageLoader.loadImage("/res/blocks/saveNLoad1.png");
+		
+		this.tetroAmount = tetroAmount;
 
 	}
 
@@ -50,6 +53,7 @@ public class SaveNLoadTile extends Tile {
 
 		if (!fileExists) {
 			frame.addLineToText("Spielstand wurde gespeichert.");
+			world.setTetroAmount(tetroAmount);
 			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
 			checkIfExists();
 		}
