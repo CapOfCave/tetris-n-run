@@ -70,7 +70,7 @@ public abstract class World {
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 
 		// Initialisierungen
-		
+
 		this.graphicClip = graphicClip;
 		this.tetroTypes = level.getTetroTypes();
 		this.keyHandler = keyHandler;
@@ -82,7 +82,7 @@ public abstract class World {
 		renderer = new Renderer();
 
 		nullTileImg = ImageLoader.loadImage("/res/blocks/block0.png");
-		
+
 		tetroAmount = level.getTetroAmounts();
 		tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
@@ -97,8 +97,8 @@ public abstract class World {
 		tileWorld = level.getArrWorld();
 		for (Tile[] tt : tileWorld) {
 			for (Tile t : tt) {
-				if(t != null)
-				t.setWorld(this);
+				if (t != null)
+					t.setWorld(this);
 			}
 		}
 		items = level.getItemWorld();
@@ -137,18 +137,18 @@ public abstract class World {
 		// add everything to renderer
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
-				if(tileWorld[j][i] != null)
-				tileWorld[j][i].addTo(renderer);
+				if (tileWorld[j][i] != null)
+					tileWorld[j][i].addTo(renderer);
 			}
 		}
-		
+
 		for (Entity entity : allEntities) {
 			entity.addTo(renderer);
 			if (entity instanceof MovingBlock) {
 				Tile currentTile = getTileAt((int) ((entity.getY() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE),
 						(int) ((entity.getX() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE));
 				currentTile.eventWhenMoveBlockEntering();
-				((MovingBlock)entity).setCurrentTile(currentTile);
+				((MovingBlock) entity).setCurrentTile(currentTile);
 			}
 		}
 		player.addTo(renderer);
@@ -167,8 +167,8 @@ public abstract class World {
 		// Tetros
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
-				if(tileWorld[j][i] != null)
-				tileWorld[j][i].drawBackground(g, interpolation);
+				if (tileWorld[j][i] != null)
+					tileWorld[j][i].drawBackground(g, interpolation);
 				else
 					drawTileIfNull(g, interpolation, i, j);
 			}
@@ -183,10 +183,10 @@ public abstract class World {
 			drawDebug(g, interpolation);
 		}
 	}
-	
-	public void drawTileIfNull(Graphics g,float interpolation, int x, int y) {
-		g.drawImage(nullTileImg, (int) (x * Frame.BLOCKSIZE - cameraX()),
-				(int) (y * Frame.BLOCKSIZE - cameraY()), null);
+
+	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
+		g.drawImage(nullTileImg, (int) (x * Frame.BLOCKSIZE - cameraX()), (int) (y * Frame.BLOCKSIZE - cameraY()),
+				null);
 	}
 
 	public void playSound(String sound, float volume) {
@@ -204,15 +204,16 @@ public abstract class World {
 	}
 
 	public void drawDebug(Graphics g, float interpolation) {
-//		for (int j = 0; j < tileWorld.length; j++) {
-//			for (int i = 0; i < tileWorld[j].length; i++) {
-//				if (tetroWorldHitbox[j][i]) {
-//					g.setColor(Color.RED);
-//					g.drawRect(i * Frame.BLOCKSIZE - camera.getX(), j * Frame.BLOCKSIZE - camera.getY(),
-//							Frame.BLOCKSIZE, Frame.BLOCKSIZE);
-//				}
-//			}
-//		}
+		// for (int j = 0; j < tileWorld.length; j++) {
+		// for (int i = 0; i < tileWorld[j].length; i++) {
+		// if (tetroWorldHitbox[j][i]) {
+		// g.setColor(Color.RED);
+		// g.drawRect(i * Frame.BLOCKSIZE - camera.getX(), j * Frame.BLOCKSIZE -
+		// camera.getY(),
+		// Frame.BLOCKSIZE, Frame.BLOCKSIZE);
+		// }
+		// }
+		// }
 		for (Entity e : allEntities) {
 			e.drawDebug(g, interpolation);
 		}
@@ -275,32 +276,36 @@ public abstract class World {
 					switch (tetro.getRotation()) {
 					case 0:
 						if (!isTetroPlacableAt(i + virX, j + virY)) {
-//							System.err.println(
-//									"Nicht erlaubte Platzierung eines Tetros bei " + (i + virX) + "|" + (j + virY));
+							// System.err.println(
+							// "Nicht erlaubte Platzierung eines Tetros bei " + (i + virX) + "|" + (j +
+							// virY));
 							return false;
 						} else {
 							break;
 						}
 					case 1:
 						if (!isTetroPlacableAt(j + virX, -i + virY + 3)) {
-//							System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (j + virX) + "|"
-//									+ (-i + virY + 3));
+							// System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (j +
+							// virX) + "|"
+							// + (-i + virY + 3));
 							return false;
 						} else {
 							break;
 						}
 					case 2:
 						if (!isTetroPlacableAt(-i + virX + 3, -j + virY + 1)) {
-//							System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (-i + virX + 3) + "|"
-//									+ (-j + virY + 1));
+							// System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (-i +
+							// virX + 3) + "|"
+							// + (-j + virY + 1));
 							return false;
 						} else {
 							break;
 						}
 					case 3:
 						if (!isTetroPlacableAt(-j + virX + 1, i + virY)) {
-//							System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (-j + virX + 1) + "|"
-//									+ (i + virY));
+							// System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (-j +
+							// virX + 1) + "|"
+							// + (i + virY));
 							return false;
 						} else {
 							break;
@@ -313,7 +318,10 @@ public abstract class World {
 	}
 
 	private boolean isTetroPlacableAt(int i, int j) {
-		return tileWorld[j][i].isWalkableWithTetro() && !tetroWorldHitbox[j][i];
+		if (tileWorld[j][i] != null)
+			return tileWorld[j][i].isWalkableWithTetro() && !tetroWorldHitbox[j][i];
+		else
+			return !tetroWorldHitbox[j][i];
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {
@@ -557,7 +565,5 @@ public abstract class World {
 	public void setTetroAmount(int[] tetroAmount) {
 		this.tetroAmount = tetroAmount;
 	}
-
-	
 
 }
