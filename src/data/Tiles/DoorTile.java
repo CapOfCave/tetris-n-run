@@ -29,6 +29,7 @@ public class DoorTile extends Tile {
 		this.rotation = rotation;
 		this.color = color;
 		this.standardOpened = open;
+		this.walkableWithTetro = true;
 		pictures = AnimationLoader.loadAnimations("/res/anims/door.txt");
 
 		if (color == 0) {
