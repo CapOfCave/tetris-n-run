@@ -53,6 +53,8 @@ public class OverworldPanel extends Panel {
 		world.drawPlayerPreview(previewGraphics);
 		world.drawInventory(inventoryGraphics);
 		if (debugMode) {
+			gameGraphics.setColor(Color.WHITE);
+			gameGraphics.fillRect(0, 0, 170, 55);
 			drawDebug(gameGraphics);
 		}
 		g.drawImage(ImageLoader.loadImage("/res/backOverworld.png"), 0, 0, 1300, 900, null);

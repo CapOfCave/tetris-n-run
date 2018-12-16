@@ -1,6 +1,7 @@
 package logics.entities;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -77,16 +78,16 @@ public class Player extends LivingEntity {
 		int interpolX = (int) ((x - lastX) * interpolation + lastX);
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 		// Player hitbox
-		g.setColor(Color.ORANGE);
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 200, 33);
-		g.setColor(Color.BLACK);
-		g.drawString("Rot.:=" + rotation, 2, 15);
+		g.setFont(new Font("helvetica", Font.PLAIN, 11));
 
 		g.setColor(Color.RED);
 		g.drawString(Integer.toString(health), interpolX + 30 - world.cameraX(), interpolY - world.cameraY() - 20);
 		g.setColor(Color.GREEN);
 		g.drawString(Integer.toString(hitTicks), interpolX + 40 - world.cameraX(), interpolY - world.cameraY() - 20);
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("helvetica", Font.PLAIN, 11));
+		g.drawString("rx=" + x + " | ry=" + y, 20, 40);
+		g.drawString("vx=" + x / Frame.BLOCKSIZE + " | vy=" + y / Frame.BLOCKSIZE, 20, 55);
 
 	}
 
@@ -208,8 +209,8 @@ public class Player extends LivingEntity {
 				akt_Tile.eventWhenLeaving();
 			}
 			akt_Tile = world.getTileAt(getTileY(), getTileX());
-			if(akt_Tile != null)
-			akt_Tile.eventWhenEntering();
+			if (akt_Tile != null)
+				akt_Tile.eventWhenEntering();
 		}
 
 		ArrayList<Item> itemsOnTile = world.getItemsAt(getTileY(), getTileX());

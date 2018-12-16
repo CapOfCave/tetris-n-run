@@ -25,7 +25,7 @@ public class DoorTile extends Tile {
 	private boolean standardOpened;
 
 	public DoorTile(int color, int x, int y, int rotation, boolean open, Frame frame) {
-		super('D', x, y, open, open, true, frame);
+		super('D', x, y, false, open, true, frame);
 		this.rotation = rotation;
 		this.color = color;
 		this.standardOpened = open;
@@ -81,11 +81,13 @@ public class DoorTile extends Tile {
 	}
 
 	public void changeState() {
-		walkable = !walkable;
+//		walkable = !walkable;
 		walkableWithTetro = !walkableWithTetro;
 
-		str_akt_anim = (walkable ? "opened" : "closed") + rotation;
+		str_akt_anim = (walkableWithTetro ? "opened" : "closed") + rotation;
 		image3d = Tools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
+		if (posX == 7)
+			System.out.println(str_akt_anim);
 
 	}
 

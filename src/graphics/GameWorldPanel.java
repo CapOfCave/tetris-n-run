@@ -69,6 +69,8 @@ public class GameWorldPanel extends Panel {
 		
 		
 		if (debugMode) {
+			gameGraphics.setColor(Color.WHITE);
+			gameGraphics.fillRect(0, 0, 170, 55);
 			drawDebug(gameGraphics);
 		}
 
