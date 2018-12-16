@@ -515,8 +515,11 @@ public abstract class World {
 			}
 		}
 		// Tiles
-		tileWorld[((int) y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE][((int) x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE]
-				.interact();
+		if (tileWorld[((int) y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE][((int) x + Frame.BLOCKSIZE / 2)
+				/ Frame.BLOCKSIZE] != null) {
+			tileWorld[((int) y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE][((int) x + Frame.BLOCKSIZE / 2)
+					/ Frame.BLOCKSIZE].interact();
+		}
 		for (Entity e : toAdd) {
 			allEntities.add(e);
 			renderer.addDrawable(e);
