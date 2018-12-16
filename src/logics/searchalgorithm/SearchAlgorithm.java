@@ -168,7 +168,11 @@ public class SearchAlgorithm {
 		}
 
 		private boolean isPassable(int dy, int dx) {
-			return (world.isTetroAt(y + dy, x + dx) && world.getTileAt(y + dy, x + dx).isWalkableWithTetro()) || world.getTileAt(y + dy, x + dx).isWalkable();
+			if (world.getTileAt(y + dy, x + dx) != null)
+				return (world.isTetroAt(y + dy, x + dx) && world.getTileAt(y + dy, x + dx).isWalkableWithTetro())
+						|| world.getTileAt(y + dy, x + dx).isWalkable();
+			else
+				return world.isTetroAt(y + dy, x + dx);
 		}
 
 		private boolean isPassableDiagonally(int dy, int dx) {

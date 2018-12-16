@@ -17,6 +17,7 @@ import data.Tiles.Tile;
 import graphics.Frame;
 import graphics.Renderer;
 import input.KeyHandler;
+import loading.ImageLoader;
 import loading.LevelSaver;
 import logics.Camera;
 import logics.GameLoop;
@@ -40,6 +41,7 @@ public abstract class World {
 	// Standard-Bilder
 	protected BufferedImage blockImg;
 	protected BufferedImage backgroundImg;
+	protected BufferedImage nullTileImg;
 	protected Renderer renderer;
 
 	// Wichtigste Bezugsobjekte
@@ -68,6 +70,7 @@ public abstract class World {
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 
 		// Initialisierungen
+		
 		this.graphicClip = graphicClip;
 		this.tetroTypes = level.getTetroTypes();
 		this.keyHandler = keyHandler;
@@ -78,6 +81,8 @@ public abstract class World {
 		toRemove = new ArrayList<>();
 		renderer = new Renderer();
 
+		nullTileImg = ImageLoader.loadImage("/res/blocks/block0.png");
+		
 		tetroAmount = level.getTetroAmounts();
 		tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
@@ -92,6 +97,7 @@ public abstract class World {
 		tileWorld = level.getArrWorld();
 		for (Tile[] tt : tileWorld) {
 			for (Tile t : tt) {
+				if(t != null)
 				t.setWorld(this);
 			}
 		}
@@ -131,6 +137,7 @@ public abstract class World {
 		// add everything to renderer
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
+				if(tileWorld[j][i] != null)
 				tileWorld[j][i].addTo(renderer);
 			}
 		}
@@ -160,7 +167,10 @@ public abstract class World {
 		// Tetros
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
+				if(tileWorld[j][i] != null)
 				tileWorld[j][i].drawBackground(g, interpolation);
+				else
+					drawTileIfNull(g, interpolation, i, j);
 			}
 		}
 		for (Tetro t : tetros) {
@@ -172,6 +182,11 @@ public abstract class World {
 		if (debugMode) {
 			drawDebug(g, interpolation);
 		}
+	}
+	
+	public void drawTileIfNull(Graphics g,float interpolation, int x, int y) {
+		g.drawImage(nullTileImg, (int) (x * Frame.BLOCKSIZE - cameraX()),
+				(int) (y * Frame.BLOCKSIZE - cameraY()), null);
 	}
 
 	public void playSound(String sound, float volume) {

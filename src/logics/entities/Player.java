@@ -208,6 +208,7 @@ public class Player extends LivingEntity {
 				akt_Tile.eventWhenLeaving();
 			}
 			akt_Tile = world.getTileAt(getTileY(), getTileX());
+			if(akt_Tile != null)
 			akt_Tile.eventWhenEntering();
 		}
 

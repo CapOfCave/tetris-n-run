@@ -317,6 +317,9 @@ public abstract class LivingEntity extends Entity {
 				|| (x + Frame.BLOCKSIZE / 2 + dx) < 0 || (y + Frame.BLOCKSIZE / 2 + dy) < 0) {
 			return false;
 		}
+		
+		if(world.getTileAt(getTileY(dy), getTileX(dx)) == null)
+			return (world.isTetroAt(getTileY(dy), getTileX(dx)));
 
 		// tetro or walkable tile
 		return (world.isTetroAt(getTileY(dy), getTileX(dx))

@@ -342,7 +342,7 @@ public class LevelLoader {
 					if (tileChar == '1') {
 						arrWorld[j][i] = new WallTile(tileChar, i, j, frame);
 					} else if (tileChar == '0') {
-						arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
+						arrWorld[j][i] = null;
 					} else if (tileChar == '2') {
 						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, false, true, frame, new int[] { 0, 0 });
 					} else if (tileChar == 'D') {

@@ -150,7 +150,10 @@ public class LevelSaver {
 		for (Tile[] row : world) {
 			StringBuilder worldLine = new StringBuilder("w;");
 			for (Tile field : row) {
+				if(field != null)
 				worldLine.append(field.getKey());
+				else
+					worldLine.append('0');
 			}
 			outpLines.add(worldLine.toString());
 		}
@@ -162,7 +165,7 @@ public class LevelSaver {
 		for (Tile[] row : world) {
 
 			for (Tile field : row) {
-				if (field.getKey() == '2') {
+				if (field != null && field.getKey() == '2') {
 					StringBuilder worldLine = new StringBuilder("Tl;");
 					worldLine.append("x=" + field.getPosX() + ";");
 					worldLine.append("y=" + field.getPosY() + ";");
