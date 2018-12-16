@@ -32,6 +32,8 @@ import logics.entities.items.Item;
  */
 public class LevelLoader {
 
+	private static final int tetrotype_amount = 7;
+
 	public static Level loadLevel(String url, Frame frame, RawPlayer rawPlayer) {
 		String tetrofileUrl = null;
 		ArrayList<TetroType> tetroTypes;
@@ -372,12 +374,12 @@ public class LevelLoader {
 			}
 		}
 
-		int max_tetroamount_index = 0;
-		// Tetro maximums
-		for (Integer key : rawMaxTetroAmounts.keySet()) {
-			max_tetroamount_index = Math.max(rawMaxTetroAmounts.get(key), max_tetroamount_index);
-		}
-		int[] tetroAmounts = new int[max_tetroamount_index];
+//		int max_tetroamount_index = 0;
+//		// Tetro maximums
+//		for (Integer key : rawMaxTetroAmounts.keySet()) {
+//			max_tetroamount_index = Math.max(rawMaxTetroAmounts.get(key), max_tetroamount_index);
+//		}
+		int[] tetroAmounts = new int[tetrotype_amount];
 		for (int i = 0; i < tetroAmounts.length; i++) {
 			if (rawMaxTetroAmounts.get(i) != null) {
 				tetroAmounts[i] = rawMaxTetroAmounts.get(i);
