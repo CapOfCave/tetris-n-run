@@ -6,7 +6,7 @@ import loading.ImageLoader;
 public class LevelGuiTile extends Tile {
 
 	public LevelGuiTile(char key, int posX, int posY, Frame frame) {
-		super(key, posX, posY, true, true, frame);
+		super(key, posX, posY, true, true, false, frame);
 		img = ImageLoader.loadImage("/res/blocks/block" + key + ".png");
 
 	}

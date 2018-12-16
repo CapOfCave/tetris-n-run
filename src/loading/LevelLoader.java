@@ -310,7 +310,7 @@ public class LevelLoader {
 				int y = -1;
 				int amountList[] = { 0, 1, 0, 0, 0, 0, 0 };
 				for (String str : strSplit) {
-					
+
 					if (str.startsWith("x=")) {
 						x = Integer.parseInt(str.substring(2));
 					} else if (str.startsWith("y=")) {
@@ -318,15 +318,15 @@ public class LevelLoader {
 					} else if (str.startsWith("amount=")) {
 
 						String[] amounts = str.substring(7).split(",");
-						
+
 						for (int i = 0; i < amounts.length; i++) {
-							if(amountList.length <=  amounts.length)
+							if (amountList.length <= amounts.length)
 								amountList[i] = Integer.parseInt(amounts[i]);
 						}
 					}
 
 				}
-				arrWorld[y][x] = new SaveNLoadTile('2', x, y, false, true, frame, amountList);
+				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList);
 			}
 
 		}
@@ -346,7 +346,7 @@ public class LevelLoader {
 					} else if (tileChar == '0') {
 						arrWorld[j][i] = null;
 					} else if (tileChar == '2') {
-						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, false, true, frame, new int[] { 0, 0 });
+						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, frame, new int[] { 0, 0 });
 					} else if (tileChar == 'D') {
 
 						for (DoorTile dT : doors) {

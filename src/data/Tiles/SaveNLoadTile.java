@@ -18,8 +18,8 @@ public class SaveNLoadTile extends Tile {
 	
 	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
 
-	public SaveNLoadTile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, Frame frame, int[] tetroAmount) {
-		super(key, posX, posY, walkable, walkableWithTetro, frame);
+	public SaveNLoadTile(char key, int posX, int posY, Frame frame, int[] tetroAmount) {
+		super(key, posX, posY, false, true, true, frame);
 
 		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoad2.png");
 		image3dUnSaved = ImageLoader.loadImage("/res/blocks/saveNLoad1.png");

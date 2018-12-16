@@ -21,7 +21,7 @@ public class PressurePlateTile extends Tile {
 	private BufferedImage image3d;
 
 	public PressurePlateTile(char key, int posX, int posY, Frame frame) {
-		super(key, posX, posY, false, true, frame);
+		super(key, posX, posY, false, true, true, frame);
 
 		if (key == 'à') {
 			color = 0;

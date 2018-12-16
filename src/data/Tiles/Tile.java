@@ -21,18 +21,21 @@ public abstract class Tile implements DrawAndSortable {
 	protected Frame frame;
 	protected boolean walkable;
 	protected boolean walkableWithTetro;
+	protected boolean tetroPlacable;
 
 	protected boolean isBlockingTetro;
 	protected World world;
 	protected int[] tetroAmount;
 
-	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, Frame frame) {
+	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, boolean tetroPlacable, Frame frame) {
 		this.key = key;
 		this.posX = posX;
 		this.posY = posY;
 		this.frame = frame;
 		this.walkable = walkable;
 		this.walkableWithTetro = walkableWithTetro;
+		this.tetroPlacable = tetroPlacable;
+		
 		isBlockingTetro = false;
 		img = ImageLoader.loadImage("/res/blocks/block0.png");
 	}
@@ -93,6 +96,7 @@ public abstract class Tile implements DrawAndSortable {
 		return walkable;
 	}
 
+	//TODO remove
 	public void setBlockingTetro(boolean isBlockingTetro) {
 		this.isBlockingTetro = isBlockingTetro;
 	}
@@ -103,6 +107,10 @@ public abstract class Tile implements DrawAndSortable {
 
 	public boolean isWalkableWithTetro() {
 		return walkableWithTetro;
+	}
+	
+	public boolean isTetroPlacable() {
+		return tetroPlacable;
 	}
 
 	@Override

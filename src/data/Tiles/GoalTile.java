@@ -12,7 +12,7 @@ public class GoalTile extends Tile {
 	private BufferedImage image3d;
 
 	public GoalTile(int posX, int posY, Frame frame) {
-		super('!', posX, posY, false, true, frame);
+		super('!', posX, posY, false, true, true, frame);
 		image3d = ImageLoader.loadImage("/res/goal.png");
 	}
 

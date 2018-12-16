@@ -16,7 +16,7 @@ public class WallTile extends Tile {
 	private BufferedImage image3d;
 
 	public WallTile(char key, int posX, int posY, Frame frame) {
-		super(key, posX, posY, false, false, frame);
+		super(key, posX, posY, false, false, false, frame);
 		isBlockingTetro = true;
 		img = ImageLoader.loadImage("/res/blocks/block0.png");
 

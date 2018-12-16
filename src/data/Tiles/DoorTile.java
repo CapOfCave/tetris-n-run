@@ -25,11 +25,10 @@ public class DoorTile extends Tile {
 	private boolean standardOpened;
 
 	public DoorTile(int color, int x, int y, int rotation, boolean open, Frame frame) {
-		super('D', x, y, open, open, frame);
+		super('D', x, y, open, open, true, frame);
 		this.rotation = rotation;
 		this.color = color;
 		this.standardOpened = open;
-		this.walkableWithTetro = true;
 		pictures = AnimationLoader.loadAnimations("/res/anims/door.txt");
 
 		if (color == 0) {
@@ -78,7 +77,7 @@ public class DoorTile extends Tile {
 	}
 
 	public DoorTile() {
-		super('D', -1, -1, false, false, null);
+		super('D', -1, -1, false, false, true, null);
 	}
 
 	public void changeState() {
