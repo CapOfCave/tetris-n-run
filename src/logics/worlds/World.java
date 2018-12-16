@@ -217,6 +217,7 @@ public abstract class World {
 		for (Entity e : allEntities) {
 			e.drawDebug(g, interpolation);
 		}
+		player.drawDebug(g, interpolation);
 	}
 
 	public void tick() {
@@ -319,7 +320,7 @@ public abstract class World {
 
 	private boolean isTetroPlacableAt(int i, int j) {
 		if (tileWorld[j][i] != null)
-			return tileWorld[j][i].isWalkableWithTetro() && !tetroWorldHitbox[j][i];
+			return tileWorld[j][i].isTetroPlacable() && !tetroWorldHitbox[j][i];
 		else
 			return !tetroWorldHitbox[j][i];
 	}

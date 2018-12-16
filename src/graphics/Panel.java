@@ -74,8 +74,7 @@ public abstract class Panel extends JPanel implements Playable {
 
 	protected void drawDebug(Graphics g) {
 		world.drawDebug(g, interpolation);
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 170, 55);
+		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("", Font.PLAIN, 15));
 		g.drawString("FPS: " + fps + " / Updates: " + ups, 15, 25);
