@@ -21,7 +21,7 @@ import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.Frame;
-import logics.entities.CubeSpawner;
+import logics.entities.MovingBlockSpawner;
 import logics.entities.Entity;
 import logics.entities.MovingBlock;
 import logics.entities.Switch;
@@ -218,7 +218,7 @@ public class LevelLoader {
 					} else if (type.equals("moveblock")) {
 						entities.add(new MovingBlock(null, rx, ry, animPath));
 					} else if (type.equals("moveblockspawner")) {
-						entities.add(new CubeSpawner(null, rx, ry, animPath, rcx, rcy, canimPath));
+						entities.add(new MovingBlockSpawner(null, rx, ry, animPath, rcx, rcy, canimPath));
 					} else {
 						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y + "): \"" + type + "\"");
 					}
