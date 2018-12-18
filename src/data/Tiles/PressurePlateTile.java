@@ -58,15 +58,19 @@ public class PressurePlateTile extends Tile {
 			image3d = Tools.setColor(
 					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
 		}
+		System.out.println(moveBlocksOnTile);
 	}
 
 	@Override
 	public void eventWhenMoveBlockLeaving() {
+		System.out.println("Im out. Leeeeavin");
 		moveBlocksOnTile--;
+		System.out.println(moveBlocksOnTile + " " + pressedByPlayer);
 		if (!pressedByPlayer && moveBlocksOnTile == 0) {
 			world.switchDoors(color);
-			pressedByPlayer = false;
-			image3d = Tools.setColor(pictures.get(pressedByPlayer ? "state0" : "state1").getImage(), drawColor);
+			// pressedByPlayer = false;
+			image3d = Tools.setColor(
+					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
 		}
 	}
 

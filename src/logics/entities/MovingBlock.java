@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import data.Tiles.EmptyTile;
 import data.Tiles.Tile;
 import graphics.Frame;
 import logics.worlds.World;
@@ -16,6 +17,7 @@ public class MovingBlock extends Entity {
 	protected Point offset = new Point(0, 0);
 	protected int direction;
 	private Tile standingTile;
+	private static Tile emptyTile = new EmptyTile('0', 0, 0, null);
 
 	public MovingBlock(World world, double x, double y, String animPath) {
 		super(world, x, y, animPath);
@@ -54,7 +56,7 @@ public class MovingBlock extends Entity {
 			lastY = this.y;
 		}
 		akt_animation.next();
-		
+
 	}
 
 	public void interact() {
@@ -72,14 +74,24 @@ public class MovingBlock extends Entity {
 		Tile akt_Tile = world.getTileAt((int) ((this.y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE),
 				(int) ((this.x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE));
 		if (standingTile == null) {
-			standingTile = akt_Tile;
-			akt_Tile.eventWhenMoveBlockEntering();
-		} else if (akt_Tile != standingTile) {
+			System.out.println("new standingtile");
+			setStandingTile(akt_Tile); // Bewegen und entern
+
+		} else if (akt_Tile != standingTile) { // Neuer Block
 			standingTile.eventWhenMoveBlockLeaving();
-			standingTile = akt_Tile;
-			standingTile.eventWhenMoveBlockEntering();
+			setStandingTile(akt_Tile); // "Bewegen" & Entern
+
 		}
 
+	}
+
+	private void setStandingTile(Tile akt_Tile) {
+		if (akt_Tile == null) { // Air
+			standingTile = emptyTile;
+		} else { // akt_tile != null, besonderer Block
+			standingTile = akt_Tile;
+			akt_Tile.eventWhenMoveBlockEntering();
+		}
 	}
 
 	public void unBind() {
@@ -91,6 +103,7 @@ public class MovingBlock extends Entity {
 	}
 
 	public void kill() {
+		standingTile.eventWhenMoveBlockLeaving();
 		unBind();
 		world.removeEntity(this);
 
@@ -98,7 +111,7 @@ public class MovingBlock extends Entity {
 
 	public void setCurrentTile(Tile currentTile) {
 		standingTile = currentTile;
-		
+
 	}
 
 }
