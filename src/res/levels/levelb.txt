@@ -1,5 +1,5 @@
 b;tetrofile=/res/tetros.txt
-p;x=29;y=11
+p;x=5;y=8
 o;false;false;false;false;false
 m;type=0;amount=72
 m;type=1;amount=76
@@ -31,6 +31,16 @@ t;x=15;y=1;r=1;t=2
 t;x=15;y=9;r=0;t=0
 t;x=15;y=10;r=2;t=2
 t;x=16;y=12;r=0;t=0
+t;x=28;y=9;r=1;t=1
+t;x=24;y=12;r=2;t=5
+t;x=25;y=13;r=0;t=1
+t;x=27;y=13;r=0;t=0
+t;x=31;y=13;r=0;t=3
+t;x=30;y=12;r=2;t=2
+t;x=33;y=11;r=1;t=1
+t;x=28;y=13;r=1;t=2
+t;x=30;y=16;r=0;t=0
+t;x=34;y=15;r=0;t=2
 d;x=7;y=7;r=1;c=0;o=false
 d;x=15;y=6;r=1;c=0;o=false
 d;x=18;y=12;r=1;c=0;o=false
@@ -46,12 +56,12 @@ d;x=16;y=11;r=0;c=2;o=false
 d;x=15;y=2;r=1;c=2;o=true
 d;x=26;y=9;r=0;c=2;o=false
 
-d;x=30;y=13;r=1;c=0;o=false
-d;x=32;y=16;r=1;c=0;o=false
+d;x=30;y=13;r=1;c=0;o=true
+d;x=32;y=16;r=1;c=0;o=true
 d;x=29;y=15;r=0;c=1;o=false
 
-e;x=29;y=11;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=32;cy=13;curl=/res/anims/movingblock.txt;
-e;x=28;y=13;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=32;cy=13;curl=/res/anims/movingblock.txt;
+e;x=29;y=11;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=28;cy=13;curl=/res/anims/movingblock.txt;
+e;x=32;y=12;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=32;cy=13;curl=/res/anims/movingblock.txt;
 
 e;rx=135;ry=360;type=switch;url=/res/anims/switch.txt;color=0
 e;rx=810;ry=405;type=switch;url=/res/anims/switch.txt;color=0
