@@ -50,9 +50,25 @@ public class Camera {
 		lastX = x;
 		lastY = y;
 
-		if (!world.getKeyHandler().getShift()) {
-			y = clipBorderY((pY - offsetY) * stickyness + lastY * (1 - stickyness));
-			x = clipBorderX((pX - offsetX) * stickyness + lastX * (1 - stickyness));
+		if (world.getKeyHandler().getCtrl()) {
+			if (world.getKeyHandler().getW()) {
+				y = clipBorderY(y - 15);
+			}
+			if (world.getKeyHandler().getA()) {
+				x = clipBorderX(x - 15);
+			}
+			if (world.getKeyHandler().getS()) {
+				y = clipBorderY(y + 15);
+			}
+			if (world.getKeyHandler().getD()) {
+				x = clipBorderX(x + 15);
+			}
+			
+		} else {
+			if (!world.getKeyHandler().getShift()) {
+				y = clipBorderY((pY - offsetY) * stickyness + lastY * (1 - stickyness));
+				x = clipBorderX((pX - offsetX) * stickyness + lastX * (1 - stickyness));
+			}
 		}
 	}
 

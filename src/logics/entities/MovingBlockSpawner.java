@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import graphics.Frame;
 import logics.worlds.World;
 
-public class CubeSpawner extends Entity {
+public class MovingBlockSpawner extends Entity {
 
 	private double cubeX;
 	private double cubeY;
@@ -13,7 +13,7 @@ public class CubeSpawner extends Entity {
 
 	private MovingBlock child;
 
-	public CubeSpawner(World world, double x, double y, String animPath, double cx, double cy,
+	public MovingBlockSpawner(World world, double x, double y, String animPath, double cx, double cy,
 			String cubeAnims) {
 		super(world, x, y, animPath);
 		this.cubeX = cx;
@@ -44,6 +44,7 @@ public class CubeSpawner extends Entity {
 		child = null;
 		child = new MovingBlock(world, cubeX, cubeY, cubeAnims);
 		world.addEntity(child);
+//		System.out.println("interact");
 		
 	}
 

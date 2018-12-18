@@ -124,56 +124,64 @@ public class Player extends LivingEntity {
 
 	private void checkInput() {
 
-		wantsToGoUp = world.getKeyHandler().getW();
-		wantsToGoLeft = world.getKeyHandler().getA();
-		wantsToGoDown = world.getKeyHandler().getS();
-		wantsToGoRight = world.getKeyHandler().getD();
-		if (movingBlockInHand != null) {
-			int direction = movingBlockInHand.getDirection();
-			switch (direction) {
-			case 0:
-				if (wantsToGoDown) {
-					releaseMovingBlock();
-				}
-				break;
-			case 1:
-				if (wantsToGoLeft) {
-					releaseMovingBlock();
-				}
-				break;
-			case 2:
-				if (wantsToGoUp) {
-					releaseMovingBlock();
-				}
-				break;
-			case 3:
-				if (wantsToGoRight) {
-					releaseMovingBlock();
-				}
-				break;
-			}
+		if (!world.getKeyHandler().getCtrl()) {
+			wantsToGoUp = world.getKeyHandler().getW();
+			wantsToGoLeft = world.getKeyHandler().getA();
+			wantsToGoDown = world.getKeyHandler().getS();
+			wantsToGoRight = world.getKeyHandler().getD();
 			if (movingBlockInHand != null) {
-				wantsToGoDown = false;
-				wantsToGoLeft = false;
-				wantsToGoRight = false;
-				wantsToGoUp = false;
+				int direction = movingBlockInHand.getDirection();
 				switch (direction) {
 				case 0:
-					wantsToGoUp = world.getKeyHandler().getW();
+					if (wantsToGoDown) {
+						releaseMovingBlock();
+					}
 					break;
 				case 1:
-					wantsToGoRight = world.getKeyHandler().getD();
+					if (wantsToGoLeft) {
+						releaseMovingBlock();
+					}
 					break;
 				case 2:
-					wantsToGoDown = world.getKeyHandler().getS();
+					if (wantsToGoUp) {
+						releaseMovingBlock();
+					}
 					break;
 				case 3:
-					wantsToGoLeft = world.getKeyHandler().getA();
+					if (wantsToGoRight) {
+						releaseMovingBlock();
+					}
 					break;
 				}
+				if (movingBlockInHand != null) {
+					wantsToGoDown = false;
+					wantsToGoLeft = false;
+					wantsToGoRight = false;
+					wantsToGoUp = false;
+					switch (direction) {
+					case 0:
+						wantsToGoUp = world.getKeyHandler().getW();
+						break;
+					case 1:
+						wantsToGoRight = world.getKeyHandler().getD();
+						break;
+					case 2:
+						wantsToGoDown = world.getKeyHandler().getS();
+						break;
+					case 3:
+						wantsToGoLeft = world.getKeyHandler().getA();
+						break;
+					}
+				}
 			}
+			actionPressed = world.getKeyHandler().isActionPressed();
+		} else {
+			wantsToGoUp = false;
+			wantsToGoDown = false;
+			wantsToGoLeft = false;
+			wantsToGoRight = false;
+			
 		}
-		actionPressed = world.getKeyHandler().isActionPressed();
 		world.getKeyHandler().setActionpressed(false);
 	}
 

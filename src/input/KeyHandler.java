@@ -13,6 +13,7 @@ public class KeyHandler implements KeyListener {
 	private boolean s = false;
 	private boolean d = false;
 	private boolean shift = false;
+	private boolean ctrl = false;
 
 	private boolean actionPressed = false;
 	private boolean f3pressed = false;
@@ -36,6 +37,9 @@ public class KeyHandler implements KeyListener {
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = true;
+		}
+		if (ev.getKeyCode() == KeyEvent.VK_CONTROL) {
+			ctrl = true;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_F3) {
 			f3pressed = true;
@@ -63,6 +67,9 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = false;
 		}
+		if (ev.getKeyCode() == KeyEvent.VK_CONTROL) {
+			ctrl = false;
+		}
 
 	}
 
@@ -84,6 +91,10 @@ public class KeyHandler implements KeyListener {
 
 	public boolean getShift() {
 		return shift;
+	}
+	
+	public boolean getCtrl() {
+		return ctrl;
 	}
 
 	public boolean isF3pressed() {

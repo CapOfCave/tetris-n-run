@@ -86,8 +86,6 @@ public class DoorTile extends Tile {
 
 		str_akt_anim = (walkableWithTetro ? "opened" : "closed") + rotation;
 		image3d = Tools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
-		if (posX == 7)
-			System.out.println(str_akt_anim);
 
 	}
 
