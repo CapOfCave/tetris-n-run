@@ -51,7 +51,7 @@ d;x=32;y=16;r=1;c=0;o=false
 d;x=29;y=15;r=0;c=1;o=false
 
 e;x=29;y=11;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=32;cy=13;curl=/res/anims/movingblock.txt;
-e;x=28;y=13;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=32;cy=13;curl=/res/anims/moveinglock.txt;
+e;x=28;y=13;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=32;cy=13;curl=/res/anims/movinglock.txt;
 
 e;rx=135;ry=360;type=switch;url=/res/anims/switch.txt;color=0
 e;rx=810;ry=405;type=switch;url=/res/anims/switch.txt;color=0
