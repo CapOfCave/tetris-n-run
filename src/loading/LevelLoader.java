@@ -308,6 +308,7 @@ public class LevelLoader {
 
 				int x = -1;
 				int y = -1;
+				boolean addingTetros = false;
 				int amountList[] = { 0, 1, 0, 0, 0, 0, 0 };
 				for (String str : strSplit) {
 
@@ -323,10 +324,14 @@ public class LevelLoader {
 							if (amountList.length <= amounts.length)
 								amountList[i] = Integer.parseInt(amounts[i]);
 						}
+					} else if (str.startsWith("a=")) {
+						if (str.substring(2).equals("true"))
+							addingTetros = true;
+
 					}
 
 				}
-				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList);
+				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList, addingTetros);
 			}
 
 		}
@@ -346,7 +351,7 @@ public class LevelLoader {
 					} else if (tileChar == '0') {
 						arrWorld[j][i] = null;
 					} else if (tileChar == '2') {
-						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, frame, new int[] { 0, 0 });
+						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, frame, new int[] { 0, 0 }, false);
 					} else if (tileChar == 'D') {
 
 						for (DoorTile dT : doors) {
@@ -374,11 +379,12 @@ public class LevelLoader {
 			}
 		}
 
-//		int max_tetroamount_index = 0;
-//		// Tetro maximums
-//		for (Integer key : rawMaxTetroAmounts.keySet()) {
-//			max_tetroamount_index = Math.max(rawMaxTetroAmounts.get(key), max_tetroamount_index);
-//		}
+		// int max_tetroamount_index = 0;
+		// // Tetro maximums
+		// for (Integer key : rawMaxTetroAmounts.keySet()) {
+		// max_tetroamount_index = Math.max(rawMaxTetroAmounts.get(key),
+		// max_tetroamount_index);
+		// }
 		int[] tetroAmounts = new int[tetrotype_amount];
 		for (int i = 0; i < tetroAmounts.length; i++) {
 			if (rawMaxTetroAmounts.get(i) != null) {

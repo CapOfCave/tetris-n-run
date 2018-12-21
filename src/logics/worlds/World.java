@@ -237,31 +237,36 @@ public abstract class World {
 
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
 
-		if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
-			int placeX;
-			int placeY;
+		if (!keyHandler.getCtrl()) {
+			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
+				int placeX;
+				int placeY;
 
-			if (x + camera.getX() < 0) {
-				placeX = (x + camera.getX() - Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
+				if (x + camera.getX() < 0) {
+					placeX = (x + camera.getX() - Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
+				} else {
+					placeX = (x + camera.getX() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
+				}
+				if (y + camera.getY() < 0) {
+					placeY = (y + camera.getY() - Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
+				} else {
+					placeY = (y + camera.getY() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
+				}
+				Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
+				if (isAllowed(tetro)) {
+					tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
+					tetros.add(tetro);
+					addTetroToHitbox(tetro, placeX, placeY, rotation);
+				} else {
+					System.err.println("nicht erlaubte Platzierung");
+				}
 			} else {
-				placeX = (x + camera.getX() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
-			}
-			if (y + camera.getY() < 0) {
-				placeY = (y + camera.getY() - Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
-			} else {
-				placeY = (y + camera.getY() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
-			}
-			Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
-			if (isAllowed(tetro)) {
-				tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
-				tetros.add(tetro);
-				addTetroToHitbox(tetro, placeX, placeY, rotation);
-			} else {
-				System.err.println("nicht erlaubte Platzierung");
+				frame.addLineToText("mehr da. ");
+				frame.addLineToText("Es sind keine Tetros dieser Art");
 			}
 		} else {
-			frame.addLineToText("mehr da. ");
-			frame.addLineToText("Es sind keine Tetros dieser Art");
+			frame.addLineToText("Tetros gesetzt werden. ");
+			frame.addLineToText("Es können im Kameramodus keine");
 		}
 
 	}
@@ -568,6 +573,13 @@ public abstract class World {
 
 	public void setTetroAmount(int[] tetroAmount) {
 		this.tetroAmount = tetroAmount;
+	}
+
+	public void addTetroAmount(int[] tetroAmount) {
+		for (int i = 0; i < tetroAmount.length; i++) {
+			if (i < this.tetroAmount.length)
+				this.tetroAmount[i] += tetroAmount[i];
+		}
 	}
 
 }

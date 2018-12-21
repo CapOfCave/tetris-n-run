@@ -14,17 +14,19 @@ public class SaveNLoadTile extends Tile {
 	BufferedImage image3dUnSaved;
 
 	boolean fileExists = false;
+	boolean addingTetros;
 	File loadFile = null;
-	
+
 	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
 
-	public SaveNLoadTile(char key, int posX, int posY, Frame frame, int[] tetroAmount) {
+	public SaveNLoadTile(char key, int posX, int posY, Frame frame, int[] tetroAmount, boolean addingTetros) {
 		super(key, posX, posY, false, true, true, frame);
 
 		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoad2.png");
 		image3dUnSaved = ImageLoader.loadImage("/res/blocks/saveNLoad1.png");
-		
+
 		this.tetroAmount = tetroAmount;
+		this.addingTetros = addingTetros;
 
 	}
 
@@ -53,7 +55,10 @@ public class SaveNLoadTile extends Tile {
 
 		if (!fileExists) {
 			frame.addLineToText("Spielstand wurde gespeichert.");
-			world.setTetroAmount(tetroAmount);
+			if (addingTetros)
+				world.addTetroAmount(tetroAmount);
+			else
+				world.setTetroAmount(tetroAmount);
 			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
 			checkIfExists();
 		}
@@ -67,13 +72,16 @@ public class SaveNLoadTile extends Tile {
 
 		if (!fileExists) {
 			frame.addLineToText("Spielstand wurde gespeichert.");
-			world.setTetroAmount(tetroAmount);
+			if (addingTetros)
+				world.addTetroAmount(tetroAmount);
+			else
+				world.setTetroAmount(tetroAmount);
 			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
 			checkIfExists();
 		} else {
 			frame.addLineToText("Spielstand wurde geladen.");
 			// remove later saves
-			
+
 			int index = Integer.parseInt(loadFile.getName().substring(0, loadFile.getName().indexOf("save")));
 			for (File f : new File(folderName).listFiles()) {
 				if (Integer.parseInt(f.getName().substring(0, f.getName().indexOf("save"))) > index) {
@@ -81,7 +89,7 @@ public class SaveNLoadTile extends Tile {
 				}
 			}
 			frame.swichLevel(loadFile.getAbsolutePath());
-			
+
 		}
 	}
 
@@ -98,7 +106,7 @@ public class SaveNLoadTile extends Tile {
 			fileExists = false;
 		}
 	}
-	
+
 	@Override
 	public double getHeight() {
 		return -1;
