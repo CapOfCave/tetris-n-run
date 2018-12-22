@@ -237,7 +237,7 @@ public abstract class World {
 
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
 
-		if (!keyHandler.getCtrl()) {
+		//if (!keyHandler.getCtrl()) {
 			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
 				int placeX;
 				int placeY;
@@ -264,10 +264,10 @@ public abstract class World {
 				frame.addLineToText("mehr da. ");
 				frame.addLineToText("Es sind keine Tetros dieser Art");
 			}
-		} else {
-			frame.addLineToText("Tetros gesetzt werden. ");
-			frame.addLineToText("Es können im Kameramodus keine");
-		}
+		//} else {
+		//	frame.addLineToText("Tetros gesetzt werden. ");
+		//	frame.addLineToText("Es können im Kameramodus keine");
+		//}
 
 	}
 
@@ -577,6 +577,7 @@ public abstract class World {
 
 	public void addTetroAmount(int[] tetroAmount) {
 		for (int i = 0; i < tetroAmount.length; i++) {
+			
 			if (i < this.tetroAmount.length)
 				this.tetroAmount[i] += tetroAmount[i];
 		}

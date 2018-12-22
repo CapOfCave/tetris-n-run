@@ -74,6 +74,7 @@ public class SaveNLoadTile extends Tile {
 			frame.addLineToText("Spielstand wurde gespeichert.");
 			if (addingTetros)
 				world.addTetroAmount(tetroAmount);
+				
 			else
 				world.setTetroAmount(tetroAmount);
 			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");

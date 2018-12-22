@@ -309,7 +309,7 @@ public class LevelLoader {
 				int x = -1;
 				int y = -1;
 				boolean addingTetros = false;
-				int amountList[] = { 0, 1, 0, 0, 0, 0, 0 };
+				int amountList[] = { 0, 0, 0, 0, 0, 0, 0 };
 				for (String str : strSplit) {
 
 					if (str.startsWith("x=")) {
@@ -331,6 +331,7 @@ public class LevelLoader {
 					}
 
 				}
+				System.out.println("" + x + y + amountList + addingTetros);
 				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList, addingTetros);
 			}
 
