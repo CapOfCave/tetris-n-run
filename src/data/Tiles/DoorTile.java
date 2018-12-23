@@ -23,6 +23,8 @@ public class DoorTile extends Tile {
 	private String str_akt_anim;
 	private DrawAndSortable bottomPart;
 	private boolean standardOpened;
+	private boolean playerOnTile = false;
+	private int changesSincePlayerEntered = 0;
 
 	public DoorTile(int color, int x, int y, int rotation, boolean open, Frame frame) {
 		super('D', x, y, false, open, true, frame);
@@ -81,11 +83,15 @@ public class DoorTile extends Tile {
 	}
 
 	public void changeState() {
-//		walkable = !walkable;
-		walkableWithTetro = !walkableWithTetro;
+		if (!playerOnTile) {
+			walkableWithTetro = !walkableWithTetro;
 
-		str_akt_anim = (walkableWithTetro ? "opened" : "closed") + rotation;
-		image3d = GraphicalTools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
+			str_akt_anim = (walkableWithTetro ? "opened" : "closed") + rotation;
+			image3d = GraphicalTools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
+
+		} else {
+			changesSincePlayerEntered++;
+		}
 
 	}
 
@@ -120,5 +126,19 @@ public class DoorTile extends Tile {
 
 	public boolean isToggled() {
 		return standardOpened;
+	}
+
+	@Override
+	public void eventWhenEntering() {
+		playerOnTile = true;
+	}
+
+	@Override
+	public void eventWhenLeaving() {
+		playerOnTile = false;
+		if (changesSincePlayerEntered % 2 == 1) {
+			changeState();
+		}
+		changesSincePlayerEntered = 0;
 	}
 }

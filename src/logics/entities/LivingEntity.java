@@ -143,8 +143,8 @@ public abstract class LivingEntity extends Entity {
 		// nach oben-movement (TL-TR)
 		if (vSpeed < 0) {
 			// linker edgecut
-			if (!isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed, -Frame.BLOCKSIZE / 2)) {
-				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed,
+			if (!isRelAccessible(getExtremePosition(0), -Frame.BLOCKSIZE / 2)) {
+				if (isRelAccessible(getExtremePosition(0),
 						-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoLeft) {
 					move_contact_solid(3);
 				} else {
@@ -155,8 +155,8 @@ public abstract class LivingEntity extends Entity {
 			}
 
 			// rechter edgecut
-			if (!isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed, Frame.BLOCKSIZE / 2 - 1)) {
-				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + vSpeed,
+			if (!isRelAccessible(getExtremePosition(0), Frame.BLOCKSIZE / 2 - 1)) {
+				if (isRelAccessible(getExtremePosition(0),
 						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoRight) {
 					move_contact_solid(1);
 				} else {
@@ -167,8 +167,8 @@ public abstract class LivingEntity extends Entity {
 		}
 		// nach unten-movement (BL-BR)
 		if (vSpeed > 0) {
-			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed, -Frame.BLOCKSIZE / 2)) {
-				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed,
+			if (!isRelAccessible(getExtremePosition(2), -Frame.BLOCKSIZE / 2)) {
+				if (isRelAccessible(getExtremePosition(2),
 						-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoLeft) {
 					move_contact_solid(3);
 				} else {
@@ -176,9 +176,9 @@ public abstract class LivingEntity extends Entity {
 					move_contact_solid(2);
 				}
 			}
-			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed, Frame.BLOCKSIZE / 2 - 1)) {
-				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 + vSpeed,
-						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoRight) {
+			if (!isRelAccessible(getExtremePosition(2), Frame.BLOCKSIZE / 2 - 1)) {
+				if (isRelAccessible(getExtremePosition(2),
+						Frame.BLOCKSIZE / 2 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoRight) {
 					move_contact_solid(1);
 
 				} else {
@@ -192,18 +192,18 @@ public abstract class LivingEntity extends Entity {
 		// Horizontal
 		// nach links-movement (TL-BL)
 		if (hSpeed < 0) {
-			if (!isRelAccessible(-Frame.BLOCKSIZE / 2, -Frame.BLOCKSIZE / 2 + hSpeed)) {
+			if (!isRelAccessible(-Frame.BLOCKSIZE / 2, getExtremePosition(3))) {
 				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
-						-Frame.BLOCKSIZE / 2 + hSpeed) && !wantsToGoUp) {
+						getExtremePosition(3)) && !wantsToGoUp) {
 					move_contact_solid(0);
 				} else {
 					hSpeed = 0;
 					move_contact_solid(3);
 				}
 			}
-			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1, -Frame.BLOCKSIZE / 2 + hSpeed)) {
+			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1, getExtremePosition(3))) {
 				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
-						-Frame.BLOCKSIZE / 2 + hSpeed) && !wantsToGoDown) {
+						getExtremePosition(3)) && !wantsToGoDown) {
 					move_contact_solid(2);
 				} else {
 					hSpeed = 0;
@@ -216,18 +216,18 @@ public abstract class LivingEntity extends Entity {
 
 		// nach rechts-movement (TR-BR)
 		if (hSpeed > 0) {
-			if (!isRelAccessible(-Frame.BLOCKSIZE / 2, Frame.BLOCKSIZE / 2 - 1 + hSpeed)) {
+			if (!isRelAccessible(-Frame.BLOCKSIZE / 2, getExtremePosition(1))) {
 				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
-						Frame.BLOCKSIZE / 2 - 1 + hSpeed) && !wantsToGoUp) {
+						getExtremePosition(1)) && !wantsToGoUp) {
 					move_contact_solid(0);
 				} else {
 					hSpeed = 0;
 					move_contact_solid(1);
 				}
 			}
-			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1, Frame.BLOCKSIZE / 2 - 1 + hSpeed)) {
+			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1, getExtremePosition(1))) {
 				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
-						Frame.BLOCKSIZE / 2 - 1 + hSpeed) && !wantsToGoDown) {
+						getExtremePosition(1)) && !wantsToGoDown) {
 					move_contact_solid(2);
 				} else {
 					hSpeed = 0;
@@ -236,6 +236,22 @@ public abstract class LivingEntity extends Entity {
 			}
 		}
 
+	}
+
+	protected double getExtremePosition(int direction) {
+		switch (direction % 4) {
+		case 0:
+			return -Frame.BLOCKSIZE / 2 + vSpeed;
+		case 1:
+			return Frame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den rechts-links-bug
+		case 2:
+			return Frame.BLOCKSIZE / 2 + 1 + vSpeed;
+		case 3:
+			return -Frame.BLOCKSIZE / 2 + hSpeed;
+		default:
+			System.err.println("Fehler @LivingEntity#getExtremePosition bei " + this);
+			return 0;
+		}
 	}
 
 	private void updateRotation() {

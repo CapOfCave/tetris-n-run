@@ -131,28 +131,11 @@ public class Player extends LivingEntity {
 			wantsToGoRight = world.getKeyHandler().getD();
 			if (movingBlockInHand != null) {
 				int direction = movingBlockInHand.getDirection();
-				switch (direction) {
-				case 0:
-					if (wantsToGoDown) {
-						releaseMovingBlock();
-					}
-					break;
-				case 1:
-					if (wantsToGoLeft) {
-						releaseMovingBlock();
-					}
-					break;
-				case 2:
-					if (wantsToGoUp) {
-						releaseMovingBlock();
-					}
-					break;
-				case 3:
-					if (wantsToGoRight) {
-						releaseMovingBlock();
-					}
-					break;
+				if ((wantsToGoUp && direction != 0) || (wantsToGoRight && direction != 1)
+						|| (wantsToGoDown && direction != 2) || (wantsToGoLeft && direction != 3)) {
+					releaseMovingBlock();
 				}
+
 				if (movingBlockInHand != null) {
 					wantsToGoDown = false;
 					wantsToGoLeft = false;
@@ -210,15 +193,39 @@ public class Player extends LivingEntity {
 
 	}
 
+	@Override
+	protected double getExtremePosition(int direction) {
+		if (movingBlockInHand == null) {
+			return super.getExtremePosition(direction);
+		} else {
+			switch (direction % 4) {
+			case 0:
+				return movingBlockInHand.getY() - y - Frame.BLOCKSIZE / 2 + vSpeed;
+			case 1:
+				return movingBlockInHand.getX() - x + Frame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den
+																						// rechts-links-bug
+			case 2:
+				return movingBlockInHand.getY() - y + Frame.BLOCKSIZE / 2 + 1 + vSpeed;
+			case 3:
+				return movingBlockInHand.getX() - x - Frame.BLOCKSIZE / 2 + hSpeed;
+			default:
+				System.err.println("Fehler @LivingEntity#getExtremePosition bei " + this);
+				return 0;
+			}
+		}
+	}
+
 	private void checkTile() {
 
 		if (akt_Tile != world.getTileAt(getTileY(), getTileX())) {
-			if (akt_Tile != null) {
-				akt_Tile.eventWhenLeaving();
-			}
+			Tile last_Tile = akt_Tile;
+			
 			akt_Tile = world.getTileAt(getTileY(), getTileX());
 			if (akt_Tile != null)
 				akt_Tile.eventWhenEntering();
+			if (last_Tile != null) {
+				last_Tile.eventWhenLeaving();
+			}
 		}
 
 		ArrayList<Item> itemsOnTile = world.getItemsAt(getTileY(), getTileX());
