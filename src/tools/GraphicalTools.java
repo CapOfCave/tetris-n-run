@@ -3,7 +3,7 @@ package tools;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-public class Tools {
+public class GraphicalTools {
 
 	public static BufferedImage setColor(BufferedImage image, Color goal) {
 		BufferedImage img = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);

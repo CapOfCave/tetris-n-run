@@ -9,7 +9,7 @@ import data.Animation;
 import graphics.Frame;
 import loading.AnimationLoader;
 import loading.ImageLoader;
-import tools.Tools;
+import tools.GraphicalTools;
 
 public class PressurePlateTile extends Tile {
 
@@ -37,7 +37,7 @@ public class PressurePlateTile extends Tile {
 			drawColor = Color.YELLOW;
 		}
 		pictures = AnimationLoader.loadAnimations("/res/anims/PressurePlate.txt");
-		image3d = Tools.setColor(ImageLoader.loadImage("/res/blocks/PressurePlate.png"), drawColor);
+		image3d = GraphicalTools.setColor(ImageLoader.loadImage("/res/blocks/PressurePlate.png"), drawColor);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class PressurePlateTile extends Tile {
 		pressedByPlayer = true;
 		if (moveBlocksOnTile == 0) {
 			world.switchDoors(color);
-			image3d = Tools.setColor(
+			image3d = GraphicalTools.setColor(
 					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
 		}
 	}
@@ -55,7 +55,7 @@ public class PressurePlateTile extends Tile {
 		moveBlocksOnTile++;
 		if (!pressedByPlayer && moveBlocksOnTile == 1) {
 			world.switchDoors(color);
-			image3d = Tools.setColor(
+			image3d = GraphicalTools.setColor(
 					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
 		}
 	}
@@ -66,7 +66,7 @@ public class PressurePlateTile extends Tile {
 		if (!pressedByPlayer && moveBlocksOnTile == 0) {
 			world.switchDoors(color);
 			 pressedByPlayer = false;
-			image3d = Tools.setColor(
+			image3d = GraphicalTools.setColor(
 					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
 		}
 	}
@@ -76,7 +76,7 @@ public class PressurePlateTile extends Tile {
 		if (moveBlocksOnTile == 0) {
 			world.switchDoors(color);
 			pressedByPlayer = false;
-			image3d = Tools.setColor(pictures.get(pressedByPlayer ? "state0" : "state1").getImage(), drawColor);
+			image3d = GraphicalTools.setColor(pictures.get(pressedByPlayer ? "state0" : "state1").getImage(), drawColor);
 		}
 	}
 

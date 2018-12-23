@@ -1,6 +1,7 @@
 package logics.entities;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -27,22 +28,32 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 	protected String type;
 	private String animPath;
 
-	public Entity(World world, String animPath) {
-		this.world = world;
-		if (animPath != null)
-			this.anims = AnimationLoader.loadAnimations(animPath);
+	protected Rectangle relCollisionsRect;
+	private boolean hasCollisions;
 
+	public Entity(World world, String animPath, Rectangle relCollisionsRect) {
+		this.world = world;
+		if (relCollisionsRect != null) {
+			this.relCollisionsRect = relCollisionsRect;
+			hasCollisions = true;
+		} else {
+			hasCollisions = false;
+		}
+		if (animPath != null) {
+			this.anims = AnimationLoader.loadAnimations(animPath);
+			this.animPath = animPath;
+		}
 		if (anims != null)
 			akt_animation = anims.get(anims.keySet().toArray()[0]);
 		else
 			akt_animation = null;
 	}
 
-	public Entity(World world, double x, double y, String animPath) {
-		this(world, animPath);
+	public Entity(World world, double x, double y, String animPath, Rectangle relCollisionsRect) {
+		this(world, animPath, relCollisionsRect);
 		this.x = x;
 		this.y = y;
-		this.animPath = animPath;
+
 	}
 
 	@Override
@@ -108,6 +119,14 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 
 	public String getAnimPath() {
 		return animPath;
+	}
+
+	public boolean collidesWith(double colliderY, double colliderX) {
+		if (!hasCollisions) {
+			return false;
+		} else {
+			return relCollisionsRect.contains(colliderX - x, colliderY - y);
+		}
 	}
 
 }

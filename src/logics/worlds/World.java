@@ -204,16 +204,6 @@ public abstract class World {
 	}
 
 	public void drawDebug(Graphics g, float interpolation) {
-		// for (int j = 0; j < tileWorld.length; j++) {
-		// for (int i = 0; i < tileWorld[j].length; i++) {
-		// if (tetroWorldHitbox[j][i]) {
-		// g.setColor(Color.RED);
-		// g.drawRect(i * Frame.BLOCKSIZE - camera.getX(), j * Frame.BLOCKSIZE -
-		// camera.getY(),
-		// Frame.BLOCKSIZE, Frame.BLOCKSIZE);
-		// }
-		// }
-		// }
 		for (Entity e : allEntities) {
 			e.drawDebug(g, interpolation);
 		}
@@ -237,37 +227,37 @@ public abstract class World {
 
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
 
-		//if (!keyHandler.getCtrl()) {
-			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
-				int placeX;
-				int placeY;
+		// if (!keyHandler.getCtrl()) {
+		if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
+			int placeX;
+			int placeY;
 
-				if (x + camera.getX() < 0) {
-					placeX = (x + camera.getX() - Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
-				} else {
-					placeX = (x + camera.getX() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
-				}
-				if (y + camera.getY() < 0) {
-					placeY = (y + camera.getY() - Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
-				} else {
-					placeY = (y + camera.getY() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
-				}
-				Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
-				if (isAllowed(tetro)) {
-					tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
-					tetros.add(tetro);
-					addTetroToHitbox(tetro, placeX, placeY, rotation);
-				} else {
-					System.err.println("nicht erlaubte Platzierung");
-				}
+			if (x + camera.getX() < 0) {
+				placeX = (x + camera.getX() - Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
 			} else {
-				frame.addLineToText("mehr da. ");
-				frame.addLineToText("Es sind keine Tetros dieser Art");
+				placeX = (x + camera.getX() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
 			}
-		//} else {
-		//	frame.addLineToText("Tetros gesetzt werden. ");
-		//	frame.addLineToText("Es können im Kameramodus keine");
-		//}
+			if (y + camera.getY() < 0) {
+				placeY = (y + camera.getY() - Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
+			} else {
+				placeY = (y + camera.getY() + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE;
+			}
+			Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
+			if (isAllowed(tetro)) {
+				tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
+				tetros.add(tetro);
+				addTetroToHitbox(tetro, placeX, placeY, rotation);
+			} else {
+				System.err.println("nicht erlaubte Platzierung");
+			}
+		} else {
+			frame.addLineToText("mehr da. ");
+			frame.addLineToText("Es sind keine Tetros dieser Art");
+		}
+		// } else {
+		// frame.addLineToText("Tetros gesetzt werden. ");
+		// frame.addLineToText("Es können im Kameramodus keine");
+		// }
 
 	}
 
@@ -577,10 +567,26 @@ public abstract class World {
 
 	public void addTetroAmount(int[] tetroAmount) {
 		for (int i = 0; i < tetroAmount.length; i++) {
-			
+
 			if (i < this.tetroAmount.length)
 				this.tetroAmount[i] += tetroAmount[i];
 		}
+	}
+
+	public boolean isEntityAt(Entity collider, double y, double x) {
+		for (Entity barrier : allEntities) {
+			if (barrier == collider
+					|| (collider instanceof Player && barrier == ((Player) collider).getMovingBlockInHand())
+					|| Math.abs(barrier.getX() - x) + Math.abs(barrier.getY() - y) > 3 * Frame.BLOCKSIZE) {
+				continue;
+			} else {
+				if (barrier.collidesWith(y, x)) {
+//					System.ot.println(collider + " collides with " + barrier);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

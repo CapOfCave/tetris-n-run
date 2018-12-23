@@ -1,5 +1,7 @@
 package logics.entities;
 
+import java.awt.Rectangle;
+
 import graphics.Frame;
 import logics.entities.items.Weapon;
 import logics.worlds.GameWorld;
@@ -29,14 +31,14 @@ public abstract class LivingEntity extends Entity {
 
 	protected double edgeTolerancePercentage = 25;
 
-	public LivingEntity(World world, String animPath) {
-		super(world, animPath);
+	public LivingEntity(World world, String animPath, Rectangle relCollisionsRect) {
+		super(world, animPath, relCollisionsRect);
 		this.world = world;
 
 	}
 
-	public LivingEntity(GameWorld world, int x, int y, String animPath) {
-		super(world, x, y, animPath);
+	public LivingEntity(GameWorld world, int x, int y, String animPath, Rectangle relCollisionsRect) {
+		super(world, x, y, animPath, relCollisionsRect);
 
 	}
 
@@ -323,8 +325,11 @@ public abstract class LivingEntity extends Entity {
 				|| (x + Frame.BLOCKSIZE / 2 + dx) < 0 || (y + Frame.BLOCKSIZE / 2 + dy) < 0) {
 			return false;
 		}
+		if (world.isEntityAt(this, y + Frame.BLOCKSIZE / 2 + dy, x + Frame.BLOCKSIZE / 2 + dx)) {
+			return false;
+		}
 
-		if (world.getTileAt(getTileY(dy), getTileX(dx)) == null)
+		if (world.getTileAt(getTileY(dy), getTileX(dx)) == null) // Empty Tile
 			return (world.isTetroAt(getTileY(dy), getTileX(dx)));
 
 		// tetro or walkable tile

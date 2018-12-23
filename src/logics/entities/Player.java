@@ -30,7 +30,7 @@ public class Player extends LivingEntity {
 	private Point movingBlockOffset;
 
 	public Player(World world, String animPath, RawPlayer rawPlayer) {
-		super(world, animPath);
+		super(world, animPath, null);
 
 		akt_animation = anims.get("walk1");
 		type = "player";
@@ -180,7 +180,7 @@ public class Player extends LivingEntity {
 			wantsToGoDown = false;
 			wantsToGoLeft = false;
 			wantsToGoRight = false;
-			
+
 		}
 		world.getKeyHandler().setActionpressed(false);
 	}
@@ -266,6 +266,10 @@ public class Player extends LivingEntity {
 	public void setMovingBlock(MovingBlock movingBlock) {
 		this.movingBlockInHand = movingBlock;
 		this.movingBlockOffset = new Point((int) (movingBlock.getX() - x), (int) (movingBlock.getY() - y));
+	}
+
+	public MovingBlock getMovingBlockInHand() {
+		return movingBlockInHand;
 	}
 
 	public Point getMovingBlockOffset() {

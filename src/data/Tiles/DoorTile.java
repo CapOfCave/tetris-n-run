@@ -10,7 +10,7 @@ import data.DrawAndSortable;
 import graphics.Frame;
 import graphics.Renderer;
 import loading.AnimationLoader;
-import tools.Tools;
+import tools.GraphicalTools;
 
 public class DoorTile extends Tile {
 
@@ -41,9 +41,9 @@ public class DoorTile extends Tile {
 			drawColor = Color.YELLOW;
 		}
 		str_akt_anim = (open ? "opened" : "closed") + rotation;
-		image3d = Tools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
+		image3d = GraphicalTools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
 
-		BufferedImage bottomImage = Tools.setColor(pictures.get("bottom_image").getImage(), drawColor);
+		BufferedImage bottomImage = GraphicalTools.setColor(pictures.get("bottom_image").getImage(), drawColor);
 		bottomPart = new DrawAndSortable() {
 
 			public double getHeight() {
@@ -85,7 +85,7 @@ public class DoorTile extends Tile {
 		walkableWithTetro = !walkableWithTetro;
 
 		str_akt_anim = (walkableWithTetro ? "opened" : "closed") + rotation;
-		image3d = Tools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
+		image3d = GraphicalTools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
 
 	}
 

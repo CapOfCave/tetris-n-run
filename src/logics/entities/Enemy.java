@@ -28,7 +28,7 @@ public class Enemy extends LivingEntity {
 	private Point goal;
 
 	public Enemy(World world, EnemySpawner parent, int health, int x, int y, String animPath) {
-		super(world, animPath);
+		super(world, animPath, new Rectangle(15, 15, Frame.BLOCKSIZE - 15, Frame.BLOCKSIZE - 15));
 		this.health = health;
 		this.parent = parent;
 		type = "enemy";

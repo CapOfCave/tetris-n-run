@@ -15,7 +15,7 @@ public class MovingBlockSpawner extends Entity {
 
 	public MovingBlockSpawner(World world, double x, double y, String animPath, double cx, double cy,
 			String cubeAnims) {
-		super(world, x, y, animPath);
+		super(world, x, y, animPath, null);
 		this.cubeX = cx;
 		this.cubeY = cy;
 		this.cubeAnims = cubeAnims;
@@ -44,8 +44,9 @@ public class MovingBlockSpawner extends Entity {
 		child = null;
 		child = new MovingBlock(world, cubeX, cubeY, cubeAnims);
 		world.addEntity(child);
-//		System.out.println("interact");
 		
+//		System.out.println("interact");
+
 	}
 
 	public double getCX() {

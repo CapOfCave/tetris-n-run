@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import logics.worlds.World;
-import tools.Tools;
+import tools.GraphicalTools;
 
 public class Switch extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -15,7 +15,7 @@ public class Switch extends Entity {
 	private Color drawColor = Color.PINK;
 
 	public Switch(World world, double x, double y, String animPath, int color) {
-		super(world, x, y, animPath);
+		super(world, x, y, animPath, null);
 		this.color = color;
 		if (color == 0) {
 			drawColor = Color.RED;
@@ -28,7 +28,7 @@ public class Switch extends Entity {
 		}
 
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
-		akt_image = Tools.setColor(akt_animation.getImage(), drawColor);
+		akt_image = GraphicalTools.setColor(akt_animation.getImage(), drawColor);
 		type = "switch";
 	}
 
@@ -40,7 +40,7 @@ public class Switch extends Entity {
 	@Override
 	public void tick() {
 		akt_animation.next();
-		akt_image = Tools.setColor(akt_animation.getImage(), drawColor);
+		akt_image = GraphicalTools.setColor(akt_animation.getImage(), drawColor);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class Switch extends Entity {
 		toggled = !toggled;
 		world.switchDoors(color);
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
-		akt_image = Tools.setColor(akt_animation.getImage(), drawColor);
+		akt_image = GraphicalTools.setColor(akt_animation.getImage(), drawColor);
 	}
 
 	@Override

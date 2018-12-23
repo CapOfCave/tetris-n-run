@@ -22,7 +22,7 @@ public class EnemySpawner extends Entity {
 
 	public EnemySpawner(World world, int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
 			int spawnOffsetBottom, int maxEnemy, double d, boolean start) {
-		super(world, x, y, null);
+		super(world, x, y, null, null);
 
 		this.maxEnemy = maxEnemy;
 		this.spawnChance = d;

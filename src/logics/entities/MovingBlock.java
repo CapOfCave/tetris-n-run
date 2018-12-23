@@ -3,6 +3,7 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import data.Tiles.EmptyTile;
 import data.Tiles.Tile;
@@ -20,7 +21,7 @@ public class MovingBlock extends Entity {
 	private static Tile emptyTile = new EmptyTile('0', 0, 0, null);
 
 	public MovingBlock(World world, double x, double y, String animPath) {
-		super(world, x, y, animPath);
+		super(world, x, y, animPath, new Rectangle(0, 0, Frame.BLOCKSIZE, Frame.BLOCKSIZE));
 		lastX = x;
 		lastY = y;
 		type = "moveblock";
@@ -39,14 +40,18 @@ public class MovingBlock extends Entity {
 	public void drawDebug(Graphics g, float interpolation) {
 		int interpolX = (int) ((x - lastX) * interpolation + lastX);
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
-		if (sticky) {
-			g.setColor(Color.GREEN);
-		} else {
-			g.setColor(Color.RED);
-		}
-
-		g.drawRect(interpolX - world.cameraX(), interpolY - world.cameraY(), Frame.BLOCKSIZE, Frame.BLOCKSIZE);
+//		if (sticky) {
+//			g.setColor(Color.GREEN);
+//		} else {
+//			g.setColor(Color.RED);
+//		}
+//
+//		g.drawRect(interpolX - world.cameraX(), interpolY - world.cameraY(), Frame.BLOCKSIZE, Frame.BLOCKSIZE);
 		g.fillOval(interpolX - world.cameraX(), interpolY - world.cameraY(), 3, 3);
+		g.setColor(Color.RED);
+		g.fillRect((int) (x + relCollisionsRect.x - world.cameraX()), (int) (y + relCollisionsRect.y - world.cameraY()),
+				(int) (relCollisionsRect.width), (int) relCollisionsRect.height);
+
 	}
 
 	@Override
