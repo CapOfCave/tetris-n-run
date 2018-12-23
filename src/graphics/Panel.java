@@ -22,6 +22,7 @@ public abstract class Panel extends JPanel implements Playable {
 	protected final Rectangle gamePanel = new Rectangle(35, 35, 921, 621);
 	protected final Rectangle inventoryPanel = new Rectangle(180, 671, 879, 854);
 	protected boolean debugMode = false;
+
 	protected KeyHandler keyHandler;
 	protected ArrayList<TetroType> tetroTypes;
 	protected ArrayList<Point> tetroDrawPositions;
@@ -30,22 +31,22 @@ public abstract class Panel extends JPanel implements Playable {
 	protected World world;
 	protected int ups;
 	protected int fps;
-	
+
 	public Panel(Level level, KeyHandler keyHandler, Frame frame) {
 		this.keyHandler = keyHandler;
 		this.frame = frame;
 		setPreferredSize(new Dimension(width, height));
 		tetroTypes = level.getTetroTypes();
 		tetroDrawPositions = new ArrayList<>();
-		
-			tetroDrawPositions.add(new Point(1070, 72));
-			tetroDrawPositions.add(new Point(1025,   175));
-			tetroDrawPositions.add(new Point(1145,   175));
-			tetroDrawPositions.add(new Point(1025,   290));
-			tetroDrawPositions.add(new Point(1145,   290));
-			tetroDrawPositions.add(new Point(1025,   406));
-			tetroDrawPositions.add(new Point(1165,   406));
-		
+
+		tetroDrawPositions.add(new Point(1070, 72));
+		tetroDrawPositions.add(new Point(1025, 175));
+		tetroDrawPositions.add(new Point(1145, 175));
+		tetroDrawPositions.add(new Point(1025, 290));
+		tetroDrawPositions.add(new Point(1145, 290));
+		tetroDrawPositions.add(new Point(1025, 406));
+		tetroDrawPositions.add(new Point(1165, 406));
+
 	}
 
 	@Override
@@ -63,10 +64,16 @@ public abstract class Panel extends JPanel implements Playable {
 		if (keyHandler.isF3pressed()) {
 			debugMode = !debugMode;
 			keyHandler.setF3pressed(false);
+			frame.addLineToText("debugMode " + (debugMode ? "enabled" : "disabled"));
+		}
+		if (keyHandler.isF4pressed()) {
+			world.getPlayer().switchNoClip();
+			keyHandler.setF4pressed(false);
+			frame.addLineToText("noClip " + (world.getPlayer().getNoClip() ? "enabled" : "disabled"));
 		}
 
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -74,11 +81,11 @@ public abstract class Panel extends JPanel implements Playable {
 
 	protected void drawDebug(Graphics g) {
 		world.drawDebug(g, interpolation);
-		
+
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("", Font.PLAIN, 15));
 		g.drawString("FPS: " + fps + " / Updates: " + ups, 15, 25);
-		
+
 	}
-	
+
 }

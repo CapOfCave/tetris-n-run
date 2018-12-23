@@ -29,7 +29,7 @@ public class Frame extends JFrame {
 	private RawPlayer rawPlayer;
 	private GameLoop gameLoop;
 	private char nextLevel;
-	private int levelSolved = 3;
+	private int levelSolved = 5;
 	private boolean inOverworld = true;
 	private String[] text;
 	private SoundPlayer soundPlayer;
@@ -43,7 +43,7 @@ public class Frame extends JFrame {
 
 		if (!savesFile.exists()) {
 			savesFile.mkdirs();
-			System.out.println(savesFile);
+//			System.ot.println(savesFile);
 		}
 
 		new Frame();

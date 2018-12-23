@@ -15,6 +15,7 @@ public abstract class LivingEntity extends Entity {
 	protected double hSpeed;
 	protected double vSpeed;
 	protected int health;
+	protected boolean noClip = false;
 
 	protected int hitTicks = 0;
 	protected double acc;
@@ -51,15 +52,20 @@ public abstract class LivingEntity extends Entity {
 	protected void move() {
 		accelerate();
 
-		checkCollisions();
-
+		if (!noClip) {
+			checkCollisions();
+		}
 		checkMaxSpeed();
 
 		updateRotation();
+		if (!noClip) {
+			x += hSpeed;
+			y += vSpeed;
+		} else {
+			x += hSpeed * 2.5;
+			y += vSpeed * 2.5;
 
-		x += hSpeed;
-		y += vSpeed;
-
+		}
 	}
 
 	private void accelerate() {
@@ -317,8 +323,8 @@ public abstract class LivingEntity extends Entity {
 				|| (x + Frame.BLOCKSIZE / 2 + dx) < 0 || (y + Frame.BLOCKSIZE / 2 + dy) < 0) {
 			return false;
 		}
-		
-		if(world.getTileAt(getTileY(dy), getTileX(dx)) == null)
+
+		if (world.getTileAt(getTileY(dy), getTileX(dx)) == null)
 			return (world.isTetroAt(getTileY(dy), getTileX(dx)));
 
 		// tetro or walkable tile
@@ -359,4 +365,7 @@ public abstract class LivingEntity extends Entity {
 		this.maxSpeed = maxSpeed;
 	}
 
+	public boolean getNoClip() {
+		return noClip;
+	}
 }

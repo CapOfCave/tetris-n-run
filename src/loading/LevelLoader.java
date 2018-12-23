@@ -331,7 +331,7 @@ public class LevelLoader {
 					}
 
 				}
-				System.out.println("" + x + y + amountList + addingTetros);
+//				System.ot.println("" + x + y + amountList + addingTetros);
 				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList, addingTetros);
 			}
 

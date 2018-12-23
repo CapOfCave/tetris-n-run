@@ -14,9 +14,10 @@ public class KeyHandler implements KeyListener {
 	private boolean d = false;
 	private boolean shift = false;
 	private boolean ctrl = false;
-
+	
+	private boolean f4Pressed = false;
 	private boolean actionPressed = false;
-	private boolean f3pressed = false;
+	private boolean f3Pressed = false;
 
 	public KeyHandler() {
 	}
@@ -41,8 +42,11 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == KeyEvent.VK_CONTROL) {
 			ctrl = true;
 		}
+		if (ev.getKeyCode() == KeyEvent.VK_F4) {
+			f4Pressed = true;
+		}
 		if (ev.getKeyCode() == KeyEvent.VK_F3) {
-			f3pressed = true;
+			f3Pressed = true;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_SPACE) {
 			actionPressed = true;
@@ -97,8 +101,12 @@ public class KeyHandler implements KeyListener {
 		return ctrl;
 	}
 
+	public boolean isF4pressed() {
+		return f4Pressed;
+	}
+	
 	public boolean isF3pressed() {
-		return f3pressed;
+		return f3Pressed;
 	}
 
 	public boolean isActionPressed() {
@@ -106,7 +114,7 @@ public class KeyHandler implements KeyListener {
 	}
 
 	public void setF3pressed(boolean b) {
-		this.f3pressed = b;
+		this.f3Pressed = b;
 	}
 
 	public void setActionpressed(boolean b) {
@@ -116,5 +124,9 @@ public class KeyHandler implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 
+	}
+
+	public void setF4pressed(boolean b) {
+		this.f4Pressed = b;
 	}
 }

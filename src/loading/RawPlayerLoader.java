@@ -22,8 +22,6 @@ public static RawPlayer readRawPlayer() {
 		}
 			
 		
-			System.out.println(file.getPath());
-		
 		FileInputStream fin = null;
 		ObjectInputStream ois = null;
 		RawPlayer rawPlayer = null;

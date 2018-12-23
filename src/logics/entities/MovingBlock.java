@@ -103,7 +103,9 @@ public class MovingBlock extends Entity {
 	}
 
 	public void kill() {
-		standingTile.eventWhenMoveBlockLeaving();
+		if (standingTile != null) {
+			standingTile.eventWhenMoveBlockLeaving();
+		}
 		unBind();
 		world.removeEntity(this);
 

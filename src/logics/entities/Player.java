@@ -276,4 +276,8 @@ public class Player extends LivingEntity {
 		return rotation / 90;
 	}
 
+	public void switchNoClip() {
+		noClip = !noClip;
+	}
+
 }
