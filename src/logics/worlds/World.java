@@ -161,7 +161,7 @@ public abstract class World {
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
 
-		GameLoop.acutualframes++;
+		GameLoop.actualframes++;
 		camera.prepareDraw(interpolation);
 		// 2D-Rendering background
 		// Tetros
@@ -211,7 +211,7 @@ public abstract class World {
 	}
 
 	public void tick() {
-		GameLoop.acutualupdates++;
+		GameLoop.actualupdates++;
 		// Player movement
 		player.tick();
 

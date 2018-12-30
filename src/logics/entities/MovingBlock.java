@@ -76,21 +76,21 @@ public class MovingBlock extends Entity {
 		lastY = this.y;
 		this.x = x + offset.x;
 		this.y = y + offset.y;
+
+		Tile last_Tile = standingTile; // vor der Bewegung: standingTile
 		Tile akt_Tile = world.getTileAt((int) ((this.y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE),
-				(int) ((this.x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE));
-		if (standingTile == null) {
-			System.out.println("new standingtile");
+				(int) ((this.x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE)); // nach der Bewegung: akt_Tile
+		if (standingTile == null || akt_Tile != standingTile) {
 			setStandingTile(akt_Tile); // Bewegen und entern
-
-		} else if (akt_Tile != standingTile) { // Neuer Block
-			standingTile.eventWhenMoveBlockLeaving();
-			setStandingTile(akt_Tile); // "Bewegen" & Entern
-
+			if (last_Tile != null && last_Tile != emptyTile) {
+				last_Tile.eventWhenMoveBlockLeaving();
+			}
 		}
-
+		
 	}
 
 	private void setStandingTile(Tile akt_Tile) {
+
 		if (akt_Tile == null) { // Air
 			standingTile = emptyTile;
 		} else { // akt_tile != null, besonderer Block

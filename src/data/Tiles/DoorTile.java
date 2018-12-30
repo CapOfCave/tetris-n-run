@@ -24,7 +24,9 @@ public class DoorTile extends Tile {
 	private DrawAndSortable bottomPart;
 	private boolean standardOpened;
 	private boolean playerOnTile = false;
-	private int changesSincePlayerEntered = 0;
+	private int movingBlocksOnTile = 0;
+
+	private int changesSinceOccupied = 0;
 
 	public DoorTile(int color, int x, int y, int rotation, boolean open, Frame frame) {
 		super('D', x, y, false, open, true, frame);
@@ -83,14 +85,13 @@ public class DoorTile extends Tile {
 	}
 
 	public void changeState() {
-		if (!playerOnTile) {
+		if (playerOnTile || movingBlocksOnTile > 0) {
+			changesSinceOccupied++;
+		} else {
 			walkableWithTetro = !walkableWithTetro;
 
 			str_akt_anim = (walkableWithTetro ? "opened" : "closed") + rotation;
 			image3d = GraphicalTools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
-
-		} else {
-			changesSincePlayerEntered++;
 		}
 
 	}
@@ -136,9 +137,27 @@ public class DoorTile extends Tile {
 	@Override
 	public void eventWhenLeaving() {
 		playerOnTile = false;
-		if (changesSincePlayerEntered % 2 == 1) {
-			changeState();
+		leave();
+
+	}
+
+	private void leave() {
+		if (!playerOnTile && movingBlocksOnTile == 0) {
+			if (changesSinceOccupied % 2 == 1) {
+				changeState();
+			}
+			changesSinceOccupied = 0;
 		}
-		changesSincePlayerEntered = 0;
+	}
+
+	@Override
+	public void eventWhenMoveBlockEntering() {
+		movingBlocksOnTile++;
+	}
+
+	@Override
+	public void eventWhenMoveBlockLeaving() {
+		movingBlocksOnTile--;
+		leave();
 	}
 }
