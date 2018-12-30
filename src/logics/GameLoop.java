@@ -6,8 +6,8 @@ package logics;
  */
 public class GameLoop implements Runnable {
 
-	public static int acutualframes = 0;
-	public static int acutualupdates = 0;
+	public static int actualframes = 0;
+	public static int actualupdates = 0;
 
 	private final double FREQUENCY = 30.;
 	private final double TIME_BETWEEN_UPDATES = 1000000000 / FREQUENCY;
@@ -55,9 +55,9 @@ public class GameLoop implements Runnable {
 
 				int currentTimeSeconds = (int) (lastUpdateTime / 1000000000);
 				if (currentTimeSeconds > lastSecondTime) {
-					fps = acutualframes;
-					acutualframes = 0;
-					acutualupdates = 0;
+					fps = actualframes;
+					actualframes = 0;
+					actualupdates = 0;
 					lastSecondTime = currentTimeSeconds;
 				}
 

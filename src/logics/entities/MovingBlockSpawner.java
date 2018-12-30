@@ -45,8 +45,6 @@ public class MovingBlockSpawner extends Entity {
 		child = new MovingBlock(world, cubeX, cubeY, cubeAnims);
 		world.addEntity(child);
 		
-//		System.out.println("interact");
-
 	}
 
 	public double getCX() {
