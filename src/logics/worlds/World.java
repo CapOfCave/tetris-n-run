@@ -228,6 +228,7 @@ public abstract class World {
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
 
 		// if (!keyHandler.getCtrl()) {
+		
 		if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
 			int placeX;
 			int placeY;
