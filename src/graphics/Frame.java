@@ -29,7 +29,7 @@ public class Frame extends JFrame {
 	private RawPlayer rawPlayer;
 	private GameLoop gameLoop;
 	private char nextLevel;
-	private int levelSolved = 5;
+	private int levelSolved = 0;
 	private boolean inOverworld = true;
 	private String[] text;
 	private SoundPlayer soundPlayer;
