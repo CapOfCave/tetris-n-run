@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 import data.Level;
 import data.RawPlayer;
@@ -41,8 +42,10 @@ public abstract class World {
 	// Standard-Bilder
 	protected BufferedImage blockImg;
 	protected BufferedImage backgroundImg;
-	protected BufferedImage nullTileImg;
-	protected int[][] nullTileNumbers;
+	protected BufferedImage[] nullTileImgs = { ImageLoader.loadImage("/res/blocks/block0.png"),
+			ImageLoader.loadImage("/res/blocks/block0i.png"), ImageLoader.loadImage("/res/blocks/block0j.png"),
+			ImageLoader.loadImage("/res/blocks/block0k.png"), ImageLoader.loadImage("/res/blocks/block0l.png"), };
+	protected double[] probs = { 0.2, 0.45, 0.1, 0.05, 0.2 };
 	protected Renderer renderer;
 
 	// Wichtigste Bezugsobjekte
@@ -81,11 +84,6 @@ public abstract class World {
 		toAdd = new ArrayList<>();
 		toRemove = new ArrayList<>();
 		renderer = new Renderer();
-		
-		
-
-		nullTileImg = ImageLoader.loadImage("/res/blocks/block0.png");
-		
 
 		tetroAmount = level.getTetroAmounts();
 		tetroFileURL = level.getTetrofileUrl();
@@ -161,8 +159,7 @@ public abstract class World {
 				switchDoors(i);
 			}
 		}
-		
-		nullTileNumbers = new int[tileWorld.length][tileWorld[0].length];
+
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
@@ -191,9 +188,21 @@ public abstract class World {
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
-
+		double randdub = new Random((long) (x * 56789 + y * 12345)).nextDouble();
+		BufferedImage nullTileImg = null;
+		for (int i = 0; i < probs.length && nullTileImg == null; i++) {
+			if (randdub < probs[i]) {
+				nullTileImg = nullTileImgs[i];
+			} else {
+				randdub -= probs[i];
+			}
+		}
+		if (nullTileImg == null) {
+			System.err.println("Überprüfe deine Wahrscheinlichkeitsverteilung.");
+		} else {
 			g.drawImage(nullTileImg, (int) (x * Frame.BLOCKSIZE - cameraX()), (int) (y * Frame.BLOCKSIZE - cameraY()),
 					null);
+		}
 	}
 
 	public void playSound(String sound, float volume) {
@@ -235,7 +244,7 @@ public abstract class World {
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
 
 		// if (!keyHandler.getCtrl()) {
-		
+
 		if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
 			int placeX;
 			int placeY;
@@ -388,7 +397,7 @@ public abstract class World {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld,  items, doors, createRawSpawner(),
+		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, items, doors, createRawSpawner(),
 				otherEntities, tetroAmount, toggleStates, tetroFileURL, player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path, fileName);
