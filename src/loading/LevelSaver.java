@@ -173,6 +173,15 @@ public class LevelSaver {
 					for (int amount : field.getTetroAmount())
 						worldLine.append(amount + ",");
 					outpLines.add(worldLine.toString());
+				} else if (field != null && field.getKey() == 'X') {
+					StringBuilder worldLine = new StringBuilder("Td;");
+					worldLine.append("x=" + field.getPosX() + ";");
+					worldLine.append("y=" + field.getPosY() + ";");
+					worldLine.append("xo=" + (int)field.getOffSet().getX() + ";");
+					worldLine.append("yo=" + (int)field.getOffSet().getY() + ";");
+					worldLine.append("name=" + field.getName() + ";");
+					
+					outpLines.add(worldLine.toString());
 				}
 			}
 

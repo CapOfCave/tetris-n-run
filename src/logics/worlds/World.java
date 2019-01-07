@@ -42,6 +42,7 @@ public abstract class World {
 	protected BufferedImage blockImg;
 	protected BufferedImage backgroundImg;
 	protected BufferedImage nullTileImg;
+	protected int[][] nullTileNumbers;
 	protected Renderer renderer;
 
 	// Wichtigste Bezugsobjekte
@@ -80,8 +81,11 @@ public abstract class World {
 		toAdd = new ArrayList<>();
 		toRemove = new ArrayList<>();
 		renderer = new Renderer();
+		
+		
 
 		nullTileImg = ImageLoader.loadImage("/res/blocks/block0.png");
+		
 
 		tetroAmount = level.getTetroAmounts();
 		tetroFileURL = level.getTetrofileUrl();
@@ -157,6 +161,8 @@ public abstract class World {
 				switchDoors(i);
 			}
 		}
+		
+		nullTileNumbers = new int[tileWorld.length][tileWorld[0].length];
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
@@ -185,8 +191,9 @@ public abstract class World {
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
-		g.drawImage(nullTileImg, (int) (x * Frame.BLOCKSIZE - cameraX()), (int) (y * Frame.BLOCKSIZE - cameraY()),
-				null);
+
+			g.drawImage(nullTileImg, (int) (x * Frame.BLOCKSIZE - cameraX()), (int) (y * Frame.BLOCKSIZE - cameraY()),
+					null);
 	}
 
 	public void playSound(String sound, float volume) {
@@ -228,6 +235,7 @@ public abstract class World {
 	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
 
 		// if (!keyHandler.getCtrl()) {
+		
 		if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
 			int placeX;
 			int placeY;
@@ -380,7 +388,7 @@ public abstract class World {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, items, doors, createRawSpawner(),
+		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld,  items, doors, createRawSpawner(),
 				otherEntities, tetroAmount, toggleStates, tetroFileURL, player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path, fileName);

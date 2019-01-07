@@ -12,6 +12,7 @@ import data.RawPlayer;
 import data.RawSpawner;
 import data.RawTetro;
 import data.TetroType;
+import data.Tiles.DekoTile;
 import data.Tiles.DoorTile;
 import data.Tiles.EmptyTile;
 import data.Tiles.GoalTile;
@@ -333,6 +334,31 @@ public class LevelLoader {
 				}
 //				System.ot.println("" + x + y + amountList + addingTetros);
 				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList, addingTetros);
+			}else if(nextLine.startsWith("Td")) {
+				String strSplit[] = nextLine.split(";");
+				int x = -1;
+				int y = -1;
+				int xo = -1;
+				int yo = -1;
+				String name = "block1";
+				
+				for (String str : strSplit) {
+
+					if (str.startsWith("x=")) {
+						x = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("y=")) {
+						y = Integer.parseInt(str.substring(2));
+					} else if (str.startsWith("xo=")) {
+						xo = Integer.parseInt(str.substring(3));
+					} else if (str.startsWith("yo=")) {
+						yo = Integer.parseInt(str.substring(3));
+					}else if (str.startsWith("name=")) {
+						name = str.substring(5);
+
+					}
+
+				}
+				arrWorld[y][x] = new DekoTile('X', x, y, xo, yo, name, frame);
 			}
 
 		}

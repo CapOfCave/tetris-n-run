@@ -1,6 +1,7 @@
 package data.Tiles;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import data.DrawAndSortable;
@@ -22,6 +23,8 @@ public abstract class Tile implements DrawAndSortable {
 	protected boolean walkable;
 	protected boolean walkableWithTetro;
 	protected boolean tetroPlacable;
+	protected Point offset = new Point(0, 0);
+	protected String name;
 
 	protected boolean isBlockingTetro;
 	protected World world;
@@ -56,12 +59,20 @@ public abstract class Tile implements DrawAndSortable {
 		this.tetroAmount = tetroAmount;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public char getKey() {
 		return key;
 	}
 
 	public void setKey(char key) {
 		this.key = key;
+	}
+	
+	public Point getOffSet() {
+		return offset;
 	}
 
 	public int getPosX() {
