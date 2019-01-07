@@ -45,7 +45,7 @@ public abstract class World {
 	protected BufferedImage[] nullTileImgs = { ImageLoader.loadImage("/res/blocks/block0.png"),
 			ImageLoader.loadImage("/res/blocks/block0i.png"), ImageLoader.loadImage("/res/blocks/block0j.png"),
 			ImageLoader.loadImage("/res/blocks/block0k.png"), ImageLoader.loadImage("/res/blocks/block0l.png"), };
-	protected double[] probs = { 0.53, 0.45, 0.01, 0.005, 0.005 };
+	protected double[] probs = { 0.53, 0.454, 0.01, 0.005, 0.001 };
 	protected Renderer renderer;
 
 	// Wichtigste Bezugsobjekte
@@ -70,14 +70,17 @@ public abstract class World {
 	private ArrayList<Entity> toRemove;
 	private int tetroAmount[];
 	private boolean toggleStates[];
-	
+	protected BufferedImage[][] worldDeco;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
 		double probsTotal = 0;
-		for(int i = 0; i < probs.length; i++) {
+		for (int i = 0; i < probs.length; i++) {
 			probsTotal += probs[i];
 		}
-		System.out.println("Total deko Probs: " + probsTotal);
+
+		if (probsTotal != 1)
+			System.out.println("Total deko Probs: " + probsTotal);
+
 		// Initialisierungen
 
 		this.graphicClip = graphicClip;
@@ -165,6 +168,23 @@ public abstract class World {
 			}
 		}
 
+		// Deko erzeugen
+		worldDeco = new BufferedImage[tileWorld.length][tileWorld[0].length];
+		for (int y = 0; y < worldDeco.length; y++) {
+			for (int x = 0; x < worldDeco[y].length; x++) {
+				double randdub = new Random((long) (x * 56789 + y * 12345)).nextDouble();
+				BufferedImage nullTileImg = null;
+				for (int i = 0; i < probs.length && nullTileImg == null; i++) {
+					if (randdub < probs[i]) {
+						nullTileImg = nullTileImgs[i];
+					} else {
+						randdub -= probs[i];
+					}
+				}
+				worldDeco[y][x] = nullTileImg;
+			}
+		}
+
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
@@ -193,20 +213,12 @@ public abstract class World {
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
-		double randdub = new Random((long) (x * 56789 + y * 12345)).nextDouble();
-		BufferedImage nullTileImg = null;
-		for (int i = 0; i < probs.length && nullTileImg == null; i++) {
-			if (randdub < probs[i]) {
-				nullTileImg = nullTileImgs[i];
-			} else {
-				randdub -= probs[i];
-			}
-		}
-		if (nullTileImg == null) {
+
+		if (worldDeco[y][x] == null) {
 			System.err.println("Überprüfe deine Wahrscheinlichkeitsverteilung.");
 		} else {
-			g.drawImage(nullTileImg, (int) (x * Frame.BLOCKSIZE - cameraX()), (int) (y * Frame.BLOCKSIZE - cameraY()),
-					null);
+			g.drawImage(worldDeco[y][x], (int) (x * Frame.BLOCKSIZE - cameraX()),
+					(int) (y * Frame.BLOCKSIZE - cameraY()), null);
 		}
 	}
 
