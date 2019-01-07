@@ -45,7 +45,7 @@ public abstract class World {
 	protected BufferedImage[] nullTileImgs = { ImageLoader.loadImage("/res/blocks/block0.png"),
 			ImageLoader.loadImage("/res/blocks/block0i.png"), ImageLoader.loadImage("/res/blocks/block0j.png"),
 			ImageLoader.loadImage("/res/blocks/block0k.png"), ImageLoader.loadImage("/res/blocks/block0l.png"), };
-	protected double[] probs = { 0.2, 0.45, 0.1, 0.05, 0.2 };
+	protected double[] probs = { 0.53, 0.45, 0.01, 0.005, 0.005 };
 	protected Renderer renderer;
 
 	// Wichtigste Bezugsobjekte
@@ -70,9 +70,14 @@ public abstract class World {
 	private ArrayList<Entity> toRemove;
 	private int tetroAmount[];
 	private boolean toggleStates[];
+	
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
-
+		double probsTotal = 0;
+		for(int i = 0; i < probs.length; i++) {
+			probsTotal += probs[i];
+		}
+		System.out.println("Total deko Probs: " + probsTotal);
 		// Initialisierungen
 
 		this.graphicClip = graphicClip;
