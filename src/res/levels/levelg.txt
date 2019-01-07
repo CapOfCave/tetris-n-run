@@ -16,7 +16,7 @@ d;x=2;y=4;r=1;c=0;o=true
 e;x=3;y=1;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=6;cy=2;curl=/res/anims/movingblock.txt;
 w;00000000
 w;00100000
-w;00D‡‡000
+w;00D00000
 w;00100000
 w;00D‡0000
 w;00100000
