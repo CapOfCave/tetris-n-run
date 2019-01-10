@@ -25,6 +25,8 @@ public class Switch extends Entity {
 			drawColor = Color.BLUE;
 		} else if (color == 3) {
 			drawColor = Color.YELLOW;
+		}else if (color == 4) {
+			drawColor = Color.gray;
 		}
 
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));

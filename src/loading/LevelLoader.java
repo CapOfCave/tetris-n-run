@@ -392,7 +392,7 @@ public class LevelLoader {
 
 						}
 
-					} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò') {
+					} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò' || tileChar == 'ù') {
 						arrWorld[j][i] = new PressurePlateTile(tileChar, i, j, frame);
 					} else if (tileChar == '!') {
 						arrWorld[j][i] = new GoalTile(i, j, frame);
