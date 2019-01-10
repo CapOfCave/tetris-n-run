@@ -21,6 +21,7 @@ import logics.worlds.World;
  */
 public class Player extends LivingEntity {
 
+	private static final double normMaxSpeed = 9.0;
 	private static final long serialVersionUID = 1L;
 	private Inventory inventory;
 	private Weapon activeWeapon;
@@ -49,7 +50,6 @@ public class Player extends LivingEntity {
 		brake = rawPlayer.getAcc();
 		maxSpeed = rawPlayer.getMaxSpeed();
 		inventory = rawPlayer.getInventory();
-
 		inventory.setWorld(world);
 	}
 
@@ -124,6 +124,12 @@ public class Player extends LivingEntity {
 
 	private void checkInput() {
 
+		if (world.getKeyHandler().getShift()) {
+			maxSpeed = normMaxSpeed * 1.6;
+		} else {
+			maxSpeed = normMaxSpeed;
+		}
+		
 		if (!world.getKeyHandler().getCtrl()) {
 			wantsToGoUp = world.getKeyHandler().getW();
 			wantsToGoLeft = world.getKeyHandler().getA();
