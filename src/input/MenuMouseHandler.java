@@ -19,14 +19,13 @@ public class MenuMouseHandler implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("test");
+
 		panel.mousePressed(e.getX(), e.getY());
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("test");		
 	}
 
 	@Override

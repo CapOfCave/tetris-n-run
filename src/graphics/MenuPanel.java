@@ -48,7 +48,6 @@ public class MenuPanel extends JPanel {
 	public void mousePressed(int x, int y) {
 		
 		if (x > 35 && y > 332 && x < 1235 && y < 502) {
-			System.out.println("hi");
 			new GameFrame();
 			frame.dispose();
 		}
