@@ -1,11 +1,11 @@
 package data.Tiles;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import loading.ImageLoader;
 
 public class LevelGuiTile extends Tile {
 
-	public LevelGuiTile(char key, int posX, int posY, Frame frame) {
+	public LevelGuiTile(char key, int posX, int posY, GameFrame frame) {
 		super(key, posX, posY, true, true, false, frame);
 		img = ImageLoader.loadImage("/res/blocks/block" + key + ".png");
 

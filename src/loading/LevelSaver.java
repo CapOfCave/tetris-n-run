@@ -11,7 +11,7 @@ import data.RawSpawner;
 import data.RawTetro;
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.entities.MovingBlockSpawner;
 import logics.entities.Entity;
 import logics.entities.Switch;
@@ -133,7 +133,7 @@ public class LevelSaver {
 				break;
 			case "moveblockspawner":
 				MovingBlockSpawner cubeSpawner = (MovingBlockSpawner) entity;
-				outpLines.add(outp + ";cx=" + (int) cubeSpawner.getCX()/Frame.BLOCKSIZE + ";cy=" + (int) cubeSpawner.getCY()/Frame.BLOCKSIZE + ";curl="
+				outpLines.add(outp + ";cx=" + (int) cubeSpawner.getCX()/GameFrame.BLOCKSIZE + ";cy=" + (int) cubeSpawner.getCY()/GameFrame.BLOCKSIZE + ";curl="
 						+ cubeSpawner.getCurl());
 				break;
 			case "switch":

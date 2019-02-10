@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import data.TetroType;
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.worlds.World;
 
 /**
@@ -56,7 +56,7 @@ public class InHandHandler {
 		rotation = (rotation + 1) % 4;
 		int offset_x_alt = offset_x;
 		offset_x = offset_y;
-		offset_y = (rotation % 2 + 1) * 2 * Frame.BLOCKSIZE - offset_x_alt;
+		offset_y = (rotation % 2 + 1) * 2 * GameFrame.BLOCKSIZE - offset_x_alt;
 	}
 
 	public void placeInHand() {
@@ -94,8 +94,8 @@ public class InHandHandler {
 			Point p = tetroTypeOffsets.get(i);
 			if (x > p.x && x < p.x + 4 * drawSize && y > p.y && y < p.y + 2 * drawSize) {
 				tetroApproximation = world.getTetroType(i);
-				offset_x = (x - p.x) * Frame.BLOCKSIZE / drawSize;
-				offset_y = (y - p.y) * Frame.BLOCKSIZE / drawSize;
+				offset_x = (x - p.x) * GameFrame.BLOCKSIZE / drawSize;
+				offset_y = (y - p.y) * GameFrame.BLOCKSIZE / drawSize;
 				rotation = 0;
 				break;
 			}

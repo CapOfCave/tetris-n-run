@@ -2,7 +2,7 @@ package logics.entities;
 
 import java.awt.Rectangle;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.entities.items.Weapon;
 import logics.worlds.GameWorld;
 import logics.worlds.World;
@@ -143,9 +143,9 @@ public abstract class LivingEntity extends Entity {
 		// nach oben-movement (TL-TR)
 		if (vSpeed < 0) {
 			// linker edgecut
-			if (!isRelAccessible(getExtremePosition(0), -Frame.BLOCKSIZE / 2)) {
+			if (!isRelAccessible(getExtremePosition(0), -GameFrame.BLOCKSIZE / 2)) {
 				if (isRelAccessible(getExtremePosition(0),
-						-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoLeft) {
+						-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100) && !wantsToGoLeft) {
 					move_contact_solid(3);
 				} else {
 					vSpeed = 0;
@@ -155,9 +155,9 @@ public abstract class LivingEntity extends Entity {
 			}
 
 			// rechter edgecut
-			if (!isRelAccessible(getExtremePosition(0), Frame.BLOCKSIZE / 2 - 1)) {
+			if (!isRelAccessible(getExtremePosition(0), GameFrame.BLOCKSIZE / 2 - 1)) {
 				if (isRelAccessible(getExtremePosition(0),
-						Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoRight) {
+						GameFrame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100) && !wantsToGoRight) {
 					move_contact_solid(1);
 				} else {
 					vSpeed = 0;
@@ -167,18 +167,18 @@ public abstract class LivingEntity extends Entity {
 		}
 		// nach unten-movement (BL-BR)
 		if (vSpeed > 0) {
-			if (!isRelAccessible(getExtremePosition(2), -Frame.BLOCKSIZE / 2)) {
+			if (!isRelAccessible(getExtremePosition(2), -GameFrame.BLOCKSIZE / 2)) {
 				if (isRelAccessible(getExtremePosition(2),
-						-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoLeft) {
+						-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100) && !wantsToGoLeft) {
 					move_contact_solid(3);
 				} else {
 					vSpeed = 0;
 					move_contact_solid(2);
 				}
 			}
-			if (!isRelAccessible(getExtremePosition(2), Frame.BLOCKSIZE / 2 - 1)) {
+			if (!isRelAccessible(getExtremePosition(2), GameFrame.BLOCKSIZE / 2 - 1)) {
 				if (isRelAccessible(getExtremePosition(2),
-						Frame.BLOCKSIZE / 2 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100) && !wantsToGoRight) {
+						GameFrame.BLOCKSIZE / 2 - edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100) && !wantsToGoRight) {
 					move_contact_solid(1);
 
 				} else {
@@ -192,8 +192,8 @@ public abstract class LivingEntity extends Entity {
 		// Horizontal
 		// nach links-movement (TL-BL)
 		if (hSpeed < 0) {
-			if (!isRelAccessible(-Frame.BLOCKSIZE / 2, getExtremePosition(3))) {
-				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
+			if (!isRelAccessible(-GameFrame.BLOCKSIZE / 2, getExtremePosition(3))) {
+				if (isRelAccessible(-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100,
 						getExtremePosition(3)) && !wantsToGoUp) {
 					move_contact_solid(0);
 				} else {
@@ -201,8 +201,8 @@ public abstract class LivingEntity extends Entity {
 					move_contact_solid(3);
 				}
 			}
-			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1, getExtremePosition(3))) {
-				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
+			if (!isRelAccessible(GameFrame.BLOCKSIZE / 2 - 1, getExtremePosition(3))) {
+				if (isRelAccessible(GameFrame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100,
 						getExtremePosition(3)) && !wantsToGoDown) {
 					move_contact_solid(2);
 				} else {
@@ -216,8 +216,8 @@ public abstract class LivingEntity extends Entity {
 
 		// nach rechts-movement (TR-BR)
 		if (hSpeed > 0) {
-			if (!isRelAccessible(-Frame.BLOCKSIZE / 2, getExtremePosition(1))) {
-				if (isRelAccessible(-Frame.BLOCKSIZE / 2 + edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
+			if (!isRelAccessible(-GameFrame.BLOCKSIZE / 2, getExtremePosition(1))) {
+				if (isRelAccessible(-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100,
 						getExtremePosition(1)) && !wantsToGoUp) {
 					move_contact_solid(0);
 				} else {
@@ -225,8 +225,8 @@ public abstract class LivingEntity extends Entity {
 					move_contact_solid(1);
 				}
 			}
-			if (!isRelAccessible(Frame.BLOCKSIZE / 2 - 1, getExtremePosition(1))) {
-				if (isRelAccessible(Frame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * Frame.BLOCKSIZE / 100,
+			if (!isRelAccessible(GameFrame.BLOCKSIZE / 2 - 1, getExtremePosition(1))) {
+				if (isRelAccessible(GameFrame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100,
 						getExtremePosition(1)) && !wantsToGoDown) {
 					move_contact_solid(2);
 				} else {
@@ -241,13 +241,13 @@ public abstract class LivingEntity extends Entity {
 	protected double getExtremePosition(int direction) {
 		switch (direction % 4) {
 		case 0:
-			return -Frame.BLOCKSIZE / 2 + vSpeed;
+			return -GameFrame.BLOCKSIZE / 2 + vSpeed;
 		case 1:
-			return Frame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den rechts-links-bug
+			return GameFrame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den rechts-links-bug
 		case 2:
-			return Frame.BLOCKSIZE / 2 + 1 + vSpeed;
+			return GameFrame.BLOCKSIZE / 2 + 1 + vSpeed;
 		case 3:
-			return -Frame.BLOCKSIZE / 2 + hSpeed;
+			return -GameFrame.BLOCKSIZE / 2 + hSpeed;
 		default:
 			System.err.println("Fehler @LivingEntity#getExtremePosition bei " + this);
 			return 0;
@@ -303,45 +303,45 @@ public abstract class LivingEntity extends Entity {
 	private void move_contact_solid(int i) {
 		switch (i) {
 		case 0:
-			y = getTileY() * Frame.BLOCKSIZE;
+			y = getTileY() * GameFrame.BLOCKSIZE;
 			break;
 		case 1:
-			x = getTileX() * Frame.BLOCKSIZE;
+			x = getTileX() * GameFrame.BLOCKSIZE;
 			break;
 		case 2:
-			y = getTileY() * Frame.BLOCKSIZE;
+			y = getTileY() * GameFrame.BLOCKSIZE;
 			break;
 		case 3:
-			x = getTileX() * Frame.BLOCKSIZE;
+			x = getTileX() * GameFrame.BLOCKSIZE;
 			break;
 		}
 
 	}
 
 	private int getTileX(double dx) {
-		return (int) ((x + dx + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE);
+		return (int) ((x + dx + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
 	}
 
 	private int getTileY(double dy) {
-		return (int) ((y + dy + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE);
+		return (int) ((y + dy + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
 	}
 
 	public int getTileX() {
-		return (int) ((x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE);
+		return (int) ((x + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
 	}
 
 	public int getTileY() {
-		return (int) ((y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE);
+		return (int) ((y + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
 	}
 
 	private boolean isRelAccessible(double dy, double dx) {
 
 		// world bounds
-		if ((x + Frame.BLOCKSIZE / 2 + dx) >= world.getMaxX() || (y + Frame.BLOCKSIZE / 2 + dy) >= world.getMaxY()
-				|| (x + Frame.BLOCKSIZE / 2 + dx) < 0 || (y + Frame.BLOCKSIZE / 2 + dy) < 0) {
+		if ((x + GameFrame.BLOCKSIZE / 2 + dx) >= world.getMaxX() || (y + GameFrame.BLOCKSIZE / 2 + dy) >= world.getMaxY()
+				|| (x + GameFrame.BLOCKSIZE / 2 + dx) < 0 || (y + GameFrame.BLOCKSIZE / 2 + dy) < 0) {
 			return false;
 		}
-		if (world.isEntityAt(this, y + Frame.BLOCKSIZE / 2 + dy, x + Frame.BLOCKSIZE / 2 + dx)) {
+		if (world.isEntityAt(this, y + GameFrame.BLOCKSIZE / 2 + dy, x + GameFrame.BLOCKSIZE / 2 + dx)) {
 			return false;
 		}
 

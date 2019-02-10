@@ -21,7 +21,7 @@ import sound.SoundPlayer;
  * 
  *         Der Rahmen, der alles hält.
  */
-public class Frame extends JFrame {
+public class GameFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private OverworldPanel oPanel;
@@ -46,10 +46,10 @@ public class Frame extends JFrame {
 //			System.ot.println(savesFile);
 		}
 
-		new Frame();
+		new MenuFrame();
 	}
 
-	public Frame() {
+	public GameFrame() {
 		keyHandler = new KeyHandler();
 		text = new String[7];
 		text[0] = "";
@@ -207,6 +207,13 @@ public class Frame extends JFrame {
 		}
 
 	}
+	
+	public void backToMenu() {
+		oPanel.save();
+		new MenuFrame();
+		this.dispose();
+		
+	}
 
 	public void playSound(String sound, float volume) {
 		soundPlayer.playSound(sound, volume);
@@ -227,5 +234,7 @@ public class Frame extends JFrame {
 	public void setText(String[] text) {
 		this.text = text;
 	}
+
+	
 
 }

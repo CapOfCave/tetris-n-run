@@ -4,14 +4,14 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import data.RawPlayer;
-import graphics.Frame;
+import graphics.GameFrame;
 import loading.ImageLoader;
 
 public class GoalTile extends Tile {
 
 	private BufferedImage image3d;
 
-	public GoalTile(int posX, int posY, Frame frame) {
+	public GoalTile(int posX, int posY, GameFrame frame) {
 		super('!', posX, posY, false, true, true, frame);
 		image3d = ImageLoader.loadImage("/res/goal.png");
 	}
@@ -25,8 +25,8 @@ public class GoalTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
+				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
 	}
 	
 	@Override

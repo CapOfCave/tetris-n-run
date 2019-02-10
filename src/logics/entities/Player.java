@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import data.RawPlayer;
 import data.Tiles.Tile;
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.Inventory;
 import logics.entities.items.Item;
 import logics.entities.items.Weapon;
@@ -87,7 +87,7 @@ public class Player extends LivingEntity {
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("helvetica", Font.PLAIN, 11));
 		g.drawString("rx=" + x + " | ry=" + y, 20, 40);
-		g.drawString("vx=" + x / Frame.BLOCKSIZE + " | vy=" + y / Frame.BLOCKSIZE, 20, 55);
+		g.drawString("vx=" + x / GameFrame.BLOCKSIZE + " | vy=" + y / GameFrame.BLOCKSIZE, 20, 55);
 
 	}
 
@@ -191,7 +191,7 @@ public class Player extends LivingEntity {
 			for (Enemy enemy : world.getEnemies()) {
 				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
 						new Rectangle((int) (enemy.getX() - world.cameraX()), (int) (enemy.getY() - world.cameraY()),
-								Frame.BLOCKSIZE, Frame.BLOCKSIZE))) {
+								GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE))) {
 					enemy.applyDamage(activeWeapon);
 				}
 			}
@@ -206,14 +206,14 @@ public class Player extends LivingEntity {
 		} else {
 			switch (direction % 4) {
 			case 0:
-				return movingBlockInHand.getY() - y - Frame.BLOCKSIZE / 2 + vSpeed;
+				return movingBlockInHand.getY() - y - GameFrame.BLOCKSIZE / 2 + vSpeed;
 			case 1:
-				return movingBlockInHand.getX() - x + Frame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den
+				return movingBlockInHand.getX() - x + GameFrame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den
 																						// rechts-links-bug
 			case 2:
-				return movingBlockInHand.getY() - y + Frame.BLOCKSIZE / 2 + 1 + vSpeed;
+				return movingBlockInHand.getY() - y + GameFrame.BLOCKSIZE / 2 + 1 + vSpeed;
 			case 3:
-				return movingBlockInHand.getX() - x - Frame.BLOCKSIZE / 2 + hSpeed;
+				return movingBlockInHand.getX() - x - GameFrame.BLOCKSIZE / 2 + hSpeed;
 			default:
 				System.err.println("Fehler @LivingEntity#getExtremePosition bei " + this);
 				return 0;

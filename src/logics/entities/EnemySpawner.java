@@ -3,7 +3,7 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.worlds.GameWorld;
 import logics.worlds.World;
 
@@ -68,12 +68,12 @@ public class EnemySpawner extends Entity {
 			yPos = (int) (y - spawnOffsetTop + random(spawnOffsetBottom + spawnOffsetTop + 1));
 		}
 		if (world.getTileAt(yPos, xPos) == null && world.isTetroAt(yPos, xPos)) {
-			world.addEnemy(xPos * Frame.BLOCKSIZE, yPos * Frame.BLOCKSIZE, 25, this);
+			world.addEnemy(xPos * GameFrame.BLOCKSIZE, yPos * GameFrame.BLOCKSIZE, 25, this);
 			enemyCount++;
 			
 		} else if ((world.isTetroAt(yPos, xPos) && world.getTileAt(yPos, xPos).isWalkableWithTetro())
 				|| world.getTileAt(yPos, xPos).isWalkable()) {
-			world.addEnemy(xPos * Frame.BLOCKSIZE, yPos * Frame.BLOCKSIZE, 25, this);
+			world.addEnemy(xPos * GameFrame.BLOCKSIZE, yPos * GameFrame.BLOCKSIZE, 25, this);
 			enemyCount++;
 		}
 
@@ -150,14 +150,14 @@ public class EnemySpawner extends Entity {
 
 	public void drawDebug(Graphics g, float interpolation) {
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX()), (int) (y * Frame.BLOCKSIZE - world.cameraY()),
-				Frame.BLOCKSIZE, Frame.BLOCKSIZE);
+		g.fillRect((int) (x * GameFrame.BLOCKSIZE - world.cameraX()), (int) (y * GameFrame.BLOCKSIZE - world.cameraY()),
+				GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE);
 		for (int i = (int) (x - spawnOffsetLeft); i < (int) (x - spawnOffsetLeft + spawnOffsetRight + spawnOffsetLeft
 				+ 1); i++) {
 			for (int j = (int) (y - spawnOffsetTop); j < (int) (y - spawnOffsetTop + spawnOffsetBottom + spawnOffsetTop
 					+ 1); j++) {
-				g.drawLine(i * Frame.BLOCKSIZE - world.cameraX(), j * Frame.BLOCKSIZE - world.cameraY(),
-						(i + 1) * Frame.BLOCKSIZE - world.cameraX(), (j + 1) * Frame.BLOCKSIZE - world.cameraY());
+				g.drawLine(i * GameFrame.BLOCKSIZE - world.cameraX(), j * GameFrame.BLOCKSIZE - world.cameraY(),
+						(i + 1) * GameFrame.BLOCKSIZE - world.cameraX(), (j + 1) * GameFrame.BLOCKSIZE - world.cameraY());
 			}
 		}
 	}

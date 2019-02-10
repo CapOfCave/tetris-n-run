@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 
 import data.Tiles.EmptyTile;
 import data.Tiles.Tile;
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.worlds.World;
 
 public class MovingBlock extends Entity {
@@ -21,7 +21,7 @@ public class MovingBlock extends Entity {
 	private static Tile emptyTile = new EmptyTile('0', 0, 0, null);
 
 	public MovingBlock(World world, double x, double y, String animPath) {
-		super(world, x, y, animPath, new Rectangle(0, 0, Frame.BLOCKSIZE, Frame.BLOCKSIZE));
+		super(world, x, y, animPath, new Rectangle(0, 0, GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE));
 		lastX = x;
 		lastY = y;
 		type = "moveblock";
@@ -78,8 +78,8 @@ public class MovingBlock extends Entity {
 		this.y = y + offset.y;
 
 		Tile last_Tile = standingTile; // vor der Bewegung: standingTile
-		Tile akt_Tile = world.getTileAt((int) ((this.y + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE),
-				(int) ((this.x + Frame.BLOCKSIZE / 2) / Frame.BLOCKSIZE)); // nach der Bewegung: akt_Tile
+		Tile akt_Tile = world.getTileAt((int) ((this.y + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE),
+				(int) ((this.x + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE)); // nach der Bewegung: akt_Tile
 		if (standingTile == null || akt_Tile != standingTile) {
 			setStandingTile(akt_Tile); // Bewegen und entern
 			if (last_Tile != null && last_Tile != emptyTile) {

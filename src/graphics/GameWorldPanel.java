@@ -25,7 +25,7 @@ public class GameWorldPanel extends Panel {
 
 	private final int tetrotypeDrawSize = 30;
 
-	public GameWorldPanel(Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
+	public GameWorldPanel(Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		super(level, keyHandler, frame);
 
 		world = new GameWorld(gamePanel, level, keyHandler, frame, rawPlayer);

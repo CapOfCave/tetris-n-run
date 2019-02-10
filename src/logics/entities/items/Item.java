@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import loading.AnimationLoader;
 import logics.entities.Entity;
 import logics.worlds.World;
@@ -48,16 +48,16 @@ public class Item extends Entity {
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		g.drawImage(akt_animation.getImage(),
-				(int) (x * Frame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
-				(int) (y * Frame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), Frame.BLOCKSIZE,
-				Frame.BLOCKSIZE, null);
+				(int) (x * GameFrame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
+				(int) (y * GameFrame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), GameFrame.BLOCKSIZE,
+				GameFrame.BLOCKSIZE, null);
 	}
 
 	public void drawDebug(Graphics g, float interpolation) {
 		g.setColor(Color.GREEN);
-		g.fillRect((int) (x * Frame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
-				(int) (y * Frame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), Frame.BLOCKSIZE,
-				Frame.BLOCKSIZE);
+		g.fillRect((int) (x * GameFrame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
+				(int) (y * GameFrame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), GameFrame.BLOCKSIZE,
+				GameFrame.BLOCKSIZE);
 	}
 
 	@Override

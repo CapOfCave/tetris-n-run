@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.entities.items.Weapon;
 import logics.searchalgorithm.SearchAlgorithm;
 import logics.worlds.World;
@@ -28,7 +28,7 @@ public class Enemy extends LivingEntity {
 	private Point goal;
 
 	public Enemy(World world, EnemySpawner parent, int health, int x, int y, String animPath) {
-		super(world, animPath, new Rectangle(15, 15, Frame.BLOCKSIZE - 15, Frame.BLOCKSIZE - 15));
+		super(world, animPath, new Rectangle(15, 15, GameFrame.BLOCKSIZE - 15, GameFrame.BLOCKSIZE - 15));
 		this.health = health;
 		this.parent = parent;
 		type = "enemy";
@@ -56,7 +56,7 @@ public class Enemy extends LivingEntity {
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
-				interpolY - world.cameraY() + akt_animation.getOffsetY(), Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
+				interpolY - world.cameraY() + akt_animation.getOffsetY(), GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE, null);
 		// TODO waffen
 
 	}
@@ -64,17 +64,17 @@ public class Enemy extends LivingEntity {
 	public void drawDebug(Graphics g) { // TODO unused
 		g.setColor(Color.ORANGE);
 		g.fillOval((int) (x - world.cameraX()), (int) (y - world.cameraY()), 5, 5);
-		g.fillOval((int) (x - world.cameraX() + Frame.BLOCKSIZE - 1), (int) (y - world.cameraY()), 5, 5);
-		g.fillOval((int) (x - world.cameraX() + Frame.BLOCKSIZE - 1), (int) (y - world.cameraY() + Frame.BLOCKSIZE - 1),
+		g.fillOval((int) (x - world.cameraX() + GameFrame.BLOCKSIZE - 1), (int) (y - world.cameraY()), 5, 5);
+		g.fillOval((int) (x - world.cameraX() + GameFrame.BLOCKSIZE - 1), (int) (y - world.cameraY() + GameFrame.BLOCKSIZE - 1),
 				5, 5);
-		g.fillOval((int) (x - world.cameraX()), (int) (y - world.cameraY() + Frame.BLOCKSIZE - 1), 5, 5);
+		g.fillOval((int) (x - world.cameraX()), (int) (y - world.cameraY() + GameFrame.BLOCKSIZE - 1), 5, 5);
 
 		if (active) {
 			g.setColor(Color.RED);
 		} else {
 			g.setColor(Color.GREEN);
 		}
-		g.fillOval((int) (x - world.cameraX() + Frame.BLOCKSIZE / 2), (int) (y - world.cameraY() - 6), 5, 5);
+		g.fillOval((int) (x - world.cameraX() + GameFrame.BLOCKSIZE / 2), (int) (y - world.cameraY() - 6), 5, 5);
 
 		g.setColor(Color.RED);
 		g.drawString(Integer.toString(health), (int) (x - world.cameraX()) + 10, (int) (y - world.cameraY()) - 20);
@@ -96,7 +96,7 @@ public class Enemy extends LivingEntity {
 
 	public void aktionInActiveMode() {
 
-		if (distanceToPlayer() <= Frame.BLOCKSIZE) {
+		if (distanceToPlayer() <= GameFrame.BLOCKSIZE) {
 			hit();
 			resetMoveDirections();
 		} else if (playerx != world.getPlayer().getTileX() || playery != world.getPlayer().getY()) {
@@ -107,7 +107,7 @@ public class Enemy extends LivingEntity {
 			path = SearchAlgorithm.calcShortestPath(world, new Point(getTileX(), getTileY()), goal);
 			continuePath();
 
-			if (distanceToPlayer() > 5 * Frame.BLOCKSIZE) {
+			if (distanceToPlayer() > 5 * GameFrame.BLOCKSIZE) {
 				active = false;
 			}
 		}
@@ -120,7 +120,7 @@ public class Enemy extends LivingEntity {
 			hitTicks += activeWeapon.getCooldownTicks();
 			if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
 					new Rectangle((int) (world.getPlayer().getX() - world.cameraX()),
-							(int) (world.getPlayer().getY() - world.cameraY()), Frame.BLOCKSIZE, Frame.BLOCKSIZE))) {
+							(int) (world.getPlayer().getY() - world.cameraY()), GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE))) {
 				world.getPlayer().applyDamage(activeWeapon);
 			}
 		}
@@ -131,13 +131,13 @@ public class Enemy extends LivingEntity {
 		if (goal == null || path == null) {
 			goal = new Point(minX + random(maxX - minX + 1), minY + random(maxY - minY + 1));
 			path = SearchAlgorithm.calcShortestPath(world, new Point(getTileX(), getTileY()), goal);
-		} else if ((Math.abs(goal.x * Frame.BLOCKSIZE - x) < 5 && Math.abs(goal.y * Frame.BLOCKSIZE - y) < 5)
+		} else if ((Math.abs(goal.x * GameFrame.BLOCKSIZE - x) < 5 && Math.abs(goal.y * GameFrame.BLOCKSIZE - y) < 5)
 				|| path.isEmpty()) {
 			goal = new Point(minX + random(maxX - minX + 1), minY + random(maxY - minY + 1));
 			path = SearchAlgorithm.calcShortestPath(world, new Point(getTileX(), getTileY()), goal);
 		}
 
-		if (distanceToPlayer() < 3 * Frame.BLOCKSIZE) {
+		if (distanceToPlayer() < 3 * GameFrame.BLOCKSIZE) {
 			active = true;
 		}
 		continuePath();
@@ -151,14 +151,14 @@ public class Enemy extends LivingEntity {
 			resetMoveDirections();
 			return;
 		}
-		if (Math.abs(path.get(0).x * Frame.BLOCKSIZE - x) < 5 && Math.abs(path.get(0).y * Frame.BLOCKSIZE - y) < 5) {
+		if (Math.abs(path.get(0).x * GameFrame.BLOCKSIZE - x) < 5 && Math.abs(path.get(0).y * GameFrame.BLOCKSIZE - y) < 5) {
 			path.remove(0);
 		}
 		if (!path.isEmpty()) {
-			wantsToGoUp = y - path.get(0).y * Frame.BLOCKSIZE > 1;
-			wantsToGoDown = y - path.get(0).y * Frame.BLOCKSIZE < -1;
-			wantsToGoLeft = x - path.get(0).x * Frame.BLOCKSIZE > 1;
-			wantsToGoRight = x - path.get(0).x * Frame.BLOCKSIZE < -1;
+			wantsToGoUp = y - path.get(0).y * GameFrame.BLOCKSIZE > 1;
+			wantsToGoDown = y - path.get(0).y * GameFrame.BLOCKSIZE < -1;
+			wantsToGoLeft = x - path.get(0).x * GameFrame.BLOCKSIZE > 1;
+			wantsToGoRight = x - path.get(0).x * GameFrame.BLOCKSIZE < -1;
 		}
 	}
 

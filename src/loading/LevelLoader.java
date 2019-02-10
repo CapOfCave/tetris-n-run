@@ -21,7 +21,7 @@ import data.Tiles.PressurePlateTile;
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.entities.MovingBlockSpawner;
 import logics.entities.Entity;
 import logics.entities.MovingBlock;
@@ -35,7 +35,7 @@ public class LevelLoader {
 
 	private static final int tetrotype_amount = 7;
 
-	public static Level loadLevel(String url, Frame frame, RawPlayer rawPlayer) {
+	public static Level loadLevel(String url, GameFrame frame, RawPlayer rawPlayer) {
 		String tetrofileUrl = null;
 		ArrayList<TetroType> tetroTypes;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
@@ -206,12 +206,12 @@ public class LevelLoader {
 				}
 
 				if (rcx == -1 || rcy == -1) {
-					rcx = cx * Frame.BLOCKSIZE;
-					rcy = cy * Frame.BLOCKSIZE;
+					rcx = cx * GameFrame.BLOCKSIZE;
+					rcy = cy * GameFrame.BLOCKSIZE;
 				}
 				if (rx == -1 || ry == -1) {
-					rx = x * Frame.BLOCKSIZE;
-					ry = y * Frame.BLOCKSIZE;
+					rx = x * GameFrame.BLOCKSIZE;
+					ry = y * GameFrame.BLOCKSIZE;
 				}
 				if (animPath != null && type != null && rx >= 0 && ry >= 0) {
 					if (type.equals("switch")) {
@@ -425,7 +425,7 @@ public class LevelLoader {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl);
 
 			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, entities, tetroAmounts,
-					toggleStates, tetrofileUrl, playerX * Frame.BLOCKSIZE, playerY * Frame.BLOCKSIZE);
+					toggleStates, tetrofileUrl, playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
 		} else {
 			System.err.println("Levelerstellung nicht erfolgreich: tetrofileUrl = null");
 			System.exit(1);

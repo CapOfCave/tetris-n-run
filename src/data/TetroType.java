@@ -3,7 +3,7 @@ package data;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import graphics.Frame;
+import graphics.GameFrame;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -32,7 +32,7 @@ public class TetroType {
 		for (int j = 0; j < hitbox.length; j++) {
 			for (int i = 0; i < hitbox[j].length; i++) {
 				if (hitbox[j][i]) {
-					drawBlock(g, i, j, x, y, rotation, Frame.BLOCKSIZE);
+					drawBlock(g, i, j, x, y, rotation, GameFrame.BLOCKSIZE);
 				}
 			}
 		}

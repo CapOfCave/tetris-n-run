@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.worlds.World;
 
 /**
@@ -70,8 +70,8 @@ public class Weapon extends Item {
 	}
 
 	public boolean isInRange(double x, double y, double angleDeg, Rectangle eBounds) {
-		double nullx = x + Frame.BLOCKSIZE / 2;
-		double nully = y + Frame.BLOCKSIZE / 2;
+		double nullx = x + GameFrame.BLOCKSIZE / 2;
+		double nully = y + GameFrame.BLOCKSIZE / 2;
 
 		// Calc nearest point
 		double npX; // TODO never nicht optimal aber fällt vlt nicht auf

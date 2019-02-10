@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import loading.ImageLoader;
 
 /**
@@ -15,7 +15,7 @@ public class WallTile extends Tile {
 	private static Point offset = new Point(0, -45);
 	private BufferedImage image3d;
 
-	public WallTile(char key, int posX, int posY, Frame frame) {
+	public WallTile(char key, int posX, int posY, GameFrame frame) {
 		super(key, posX, posY, false, false, false, frame);
 		isBlockingTetro = true;
 		img = ImageLoader.loadImage("/res/blocks/block0.png");
@@ -27,13 +27,13 @@ public class WallTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX() + offset.x),
-				(int) (posY * Frame.BLOCKSIZE - world.cameraY() + offset.y), null);
+		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + offset.x),
+				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + offset.y), null);
 	}
 
 	@Override
 	public void drawBackground(Graphics g, float interpolation) {
-		g.drawImage(img, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+		g.drawImage(img, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
+				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
 	}
 }

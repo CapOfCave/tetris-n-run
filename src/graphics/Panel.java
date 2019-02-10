@@ -27,12 +27,13 @@ public abstract class Panel extends JPanel implements Playable {
 	protected ArrayList<TetroType> tetroTypes;
 	protected ArrayList<Point> tetroDrawPositions;
 	protected float interpolation;
-	protected Frame frame;
-	protected World world;
 	protected int ups;
 	protected int fps;
+	protected GameFrame frame;
+	protected World world;
+	
 
-	public Panel(Level level, KeyHandler keyHandler, Frame frame) {
+	public Panel(Level level, KeyHandler keyHandler, GameFrame frame) {
 		this.keyHandler = keyHandler;
 		this.frame = frame;
 		setPreferredSize(new Dimension(width, height));

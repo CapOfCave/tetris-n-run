@@ -24,7 +24,7 @@ public class OverworldPanel extends Panel {
 //	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
 //	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
 
-	public OverworldPanel(Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
+	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		super(level, keyHandler , frame);
 
 		 world = new Overworld(gamePanel, level, keyHandler, frame, rawPlayer);
@@ -66,18 +66,19 @@ public class OverworldPanel extends Panel {
 		if(Character.isLowerCase(frame.getNextLevel())) {
 			g.setColor(Color.BLACK);
 			g.drawString("Level " + (Character.getNumericValue(frame.getNextLevel()) - 9), 1055, 150);
-			g.drawString("Play", 1080, 290);
+			g.drawString("Play", 1085, 360);
 			
 		} else {
 			g.setColor(Color.GRAY);
 			g.drawString("Kein Level", 1020, 150);
-			g.drawString("Play", 1080, 290);
+			g.drawString("Play", 1085, 360);
 		}
 		g.setColor(Color.BLACK);
 		
 		Graphics2D chatCraphics = (Graphics2D) g.create( 890, 671, 365, 184);
 		
-		g.drawString("Load", 1080, 400);
+		g.drawString("Load", 1075, 470);
+		g.drawString("Menu", 1070, 580);
 		String[] text = frame.getText();
 		chatCraphics.setFont(new Font("Timesnewroman", 0, 18));
 		if(text.length > 0){

@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import data.Animation;
-import graphics.Frame;
+import graphics.GameFrame;
 import loading.AnimationLoader;
 import loading.ImageLoader;
 import tools.GraphicalTools;
@@ -20,7 +20,7 @@ public class PressurePlateTile extends Tile {
 	Color drawColor = Color.BLACK;
 	private BufferedImage image3d;
 
-	public PressurePlateTile(char key, int posX, int posY, Frame frame) {
+	public PressurePlateTile(char key, int posX, int posY, GameFrame frame) {
 		super(key, posX, posY, false, true, true, frame);
 
 		if (key == 'à') {
@@ -86,8 +86,8 @@ public class PressurePlateTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
+				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
 	}
 
 	@Override

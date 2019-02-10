@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import loading.ImageLoader;
 import logics.worlds.World;
 
@@ -19,7 +19,7 @@ public class SaveNLoadTile extends Tile {
 
 	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
 
-	public SaveNLoadTile(char key, int posX, int posY, Frame frame, int[] tetroAmount, boolean addingTetros) {
+	public SaveNLoadTile(char key, int posX, int posY, GameFrame frame, int[] tetroAmount, boolean addingTetros) {
 		super(key, posX, posY, false, true, true, frame);
 
 		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoad2.png");
@@ -39,11 +39,11 @@ public class SaveNLoadTile extends Tile {
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		if (fileExists) {
-			g.drawImage(image3dSaved, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
-					(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+			g.drawImage(image3dSaved, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
+					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
 		} else {
-			g.drawImage(image3dUnSaved, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
-					(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+			g.drawImage(image3dUnSaved, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
+					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
 		}
 	}
 

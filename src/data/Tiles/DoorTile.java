@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import data.Animation;
 import data.DrawAndSortable;
-import graphics.Frame;
+import graphics.GameFrame;
 import graphics.Renderer;
 import loading.AnimationLoader;
 import tools.GraphicalTools;
@@ -28,7 +28,7 @@ public class DoorTile extends Tile {
 
 	private int changesSinceOccupied = 0;
 
-	public DoorTile(int color, int x, int y, int rotation, boolean open, Frame frame) {
+	public DoorTile(int color, int x, int y, int rotation, boolean open, GameFrame frame) {
 		super('D', x, y, false, open, true, frame);
 		this.rotation = rotation;
 		this.color = color;
@@ -61,9 +61,9 @@ public class DoorTile extends Tile {
 
 				if (walkable) {
 					g.drawImage(bottomImage,
-							(int) (posX * Frame.BLOCKSIZE - world.cameraX()
+							(int) (posX * GameFrame.BLOCKSIZE - world.cameraX()
 									+ pictures.get("bottom_image").getOffsetX()),
-							(int) ((posY) * Frame.BLOCKSIZE - world.cameraY()
+							(int) ((posY) * GameFrame.BLOCKSIZE - world.cameraY()
 									+ pictures.get("bottom_image").getOffsetY()),
 							null);
 				}
@@ -113,8 +113,8 @@ public class DoorTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * Frame.BLOCKSIZE - world.cameraX() + pictures.get(str_akt_anim).getOffsetX()),
-				(int) (posY * Frame.BLOCKSIZE - world.cameraY() + pictures.get(str_akt_anim).getOffsetY()), null);
+		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + pictures.get(str_akt_anim).getOffsetX()),
+				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + pictures.get(str_akt_anim).getOffsetY()), null);
 	}
 
 	@Override

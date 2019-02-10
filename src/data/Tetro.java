@@ -2,7 +2,7 @@ package data;
 
 import java.awt.Graphics;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.Camera;
 
 /**
@@ -46,7 +46,7 @@ public class Tetro {
 	}
 
 	public void draw(Graphics g) {
-		type.draw(g, x * Frame.BLOCKSIZE - camera.getX(), y * Frame.BLOCKSIZE - camera.getY(), rotation);
+		type.draw(g, x * GameFrame.BLOCKSIZE - camera.getX(), y * GameFrame.BLOCKSIZE - camera.getY(), rotation);
 	}
 
 	public TetroType getType() {

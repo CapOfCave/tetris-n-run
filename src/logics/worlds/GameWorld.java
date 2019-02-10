@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import data.Level;
 import data.RawPlayer;
-import graphics.Frame;
+import graphics.GameFrame;
 import input.KeyHandler;
 
 /**
@@ -13,7 +13,7 @@ import input.KeyHandler;
  */
 public class GameWorld extends World {
 
-	public GameWorld(Rectangle graphicClip, Level level, KeyHandler keyHandler, Frame frame, RawPlayer rawPlayer) {
+	public GameWorld(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		super(graphicClip, level, keyHandler, frame, rawPlayer);
 	}
 

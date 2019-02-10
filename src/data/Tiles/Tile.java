@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import data.DrawAndSortable;
-import graphics.Frame;
+import graphics.GameFrame;
 import graphics.Renderer;
 import loading.ImageLoader;
 import logics.worlds.World;
@@ -19,7 +19,7 @@ public abstract class Tile implements DrawAndSortable {
 
 	protected char key;
 	protected int posX, posY;
-	protected Frame frame;
+	protected GameFrame frame;
 	protected boolean walkable;
 	protected boolean walkableWithTetro;
 	protected boolean tetroPlacable;
@@ -30,7 +30,7 @@ public abstract class Tile implements DrawAndSortable {
 	protected World world;
 	protected int[] tetroAmount;
 
-	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, boolean tetroPlacable, Frame frame) {
+	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, boolean tetroPlacable, GameFrame frame) {
 		this.key = key;
 		this.posX = posX;
 		this.posY = posY;
@@ -131,7 +131,7 @@ public abstract class Tile implements DrawAndSortable {
 
 	@Override
 	public double getHeight() {
-		return posY * Frame.BLOCKSIZE;
+		return posY * GameFrame.BLOCKSIZE;
 	}
 
 	@Override
@@ -146,8 +146,8 @@ public abstract class Tile implements DrawAndSortable {
 	}
 
 	public void drawBackground(Graphics g, float interpolation) {
-		g.drawImage(img, (int) (posX * Frame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * Frame.BLOCKSIZE - world.cameraY()), null);
+		g.drawImage(img, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
+				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
 
 	}
 

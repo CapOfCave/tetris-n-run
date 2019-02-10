@@ -2,7 +2,7 @@ package logics.entities;
 
 import java.awt.Graphics;
 
-import graphics.Frame;
+import graphics.GameFrame;
 import logics.worlds.World;
 
 public class MovingBlockSpawner extends Entity {
@@ -28,7 +28,7 @@ public class MovingBlockSpawner extends Entity {
 	public void draw(Graphics g, float interpolation) {
 
 		g.drawImage(akt_animation.getImage(), (int) x - world.cameraX() + akt_animation.getOffsetX(),
-				(int) y - world.cameraY() + akt_animation.getOffsetY(), Frame.BLOCKSIZE, Frame.BLOCKSIZE, null);
+				(int) y - world.cameraY() + akt_animation.getOffsetY(), GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE, null);
 
 	}
 
