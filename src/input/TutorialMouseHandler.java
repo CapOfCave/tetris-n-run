@@ -3,11 +3,23 @@ package input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import graphics.MenuFrame;
+import graphics.TutorialPanel;
+
 public class TutorialMouseHandler implements MouseListener {
+	
+	MenuFrame frame;
+	TutorialPanel panel;
+	
+	public TutorialMouseHandler(MenuFrame frame, TutorialPanel panel) {
+		this.frame = frame;
+		this.panel = panel;
+	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	public void mouseClicked(MouseEvent e) {
+		
+		panel.mousePressed(e.getX(), e.getY());
 		
 	}
 

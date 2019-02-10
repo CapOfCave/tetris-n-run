@@ -26,6 +26,7 @@ public class MenuMouseHandler implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override

@@ -38,18 +38,24 @@ public class MenuPanel extends JPanel {
 		g.drawImage(menu, 0, 0, null);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("TimesNewRoman", 1, 130));
-		g.drawString("PLAY", 483, 480);
+		g.drawString("Play", 490, 472);
 		g.setFont(new Font("TimesNewRoman", 1, 100));
-		g.drawString("TUTORIAL", 100, 705);
-		g.drawString("OPTION", 750, 705);
+		g.drawString("Tutorial", 135, 705);
+		g.drawString("Optionen", 745, 705);
 
 	}
 
 	public void mousePressed(int x, int y) {
 		
-		if (x > 35 && y > 332 && x < 1235 && y < 502) {
+		repaint();
+		
+		if (x > 35 && y > 332 && x < 1252 && y < 523) {
 			new GameFrame();
 			frame.dispose();
+		}
+		
+		if (x > 35 && y > 571 && x < 644 && y < 764) {
+			frame.startTutorial();
 		}
 	}
 }

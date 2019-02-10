@@ -20,6 +20,8 @@ public class MenuFrame extends JFrame {
 	
 	public MenuFrame() {
 		mPanel = new MenuPanel(this);
+		tPanel = new TutorialPanel(this);
+		oPanel = new OptionPanel();
 		keyHandler = new KeyHandler();
 
 
@@ -38,6 +40,19 @@ public class MenuFrame extends JFrame {
 		setVisible(true);
 
 
+	}
+
+	public void startMenu() {
+		add(mPanel);
+		remove(tPanel);
+		remove(oPanel);
+		
+	}
+	public void startTutorial() {
+		add(tPanel);
+		remove(mPanel);
+		remove(oPanel);
+		
 	}
 
 }
