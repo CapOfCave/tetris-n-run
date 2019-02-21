@@ -51,6 +51,7 @@ public class Switch extends Entity {
 		world.switchDoors(color);
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
 		akt_image = GraphicalTools.setColor(akt_animation.getImage(), drawColor);
+		world.playSound("lever", -5f);
 	}
 
 	@Override

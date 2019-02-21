@@ -18,6 +18,19 @@ public class SoundPlayer {
 		sounds = new HashMap<>();
 		sounds.put("test", new File("src/res/sounds/test2.wav"));
 		sounds.put("klick", new File("src/res/sounds/klick.wav"));
+		sounds.put("step", new File("src/res/sounds/metal_footsteps.wav"));
+		sounds.put("metal0", new File("src/res/sounds/metal0.wav"));
+		sounds.put("metal1", new File("src/res/sounds/metal1.wav"));
+		sounds.put("metal2", new File("src/res/sounds/metal2.wav"));
+		sounds.put("metal3", new File("src/res/sounds/metal3.wav"));
+		sounds.put("metal3", new File("src/res/sounds/metal3.wav"));
+		sounds.put("synth", new File("src/res/sounds/synth.wav"));
+		sounds.put("error", new File("src/res/sounds/error1.wav"));
+		sounds.put("save", new File("src/res/sounds/hardlysavethequeen.wav"));
+		sounds.put("lever", new File("src/res/sounds/lever.wav"));
+		
+
+		
 
 	}
 
@@ -41,6 +54,8 @@ public class SoundPlayer {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else {
+			System.out.println("Sound \"" + sound + "\" not found. Sounds in database: " + sounds);
 		}
 	}
 

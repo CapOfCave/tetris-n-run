@@ -29,6 +29,7 @@ public class Player extends LivingEntity {
 	private boolean actionPressed;
 	private MovingBlock movingBlockInHand = null;
 	private Point movingBlockOffset;
+	private int ticksSinceFootstepNoice = 0;
 
 	public Player(World world, String animPath, RawPlayer rawPlayer) {
 		super(world, animPath, null);
@@ -98,6 +99,19 @@ public class Player extends LivingEntity {
 		checkInput();
 		checkActionPressEvent();
 		move();
+		// footstep sound
+		if (hSpeed != 0 || vSpeed != 0) {
+			if (ticksSinceFootstepNoice > 12) {
+				world.playSound("step", 0f);
+				ticksSinceFootstepNoice = 0;
+			} else {
+				ticksSinceFootstepNoice++;
+			}
+			
+			
+		} else {
+			ticksSinceFootstepNoice = 0;
+		}
 		checkTile();
 		if (movingBlockInHand != null)
 			movingBlockInHand.setPosition(x, y);
@@ -129,7 +143,7 @@ public class Player extends LivingEntity {
 		} else {
 			maxSpeed = normMaxSpeed;
 		}
-		
+
 		if (!world.getKeyHandler().getCtrl()) {
 			wantsToGoUp = world.getKeyHandler().getW();
 			wantsToGoLeft = world.getKeyHandler().getA();
@@ -209,7 +223,7 @@ public class Player extends LivingEntity {
 				return movingBlockInHand.getY() - y - GameFrame.BLOCKSIZE / 2 + vSpeed;
 			case 1:
 				return movingBlockInHand.getX() - x + GameFrame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den
-																						// rechts-links-bug
+			// rechts-links-bug
 			case 2:
 				return movingBlockInHand.getY() - y + GameFrame.BLOCKSIZE / 2 + 1 + vSpeed;
 			case 3:
@@ -225,7 +239,7 @@ public class Player extends LivingEntity {
 
 		if (akt_Tile != world.getTileAt(getTileY(), getTileX())) {
 			Tile last_Tile = akt_Tile;
-			
+
 			akt_Tile = world.getTileAt(getTileY(), getTileX());
 			if (akt_Tile != null)
 				akt_Tile.eventWhenEntering();
@@ -297,4 +311,8 @@ public class Player extends LivingEntity {
 		noClip = !noClip;
 	}
 
+	@Override
+	protected void bump(double speedloss) {
+		world.playSound("metal" + (int)(Math.random() * 4), -40f + 3.6f * (float)speedloss);
+	}
 }

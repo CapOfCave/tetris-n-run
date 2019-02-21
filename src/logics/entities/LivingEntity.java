@@ -30,6 +30,8 @@ public abstract class LivingEntity extends Entity {
 	protected boolean wantsToGoRight = false;
 
 	protected double edgeTolerancePercentage = 25;
+	
+	private double speedloss = 0;
 
 	public LivingEntity(World world, String animPath, Rectangle relCollisionsRect) {
 		super(world, animPath, relCollisionsRect);
@@ -55,7 +57,11 @@ public abstract class LivingEntity extends Entity {
 		accelerate();
 
 		if (!noClip) {
+			speedloss = 0;
 			checkCollisions();
+			if (speedloss > acc) {
+				bump(speedloss);
+			}
 		}
 		checkMaxSpeed();
 
@@ -66,8 +72,12 @@ public abstract class LivingEntity extends Entity {
 		} else {
 			x += hSpeed * 2.5;
 			y += vSpeed * 2.5;
-
 		}
+		
+	}
+
+	protected void bump(double speedloss) {
+		
 	}
 
 	private void accelerate() {
@@ -148,6 +158,7 @@ public abstract class LivingEntity extends Entity {
 						-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100) && !wantsToGoLeft) {
 					move_contact_solid(3);
 				} else {
+					speedloss += Math.abs(vSpeed);
 					vSpeed = 0;
 					move_contact_solid(0);
 				}
@@ -160,6 +171,7 @@ public abstract class LivingEntity extends Entity {
 						GameFrame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100) && !wantsToGoRight) {
 					move_contact_solid(1);
 				} else {
+					speedloss += Math.abs(vSpeed);
 					vSpeed = 0;
 					move_contact_solid(0);
 				}
@@ -172,6 +184,7 @@ public abstract class LivingEntity extends Entity {
 						-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100) && !wantsToGoLeft) {
 					move_contact_solid(3);
 				} else {
+					speedloss += Math.abs(vSpeed);
 					vSpeed = 0;
 					move_contact_solid(2);
 				}
@@ -182,6 +195,7 @@ public abstract class LivingEntity extends Entity {
 					move_contact_solid(1);
 
 				} else {
+					speedloss += Math.abs(vSpeed);
 					vSpeed = 0;
 					move_contact_solid(2);
 				}
@@ -197,6 +211,7 @@ public abstract class LivingEntity extends Entity {
 						getExtremePosition(3)) && !wantsToGoUp) {
 					move_contact_solid(0);
 				} else {
+					speedloss += Math.abs(hSpeed);
 					hSpeed = 0;
 					move_contact_solid(3);
 				}
@@ -206,6 +221,7 @@ public abstract class LivingEntity extends Entity {
 						getExtremePosition(3)) && !wantsToGoDown) {
 					move_contact_solid(2);
 				} else {
+					speedloss += Math.abs(hSpeed);
 					hSpeed = 0;
 					move_contact_solid(3);
 				}
@@ -221,6 +237,7 @@ public abstract class LivingEntity extends Entity {
 						getExtremePosition(1)) && !wantsToGoUp) {
 					move_contact_solid(0);
 				} else {
+					speedloss += Math.abs(hSpeed);
 					hSpeed = 0;
 					move_contact_solid(1);
 				}
@@ -230,6 +247,7 @@ public abstract class LivingEntity extends Entity {
 						getExtremePosition(1)) && !wantsToGoDown) {
 					move_contact_solid(2);
 				} else {
+					speedloss += Math.abs(hSpeed);
 					hSpeed = 0;
 					move_contact_solid(1);
 				}
