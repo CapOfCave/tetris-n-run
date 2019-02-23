@@ -32,6 +32,7 @@ public class Switch extends Entity {
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
 		akt_image = GraphicalTools.setColor(akt_animation.getImage(), drawColor);
 		type = "switch";
+		
 	}
 
 	@Override
