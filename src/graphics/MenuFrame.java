@@ -55,4 +55,9 @@ public class MenuFrame extends JFrame {
 		
 	}
 
+	public void playSound(String sound, float volume) {
+		soundPlayer.playSound(sound, volume);
+		
+	}
+
 }

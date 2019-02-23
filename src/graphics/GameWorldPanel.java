@@ -49,6 +49,7 @@ public class GameWorldPanel extends Panel {
 		world.drawPlayerPreview(previewGraphics);
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
+		//Graphics2D gameGraphics = (Graphics2D) g.create(0, 0, 1300, 900);
 		Graphics2D inventoryGraphics = (Graphics2D) g.create(inventoryPanel.x, inventoryPanel.y, inventoryPanel.width,
 				inventoryPanel.height);
 
@@ -85,6 +86,7 @@ public class GameWorldPanel extends Panel {
 				g.drawString(text[i], 920, 710 + (i * 21));
 			}
 		}
+		//world.draw(gameGraphics, interpolation, debugMode);
 	}
 
 }

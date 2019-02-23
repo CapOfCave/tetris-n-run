@@ -1,6 +1,7 @@
 package sound;
 
-import java.io.File;
+
+import java.net.URL;
 import java.util.HashMap;
 
 import javax.sound.sampled.AudioSystem;
@@ -10,14 +11,19 @@ import javax.sound.sampled.FloatControl;
 public class SoundPlayer {
 
 	Clip clip;
-	HashMap<String, File> sounds;
+	HashMap<String, URL> sounds;
 	float generalVolume = 0.9f;
 
 	public SoundPlayer() {
 
 		sounds = new HashMap<>();
-		sounds.put("test", new File("src/res/sounds/test2.wav"));
-		sounds.put("klick", new File("src/res/sounds/klick.wav"));
+		
+			sounds.put("test", this.getClass().getResource("/res/sounds/test2.wav"));
+			sounds.put("ButtonKlick", this.getClass().getResource("/res/sounds/klick.wav"));
+			sounds.put("ButtonSound", this.getClass().getResource("/res/sounds/button2.wav"));
+			sounds.put("SwitchSound", this.getClass().getResource("/res/sounds/button1.wav"));
+		 
+		
 
 	}
 
@@ -25,6 +31,7 @@ public class SoundPlayer {
 		if (sounds.containsKey(sound)) {
 			try {
 				clip = AudioSystem.getClip();
+				
 				clip.open(AudioSystem.getAudioInputStream(sounds.get(sound)));
 				
 				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);

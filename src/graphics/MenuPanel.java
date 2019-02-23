@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.font.ImageGraphicAttribute;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ public class MenuPanel extends JPanel {
 		addMouseListener(mouseHandler);
 
 		menu = ImageLoader.loadImage("/res/Menu.png");
+		
 
 		repaint();
 	}
@@ -50,11 +52,13 @@ public class MenuPanel extends JPanel {
 		repaint();
 		
 		if (x > 35 && y > 332 && x < 1252 && y < 523) {
+			frame.playSound("ButtonKlick", -5f);
 			new GameFrame();
 			frame.dispose();
 		}
 		
 		if (x > 35 && y > 571 && x < 644 && y < 764) {
+			frame.playSound("ButtonKlick", -5f);
 			frame.startTutorial();
 		}
 	}

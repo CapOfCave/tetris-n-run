@@ -47,6 +47,7 @@ public class Switch extends Entity {
 
 	@Override
 	public void interact() {
+		world.playSound("SwitchSound", -5f);
 		toggled = !toggled;
 		world.switchDoors(color);
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));

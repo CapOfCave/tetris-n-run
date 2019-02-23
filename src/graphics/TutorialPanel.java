@@ -48,7 +48,7 @@ public class TutorialPanel extends JPanel{
 
 
 	public void mousePressed(int x, int y) {
-		
+		frame.playSound("ButtonKlick", -5f);
 		frame.startMenu();
 		
 	}
