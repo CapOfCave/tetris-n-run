@@ -281,7 +281,11 @@ public abstract class World {
 				tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
 				tetros.add(tetro);
 				addTetroToHitbox(tetro, placeX, placeY, rotation);
+				
+				playSound("synth", -5f);
+				
 			} else {
+				playSound("error", -3f);
 				System.err.println("nicht erlaubte Platzierung");
 			}
 		} else {

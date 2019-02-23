@@ -50,11 +50,13 @@ public class SaveNLoadTile extends Tile {
 	@Override
 	public void eventWhenEntering() {
 
+		
 		new File(folderName).mkdirs();
 		int prefix = (new File(folderName).listFiles().length + 1);
 
 		if (!fileExists) {
 			frame.addLineToText("Spielstand wurde gespeichert.");
+			world.playSound("save", 0);
 			if (addingTetros)
 				world.addTetroAmount(tetroAmount);
 			else
