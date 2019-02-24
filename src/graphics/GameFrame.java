@@ -136,6 +136,7 @@ public class GameFrame extends JFrame {
 	public void startLevel() {
 		clearText();
 		if (Character.isLowerCase(nextLevel)) {
+			oPanel.save();
 			deleteAll();
 			lPanel = new GameWorldPanel(
 					LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer), keyHandler, this,
