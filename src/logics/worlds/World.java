@@ -22,6 +22,7 @@ import loading.ImageLoader;
 import loading.LevelSaver;
 import logics.Camera;
 import logics.GameLoop;
+import logics.InHandHandler;
 import logics.entities.Enemy;
 import logics.entities.EnemySpawner;
 import logics.entities.Entity;
@@ -71,6 +72,7 @@ public abstract class World {
 	private int tetroAmount[];
 	private boolean toggleStates[];
 	protected BufferedImage[][] worldDeco;
+	protected InHandHandler inHandHandler;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		double probsTotal = 0;
@@ -625,6 +627,19 @@ public abstract class World {
 			}
 		}
 		return false;
+	}
+
+	public void addInHandHandler(InHandHandler inHandHandler) {
+		this.inHandHandler = inHandHandler;
+		
+	}
+
+	public void rotateTetro() {
+		if(inHandHandler != null) {
+			inHandHandler.rotateInHand(false);
+			keyHandler.setR(false);
+		}
+		
 	}
 
 }

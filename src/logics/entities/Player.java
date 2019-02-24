@@ -185,6 +185,10 @@ public class Player extends LivingEntity {
 			wantsToGoRight = false;
 
 		}
+		
+		if(world.getKeyHandler().getR()) {
+			world.rotateTetro();
+		}
 		world.getKeyHandler().setActionpressed(false);
 	}
 
