@@ -186,6 +186,11 @@ public class Player extends LivingEntity {
 
 		}
 		
+		if(world.getKeyHandler().getE()) {
+			world.removeLastTetro();
+			world.getKeyHandler().setE(false);
+		}
+		
 		if(world.getKeyHandler().getR()) {
 			world.rotateTetro();
 		}

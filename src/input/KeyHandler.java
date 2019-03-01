@@ -13,6 +13,7 @@ public class KeyHandler implements KeyListener {
 	private boolean s = false;
 	private boolean d = false;
 	private boolean r = false;
+	private boolean e = false;
 	private boolean shift = false;
 	private boolean ctrl = false;
 	
@@ -39,6 +40,9 @@ public class KeyHandler implements KeyListener {
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_R) {
 			r = true;
+		}
+		if (ev.getKeyCode() == KeyEvent.VK_E) {
+			e = true;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = true;
@@ -75,6 +79,9 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == KeyEvent.VK_R) {
 			r = false;
 		}
+		if (ev.getKeyCode() == KeyEvent.VK_E) {
+			e = false;
+		}
 		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = false;
 		}
@@ -104,6 +111,12 @@ public class KeyHandler implements KeyListener {
 	}
 	public void setR(boolean r) {
 		this.r = r;
+	}
+	public boolean getE() {
+		return e;
+	}
+	public void setE(boolean e) {
+		this.e = e;
 	}
 
 	public boolean getShift() {
