@@ -727,7 +727,7 @@ public abstract class World {
 	public void rotateTetro() {
 		if (inHandHandler != null) {
 			inHandHandler.rotateInHand(false);
-			keyHandler.setR(false);
+			keyHandler.setRotateKey(false);
 		}
 
 	}
