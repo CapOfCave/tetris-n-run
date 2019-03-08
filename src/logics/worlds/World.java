@@ -16,6 +16,7 @@ import data.TetroType;
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
 import graphics.GameFrame;
+import graphics.Panel;
 import graphics.Renderer;
 import input.KeyHandler;
 import loading.ImageLoader;
@@ -82,7 +83,7 @@ public abstract class World {
 		}
 
 		if (probsTotal != 1)
-			System.out.println("Total deko Probs: " + probsTotal);
+			System.err.println("Total deko Probs: " + probsTotal);
 
 		// Initialisierungen
 
@@ -280,7 +281,7 @@ public abstract class World {
 				placeY = (y + camera.getY() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
 			}
 			Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
-			if (isAllowed(tetro)) {
+			if (isAllowed(tetro) && Panel.gamePanel.contains(x, y)) {
 				tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
 				newestTetro = tetro;
 				tetros.add(tetro);
@@ -310,11 +311,11 @@ public abstract class World {
 				tetroAmount[this.tetroTypes.indexOf(newestTetro.getType())] += 1;
 				tetros.remove(newestTetro);
 				newestTetro = null;
-			}else {
+			} else {
 				frame.addLineToText("Du stehst auf diesem Block.");
 			}
 
-		}else {
+		} else {
 			frame.addLineToText("Block entfernen.");
 			frame.addLineToText("Du kannst nur den zuletzt gesetzten");
 		}

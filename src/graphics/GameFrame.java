@@ -45,7 +45,6 @@ public class GameFrame extends JFrame {
 
 		if (!savesFile.exists()) {
 			savesFile.mkdirs();
-//			System.ot.println(savesFile);
 		}
 
 		new MenuFrame();

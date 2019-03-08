@@ -50,7 +50,7 @@ public class GameWorldPanel extends Panel {
 		world.drawPlayerPreview(previewGraphics);
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		//Graphics2D gameGraphics = (Graphics2D) g.create(0, 0, 1300, 900);
+		// Graphics2D gameGraphics = (Graphics2D) g.create(0, 0, 1300, 900);
 		Graphics2D inventoryGraphics = (Graphics2D) g.create(inventoryPanel.x, inventoryPanel.y, inventoryPanel.width,
 				inventoryPanel.height);
 
@@ -59,21 +59,14 @@ public class GameWorldPanel extends Panel {
 		// world.drawPlayer(gameGraphics, interpolation);
 		((GameWorld) world).drawInventory(inventoryGraphics);
 		for (int i = 0; i < tetroTypes.size(); i++) {
-			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize , 0);
+			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize, 0);
 			g.setFont(new Font("TimesNewRoman", 1, 25));
-			if(i % 2 == 0  && world.getTetroAmount().length > 0 && world.getTetroAmount().length-1 >= i) {
-				g.drawString( ""+ world.getTetroAmount()[i], 1212, 153 + 58 * i + i/2);
-			}else if(world.getTetroAmount().length > 0 && world.getTetroAmount().length-1 >= i) {
-				g.drawString( ""+ world.getTetroAmount()[i], 1085, 212 + 58 * i + i/2);
+			if (i % 2 == 0 && world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
+				g.drawString("" + world.getTetroAmount()[i], 1212, 153 + 58 * i + i / 2);
+			} else if (world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
+				g.drawString("" + world.getTetroAmount()[i], 1085, 212 + 58 * i + i / 2);
 			}
 			g.setFont(new Font("TimesNewRoman", 1, 44));
-		}
-		
-		
-		if (debugMode) {
-			gameGraphics.setColor(Color.WHITE);
-			gameGraphics.fillRect(0, 0, 170, 55);
-			drawDebug(gameGraphics);
 		}
 
 		g.drawImage(ImageLoader.loadImage("/res/backLevel.png"), 0, 0, 1300, 900, null);
@@ -87,7 +80,14 @@ public class GameWorldPanel extends Panel {
 				g.drawString(text[i], 920, 710 + (i * 21));
 			}
 		}
-		//world.draw(gameGraphics, interpolation, debugMode);
+
+		if (debugMode) {
+			gameGraphics.setColor(Color.WHITE);
+			gameGraphics.fillRect(0, 0, 170, 55);
+			drawDebug(gameGraphics);
+			g.setColor(Color.GREEN);
+			g.drawRect(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
+		}
 	}
 
 }
