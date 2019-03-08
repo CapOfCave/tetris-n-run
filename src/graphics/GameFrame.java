@@ -39,6 +39,9 @@ public class GameFrame extends JFrame {
 
 	private KeyHandler keyHandler;
 
+	private final int panel_width;
+	private final int panel_height;
+
 	public static void main(String[] args) {
 
 		File savesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves");
@@ -50,7 +53,10 @@ public class GameFrame extends JFrame {
 		new MenuFrame();
 	}
 
-	public GameFrame(ArrayList<Integer> keyCodes) {
+	public GameFrame(int width, int height, ArrayList<Integer> keyCodes) {
+		this.panel_width = width;
+		this.panel_height = height;
+
 		this.keyCodes = keyCodes;
 		keyHandler = new KeyHandler(keyCodes);
 		text = new String[7];
@@ -69,10 +75,10 @@ public class GameFrame extends JFrame {
 
 		File file1 = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
 		if (file1.exists()) {
-			oPanel = new OverworldPanel(LevelLoader.loadLevel(file1.getPath(), this, rawPlayer), keyHandler, this,
-					rawPlayer);
+			oPanel = new OverworldPanel(width, height, LevelLoader.loadLevel(file1.getPath(), this, rawPlayer),
+					keyHandler, this, rawPlayer);
 		} else {
-			oPanel = new OverworldPanel(
+			oPanel = new OverworldPanel(width, height,
 					LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
 					this, rawPlayer);
 		}
@@ -115,15 +121,15 @@ public class GameFrame extends JFrame {
 			overworldFile.delete();
 		}
 
-		oPanel = new OverworldPanel(
+		oPanel = new OverworldPanel(panel_width, panel_height,
 				LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
 				this, rawPlayer);
 
 		if (overworldFile.exists()) {
-			oPanel = new OverworldPanel(LevelLoader.loadLevel(overworldFile.getPath(), this, rawPlayer), keyHandler,
-					this, rawPlayer);
+			oPanel = new OverworldPanel(panel_width, panel_height,
+					LevelLoader.loadLevel(overworldFile.getPath(), this, rawPlayer), keyHandler, this, rawPlayer);
 		} else {
-			oPanel = new OverworldPanel(
+			oPanel = new OverworldPanel(panel_width, panel_height,
 					LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
 					this, rawPlayer);
 		}
@@ -140,7 +146,7 @@ public class GameFrame extends JFrame {
 		if (Character.isLowerCase(nextLevel)) {
 			oPanel.save();
 			deleteAll();
-			lPanel = new GameWorldPanel(
+			lPanel = new GameWorldPanel(panel_width, panel_height,
 					LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer), keyHandler, this,
 					rawPlayer);
 
@@ -163,7 +169,8 @@ public class GameFrame extends JFrame {
 		clearText();
 		GameWorldPanel tempPanel = lPanel;
 
-		lPanel = new GameWorldPanel(LevelLoader.loadLevel(path, this, rawPlayer), keyHandler, this, rawPlayer);
+		lPanel = new GameWorldPanel(panel_width, panel_height, LevelLoader.loadLevel(path, this, rawPlayer), keyHandler,
+				this, rawPlayer);
 
 		add(lPanel);
 		remove(tempPanel);
@@ -185,7 +192,8 @@ public class GameFrame extends JFrame {
 			return;
 		}
 		if (file.exists()) {
-			lPanel = new GameWorldPanel(LevelLoader.loadLevel(path, this, rawPlayer), keyHandler, this, rawPlayer);
+			lPanel = new GameWorldPanel(panel_width, panel_height, LevelLoader.loadLevel(path, this, rawPlayer),
+					keyHandler, this, rawPlayer);
 
 			add(lPanel);
 			remove(oPanel);
@@ -210,12 +218,12 @@ public class GameFrame extends JFrame {
 		}
 
 	}
-	
+
 	public void backToMenu() {
 		oPanel.save();
 		new MenuFrame();
 		this.dispose();
-		
+
 	}
 
 	public void playSound(String sound, float volume) {
@@ -237,7 +245,5 @@ public class GameFrame extends JFrame {
 	public void setText(String[] text) {
 		this.text = text;
 	}
-
-	
 
 }
