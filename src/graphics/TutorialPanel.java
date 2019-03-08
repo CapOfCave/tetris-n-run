@@ -1,7 +1,5 @@
 package graphics;
 
-
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,15 +8,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-
 import input.TutorialMouseHandler;
 import loading.ImageLoader;
 
-
-
-public class TutorialPanel extends JPanel{
+public class TutorialPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 	private MenuFrame frame;
 	private TutorialMouseHandler mouseHandler;
 	private final int width = 1300, height = 900;
@@ -32,7 +27,7 @@ public class TutorialPanel extends JPanel{
 
 		tutorial = ImageLoader.loadImage("/res/Tutorial.png");
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -42,15 +37,15 @@ public class TutorialPanel extends JPanel{
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("TimesNewRoman", 1, 55));
 		g.drawString("Menu", 1035, 823);
-		
 
 	}
-
 
 	public void mousePressed(int x, int y) {
-		frame.playSound("ButtonKlick", -5f);
-		frame.startMenu();
-		
+		if (x >= 950 && y >= 745 && x <= 1250 && y <= 856) {
+
+			frame.playSound("ButtonKlick", -5f);
+			frame.startMenu();
+		}
 	}
-	
+
 }

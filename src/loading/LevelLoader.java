@@ -387,7 +387,7 @@ public class LevelLoader {
 							}
 						}
 						if (arrWorld[j][i] == null) {
-							System.err.println("Fehler im Level \"" + url + "\": Tür nicht bestimmt");
+							System.err.println("Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j + ")");
 							arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 
 						}

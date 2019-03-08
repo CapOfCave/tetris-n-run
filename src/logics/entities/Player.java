@@ -144,11 +144,11 @@ public class Player extends LivingEntity {
 			maxSpeed = normMaxSpeed;
 		}
 
-		if (!world.getKeyHandler().getCtrl()) {
-			wantsToGoUp = world.getKeyHandler().getW();
-			wantsToGoLeft = world.getKeyHandler().getA();
-			wantsToGoDown = world.getKeyHandler().getS();
-			wantsToGoRight = world.getKeyHandler().getD();
+		if (!world.getKeyHandler().getKameraKey()) {
+			wantsToGoUp = world.getKeyHandler().getUpKey();
+			wantsToGoLeft = world.getKeyHandler().getLeftKey();
+			wantsToGoDown = world.getKeyHandler().getDownKey();
+			wantsToGoRight = world.getKeyHandler().getRightKey();
 			if (movingBlockInHand != null) {
 				int direction = movingBlockInHand.getDirection();
 				if ((wantsToGoUp && direction != 0) || (wantsToGoRight && direction != 1)
@@ -163,16 +163,16 @@ public class Player extends LivingEntity {
 					wantsToGoUp = false;
 					switch (direction) {
 					case 0:
-						wantsToGoUp = world.getKeyHandler().getW();
+						wantsToGoUp = world.getKeyHandler().getUpKey();
 						break;
 					case 1:
-						wantsToGoRight = world.getKeyHandler().getD();
+						wantsToGoRight = world.getKeyHandler().getRightKey();
 						break;
 					case 2:
-						wantsToGoDown = world.getKeyHandler().getS();
+						wantsToGoDown = world.getKeyHandler().getDownKey();
 						break;
 					case 3:
-						wantsToGoLeft = world.getKeyHandler().getA();
+						wantsToGoLeft = world.getKeyHandler().getLeftKey();
 						break;
 					}
 				}
@@ -184,6 +184,15 @@ public class Player extends LivingEntity {
 			wantsToGoLeft = false;
 			wantsToGoRight = false;
 
+		}
+		
+		if(world.getKeyHandler().getRemoveKey()) {
+			world.removeLastTetro();
+			world.getKeyHandler().setRemoveKey(false);
+		}
+		
+		if(world.getKeyHandler().getRotateKey()) {
+			world.rotateTetro();
 		}
 		world.getKeyHandler().setActionpressed(false);
 	}

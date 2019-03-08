@@ -2,11 +2,12 @@ package graphics;
 
 import java.awt.CardLayout;
 import java.awt.Toolkit;
-
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import input.KeyHandler;
+import input.MenuKeyHandler;
 import sound.SoundPlayer;
 
 public class MenuFrame extends JFrame {
@@ -16,13 +17,13 @@ public class MenuFrame extends JFrame {
 	private MenuPanel mPanel;
 	private OptionPanel oPanel;
 	private TutorialPanel tPanel;
-	private KeyHandler keyHandler;
+	private MenuKeyHandler keyHandler;
 	
 	public MenuFrame() {
 		mPanel = new MenuPanel(this);
 		tPanel = new TutorialPanel(this);
-		oPanel = new OptionPanel();
-		keyHandler = new KeyHandler();
+		oPanel = new OptionPanel(this);
+		keyHandler = new MenuKeyHandler(oPanel);
 
 
 		soundPlayer = new SoundPlayer();
@@ -57,6 +58,18 @@ public class MenuFrame extends JFrame {
 
 	public void playSound(String sound, float volume) {
 		soundPlayer.playSound(sound, volume);
+		
+	}
+
+	public ArrayList<Integer> getKeyCodes() {
+	
+		return oPanel.getKeyCodes();
+	}
+
+	public void startOption() {
+		add(oPanel);
+		remove(mPanel);
+		remove(tPanel);
 		
 	}
 

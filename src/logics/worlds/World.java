@@ -22,6 +22,7 @@ import loading.ImageLoader;
 import loading.LevelSaver;
 import logics.Camera;
 import logics.GameLoop;
+import logics.InHandHandler;
 import logics.entities.Enemy;
 import logics.entities.EnemySpawner;
 import logics.entities.Entity;
@@ -71,6 +72,8 @@ public abstract class World {
 	private int tetroAmount[];
 	private boolean toggleStates[];
 	protected int[][] worldDeco;
+	protected InHandHandler inHandHandler;
+	protected Tetro newestTetro = null;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		double probsTotal = 0;
@@ -279,6 +282,7 @@ public abstract class World {
 			Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
 			if (isAllowed(tetro)) {
 				tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
+				newestTetro = tetro;
 				tetros.add(tetro);
 				addTetroToHitbox(tetro, placeX, placeY, rotation);
 
@@ -296,6 +300,24 @@ public abstract class World {
 		// frame.addLineToText("Tetros gesetzt werden. ");
 		// frame.addLineToText("Es können im Kameramodus keine");
 		// }
+
+	}
+
+	public void removeLastTetro() {
+		if (newestTetro != null) {
+			if (!isPlayeronTetro(newestTetro)) {
+				removeTetroFromHitbox(newestTetro, newestTetro.getX(), newestTetro.getY(), newestTetro.getRotation());
+				tetroAmount[this.tetroTypes.indexOf(newestTetro.getType())] += 1;
+				tetros.remove(newestTetro);
+				newestTetro = null;
+			}else {
+				frame.addLineToText("Du stehst auf diesem Block.");
+			}
+
+		}else {
+			frame.addLineToText("Block entfernen.");
+			frame.addLineToText("Du kannst nur den zuletzt gesetzten");
+		}
 
 	}
 
@@ -359,6 +381,7 @@ public abstract class World {
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {
+
 		boolean[][] hitbox = tetro.getType().getHitbox();
 
 		for (int j = 0; j < hitbox.length; j++) {
@@ -389,6 +412,75 @@ public abstract class World {
 			}
 
 		}
+	}
+
+	private void removeTetroFromHitbox(Tetro tetro, int x, int y, int rotation) {
+		boolean[][] hitbox = tetro.getType().getHitbox();
+
+		for (int j = 0; j < hitbox.length; j++) {
+			for (int i = 0; i < hitbox[j].length; i++) {
+				if (hitbox[j][i]) {
+					switch (rotation % 4) {
+					case 0:
+						if (j + y >= 0 && i + x >= 0 && j + y <= tileWorld.length && i + x <= tileWorld[0].length)
+							tetroWorldHitbox[j + y][i + x] = false;
+						break;
+					case 1:
+						if (-i + y + 3 >= 0 && j + x >= 0 && -i + y + 3 <= tileWorld.length
+								&& j + x <= tileWorld[0].length)
+							tetroWorldHitbox[-i + y + 3][j + x] = false;
+						break;
+					case 2:
+						if (-j + y + 1 >= 0 && -i + x + 3 >= 0 && -j + y + 1 <= tileWorld.length
+								&& -i + x + 3 <= tileWorld[0].length)
+							tetroWorldHitbox[-j + y + 1][-i + x + 3] = false;
+						break;
+					case 3:
+						if (i + y >= 0 && -j + x + 1 >= 0 && i + y <= tileWorld.length
+								&& -j + x + 1 <= tileWorld[0].length)
+							tetroWorldHitbox[i + y][-j + x + 1] = false;
+						break;
+					}
+				}
+			}
+
+		}
+	}
+
+	private boolean isPlayeronTetro(Tetro tetro) {
+		boolean[][] hitbox = tetro.getType().getHitbox();
+		int x = tetro.getX();
+		int y = tetro.getY();
+		int rotation = tetro.getRotation();
+		int playerX = player.getTileX();
+		int playerY = player.getTileY();
+
+		for (int j = 0; j < hitbox.length; j++) {
+			for (int i = 0; i < hitbox[j].length; i++) {
+				if (hitbox[j][i]) {
+					switch (rotation % 4) {
+					case 0:
+						if (j + y == playerY && i + x == playerX)
+							return true;
+						break;
+					case 1:
+						if (-i + y + 3 == playerY && j + x == playerX)
+							return true;
+						break;
+					case 2:
+						if (-j + y + 1 == playerY && -i + x + 3 == playerX)
+							return true;
+						break;
+					case 3:
+						if (i + y == playerY && -j + x + 1 == playerX)
+							return true;
+						break;
+					}
+				}
+			}
+
+		}
+		return false;
 	}
 
 	public void addEnemy(int x, int y, int health, EnemySpawner enemySpawner) {
@@ -624,12 +716,25 @@ public abstract class World {
 				continue;
 			} else {
 				if (barrier.collidesWith(y, x)) {
-//					System.ot.println(collider + " collides with " + barrier);
+					// System.ot.println(collider + " collides with " + barrier);
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	public void addInHandHandler(InHandHandler inHandHandler) {
+		this.inHandHandler = inHandHandler;
+
+	}
+
+	public void rotateTetro() {
+		if (inHandHandler != null) {
+			inHandHandler.rotateInHand(false);
+			keyHandler.setRotateKey(false);
+		}
+
 	}
 
 }

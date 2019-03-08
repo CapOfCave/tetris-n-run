@@ -50,17 +50,17 @@ public class Camera {
 		lastX = x;
 		lastY = y;
 
-		if (world.getKeyHandler().getCtrl()) {
-			if (world.getKeyHandler().getW()) {
+		if (world.getKeyHandler().getKameraKey()) {
+			if (world.getKeyHandler().getUpKey()) {
 				y = clipBorderY(y - 15);
 			}
-			if (world.getKeyHandler().getA()) {
+			if (world.getKeyHandler().getLeftKey()) {
 				x = clipBorderX(x - 15);
 			}
-			if (world.getKeyHandler().getS()) {
+			if (world.getKeyHandler().getDownKey()) {
 				y = clipBorderY(y + 15);
 			}
-			if (world.getKeyHandler().getD()) {
+			if (world.getKeyHandler().getRightKey()) {
 				x = clipBorderX(x + 15);
 			}
 

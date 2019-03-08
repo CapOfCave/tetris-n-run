@@ -2,45 +2,57 @@ package input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 /**
  * @author Lars Created on 13.09.2018
  */
 public class KeyHandler implements KeyListener {
 
-	private boolean w = false;
-	private boolean a = false;
-	private boolean s = false;
-	private boolean d = false;
+	private ArrayList<Integer> keyCodes;
+	private boolean upKey = false;
+	private boolean leftKey = false;
+	private boolean downKey = false;
+	private boolean rightKey = false;
+	private boolean rotateKey = false;
+	private boolean removeKey = false;
 	private boolean shift = false;
-	private boolean ctrl = false;
+	private boolean kameraKey = false;
 	
 	private boolean f4Pressed = false;
 	private boolean actionPressed = false;
 	private boolean f3Pressed = false;
 
-	public KeyHandler() {
+	public KeyHandler(ArrayList<Integer> keyCodes) {
+		this.keyCodes = keyCodes;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent ev) {
-		if (ev.getKeyCode() == KeyEvent.VK_W) {
-			w = true;
+		System.out.println(KeyEvent.getKeyText(ev.getKeyCode()) + " " + ev.getKeyCode());
+		if (ev.getKeyCode() == keyCodes.get(0)) {
+			upKey = true;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_A) {
-			a = true;
+		if (ev.getKeyCode() == keyCodes.get(1)) {
+			leftKey = true;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_S) {
-			s = true;
+		if (ev.getKeyCode() == keyCodes.get(2)) {
+			downKey = true;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_D) {
-			d = true;
+		if (ev.getKeyCode() ==keyCodes.get(3)) {
+			rightKey = true;
+		}
+		if (ev.getKeyCode() == keyCodes.get(5)) {
+			rotateKey = true;
+		}
+		if (ev.getKeyCode() == keyCodes.get(7)) {
+			removeKey = true;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = true;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_CONTROL) {
-			ctrl = true;
+		if (ev.getKeyCode() == keyCodes.get(6)) {
+			kameraKey = true;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_F4) {
 			f4Pressed = true;
@@ -48,7 +60,7 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == KeyEvent.VK_F3) {
 			f3Pressed = true;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_SPACE) {
+		if (ev.getKeyCode() == keyCodes.get(4)) {
 			actionPressed = true;
 		}
 
@@ -56,49 +68,67 @@ public class KeyHandler implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent ev) {
-		if (ev.getKeyCode() == KeyEvent.VK_W) {
-			w = false;
+		if (ev.getKeyCode() == keyCodes.get(0)) {
+			upKey = false;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_A) {
-			a = false;
+		if (ev.getKeyCode() == keyCodes.get(1)) {
+			leftKey = false;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_S) {
-			s = false;
+		if (ev.getKeyCode() == keyCodes.get(2)) {
+			downKey = false;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_D) {
-			d = false;
+		if (ev.getKeyCode() == keyCodes.get(3)) {
+			rightKey = false;
+		}
+		if (ev.getKeyCode() == keyCodes.get(5)) {
+			rotateKey = false;
+		}
+		if (ev.getKeyCode() == keyCodes.get(7)) {
+			removeKey = false;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = false;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_CONTROL) {
-			ctrl = false;
+		if (ev.getKeyCode() == keyCodes.get(6)) {
+			kameraKey = false;
 		}
 
 	}
 
-	public boolean getW() {
-		return w;
+	public boolean getUpKey() {
+		return upKey;
 	}
 
-	public boolean getA() {
-		return a;
+	public boolean getLeftKey() {
+		return leftKey;
 	}
 
-	public boolean getS() {
-		return s;
+	public boolean getDownKey() {
+		return downKey;
 	}
 
-	public boolean getD() {
-		return d;
+	public boolean getRightKey() {
+		return rightKey;
+	}
+	public boolean getRotateKey() {
+		return rotateKey;
+	}
+	public void setRotateKey(boolean r) {
+		this.rotateKey = r;
+	}
+	public boolean getRemoveKey() {
+		return removeKey;
+	}
+	public void setRemoveKey(boolean e) {
+		this.removeKey = e;
 	}
 
 	public boolean getShift() {
 		return shift;
 	}
 	
-	public boolean getCtrl() {
-		return ctrl;
+	public boolean getKameraKey() {
+		return kameraKey;
 	}
 
 	public boolean isF4pressed() {

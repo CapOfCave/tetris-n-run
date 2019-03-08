@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -25,6 +26,7 @@ public class GameFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private OverworldPanel oPanel;
+	private ArrayList<Integer> keyCodes;
 	private GameWorldPanel lPanel;
 	private RawPlayer rawPlayer;
 	private GameLoop gameLoop;
@@ -49,8 +51,9 @@ public class GameFrame extends JFrame {
 		new MenuFrame();
 	}
 
-	public GameFrame() {
-		keyHandler = new KeyHandler();
+	public GameFrame(ArrayList<Integer> keyCodes) {
+		this.keyCodes = keyCodes;
+		keyHandler = new KeyHandler(keyCodes);
 		text = new String[7];
 		text[0] = "";
 		text[1] = "";
@@ -136,6 +139,7 @@ public class GameFrame extends JFrame {
 	public void startLevel() {
 		clearText();
 		if (Character.isLowerCase(nextLevel)) {
+			oPanel.save();
 			deleteAll();
 			lPanel = new GameWorldPanel(
 					LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer), keyHandler, this,

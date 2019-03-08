@@ -32,6 +32,7 @@ public class GameWorldPanel extends Panel {
 
 		inHandHandler = new InHandHandler(world, tetroDrawPositions, tetrotypeDrawSize);
 		mouseHandler = new MouseHandler(inHandHandler, (GameWorld) world);
+		world.addInHandHandler(inHandHandler);
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
 	}
