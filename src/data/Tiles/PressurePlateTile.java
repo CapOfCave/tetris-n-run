@@ -40,7 +40,7 @@ public class PressurePlateTile extends Tile {
 			drawColor = Color.GRAY;
 
 		}
-		pictures = AnimationLoader.loadAnimations("/res/anims/PressurePlate.txt");
+		pictures = AnimationLoader.loadAnimations("/res/anims/pressurePlate.txt");
 		image3d = GraphicalTools.setColor(ImageLoader.loadImage("/res/blocks/PressurePlate.png"), drawColor);
 	}
 
