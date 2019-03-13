@@ -14,6 +14,8 @@ import input.KeyHandler;
 import loading.LevelLoader;
 import loading.RawPlayerLoader;
 import loading.RawPlayerSaver;
+import loading.SettingSaver;
+import loading.SettingsLoader;
 import logics.GameLoop;
 import sound.SoundPlayer;
 
@@ -45,10 +47,22 @@ public class GameFrame extends JFrame {
 
 		if (!savesFile.exists()) {
 			savesFile.mkdirs();
-//			System.ot.println(savesFile);
+			// System.ot.println(savesFile);
 		}
+		
+		File keyCodesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
+		
+		if (!keyCodesFile.exists()) {
+			new MenuFrame();
+		}else {
+		
+		ArrayList<Integer> keyCodes = SettingsLoader.loadKeyCodes(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
 
-		new MenuFrame();
+		if (keyCodes != null)
+			new MenuFrame(keyCodes);
+		else
+			new MenuFrame();
+		}
 	}
 
 	public GameFrame(ArrayList<Integer> keyCodes) {
@@ -211,12 +225,12 @@ public class GameFrame extends JFrame {
 		}
 
 	}
-	
+
 	public void backToMenu() {
 		oPanel.save();
-		new MenuFrame();
+		new MenuFrame(keyCodes);
 		this.dispose();
-		
+
 	}
 
 	public void playSound(String sound, float volume) {
@@ -238,7 +252,5 @@ public class GameFrame extends JFrame {
 	public void setText(String[] text) {
 		this.text = text;
 	}
-
-	
 
 }

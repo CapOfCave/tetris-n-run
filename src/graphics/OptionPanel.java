@@ -45,6 +45,11 @@ public class OptionPanel extends JPanel {
 
 	}
 
+	public OptionPanel(MenuFrame menuFrame, ArrayList<Integer> keyCodes) {
+		this(menuFrame);
+		this.keyCodes = keyCodes;
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
