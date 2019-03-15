@@ -24,8 +24,8 @@ public class OverworldPanel extends Panel {
 //	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
 //	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
 
-	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
-		super(level, keyHandler , frame);
+	public OverworldPanel(int width, int height, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
+		super(width, height, level, keyHandler , frame);
 
 		 world = new Overworld(gamePanel, level, keyHandler, frame, rawPlayer);
 		 

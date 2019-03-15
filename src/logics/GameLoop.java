@@ -21,8 +21,8 @@ public class GameLoop implements Runnable {
 	private boolean running;
 	private boolean paused;
 
-	private int fps = 60;
-	private int ups = 30;
+	private int fps = -1;
+	private int ups = -1;
 
 	public GameLoop(Playable game) {
 		this.game = game;
@@ -56,6 +56,7 @@ public class GameLoop implements Runnable {
 				int currentTimeSeconds = (int) (lastUpdateTime / 1000000000);
 				if (currentTimeSeconds > lastSecondTime) {
 					fps = actualframes;
+					ups = actualupdates;
 					actualframes = 0;
 					actualupdates = 0;
 					lastSecondTime = currentTimeSeconds;

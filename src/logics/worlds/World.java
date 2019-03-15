@@ -16,6 +16,7 @@ import data.TetroType;
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
 import graphics.GameFrame;
+import graphics.Panel;
 import graphics.Renderer;
 import input.KeyHandler;
 import loading.ImageLoader;
@@ -71,7 +72,7 @@ public abstract class World {
 	private ArrayList<Entity> toRemove;
 	private int tetroAmount[];
 	private boolean toggleStates[];
-	protected BufferedImage[][] worldDeco;
+	protected int[][] worldDeco;
 	protected InHandHandler inHandHandler;
 	protected Tetro newestTetro = null;
 
@@ -82,7 +83,7 @@ public abstract class World {
 		}
 
 		if (probsTotal != 1)
-			System.out.println("Total deko Probs: " + probsTotal);
+			System.err.println("Total deko Probs: " + probsTotal);
 
 		// Initialisierungen
 
@@ -160,7 +161,8 @@ public abstract class World {
 			if (entity instanceof MovingBlock) {
 				Tile currentTile = getTileAt((int) ((entity.getY() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE),
 						(int) ((entity.getX() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE));
-				currentTile.eventWhenMoveBlockEntering();
+				if (currentTile != null)
+					currentTile.eventWhenMoveBlockEntering();
 				((MovingBlock) entity).setCurrentTile(currentTile);
 			}
 		}
@@ -172,22 +174,21 @@ public abstract class World {
 		}
 
 		// Deko erzeugen
-		worldDeco = new BufferedImage[tileWorld.length][tileWorld[0].length];
+		worldDeco = new int[tileWorld.length][tileWorld[0].length];
 		for (int y = 0; y < worldDeco.length; y++) {
 			for (int x = 0; x < worldDeco[y].length; x++) {
 				double randdub = new Random((long) (x * 56789 + y * 12345)).nextDouble();
-				BufferedImage nullTileImg = null;
-				for (int i = 0; i < probs.length && nullTileImg == null; i++) {
+				int outp = -1;
+				for (int i = 0; i < probs.length && outp == -1; i++) {
 					if (randdub < probs[i]) {
-						nullTileImg = nullTileImgs[i];
+						outp = i;
 					} else {
 						randdub -= probs[i];
 					}
 				}
-				worldDeco[y][x] = nullTileImg;
+				worldDeco[y][x] = outp;
 			}
 		}
-
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
@@ -217,10 +218,10 @@ public abstract class World {
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
 
-		if (worldDeco[y][x] == null) {
+		if (worldDeco[y][x] == -1) {
 			System.err.println("Überprüfe deine Wahrscheinlichkeitsverteilung.");
 		} else {
-			g.drawImage(worldDeco[y][x], (int) (x * GameFrame.BLOCKSIZE - cameraX()),
+			g.drawImage(nullTileImgs[worldDeco[y][x]], (int) (x * GameFrame.BLOCKSIZE - cameraX()),
 					(int) (y * GameFrame.BLOCKSIZE - cameraY()), null);
 		}
 	}
@@ -280,7 +281,7 @@ public abstract class World {
 				placeY = (y + camera.getY() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
 			}
 			Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
-			if (isAllowed(tetro)) {
+			if (isAllowed(tetro) && Panel.gamePanel.contains(x, y)) {
 				tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
 				newestTetro = tetro;
 				tetros.add(tetro);
@@ -310,11 +311,11 @@ public abstract class World {
 				tetroAmount[this.tetroTypes.indexOf(newestTetro.getType())] += 1;
 				tetros.remove(newestTetro);
 				newestTetro = null;
-			}else {
+			} else {
 				frame.addLineToText("Du stehst auf diesem Block.");
 			}
 
-		}else {
+		} else {
 			frame.addLineToText("Block entfernen.");
 			frame.addLineToText("Du kannst nur den zuletzt gesetzten");
 		}
@@ -487,6 +488,7 @@ public abstract class World {
 		Enemy e = new Enemy(this, enemySpawner, health, x, y, "/res/anims/enemyAnims.txt");
 		enemies.add(e);
 		allEntities.add(e);
+		otherEntities.add(e);
 		renderer.addDrawable(e);
 	}
 
@@ -496,6 +498,7 @@ public abstract class World {
 				spawnOffsetBottom, maxEnemies, spawnRate, start);
 		spawner.add(e);
 		allEntities.add(e);
+		otherEntities.add(e);
 		renderer.addDrawable(e);
 	}
 
@@ -578,6 +581,7 @@ public abstract class World {
 	public void removeEnemy(Enemy enemy) {
 		enemies.remove(enemy);
 		allEntities.remove(enemy);
+		otherEntities.remove(enemy);
 		renderer.removeDrawable(enemy);
 	}
 
@@ -648,11 +652,13 @@ public abstract class World {
 		}
 		for (Entity e : toAdd) {
 			allEntities.add(e);
+			otherEntities.add(e);
 			renderer.addDrawable(e);
 		}
 		toAdd.clear();
 		for (Entity e : toRemove) {
 			allEntities.remove(e);
+			otherEntities.remove(e);
 			renderer.removeDrawable(e);
 		}
 		toRemove.clear();

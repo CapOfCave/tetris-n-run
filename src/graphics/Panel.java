@@ -18,8 +18,8 @@ import logics.worlds.World;
 
 public abstract class Panel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
-	protected final int width = 1300, height = 900;
-	protected final Rectangle gamePanel = new Rectangle(35, 35, 921, 621);
+	protected final int width, height;
+	public static final Rectangle gamePanel = new Rectangle(35, 35, 921, 621);
 	protected final Rectangle inventoryPanel = new Rectangle(180, 671, 879, 854);
 	protected boolean debugMode = false;
 
@@ -33,7 +33,9 @@ public abstract class Panel extends JPanel implements Playable {
 	protected World world;
 	
 
-	public Panel(Level level, KeyHandler keyHandler, GameFrame frame) {
+	public Panel(int width, int height, Level level, KeyHandler keyHandler, GameFrame frame) {
+		this.width = width;
+		this.height = height;
 		this.keyHandler = keyHandler;
 		this.frame = frame;
 		setPreferredSize(new Dimension(width, height));
@@ -82,11 +84,13 @@ public abstract class Panel extends JPanel implements Playable {
 
 	protected void drawDebug(Graphics g) {
 		world.drawDebug(g, interpolation);
-
+		
+		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("", Font.PLAIN, 15));
 		g.drawString("FPS: " + fps + " / Updates: " + ups, 15, 25);
 
+		
 	}
 
 }

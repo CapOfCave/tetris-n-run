@@ -53,7 +53,7 @@ public class MenuPanel extends JPanel {
 		
 		if (x > 35 && y > 332 && x < 1252 && y < 523) {
 			frame.playSound("ButtonKlick", -5f);
-			new GameFrame(frame.getKeyCodes());
+			new GameFrame(1300, 900, frame.getKeyCodes());
 			frame.dispose();
 		}
 		
