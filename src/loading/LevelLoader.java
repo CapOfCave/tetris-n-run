@@ -334,14 +334,14 @@ public class LevelLoader {
 				}
 //				System.ot.println("" + x + y + amountList + addingTetros);
 				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList, addingTetros);
-			}else if(nextLine.startsWith("Td")) {
+			} else if (nextLine.startsWith("Td")) {
 				String strSplit[] = nextLine.split(";");
 				int x = -1;
 				int y = -1;
 				int xo = -1;
 				int yo = -1;
 				String name = "block1";
-				
+
 				for (String str : strSplit) {
 
 					if (str.startsWith("x=")) {
@@ -352,7 +352,7 @@ public class LevelLoader {
 						xo = Integer.parseInt(str.substring(3));
 					} else if (str.startsWith("yo=")) {
 						yo = Integer.parseInt(str.substring(3));
-					}else if (str.startsWith("name=")) {
+					} else if (str.startsWith("name=")) {
 						name = str.substring(5);
 
 					}
@@ -387,12 +387,14 @@ public class LevelLoader {
 							}
 						}
 						if (arrWorld[j][i] == null) {
-							System.err.println("Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j + ")");
+							System.err.println(
+									"Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j + ")");
 							arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 
 						}
 
-					} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò' || tileChar == 'ù') {
+					} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò'
+							|| tileChar == 'ù') {
 						arrWorld[j][i] = new PressurePlateTile(tileChar, i, j, frame);
 					} else if (tileChar == '!') {
 						arrWorld[j][i] = new GoalTile(i, j, frame);

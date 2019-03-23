@@ -21,7 +21,6 @@ import logics.entities.items.Item;
  * @author Lars Created on 13.08.2018
  */
 public class LevelSaver {
-//TODO correct save/Load von Cubespawnern
 	public void saveLevel(Level level, String path, String fileName) {
 		print(createOutput(level), path, fileName);
 	}
