@@ -128,10 +128,11 @@ t;x=17;y=44;r=0;t=6
 t;x=35;y=45;r=0;t=5
 t;x=35;y=47;r=0;t=5
 t;x=8;y=29;r=0;t=0
+t;x=9;y=30;r=0;t=5
 
 d;x=5;y=7;r=1;c=0;o=true
 d;x=13;y=7;r=1;c=0;o=false
-d;x=9;y=11;r=1;c=0;o=false
+
 d;x=17;y=3;r=1;c=0;o=true
 d;x=7;y=9;r=0;c=0;o=false
 d;x=19;y=5;r=0;c=0;o=true
@@ -167,12 +168,13 @@ d;x=26;y=22;r=1;c=3;o=false
 d;x=25;y=3;r=1;c=4;o=false
 d;x=16;y=26;r=0;c=4;o=true
 d;x=16;y=37;r=0;c=4;o=false
+d;x=9;y=11;r=1;c=4;o=false
 
 e;x=3;y=3;type=switch;url=/res/anims/switch.txt;color=0
-e;x=2;y=25;type=switch;url=/res/anims/switch.txt;color=0
+e;x=2;y=24;type=switch;url=/res/anims/switch.txt;color=0
 e;x=23;y=7;type=switch;url=/res/anims/switch.txt;color=0
-e;x=15;y=17;type=switch;url=/res/anims/switch.txt;color=0
-e;x=35;y=28;type=switch;url=/res/anims/switch.txt;color=0
+e;x=15;y=16;type=switch;url=/res/anims/switch.txt;color=0
+e;x=34;y=28;type=switch;url=/res/anims/switch.txt;color=0
 e;x=11;y=3;type=switch;url=/res/anims/switch.txt;color=1
 e;x=15;y=11;type=switch;url=/res/anims/switch.txt;color=1
 e;x=11;y=11;type=switch;url=/res/anims/switch.txt;color=2
@@ -182,8 +184,8 @@ e;x=7;y=11;type=switch;url=/res/anims/switch.txt;color=3
 e;x=19;y=3;type=switch;url=/res/anims/switch.txt;color=4
 
 e;x=2;y=14;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=6;cy=16;curl=/res/anims/movingblock.txt;
-e;x=13;y=36;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=13;cy=33;curl=/res/anims/movingblock.txt;
-e;x=19;y=36;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=19;cy=33;curl=/res/anims/movingblock.txt;
+e;x=13;y=35;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=13;cy=33;curl=/res/anims/movingblock.txt;
+e;x=19;y=35;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=19;cy=33;curl=/res/anims/movingblock.txt;
 
 w;0000000000000000000000000000000000000000000
 w;0111111111111111111111111111111100000000000
@@ -215,10 +217,10 @@ w;0111111111111111D11111111111111100000000000
 w;0100000000001001D10010000000000111111111110
 w;0100000000111001D10010000000000110010000010
 w;01000001000àD000000000000000000100110000010
-w;0100000101111000ù00011111110101100000000010
+w;0100000101011000ù00011111110101100000000010
 w;0100000100001001110010010000100111001111110
 w;0100000100001001010010010000000100001000010
-w;0111110111101001010010000111101100100001010
+w;0111110111101001!10010000111101100100001010
 w;0100000000001001010010110100001100100001010
 w;0100000000001001010010010100001111111111010
 w;0100111110001001010010010100001100000000010
@@ -247,6 +249,7 @@ w;0000000000000000000000000000000000000000000
 Tl;x=3;y=7;amount=0,0,0,0,0,0,0,
 Tl;x=26;y=3;amount=0,0,0,0,0,0,9,
 Tl;x=13;y=15;amount=0,0,0,15,15,0,0,
-Tl;x=10;y=29;amount=10,10,10,10,10,10,10,
+Tl;x=10;y=30;amount=10,10,10,10,10,10,10,
+Tl;x=16;y=29;amount=0,0,0,0,0,0,0,
 Tl;x=14;y=47;amount=4,4,4,1,4,5,4,
 Tl;x=37;y=47;amount=0,3,1,1,2,2,1,
