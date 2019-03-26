@@ -252,6 +252,14 @@ public abstract class World {
 		// Player movement
 		player.tick();
 
+		for (Tile[] tar : tileWorld) {
+			for (Tile t : tar) {
+				if (t != null) {
+					t.tick();
+				}
+			}
+		}
+
 		// camera adjustment
 		camera.tick(player.getX(), player.getY());
 

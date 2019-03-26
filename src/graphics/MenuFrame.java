@@ -46,7 +46,6 @@ public class MenuFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.out.println("close");
 				SettingSaver.saveSettings(oPanel.getKeyCodes(), System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "settings.txt");
 
 			}
@@ -79,7 +78,6 @@ public class MenuFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.out.println("close");
 				SettingSaver.saveSettings(oPanel.getKeyCodes(), System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "settings.txt");
 
 			}

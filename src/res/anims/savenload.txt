@@ -1,0 +1,5 @@
+pics45 deac = "/res/blocks/saveNLoadDeac.png"
+pics45 ac = "/res/blocks/saveNLoadAc.png"
+
+anim deac = deac.0
+anim7 ac = ac.0+ac.1+ac.2
