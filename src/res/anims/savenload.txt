@@ -1,5 +1,5 @@
-pics45 deac = "/res/blocks/saveNLoadDeac.png"
-pics45 ac = "/res/blocks/saveNLoadAc.png"
+pics45 deac = "/res/blocks/saveNLoad1.png"
+pics45 ac = "/res/blocks/saveNLoad2.png"
 
 anim deac = deac.0
-anim7 ac = ac.0+ac.1+ac.2
+anim8 ac = ac.0
