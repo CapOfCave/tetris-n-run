@@ -27,8 +27,8 @@ public class SaveNLoadTile extends Tile {
 	public SaveNLoadTile(char key, int posX, int posY, GameFrame frame, int[] tetroAmount, boolean addingTetros) {
 		super(key, posX, posY, false, true, true, frame);
 
-		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoadAc.png");
-		image3dUnSaved = ImageLoader.loadImage("/res/blocks/saveNLoadDeac.png");
+//		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoadAc.png");
+//		image3dUnSaved = ImageLoader.loadImage("/res/blocks/saveNLoadDeac.png");
 
 		this.tetroAmount = tetroAmount;
 		this.addingTetros = addingTetros;
