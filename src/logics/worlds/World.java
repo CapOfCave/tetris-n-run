@@ -13,6 +13,7 @@ import data.RawSpawner;
 import data.RawTetro;
 import data.Tetro;
 import data.TetroType;
+import data.WallImgFrame;
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
 import graphics.GameFrame;
@@ -47,8 +48,8 @@ public abstract class World {
 	protected BufferedImage[] nullTileImgs = { ImageLoader.loadImage("/res/blocks/block0.png"),
 			ImageLoader.loadImage("/res/blocks/block0i.png"), ImageLoader.loadImage("/res/blocks/block0j.png"),
 			ImageLoader.loadImage("/res/blocks/block0k.png"), ImageLoader.loadImage("/res/blocks/block0l.png"), };
-	//protected double[] probs = { 0.53, 0.454, 0.01, 0.005, 0.001 };
-	protected double[] probs = { 1, 0, 0, 0, 0};
+	// protected double[] probs = { 0.53, 0.454, 0.01, 0.005, 0.001 };
+	protected double[] probs = { 1, 0, 0, 0, 0 };
 
 	protected Renderer renderer;
 
@@ -61,6 +62,7 @@ public abstract class World {
 	// Halten die Weltinformationen
 	protected Tile[][] tileWorld;
 	protected boolean[][] tetroWorldHitbox;
+	protected WallImgFrame[][] wallImgFrames;
 
 	protected ArrayList<DoorTile> doors;
 	protected ArrayList<Tetro> tetros;
@@ -172,6 +174,37 @@ public abstract class World {
 		for (int i = 0; i < toggleStates.length; i++) {
 			if (toggleStates[i]) {
 				switchDoors(i);
+			}
+		}
+
+		// Wall Image Framing
+		// True: empty, false: wall
+		wallImgFrames = new WallImgFrame[tileWorld.length + 1][tileWorld[0].length + 1];
+		int width = tileWorld[0].length;
+		int height = tileWorld.length;
+		for (int j = 0; j < wallImgFrames.length; j++) {
+			for (int i = 0; i < wallImgFrames[j].length; i++) {
+				boolean topleft = (j == 0) || (i == 0) || (tileWorld[j - 1][i - 1] == null)
+						|| (tileWorld[j - 1][i - 1].getKey() != '1');
+				boolean topright = (j == 0) || (i == width) || (tileWorld[j - 1][i] == null)
+						|| (tileWorld[j - 1][i].getKey() != '1');
+				boolean bottomright = (j == height) || (i == width) || (tileWorld[j][i] == null)
+						|| (tileWorld[j][i].getKey() != '1');
+				boolean bottomleft = (j==height) || (i == 0) || 
+						(tileWorld[j][i - 1] == null) || (tileWorld[j][i - 1].getKey() != '1');
+
+				int imageId = (topleft ? 8 : 0) + (topright ? 4 : 0) + (bottomright ? 2 : 0) + (bottomleft ? 1 : 0);
+
+				wallImgFrames[j][i] = new WallImgFrame(this, imageId, i, j);
+				System.out.print((imageId + "  ").substring(0, 3));
+			}
+			System.out.println();
+		}
+		// add everything to renderer
+		for (int j = 0; j < wallImgFrames.length; j++) {
+			for (int i = 0; i < wallImgFrames[j].length; i++) {
+				if (wallImgFrames[j][i] != null)
+					wallImgFrames[j][i].addTo(renderer);
 			}
 		}
 

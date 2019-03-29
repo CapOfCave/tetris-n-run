@@ -65,8 +65,8 @@ public class WallTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + offset.x),
-				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + offset.y), null);
+//		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + offset.x),
+//				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + offset.y), null);
 		
 	}
 
