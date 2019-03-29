@@ -29,7 +29,6 @@ public class KeyHandler implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent ev) {
-		System.out.println(KeyEvent.getKeyText(ev.getKeyCode()) + " " + ev.getKeyCode());
 		if (ev.getKeyCode() == keyCodes.get(0)) {
 			upKey = true;
 		}
