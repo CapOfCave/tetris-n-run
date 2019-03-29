@@ -69,14 +69,14 @@ public class WallImgFrame implements DrawAndSortable {
 				(int) ((posY - 1.5) * GameFrame.BLOCKSIZE - world.cameraY()), null); // -1.5 weil um 1 nach oben
 																						// angehoben (Mauerfront)
 //		g.drawImage(images[imageId], 45, 45, null);
-		g.setColor(Color.BLACK);
-		g.setFont(new Font("", 0, 7));
-		g.drawString(posX + "|" + posY, (int) ((posX - .5) * GameFrame.BLOCKSIZE - world.cameraX()),
-				(int) ((posY - 1.5) * GameFrame.BLOCKSIZE - world.cameraY()));
-		g.setColor(Color.RED);
-
-		g.drawOval((int) ((posX - .5) * GameFrame.BLOCKSIZE - world.cameraX()),
-				(int) ((posY - 1.5) * GameFrame.BLOCKSIZE - world.cameraY()), 3, 3);
+//		g.setColor(Color.BLACK);
+//		g.setFont(new Font("", 0, 7));
+//		g.drawString(posX + "|" + posY, (int) ((posX - .5) * GameFrame.BLOCKSIZE - world.cameraX()),
+//				(int) ((posY - 1.5) * GameFrame.BLOCKSIZE - world.cameraY()));
+//		g.setColor(Color.RED);
+//
+//		g.drawOval((int) ((posX - .5) * GameFrame.BLOCKSIZE - world.cameraX()),
+//				(int) ((posY - 1.5) * GameFrame.BLOCKSIZE - world.cameraY()), 3, 3);
 //		if (posX == 2 && posY == 2) {
 //			g.drawRect((int) ((posX - .5) * GameFrame.BLOCKSIZE - world.cameraX()),
 //				(int) ((posY - 1.5) * GameFrame.BLOCKSIZE - world.cameraY()), 45, 45);
