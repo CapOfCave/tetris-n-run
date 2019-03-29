@@ -59,7 +59,7 @@ public class SoundPlayer {
 				e.printStackTrace();
 			}
 		} else {
-			System.out.println("Sound \"" + sound + "\" not found. Sounds in database: " + sounds);
+			System.err.println("Sound \"" + sound + "\" not found. Sounds in database: " + sounds);
 		}
 	}
 

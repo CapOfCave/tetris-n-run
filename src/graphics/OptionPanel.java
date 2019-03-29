@@ -104,7 +104,6 @@ public class OptionPanel extends JPanel {
 	}
 
 	public void mousePressed(int x, int y) {
-		System.out.println(x + " " + y);
 		if (x >= 190 && y >= 185 && x <= 290 && y <= 219)
 			keyCodeForChange = 0;
 		if (x >= 180 && y >= 220 && x <= 280 && y <= 250)

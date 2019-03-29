@@ -42,6 +42,10 @@ public abstract class Tile implements DrawAndSortable {
 		isBlockingTetro = false;
 		img = ImageLoader.loadImage("/res/blocks/block0.png");
 	}
+	
+	public void tick() {
+		
+	}
 
 	public BufferedImage getImg() {
 		return img;
