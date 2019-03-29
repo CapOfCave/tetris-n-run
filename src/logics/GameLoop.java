@@ -47,7 +47,7 @@ public class GameLoop implements Runnable {
 				}
 
 				if (currentTime - lastUpdateTime > TIME_BETWEEN_UPDATES) {
-					lastUpdateTime = currentTime - TIME_BETWEEN_UPDATES;
+				lastUpdateTime = currentTime - TIME_BETWEEN_UPDATES;
 				}
 				float interpolation = Math.min(1.0f, (float) ((currentTime - lastUpdateTime) / TIME_BETWEEN_UPDATES));
 				render(interpolation);
@@ -78,7 +78,7 @@ public class GameLoop implements Runnable {
 
 	public void start() {
 		if (!running) {
-			System.out.println("starting...");
+			System.out.println("Starting...");
 			running = true;
 			th = new Thread(this);
 			th.start();

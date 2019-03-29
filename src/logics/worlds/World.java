@@ -284,6 +284,7 @@ public abstract class World {
 
 	public void tick() {
 		GameLoop.actualupdates++;
+		
 		// Player movement
 		player.tick();
 

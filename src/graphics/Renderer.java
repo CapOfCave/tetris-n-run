@@ -6,13 +6,14 @@ import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 
 import data.DrawAndSortable;
+import logics.GameLoop;
 
 public class Renderer {
 
 	ArrayList<DrawAndSortable> drawables1;
 	ArrayList<DrawAndSortable> toRemove1;
 	ArrayList<DrawAndSortable> toAdd1;
-	
+
 	ArrayList<DrawAndSortable> drawables2;
 	ArrayList<DrawAndSortable> toRemove2;
 	ArrayList<DrawAndSortable> toAdd2;
@@ -71,8 +72,9 @@ public class Renderer {
 				}
 			}
 		});
-
-		drawable1 = !drawable1;
+		if (toAdd1.size() != 0 || toAdd2.size() != 0 || toRemove1.size() != 0 || toRemove2.size() != 0) {
+			drawable1 = !drawable1;
+		}
 	}
 
 	private void workOffAR(ArrayList<DrawAndSortable> drawables, ArrayList<DrawAndSortable> toRemove,
@@ -90,19 +92,18 @@ public class Renderer {
 	}
 
 	public void draw(Graphics g, float interpolation) {
-
 		try {
-		if (drawable1) {
-			for (DrawAndSortable das : drawables1) {
-				das.draw(g, interpolation);
+			if (drawable1) {
+				for (DrawAndSortable das : drawables1) {
+					das.draw(g, interpolation);
+				}
+			} else {
+				for (DrawAndSortable das : drawables2) {
+					das.draw(g, interpolation);
+				}
 			}
-		} else {
-			for (DrawAndSortable das : drawables2) {
-				das.draw(g, interpolation);
-			}
-		}
-		} catch(ConcurrentModificationException ex) {
-			System.err.println("Fehler beim Rendern"); //TODO remove
+		} catch (ConcurrentModificationException ex) {
+			System.err.println("Fehler beim Rendern"); // TODO remove
 		}
 	}
 }

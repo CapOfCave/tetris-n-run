@@ -60,7 +60,6 @@ public class WallTile extends Tile {
 			wallimages.put("ffff", ImageLoader.loadImage("/res/blocks/walls/ffff.png"));
 		}
 		image3d = wallimages.get((top?"t":"f") + (right?"t":"f")+ (bottom?"t":"f")+ (left?"t":"f"));
-		System.out.println((top?"t":"f") + (right?"t":"f")+ (bottom?"t":"f")+ (left?"t":"f"));
 	}
 
 	@Override
