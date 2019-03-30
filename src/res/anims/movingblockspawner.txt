@@ -1,3 +1,3 @@
-pics190 p = "/res/sword-in-hand.png"
+pics190 p = "/res/blocks/MovingBlockSpawner.png"
 
 anim norm = p.0

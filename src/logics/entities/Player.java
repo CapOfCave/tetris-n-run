@@ -30,6 +30,7 @@ public class Player extends LivingEntity {
 	private MovingBlock movingBlockInHand = null;
 	private Point movingBlockOffset;
 	private int ticksSinceFootstepNoice = 0;
+	
 
 	public Player(World world, String animPath, RawPlayer rawPlayer) {
 		super(world, animPath, null);

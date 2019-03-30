@@ -15,6 +15,7 @@ import data.Tetro;
 import data.TetroType;
 import data.WallImgFrame;
 import data.Tiles.DoorTile;
+import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import graphics.GameFrame;
 import graphics.Panel;
@@ -55,6 +56,7 @@ public abstract class World {
 
 	// Wichtigste Bezugsobjekte
 	protected Player player;
+	protected SaveNLoadTile lastUsedSALTile;
 	protected Camera camera;
 	protected GameFrame frame;
 	protected KeyHandler keyHandler;
@@ -301,6 +303,11 @@ public abstract class World {
 			allEntities.get(i).tick();
 		}
 		renderer.tick();
+		
+		if(keyHandler.getKillPlayer()) {
+			if(lastUsedSALTile != null)
+			lastUsedSALTile.interact();
+		}
 
 	}
 
@@ -778,6 +785,14 @@ public abstract class World {
 			keyHandler.setRotateKey(false);
 		}
 
+	}
+	
+	public void setLastUsedSALTile(SaveNLoadTile tile) {
+		lastUsedSALTile = tile;
+	}
+	
+	public SaveNLoadTile getLastUsedSALTile() {
+		return lastUsedSALTile;
 	}
 
 }

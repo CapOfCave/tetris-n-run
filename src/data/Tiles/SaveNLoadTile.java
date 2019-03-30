@@ -85,6 +85,7 @@ public class SaveNLoadTile extends Tile {
 			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
 			checkIfExists();
 			akt_animation = all_animations.get("ac");
+			world.setLastUsedSALTile(this);
 		}
 	}
 

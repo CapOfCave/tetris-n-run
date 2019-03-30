@@ -18,6 +18,7 @@ public class KeyHandler implements KeyListener {
 	private boolean removeKey = false;
 	private boolean shift = false;
 	private boolean kameraKey = false;
+	private boolean killPlayer = false;
 	
 	private boolean f4Pressed = false;
 	private boolean actionPressed = false;
@@ -62,6 +63,9 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(4)) {
 			actionPressed = true;
 		}
+		if (ev.getKeyCode() == keyCodes.get(8)) {
+			killPlayer = true;
+		}
 
 	}
 
@@ -90,6 +94,9 @@ public class KeyHandler implements KeyListener {
 		}
 		if (ev.getKeyCode() == keyCodes.get(6)) {
 			kameraKey = false;
+		}
+		if (ev.getKeyCode() == keyCodes.get(8)) {
+			killPlayer = false;
 		}
 
 	}
@@ -124,6 +131,10 @@ public class KeyHandler implements KeyListener {
 
 	public boolean getShift() {
 		return shift;
+	}
+	
+	public boolean getKillPlayer() {
+		return killPlayer;
 	}
 	
 	public boolean getKameraKey() {
