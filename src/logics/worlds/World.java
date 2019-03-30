@@ -134,7 +134,7 @@ public abstract class World {
 			}
 		}
 
-		camera = new Camera(this, level.getPlayerX() * GameFrame.BLOCKSIZE, level.getPlayerY() * GameFrame.BLOCKSIZE,
+		camera = new Camera(this, level.getPlayerX(), level.getPlayerY(),
 				tileWorld.length * GameFrame.BLOCKSIZE - (int) graphicClip.getHeight(),
 				tileWorld[0].length * GameFrame.BLOCKSIZE - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - GameFrame.BLOCKSIZE / 2),
@@ -311,7 +311,7 @@ public abstract class World {
 
 	}
 
-	public void addTetro(TetroType tetroType, int x, int y, int rotation) {
+	public void addTetro(TetroType tetroType, int x, int y, int mouse_x, int mouse_y, int rotation) {
 
 		// if (!keyHandler.getCtrl()) {
 
@@ -330,7 +330,7 @@ public abstract class World {
 				placeY = (y + camera.getY() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
 			}
 			Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
-			if (isAllowed(tetro) && Panel.gamePanel.contains(x, y)) {
+			if (isAllowed(tetro) && Panel.gamePanel.contains(mouse_x, mouse_y)) {
 				tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
 				newestTetro = tetro;
 				tetros.add(tetro);
