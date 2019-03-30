@@ -18,12 +18,7 @@ w;0000000000000h000000000000000
 ###
 
 //l0
-Td;x=3;y=3;xo=0;yo=0;name=block0i;
-Td;x=3;y=4;xo=0;yo=0;name=block0i;
-Td;x=3;y=5;xo=0;yo=0;name=block0i;
-Td;x=1;y=3;xo=0;yo=0;name=block0i;
-Td;x=1;y=4;xo=0;yo=0;name=block0i;
-Td;x=1;y=5;xo=0;yo=0;name=block0i;
+
 Td;x=2;y=3;xo=0;yo=0;name=block0k;
 Td;x=2;y=4;xo=0;yo=0;name=block0k;
 Td;x=2;y=5;xo=0;yo=0;name=block0k;
