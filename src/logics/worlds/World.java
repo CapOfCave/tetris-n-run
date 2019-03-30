@@ -48,7 +48,7 @@ public abstract class World {
 	protected BufferedImage backgroundImg;
 	protected BufferedImage[] nullTileImgs = { ImageLoader.loadImage("/res/blocks/block0.png"),
 			ImageLoader.loadImage("/res/blocks/block0i.png"), ImageLoader.loadImage("/res/blocks/block0j.png"),
-			ImageLoader.loadImage("/res/blocks/block0k.png"), ImageLoader.loadImage("/res/blocks/block0l.png"), };
+			ImageLoader.loadImage("/res/blocks/ventilator.png"), ImageLoader.loadImage("/res/blocks/block0l.png"), };
 	// protected double[] probs = { 0.53, 0.454, 0.01, 0.005, 0.001 };
 	protected double[] probs = { 1, 0, 0, 0, 0 };
 

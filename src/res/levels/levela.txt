@@ -85,7 +85,7 @@ Tl;x=10;y=17;amount=2,3,1,1,1,2,1
 Tl;x=3;y=25;amount=2,2,2,2,2,1,1
 Tl;x=15;y=30;amount=3,1,0,1,1,1,1
 
-Td;x=9;y=15;xo=0;yo=0;name=block0k
+Td;x=9;y=15;xo=0;yo=0;name=ventilator
 
 Td;x=1;y=15;xo=0;yo=-34;name=block0b
 Td;x=0;y=15;xo=0;yo=-8;name=block0e
