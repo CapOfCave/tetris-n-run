@@ -36,15 +36,15 @@ public class DoorTile extends Tile {
 		pictures = AnimationLoader.loadAnimations("/res/anims/door.txt");
 
 		if (color == 0) {
-			drawColor = Color.RED;
+			drawColor = new Color(209, 17, 65);
 		} else if (color == 1) {
-			drawColor = Color.GREEN;
+			drawColor = new Color(0, 177, 89);
 		} else if (color == 2) {
-			drawColor = Color.BLUE;
+			drawColor = new Color(0, 174, 219);
 		} else if (color == 3) {
-			drawColor = Color.YELLOW;
+			drawColor = new Color(255, 196, 37);
 		}else if (color == 4) {
-			drawColor = Color.gray;
+			drawColor = new Color(243, 119, 53);
 		}
 		str_akt_anim = (open ? "opened" : "closed") + rotation;
 		image3d = GraphicalTools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);

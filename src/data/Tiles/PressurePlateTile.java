@@ -25,19 +25,19 @@ public class PressurePlateTile extends Tile {
 
 		if (key == 'à') {
 			color = 0;
-			drawColor = Color.RED;
+			drawColor = new Color(209, 17, 65);
 		} else if (key == 'è') {
 			color = 1;
-			drawColor = Color.GREEN;
+			drawColor = new Color(0, 177, 89);
 		} else if (key == 'ì') {
 			color = 2;
-			drawColor = Color.BLUE;
+			drawColor = new Color(0, 174, 219);
 		} else if (key == 'ò') {
 			color = 3;
-			drawColor = Color.YELLOW;
+			drawColor = new Color(255, 196, 37);
 		}else if (key == 'ù') {
 			color = 4;
-			drawColor = Color.GRAY;
+			drawColor = new Color(243, 119, 53);
 
 		}
 		pictures = AnimationLoader.loadAnimations("/res/anims/pressurePlate.txt");
