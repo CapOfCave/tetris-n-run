@@ -45,10 +45,12 @@ public class WallImgFrame implements DrawAndSortable {
 
 	@Override
 	public double getHeight() {
-		if ((imageId % 2) == 1 || (((int) (imageId / 2)) % 2) == 1) {
-			return (posY - 0.4) * GameFrame.BLOCKSIZE;
+		if ((imageId % 2) == 1 || (((int) (imageId / 2)) % 2) == 1) { // Luft unten
+			return (posY - 0.5) * GameFrame.BLOCKSIZE;
 		} else {
-			return (posY - 1.5) * GameFrame.BLOCKSIZE; //negativ: tief, verdeckt
+			return (posY + 1) * GameFrame.BLOCKSIZE; // Beide Wand, also wahrscheinlich oben
+			
+			//negativ: tief, verdeckt
 		}
 	}
 

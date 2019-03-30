@@ -448,10 +448,6 @@ public class LevelLoader {
 					b = (j == arrWorld.length - 1 || arrWorld[j + 1][i] == null || arrWorld[j + 1][i].getKey() != '1');
 					l = (i == 0 || arrWorld[j][i - 1] == null || arrWorld[j][i - 1].getKey() != '1');
 
-//					r = (i == arrWorld[j].length - 1 || arrWorld[j][i + 1].getKey() != '1');
-//					b = (j == arrWorld.length - 1 || arrWorld[j + 1][i].getKey() != '1');
-//					l = (i == 0 || arrWorld[j][i - 1].getKey() != '1');
-					((WallTile) arrWorld[j][i]).setNeighbors(t, r, b, l);
 				}
 
 			}

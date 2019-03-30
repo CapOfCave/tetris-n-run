@@ -72,9 +72,9 @@ public class Renderer {
 				}
 			}
 		});
-		if (toAdd1.size() != 0 || toAdd2.size() != 0 || toRemove1.size() != 0 || toRemove2.size() != 0) {
+//		if (toAdd1.size() != 0 || toAdd2.size() != 0 || toRemove1.size() != 0 || toRemove2.size() != 0) {
 			drawable1 = !drawable1;
-		}
+//		}
 	}
 
 	private void workOffAR(ArrayList<DrawAndSortable> drawables, ArrayList<DrawAndSortable> toRemove,
