@@ -198,9 +198,7 @@ public abstract class World {
 				int imageId = (topleft ? 8 : 0) + (topright ? 4 : 0) + (bottomright ? 2 : 0) + (bottomleft ? 1 : 0);
 
 				wallImgFrames[j][i] = new WallImgFrame(this, imageId, i, j);
-				System.out.print((imageId + "  ").substring(0, 3));
 			}
-			System.out.println();
 		}
 		// add everything to renderer
 		for (int j = 0; j < wallImgFrames.length; j++) {
