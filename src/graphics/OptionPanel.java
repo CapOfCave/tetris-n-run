@@ -35,6 +35,7 @@ public class OptionPanel extends JPanel {
 		keyCodes.add(5, 82);
 		keyCodes.add(6, 17);
 		keyCodes.add(7, 69);
+		keyCodes.add(8, 70);
 
 		this.frame = frame;
 		mouseHandler = new OptionMouseHandler(frame, this);
@@ -100,10 +101,17 @@ public class OptionPanel extends JPanel {
 			g.setFont(new Font("TimesNewRoman", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(7)), 332, 634);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
+		
+		if(keyCodeForChange == 8) 
+			g.setFont(new Font("TimesNewRoman", 2, 26));
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(8)), 433, 712);
+		g.setFont(new Font("TimesNewRoman", 1, 24));
 
 	}
 
 	public void mousePressed(int x, int y) {
+		
+		repaint();
 		if (x >= 190 && y >= 185 && x <= 290 && y <= 219)
 			keyCodeForChange = 0;
 		if (x >= 180 && y >= 220 && x <= 280 && y <= 250)
@@ -120,6 +128,8 @@ public class OptionPanel extends JPanel {
 			keyCodeForChange = 6;
 		if (x >= 325 && y >= 610 && x <= 425 && y <= 640)
 			keyCodeForChange = 7;
+		if (x >= 427 && y >= 690 && x <= 527 && y <= 720)
+			keyCodeForChange = 8;
 		if (x >= 950 && y >= 745 && x <= 1250 && y <= 856) {
 			frame.startMenu();
 			frame.playSound("ButtonKlick", -5f);
