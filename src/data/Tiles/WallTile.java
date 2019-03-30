@@ -60,13 +60,12 @@ public class WallTile extends Tile {
 			wallimages.put("ffff", ImageLoader.loadImage("/res/blocks/walls/ffff.png"));
 		}
 		image3d = wallimages.get((top?"t":"f") + (right?"t":"f")+ (bottom?"t":"f")+ (left?"t":"f"));
-		System.out.println((top?"t":"f") + (right?"t":"f")+ (bottom?"t":"f")+ (left?"t":"f"));
 	}
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + offset.x),
-				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + offset.y), null);
+//		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + offset.x),
+//				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + offset.y), null);
 		
 	}
 
