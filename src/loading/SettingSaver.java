@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class SettingSaver {
 	
-	public static void saveSettings(ArrayList<Integer> keyCodes, String path, String fileName) {
-		print(createOutput(keyCodes), path, fileName);
+	public static void saveSettings(ArrayList<Integer> keyCodes, int levelSolved,  String path, String fileName) {
+		print(createOutput(keyCodes, levelSolved), path, fileName);
 	}
 
 	public static void print(ArrayList<String> content, String path, String fileName) {
@@ -38,7 +38,7 @@ public class SettingSaver {
 		}
 	}
 
-	public static ArrayList<String> createOutput(ArrayList<Integer> keyCodes) {
+	public static ArrayList<String> createOutput(ArrayList<Integer> keyCodes, int levelSolved) {
 		ArrayList<String> outpLines = new ArrayList<>();
 		String codeInString = "";
 		
@@ -46,6 +46,7 @@ public class SettingSaver {
 			codeInString += keyCodes.get(i) + ",";
 		}
 		outpLines.add("k;" + codeInString);
+		outpLines.add("l;" + levelSolved);
 		return outpLines;
 	}
 

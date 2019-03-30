@@ -21,8 +21,9 @@ public class MenuFrame extends JFrame {
 	private OptionPanel oPanel;
 	private TutorialPanel tPanel;
 	private MenuKeyHandler keyHandler;
+	private int levelSolved;
 	
-	public MenuFrame() {
+	public MenuFrame(int levelSolved) {
 		mPanel = new MenuPanel(this);
 		tPanel = new TutorialPanel(this);
 		oPanel = new OptionPanel(this);
@@ -46,7 +47,7 @@ public class MenuFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SettingSaver.saveSettings(oPanel.getKeyCodes(), System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "settings.txt");
+				SettingSaver.saveSettings(oPanel.getKeyCodes(), levelSolved, System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "settings.txt");
 
 			}
 		});
@@ -54,12 +55,13 @@ public class MenuFrame extends JFrame {
 
 	}
 	
-	public MenuFrame(ArrayList<Integer> keyCodes) {
+	public MenuFrame(ArrayList<Integer> keyCodes, int levelSolved) {
 		mPanel = new MenuPanel(this);
 		tPanel = new TutorialPanel(this);
 		oPanel = new OptionPanel(this, keyCodes);
 		keyHandler = new MenuKeyHandler(oPanel);
 
+		this.levelSolved = levelSolved;
 
 		soundPlayer = new SoundPlayer();
 
@@ -78,7 +80,7 @@ public class MenuFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SettingSaver.saveSettings(oPanel.getKeyCodes(), System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "settings.txt");
+				SettingSaver.saveSettings(oPanel.getKeyCodes(), levelSolved, System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "settings.txt");
 
 			}
 		});
@@ -112,6 +114,10 @@ public class MenuFrame extends JFrame {
 		remove(mPanel);
 		remove(tPanel);
 		
+	}
+
+	public int getLevelSolved() {
+		return levelSolved;
 	}
 
 }

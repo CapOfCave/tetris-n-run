@@ -42,4 +42,31 @@ public class SettingsLoader {
 		else
 			return null;
 	}
+
+	public static int loadLevelSolved(String url) {
+		Scanner sc = null;
+		if (!LevelLoader.isAbsolute(url)) {
+			sc = new Scanner(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(url));
+		} else {
+			try {
+				sc = new Scanner(new File(url));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+		while (sc.hasNext()) {
+
+			String nextLine = sc.nextLine();
+
+			if (nextLine.startsWith("l")) {
+				String levelInString = nextLine.substring(2);
+				
+				return Integer.parseInt(levelInString);
+			}
+
+		}
+			return 0;
+		
+	}
 }

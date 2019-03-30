@@ -59,19 +59,20 @@ public class GameFrame extends JFrame {
 		File keyCodesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
 		
 		if (!keyCodesFile.exists()) {
-			new MenuFrame();
+			new MenuFrame(0);
 		}else {
 		
 		ArrayList<Integer> keyCodes = SettingsLoader.loadKeyCodes(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
+		int levelSolved = SettingsLoader.loadLevelSolved(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
 
 		if (keyCodes != null)
-			new MenuFrame(keyCodes);
+			new MenuFrame(keyCodes, levelSolved);
 		else
-			new MenuFrame();
+			new MenuFrame(levelSolved);
 		}
 	}
 
-	public GameFrame(int width, int height, ArrayList<Integer> keyCodes) {
+	public GameFrame(int width, int height, ArrayList<Integer> keyCodes, int levelSolved) {
 		this.panel_width = width;
 		this.panel_height = height;
 
@@ -87,6 +88,7 @@ public class GameFrame extends JFrame {
 		text[6] = "";
 
 		soundPlayer = new SoundPlayer();
+		this.levelSolved = levelSolved;
 
 		rawPlayer = RawPlayerLoader.readRawPlayer();
 		rawPlayer.init();
@@ -240,7 +242,7 @@ public class GameFrame extends JFrame {
 
 	public void backToMenu() {
 		oPanel.save();
-		new MenuFrame(keyCodes);
+		new MenuFrame(keyCodes, levelSolved);
 		this.dispose();
 
 	}
@@ -263,6 +265,10 @@ public class GameFrame extends JFrame {
 
 	public void setText(String[] text) {
 		this.text = text;
+	}
+	
+	public void setLevelSolved(int levelSolved) {
+		
 	}
 
 }
