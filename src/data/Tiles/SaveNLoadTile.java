@@ -114,7 +114,10 @@ public class SaveNLoadTile extends Tile {
 					f.delete();
 				}
 			}
-			frame.swichLevel(loadFile.getAbsolutePath());
+			frame.swichLevel(loadFile.getAbsolutePath(), this);
+			
+			
+			
 
 		}
 	}

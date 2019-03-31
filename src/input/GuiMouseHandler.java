@@ -41,6 +41,8 @@ public class GuiMouseHandler implements MouseListener {
 		int x = e.getX();
 		int y = e.getY();
 		
+		
+		
 		if (x >= 180 && y >= 671 && x < 879 && y < 854) {
 			overworld.getPlayer().inventoryClick(e.getX(), e.getY());
 		}

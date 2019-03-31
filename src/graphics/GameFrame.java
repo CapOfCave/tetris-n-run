@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import data.RawPlayer;
+import data.Tiles.SaveNLoadTile;
 import input.KeyHandler;
 import loading.LevelLoader;
 import loading.RawPlayerLoader;
@@ -186,7 +187,7 @@ public class GameFrame extends JFrame {
 	}
 
 	// Level to level
-	public void swichLevel(String path) {
+	public void swichLevel(String path, SaveNLoadTile tile) {
 		clearText();
 		GameWorldPanel tempPanel = lPanel;
 
@@ -196,6 +197,7 @@ public class GameFrame extends JFrame {
 		add(lPanel);
 		remove(tempPanel);
 		gameLoop.changePlayable(lPanel);
+		lPanel.setLastUsedSALTile(tile);
 
 	}
 

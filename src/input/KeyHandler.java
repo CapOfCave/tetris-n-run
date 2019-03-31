@@ -64,6 +64,7 @@ public class KeyHandler implements KeyListener {
 			actionPressed = true;
 		}
 		if (ev.getKeyCode() == keyCodes.get(8)) {
+			System.out.println("kill");
 			killPlayer = true;
 		}
 
@@ -168,5 +169,10 @@ public class KeyHandler implements KeyListener {
 
 	public void setF4pressed(boolean b) {
 		this.f4Pressed = b;
+	}
+
+	public void setKillPlayer(boolean b) {
+		this.killPlayer = b;
+		
 	}
 }

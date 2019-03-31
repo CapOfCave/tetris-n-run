@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import data.Level;
 import data.RawPlayer;
+import data.Tiles.SaveNLoadTile;
 import input.KeyHandler;
 import input.MouseHandler;
 import loading.ImageLoader;
@@ -88,6 +89,11 @@ public class GameWorldPanel extends Panel {
 			g.setColor(Color.GREEN);
 			g.drawRect(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		}
+	}
+
+	public void setLastUsedSALTile(SaveNLoadTile tile) {
+		world.setLastUsedSALTile(tile);
+		
 	}
 
 }

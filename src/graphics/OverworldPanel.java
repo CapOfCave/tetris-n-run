@@ -65,12 +65,63 @@ public class OverworldPanel extends Panel {
 		
 		if(Character.isLowerCase(frame.getNextLevel())) {
 			g.setColor(Color.BLACK);
-			g.drawString("Level " + (Character.getNumericValue(frame.getNextLevel()) - 9), 1055, 150);
+			
+			switch ((Character.getNumericValue(frame.getNextLevel()) - 9)) {
+			case 1:
+				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.drawString("Aller Anfang", 1035, 150);
+				g.drawString("ist schwer", 1050, 190);
+				g.setFont(new Font("Timesnewroman", 1, 44));
+				break;
+				
+			case 2:
+				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.drawString("Türen und", 1053, 150);
+				g.drawString("Schalter", 1067, 190);
+				g.setFont(new Font("Timesnewroman", 1, 44));
+				break;
+				
+			case 4:
+				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.drawString("Kreuzweg", 1051, 150);
+				g.setFont(new Font("Timesnewroman", 1, 44));
+				break;
+				
+			case 5:
+				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.drawString("Am Ziel", 1070, 150);
+				g.drawString("vorbei", 1080, 190);
+				g.setFont(new Font("Timesnewroman", 1, 44));
+				break;
+				
+			case 6:
+				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.drawString("Behalte den", 1040, 150);
+				g.drawString("Durchblick!", 1043, 190);
+				g.setFont(new Font("Timesnewroman", 1, 44));
+				break;
+				
+			case 7:
+				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.drawString("Mangel an", 1047, 150);
+				g.drawString("Tetros.", 1075, 190);
+				g.setFont(new Font("Timesnewroman", 1, 44));
+				break;
+
+			default:
+				g.setFont(new Font("Timesnewroman", 1, 44));
+				g.drawString("Level " + (Character.getNumericValue(frame.getNextLevel()) - 9), 1055, 150);
+				break;
+			}
+			
+			
 			g.drawString("Play", 1085, 360);
 			
 		} else {
 			g.setColor(Color.GRAY);
-			g.drawString("Kein Level", 1020, 150);
+			g.setFont(new Font("Timesnewroman", 1, 34));
+			g.drawString("Kein Level", 1048, 150);
+			g.setFont(new Font("Timesnewroman", 1, 44));
 			g.drawString("Play", 1085, 360);
 		}
 		g.setColor(Color.BLACK);
