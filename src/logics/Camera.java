@@ -27,7 +27,7 @@ public class Camera {
 		this.y = clipBorderY(y - offsetY);
 		this.lastX = clipBorderX(x - offsetX);
 		this.lastY = clipBorderY(y - offsetY);
-
+		
 	}
 
 	public void setOffsetX(int offsetX) {

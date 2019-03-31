@@ -24,9 +24,9 @@ w;0000000000000h000000000000000
 
 //l0
 
-Td;x=2;y=3;xo=0;yo=0;name=block0k;
-Td;x=2;y=4;xo=0;yo=0;name=block0k;
-Td;x=2;y=5;xo=0;yo=0;name=block0k;
+Td;x=2;y=3;xo=0;yo=0;name=ventilator;
+Td;x=2;y=4;xo=0;yo=0;name=ventilator;
+Td;x=2;y=5;xo=0;yo=0;name=ventilator;
 Td;x=1;y=2;xo=0;yo=-8;name=block0p;
 Td;x=1;y=6;xo=0;yo=-8;name=block0w;
 
@@ -57,9 +57,9 @@ Td;x=16;y=5;xo=0;yo=0;name=block0i;
 Td;x=17;y=5;xo=0;yo=0;name=block0i;
 
 //l5
-Td;x=18;y=6;xo=0;yo=0;name=block0k;
-Td;x=19;y=6;xo=0;yo=0;name=block0k;
-Td;x=20;y=6;xo=0;yo=0;name=block0k;
+Td;x=18;y=6;xo=0;yo=0;name=ventilator;
+Td;x=19;y=6;xo=0;yo=0;name=ventilator;
+Td;x=20;y=6;xo=0;yo=0;name=ventilator;
 Td;x=18;y=7;xo=0;yo=-8;name=block0r;
 Td;x=19;y=7;xo=0;yo=-8;name=block0u;
 Td;x=20;y=7;xo=0;yo=-8;name=block0y;

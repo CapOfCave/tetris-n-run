@@ -64,7 +64,7 @@ public class InHandHandler {
 			TetroType t = tetroInHand;
 			tetroInHand = null;
 			world.addTetro(t, (mouse_x - offset_x) - world.getGameBoundsX(),
-					(mouse_y - offset_y) - world.getGameBoundsY(), rotation);
+					(mouse_y - offset_y) - world.getGameBoundsY(), mouse_x, mouse_y, rotation);
 
 		}
 	}
