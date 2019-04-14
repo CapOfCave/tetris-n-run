@@ -69,41 +69,40 @@ public class OverworldPanel extends Panel {
 			switch ((Character.getNumericValue(frame.getNextLevel()) - 9)) {
 			case 1:
 				g.setFont(new Font("Timesnewroman", 1, 34));
-				g.drawString("Aller Anfang", 1035, 150);
-				g.drawString("ist schwer", 1050, 190);
+				g.drawString("An new", 1070, 150);
+				g.drawString("beginning", 1050, 190);
 				g.setFont(new Font("Timesnewroman", 1, 44));
 				break;
 				
 			case 2:
 				g.setFont(new Font("Timesnewroman", 1, 34));
-				g.drawString("Türen und", 1053, 150);
-				g.drawString("Schalter", 1067, 190);
+				g.drawString("Doors and", 1048, 150);
+				g.drawString("Switches", 1060, 190);
 				g.setFont(new Font("Timesnewroman", 1, 44));
 				break;
 				
 			case 4:
 				g.setFont(new Font("Timesnewroman", 1, 34));
-				g.drawString("Kreuzweg", 1051, 150);
+				g.drawString("Crossroad", 1045, 150);
 				g.setFont(new Font("Timesnewroman", 1, 44));
 				break;
 				
 			case 5:
 				g.setFont(new Font("Timesnewroman", 1, 34));
-				g.drawString("Am Ziel", 1070, 150);
-				g.drawString("vorbei", 1080, 190);
+				g.drawString("Pass the", 1062, 150);
+				g.drawString("destination!", 1040, 190);
 				g.setFont(new Font("Timesnewroman", 1, 44));
 				break;
 				
 			case 6:
 				g.setFont(new Font("Timesnewroman", 1, 34));
-				g.drawString("Behalte den", 1040, 150);
-				g.drawString("Durchblick!", 1043, 190);
+				g.drawString("Keep track!", 1040, 150);
 				g.setFont(new Font("Timesnewroman", 1, 44));
 				break;
 				
 			case 7:
 				g.setFont(new Font("Timesnewroman", 1, 34));
-				g.drawString("Mangel an", 1047, 150);
+				g.drawString("A lack of", 1062, 150);
 				g.drawString("Tetros.", 1075, 190);
 				g.setFont(new Font("Timesnewroman", 1, 44));
 				break;

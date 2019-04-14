@@ -64,47 +64,47 @@ public class OptionPanel extends JPanel {
 		
 		if(keyCodeForChange == 0) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(0)), 192, 204);
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(0)), 152, 204);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 		
 		if(keyCodeForChange == 1) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(1)), 175, 243);
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(1)), 160, 243);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 		
 		if(keyCodeForChange == 2) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(2)), 192, 282);
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(2)), 188, 282);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 		
 		if(keyCodeForChange == 3) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(3)), 195, 321);
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(3)), 175, 321);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 		
 		if(keyCodeForChange == 4) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(4)), 268, 399);
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(4)), 250, 399);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 		
 		if(keyCodeForChange == 5) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(5)), 219, 517);
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(5)), 195, 517);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 		
 		if(keyCodeForChange == 6) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(6)), 242, 556);
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(6)), 213, 556);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 		
 		if(keyCodeForChange == 7) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(7)), 332, 634);
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(7)), 335, 634);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 		
 		if(keyCodeForChange == 8) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(8)), 433, 712);
+		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(8)), 458, 712);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 
 	}
