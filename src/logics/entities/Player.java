@@ -21,15 +21,19 @@ import logics.worlds.World;
  */
 public class Player extends LivingEntity {
 
-	private static final double normMaxSpeed = 9.0;
 	private static final long serialVersionUID = 1L;
 	private Inventory inventory;
 	private Weapon activeWeapon;
 	private Tile akt_Tile;
 	private boolean actionPressed;
 	private MovingBlock movingBlockInHand = null;
+	private boolean sprinting = false;
 	private Point movingBlockOffset;
 	private int ticksSinceFootstepNoice = 0;
+	
+	private final double moveblockacc = 0.2;
+	private final double moveblockmaxSpeed = 4.0;
+	private final double sprintngmaxSpeed = 14.4;
 	
 
 	public Player(World world, String animPath, RawPlayer rawPlayer) {
@@ -47,10 +51,10 @@ public class Player extends LivingEntity {
 		lastX = x;
 		lastY = y;
 
-		acc = rawPlayer.getAcc();
+		setAcc(rawPlayer.getAcc());
 		health = rawPlayer.getHealth();
 		brake = rawPlayer.getAcc();
-		maxSpeed = rawPlayer.getMaxSpeed();
+		setMaxSpeed(rawPlayer.getMaxSpeed());
 		inventory = rawPlayer.getInventory();
 		inventory.setWorld(world);
 	}
@@ -142,9 +146,9 @@ public class Player extends LivingEntity {
 	private void checkInput() {
 
 		if (world.getKeyHandler().getShift()) {
-			maxSpeed = normMaxSpeed * 1.6;
+			sprinting = true;
 		} else {
-			maxSpeed = normMaxSpeed;
+			sprinting  = false;
 		}
 
 		if (!world.getKeyHandler().getKameraKey()) {
@@ -305,6 +309,7 @@ public class Player extends LivingEntity {
 	public void setMovingBlock(MovingBlock movingBlock) {
 		this.movingBlockInHand = movingBlock;
 		this.movingBlockOffset = new Point((int) (movingBlock.getX() - x), (int) (movingBlock.getY() - y));
+		
 	}
 
 	public MovingBlock getMovingBlockInHand() {
@@ -326,5 +331,25 @@ public class Player extends LivingEntity {
 	@Override
 	protected void bump(double speedloss) {
 		world.playSound("metal" + (int)(Math.random() * 4), -40f + 3.6f * (float)speedloss);
+	}
+
+	@Override
+	public double getAcc() {
+		if (movingBlockInHand == null) {
+			return super.getAcc();
+		} else {
+			return moveblockacc; 
+		}
+	}
+	
+	@Override
+	public double getMaxSpeed() {
+		if (movingBlockInHand != null) {
+			return moveblockmaxSpeed;
+		} else if (sprinting){
+			return sprintngmaxSpeed;
+		} else {
+			return super.getMaxSpeed();
+		}
 	}
 }

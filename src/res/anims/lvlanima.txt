@@ -1,0 +1,5 @@
+pics45 pic="/res/blocks/lvls/spiral.png"
+pics45 nop="/res/blocks/blocka.png"
+
+anim3 anim=pic.0+pic.1+pic.2+pic.3+pic.4+pic.5+pic.6+pic.7
+anim stil=nop.0

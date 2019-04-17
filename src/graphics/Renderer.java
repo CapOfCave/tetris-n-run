@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 
 import data.DrawAndSortable;
-import logics.GameLoop;
 
 public class Renderer {
 

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import input.OptionMouseHandler;
-import input.TutorialMouseHandler;
 import loading.ImageLoader;
 
 public class OptionPanel extends JPanel {

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import input.KeyHandler;
 import input.MenuKeyHandler;
 import loading.SettingSaver;
 import sound.SoundPlayer;

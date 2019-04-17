@@ -33,9 +33,9 @@ public class Enemy extends LivingEntity {
 		this.parent = parent;
 		type = "enemy";
 
-		acc = 0.8;
+		setAcc(0.8);
 		brake = 4;
-		maxSpeed = 4;
+		setMaxSpeed(4);
 
 		minX = parent.getMinX();
 		minY = parent.getMinY();
