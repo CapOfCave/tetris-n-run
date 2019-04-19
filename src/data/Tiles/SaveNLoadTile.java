@@ -26,7 +26,7 @@ public class SaveNLoadTile extends Tile {
 
 	public SaveNLoadTile(char key, int posX, int posY, GameFrame frame, int[] tetroAmount, boolean addingTetros) {
 		super(key, posX, posY, false, true, true, frame);
-
+		needsBackGround = true;
 //		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoadAc.png");
 //		image3dUnSaved = ImageLoader.loadImage("/res/blocks/saveNLoadDeac.png");
 

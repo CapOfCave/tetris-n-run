@@ -11,9 +11,11 @@ public class LevelGuiTile extends Tile {
 
 	boolean playerOn = false;
 	Animation akt_anim;
+	
 
 	public LevelGuiTile(char key, int posX, int posY, GameFrame frame) {
 		super(key, posX, posY, true, true, false, frame);
+		needsBackGround = true;
 		img = ImageLoader.loadImage("/res/blocks/block" + key + ".png");
 		if (key == 'a') {
 			akt_anim = AnimationLoader.loadAnimations("/res/anims/lvlanima.txt").get("anim");

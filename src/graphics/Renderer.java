@@ -36,10 +36,10 @@ public class Renderer {
 			drawables1.add(das);
 			toAdd2.add(das);
 		}
-
 	}
 
 	public void removeDrawable(DrawAndSortable das) {
+		
 		if (drawable1) {
 			drawables2.remove(das);
 			toRemove1.add(das);
@@ -50,6 +50,7 @@ public class Renderer {
 	}
 
 	public void tick() {
+//		System.out.println(drawables1.size());
 		ArrayList<DrawAndSortable> passive_ArrayList;
 		if (drawable1) {
 			passive_ArrayList = drawables2;
@@ -71,9 +72,7 @@ public class Renderer {
 				}
 			}
 		});
-//		if (toAdd1.size() != 0 || toAdd2.size() != 0 || toRemove1.size() != 0 || toRemove2.size() != 0) {
-			drawable1 = !drawable1;
-//		}
+		drawable1 = !drawable1;
 	}
 
 	private void workOffAR(ArrayList<DrawAndSortable> drawables, ArrayList<DrawAndSortable> toRemove,
@@ -104,5 +103,10 @@ public class Renderer {
 		} catch (ConcurrentModificationException ex) {
 			System.err.println("Fehler beim Rendern"); // TODO remove
 		}
+		
+	}
+
+	public boolean isDAScontained(DrawAndSortable entity) {
+		return drawables1.contains(entity) || drawables2.contains(entity);
 	}
 }

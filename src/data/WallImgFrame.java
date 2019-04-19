@@ -1,7 +1,5 @@
 package data;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -88,6 +86,16 @@ public class WallImgFrame implements DrawAndSortable {
 	@Override
 	public void addTo(Renderer renderer) {
 		renderer.addDrawable(this);
+	}
+
+	@Override
+	public double getX() {
+		return posX * GameFrame.BLOCKSIZE;
+	}
+
+	@Override
+	public double getY() {
+		return posY * GameFrame.BLOCKSIZE;
 	}
 
 }

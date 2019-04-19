@@ -30,7 +30,10 @@ public abstract class Tile implements DrawAndSortable {
 	protected World world;
 	protected int[] tetroAmount;
 
-	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, boolean tetroPlacable, GameFrame frame) {
+	protected boolean needsBackGround = false;;
+
+	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, boolean tetroPlacable,
+			GameFrame frame) {
 		this.key = key;
 		this.posX = posX;
 		this.posY = posY;
@@ -38,13 +41,21 @@ public abstract class Tile implements DrawAndSortable {
 		this.walkable = walkable;
 		this.walkableWithTetro = walkableWithTetro;
 		this.tetroPlacable = tetroPlacable;
-		
+
 		isBlockingTetro = false;
 		img = ImageLoader.loadImage("/res/blocks/block0.png");
 	}
-	
+
 	public void tick() {
-		
+
+	}
+
+	public double getX() {
+		return posX * GameFrame.BLOCKSIZE;
+	}
+
+	public double getY() {
+		return posY * GameFrame.BLOCKSIZE;
 	}
 
 	public BufferedImage getImg() {
@@ -62,11 +73,11 @@ public abstract class Tile implements DrawAndSortable {
 	public void setTetroAmount(int[] tetroAmount) {
 		this.tetroAmount = tetroAmount;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public char getKey() {
 		return key;
 	}
@@ -74,7 +85,7 @@ public abstract class Tile implements DrawAndSortable {
 	public void setKey(char key) {
 		this.key = key;
 	}
-	
+
 	public Point getOffSet() {
 		return offset;
 	}
@@ -96,22 +107,22 @@ public abstract class Tile implements DrawAndSortable {
 	}
 
 	public void eventWhenEntering() {
-		//do nothing
+		// do nothing
 	}
 
 	public void eventWhenLeaving() {
-		//do nothing
+		// do nothing
 	}
 
 	public void eventWhenKeyPressed() {
-		//do nothing
+		// do nothing
 	}
 
 	public boolean isWalkable() {
 		return walkable;
 	}
 
-	//TODO remove
+	// TODO remove
 	public void setBlockingTetro(boolean isBlockingTetro) {
 		this.isBlockingTetro = isBlockingTetro;
 	}
@@ -123,7 +134,7 @@ public abstract class Tile implements DrawAndSortable {
 	public boolean isWalkableWithTetro() {
 		return walkableWithTetro;
 	}
-	
+
 	public boolean isTetroPlacable() {
 		return tetroPlacable;
 	}
@@ -150,9 +161,10 @@ public abstract class Tile implements DrawAndSortable {
 	}
 
 	public void drawBackground(Graphics g, float interpolation) {
-		g.drawImage(img, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
-
+		if (needsBackGround ) {
+			g.drawImage(img, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
+					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
+		}
 	}
 
 	@Override
@@ -165,10 +177,10 @@ public abstract class Tile implements DrawAndSortable {
 
 	public void eventWhenMoveBlockEntering() {
 		// do nothing
-		
+
 	}
 
 	public void eventWhenMoveBlockLeaving() {
-		//do nothing
+		// do nothing
 	}
 }

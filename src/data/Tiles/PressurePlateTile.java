@@ -22,7 +22,7 @@ public class PressurePlateTile extends Tile {
 
 	public PressurePlateTile(char key, int posX, int posY, GameFrame frame) {
 		super(key, posX, posY, false, true, true, frame);
-
+		needsBackGround = true; //TODO adapt 3d graphics
 		if (key == 'à') {
 			color = 0;
 			drawColor = new Color(209, 17, 65);

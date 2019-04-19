@@ -30,6 +30,7 @@ public class DoorTile extends Tile {
 
 	public DoorTile(int color, int x, int y, int rotation, boolean open, GameFrame frame) {
 		super('D', x, y, false, open, true, frame);
+		needsBackGround = true;
 		this.rotation = rotation;
 		this.color = color;
 		this.standardOpened = open;
@@ -78,6 +79,16 @@ public class DoorTile extends Tile {
 			public void addTo(Renderer renderer) {
 				DoorTile.this.addTo(renderer);
 
+			}
+
+			@Override
+			public double getX() {
+				return DoorTile.this.getX();
+			}
+
+			@Override
+			public double getY() {
+				return DoorTile.this.getY();
 			}
 		};
 	}

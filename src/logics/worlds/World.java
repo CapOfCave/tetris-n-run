@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import data.DrawAndSortable;
 import data.Level;
 import data.RawPlayer;
 import data.RawSpawner;
@@ -38,9 +39,11 @@ import logics.entities.items.Item;
 public abstract class World {
 	private static final double min_interaction_distance = 20;
 	private static final double min_interaction_looking_distance = 50;
+	private static final int render_image_offset = 113;
 
 	// Variablen
 	protected Rectangle graphicClip;
+	private Rectangle renderRect;
 
 	// Wird zum Speichern übernommen
 	protected String tetroFileURL;
@@ -95,8 +98,10 @@ public abstract class World {
 			System.err.println("Total deko Probs: " + probsTotal);
 
 		// Initialisierungen
-
 		this.graphicClip = graphicClip;
+
+		renderRect = new Rectangle(-render_image_offset, -render_image_offset,
+				graphicClip.width + 2 * render_image_offset, graphicClip.height + 2 * render_image_offset);
 		this.tetroTypes = level.getTetroTypes();
 		this.keyHandler = keyHandler;
 		this.frame = frame;
@@ -157,25 +162,6 @@ public abstract class World {
 		}
 		level.getSpawner();
 
-		// add everything to renderer
-		for (int j = 0; j < tileWorld.length; j++) {
-			for (int i = 0; i < tileWorld[j].length; i++) {
-				if (tileWorld[j][i] != null)
-					tileWorld[j][i].addTo(renderer);
-			}
-		}
-
-		for (Entity entity : allEntities) {
-			entity.addTo(renderer);
-			if (entity instanceof MovingBlock) {
-				Tile currentTile = getTileAt((int) ((entity.getY() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE),
-						(int) ((entity.getX() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE));
-				if (currentTile != null)
-					currentTile.eventWhenMoveBlockEntering();
-				((MovingBlock) entity).setCurrentTile(currentTile);
-			}
-		}
-		player.addTo(renderer);
 		for (int i = 0; i < toggleStates.length; i++) {
 			if (toggleStates[i]) {
 				switchDoors(i);
@@ -204,10 +190,13 @@ public abstract class World {
 			}
 		}
 		// add everything to renderer
-		for (int j = 0; j < wallImgFrames.length; j++) {
-			for (int i = 0; i < wallImgFrames[j].length; i++) {
-				if (wallImgFrames[j][i] != null)
-					wallImgFrames[j][i].addTo(renderer);
+		for (Entity entity : allEntities) {
+			if (entity instanceof MovingBlock) {
+				Tile currentTile = getTileAt((int) ((entity.getY() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE),
+						(int) ((entity.getX() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE));
+				if (currentTile != null)
+					currentTile.eventWhenMoveBlockEntering();
+				((MovingBlock) entity).setCurrentTile(currentTile);
 			}
 		}
 
@@ -227,6 +216,8 @@ public abstract class World {
 				worldDeco[y][x] = outp;
 			}
 		}
+
+		player.addTo(renderer);
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
@@ -237,10 +228,14 @@ public abstract class World {
 		// Tetros
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
-				if (tileWorld[j][i] != null) {
-					tileWorld[j][i].drawBackground(g, interpolation);
-				} else {
-					drawTileIfNull(g, interpolation, i, j);
+				if (renderRect.contains(i * GameFrame.BLOCKSIZE - camera.getX(),
+						j * GameFrame.BLOCKSIZE - camera.getY())) {
+					//draw
+					if (tileWorld[j][i] != null) {
+						tileWorld[j][i].drawBackground(g, interpolation);
+					} else {
+						drawTileIfNull(g, interpolation, i, j);
+					}
 				}
 			}
 		}
@@ -256,7 +251,7 @@ public abstract class World {
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
-	
+
 		if (worldDeco[y][x] == -1) {
 			System.err.println("Überprüfe deine Wahrscheinlichkeitsverteilung.");
 		} else {
@@ -265,8 +260,10 @@ public abstract class World {
 			if (inHandHandler != null && inHandHandler.isHoldingTetro()) {
 				if (Tools.distance((x + 0.5) * GameFrame.BLOCKSIZE - camera.getX(),
 						(y + 0.5) * GameFrame.BLOCKSIZE - camera.getY(), inHandHandler.getCenterX(),
-						inHandHandler.getCenterY()) < (TetroType.hitboxExpansion + 2) * GameFrame.BLOCKSIZE) { // ungefähre entfernung passend
-					
+						inHandHandler.getCenterY()) < (TetroType.hitboxExpansion + 2) * GameFrame.BLOCKSIZE) { // ungefähre
+																												// entfernung
+																												// passend
+
 					g.drawImage(tetroPreview, (int) (x * GameFrame.BLOCKSIZE - cameraX()),
 							(int) (y * GameFrame.BLOCKSIZE - cameraY()), null);
 				}
@@ -318,6 +315,9 @@ public abstract class World {
 		for (int i = 0; i < allEntities.size(); i++) {
 			allEntities.get(i).tick();
 		}
+
+		prepareRender();
+
 		renderer.tick();
 
 		if (keyHandler.getKillPlayer()) {
@@ -325,6 +325,41 @@ public abstract class World {
 				lastUsedSALTile.interact();
 		}
 
+	}
+
+	private void prepareRender() {
+		// add everything to renderer
+		for (int j = 0; j < wallImgFrames.length; j++) {
+			for (int i = 0; i < wallImgFrames[j].length; i++) {
+				if (wallImgFrames[j][i] != null) {
+					addIfNessessary(wallImgFrames[j][i]);
+				}
+			}
+		}
+
+		for (int j = 0; j < tileWorld.length; j++) {
+			for (int i = 0; i < tileWorld[j].length; i++) {
+				if (tileWorld[j][i] != null) {
+					addIfNessessary(tileWorld[j][i]);
+				}
+
+			}
+		}
+
+		for (Entity entity : allEntities) {
+			addIfNessessary(entity);
+		}
+
+	}
+
+	private void addIfNessessary(DrawAndSortable das) {
+		if (renderRect.contains(das.getX() - camera.getX(), das.getY() - camera.getY())) {
+			if (!renderer.isDAScontained(das)) {
+				das.addTo(renderer);
+			}
+		} else if (renderer.isDAScontained(das)) {
+			renderer.removeDrawable(das);
+		}
 	}
 
 	public void addTetro(TetroType tetroType, int x, int y, int mouse_x, int mouse_y, int rotation) {

@@ -13,6 +13,7 @@ public class GoalTile extends Tile {
 
 	public GoalTile(int posX, int posY, GameFrame frame) {
 		super('!', posX, posY, false, true, true, frame);
+		needsBackGround = true;
 		image3d = ImageLoader.loadImage("/res/goal.png");
 	}
 

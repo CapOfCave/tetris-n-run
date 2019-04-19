@@ -13,4 +13,8 @@ public interface DrawAndSortable extends Comparable<DrawAndSortable> {
 	public void draw(Graphics g, float interpolation);
 
 	public void addTo(Renderer renderer);
+
+	public double getX();
+
+	public double getY();
 }
