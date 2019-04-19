@@ -426,7 +426,7 @@ public class LevelLoader {
 		if (tetrofileUrl != null) {
 			tetroTypes = TetroLoader.loadTetros(tetrofileUrl);
 
-			initWallTiles(arrWorld);
+//			initWallTiles(arrWorld);
 
 			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, entities, tetroAmounts,
 					toggleStates, tetrofileUrl, playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
@@ -437,25 +437,25 @@ public class LevelLoader {
 		}
 	}
 
-	private static void initWallTiles(Tile[][] arrWorld) {
-		for (int j = 0; j < arrWorld.length; j++) {
-			for (int i = 0; i < arrWorld[j].length; i++) {
-				if (arrWorld[j][i] != null && arrWorld[j][i].getKey() == '1') {
-					boolean t, r, b, l;
-					t = (j == 0 || arrWorld[j - 1][i] == null || arrWorld[j - 1][i].getKey() != '1');
-					r = (i == arrWorld[j].length - 1 || arrWorld[j][i + 1] == null
-							|| arrWorld[j][i + 1].getKey() != '1');
-					b = (j == arrWorld.length - 1 || arrWorld[j + 1][i] == null || arrWorld[j + 1][i].getKey() != '1');
-					l = (i == 0 || arrWorld[j][i - 1] == null || arrWorld[j][i - 1].getKey() != '1');
-
-				}
-
-			}
-
-		}
-
-
-	}
+//	private static void initWallTiles(Tile[][] arrWorld) {
+//		for (int j = 0; j < arrWorld.length; j++) {
+//			for (int i = 0; i < arrWorld[j].length; i++) {
+//				if (arrWorld[j][i] != null && arrWorld[j][i].getKey() == '1') {
+//					boolean t, r, b, l;
+//					t = (j == 0 || arrWorld[j - 1][i] == null || arrWorld[j - 1][i].getKey() != '1');
+//					r = (i == arrWorld[j].length - 1 || arrWorld[j][i + 1] == null
+//							|| arrWorld[j][i + 1].getKey() != '1');
+//					b = (j == arrWorld.length - 1 || arrWorld[j + 1][i] == null || arrWorld[j + 1][i].getKey() != '1');
+//					l = (i == 0 || arrWorld[j][i - 1] == null || arrWorld[j][i - 1].getKey() != '1');
+//
+//				}
+//
+//			}
+//
+//		}
+//
+//
+//	}
 
 	public static boolean isAbsolute(String url) {
 		return !url.startsWith("/") && !url.startsWith("\\") && !url.startsWith(File.separator);

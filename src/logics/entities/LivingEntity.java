@@ -365,7 +365,7 @@ public abstract class LivingEntity extends Entity {
 			return false;
 		}
 		if (world.isEntityAt(this, y + GameFrame.BLOCKSIZE / 2 + dy, x + GameFrame.BLOCKSIZE / 2 + dx)) {
-			return false;
+			return true;
 		}
 
 		if (world.getTileAt(getTileY(dy), getTileX(dx)) == null) // Empty Tile

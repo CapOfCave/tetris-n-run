@@ -5,7 +5,6 @@ import java.awt.event.MouseListener;
 
 import graphics.MenuFrame;
 import graphics.OptionPanel;
-import graphics.TutorialPanel;
 
 public class OptionMouseHandler implements MouseListener {
 

@@ -1,6 +1,7 @@
 package logics;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -32,14 +33,14 @@ public class InHandHandler {
 		this.drawSize = drawSize;
 	}
 
+	public boolean isHoldingTetro() {
+		return tetroInHand != null;
+	}
+
 	public boolean setInHand(int x, int y) {
 
 		tetroInHand = getTetroTypeAt(x, y);
-		if (tetroInHand == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return tetroInHand != null;
 	}
 
 	public void rotateInHand(boolean turnLeft) {
@@ -80,10 +81,19 @@ public class InHandHandler {
 		}
 
 		if (debugMode) {
+
 			g.setColor(Color.RED);
-			g.drawOval(mouse_x, mouse_y, 5, 5);
-			g.setColor(Color.GREEN);
 			g.drawOval(mouse_x - offset_x, mouse_y - offset_y, 5, 5);
+			g.setFont(new Font("helvetica", Font.PLAIN, 10));
+			g.drawString(getCenterX() + "|" + getCenterY(), 400, 80);
+			g.setColor(Color.GREEN);
+			if (rotation % 2 == 0)
+				g.drawOval(mouse_x - offset_x + 2 * GameFrame.BLOCKSIZE, mouse_y - offset_y + 1 * GameFrame.BLOCKSIZE,
+						5, 5);
+			else
+				g.drawOval(mouse_x - offset_x + 1 * GameFrame.BLOCKSIZE, mouse_y - offset_y + 2 * GameFrame.BLOCKSIZE,
+						5, 5);
+
 		}
 	}
 
@@ -106,4 +116,17 @@ public class InHandHandler {
 		return tetroApproximation;
 	}
 
+	public double getCenterX() {
+		if (rotation % 2 == 0)
+			return mouse_x - offset_x + 2 * GameFrame.BLOCKSIZE - world.getGameBoundsX();
+		else
+			return mouse_x - offset_x + 1 * GameFrame.BLOCKSIZE - world.getGameBoundsX();
+	}
+
+	public double getCenterY() {
+		if (rotation % 2 == 1)
+			return mouse_y - offset_y + 2 * GameFrame.BLOCKSIZE - world.getGameBoundsY();
+		else
+			return mouse_y - offset_y + 1 * GameFrame.BLOCKSIZE - world.getGameBoundsY();
+	}
 }
