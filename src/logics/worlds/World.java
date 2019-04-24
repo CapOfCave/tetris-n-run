@@ -28,7 +28,6 @@ import loading.LevelSaver;
 import logics.Camera;
 import logics.GameLoop;
 import logics.InHandHandler;
-import logics.Tools;
 import logics.entities.Enemy;
 import logics.entities.EnemySpawner;
 import logics.entities.Entity;
@@ -39,7 +38,7 @@ import logics.entities.items.Item;
 public abstract class World {
 	private static final double min_interaction_distance = 20;
 	private static final double min_interaction_looking_distance = 50;
-	private static final int render_image_offset = 113;
+	private static final int render_image_offset = 115;
 
 	// Variablen
 	protected Rectangle graphicClip;
@@ -51,7 +50,6 @@ public abstract class World {
 	// Standard-Bilder
 	protected BufferedImage blockImg;
 	protected BufferedImage backgroundImg;
-	private static BufferedImage tetroPreview = ImageLoader.loadImage("/res/tetros/emptyTile.png");
 	protected BufferedImage[] nullTileImgs = { ImageLoader.loadImage("/res/blocks/block0.png"),
 			ImageLoader.loadImage("/res/blocks/block0i.png"), ImageLoader.loadImage("/res/blocks/block0j.png"),
 			ImageLoader.loadImage("/res/blocks/ventilator.png"), ImageLoader.loadImage("/res/blocks/block0l.png"), };
@@ -225,7 +223,7 @@ public abstract class World {
 		GameLoop.actualframes++;
 		camera.prepareDraw(interpolation);
 		// 2D-Rendering background
-		// Tetros
+		// Tiles
 		for (int j = 0; j < tileWorld.length; j++) {
 			for (int i = 0; i < tileWorld[j].length; i++) {
 				if (renderRect.contains(i * GameFrame.BLOCKSIZE - camera.getX(),
@@ -239,6 +237,10 @@ public abstract class World {
 				}
 			}
 		}
+		if (inHandHandler != null) {
+			inHandHandler.drawFloorTiles(g);
+		}
+		//Tetros
 		for (Tetro t : tetros) {
 			t.draw(g);
 		}
@@ -257,17 +259,17 @@ public abstract class World {
 		} else {
 			g.drawImage(nullTileImgs[worldDeco[y][x]], (int) (x * GameFrame.BLOCKSIZE - cameraX()),
 					(int) (y * GameFrame.BLOCKSIZE - cameraY()), null);
-			if (inHandHandler != null && inHandHandler.isHoldingTetro()) {
-				if (Tools.distance((x + 0.5) * GameFrame.BLOCKSIZE - camera.getX(),
-						(y + 0.5) * GameFrame.BLOCKSIZE - camera.getY(), inHandHandler.getCenterX(),
-						inHandHandler.getCenterY()) < (TetroType.hitboxExpansion + 2) * GameFrame.BLOCKSIZE) { // ungefähre
-																												// entfernung
-																												// passend
-
-					g.drawImage(tetroPreview, (int) (x * GameFrame.BLOCKSIZE - cameraX()),
-							(int) (y * GameFrame.BLOCKSIZE - cameraY()), null);
-				}
-			}
+//			if (inHandHandler != null && inHandHandler.isHoldingTetro()) {
+//				if (Tools.distance((x + 0.5) * GameFrame.BLOCKSIZE - camera.getX(),
+//						(y + 0.5) * GameFrame.BLOCKSIZE - camera.getY(), inHandHandler.getCenterX(),
+//						inHandHandler.getCenterY()) < (TetroType.hitboxExpansion + 2) * GameFrame.BLOCKSIZE) { // ungefähre
+//																												// entfernung
+//																												// passend
+//
+//					g.drawImage(tetroPreview, (int) (x * GameFrame.BLOCKSIZE - cameraX()),
+//							(int) (y * GameFrame.BLOCKSIZE - cameraY()), null);
+//				}
+//			}
 		}
 	}
 

@@ -14,31 +14,41 @@ public class TetroType {
 
 	private String strHitbox;
 	private boolean[][] hitbox;
-	private boolean[][] expandedHitbox;
+	private int[][] expandedHitbox;
 
 	public TetroType(String strHitbox, BufferedImage img) {
 		this.strHitbox = strHitbox;
 		this.img = img;
 
 		hitbox = new boolean[2][4];
-		expandedHitbox = new boolean[hitbox.length + 2 * hitboxExpansion][hitbox[0].length + 2 * hitboxExpansion];
-		for(int i = 0; i < expandedHitbox.length; i++) {
-			for(int j = 0; j < expandedHitbox[i].length; j++) {
-				expandedHitbox[i][j] = false;
-			}	
+		expandedHitbox = new int[hitbox.length + 2 * hitboxExpansion][hitbox[0].length + 2 * hitboxExpansion];
+		for (int i = 0; i < expandedHitbox.length; i++) {
+			for (int j = 0; j < expandedHitbox[i].length; j++) {
+				expandedHitbox[i][j] = 4 * hitboxExpansion * hitboxExpansion + 4 * hitboxExpansion + 1;
+			}
 		}
 		for (int y = 0; y < hitbox.length; y++) {
 			for (int x = 0; x < hitbox[y].length; x++) {
 				hitbox[y][x] = strHitbox.charAt(y * hitbox[y].length + x) == '0' ? false : true;
 				if (hitbox[y][x]) {
-					for (int i = 0; i < 2 * hitboxExpansion; i++) {
-						for (int j = 0; j < 2 * hitboxExpansion; j++) {
-							expandedHitbox[y + i][x + j] = true;
+					for (int i = 0; i < 2 * hitboxExpansion + 1; i++) {
+						for (int j = 0; j < 2 * hitboxExpansion + 1; j++) {
+							expandedHitbox[y + i][x + j] = Math.min(expandedHitbox[y + i][x + j],
+									Math.abs(i - hitboxExpansion) + Math.abs(j - hitboxExpansion));
 						}
 					}
 				}
 			}
 		}
+
+//		for (int y = 0; y < expandedHitbox.length; y++) {
+//			for (int x = 0; x < expandedHitbox[y].length; x++) {
+//				System.out.print(expandedHitbox[y][x]);
+//
+//			}
+//			System.out.println();
+//		}
+//		System.out.println("______________________________");
 
 	}
 
@@ -82,6 +92,10 @@ public class TetroType {
 
 	public boolean[][] getHitbox() {
 		return hitbox;
+	}
+
+	public int[][] getExpandedHitbox() {
+		return expandedHitbox;
 	}
 
 	public String getStrHitbox() {

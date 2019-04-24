@@ -8,7 +8,6 @@ import java.util.HashMap;
 import data.Animation;
 import graphics.GameFrame;
 import loading.AnimationLoader;
-import loading.ImageLoader;
 import logics.worlds.World;
 
 public class SaveNLoadTile extends Tile {

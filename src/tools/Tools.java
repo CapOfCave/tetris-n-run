@@ -1,4 +1,4 @@
-package logics;
+package tools;
 
 public final class Tools {
 

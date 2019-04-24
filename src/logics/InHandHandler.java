@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data.TetroType;
 import graphics.GameFrame;
+import loading.ImageLoader;
 import logics.worlds.World;
 
 /**
@@ -26,8 +28,17 @@ public class InHandHandler {
 	private World world;
 	private ArrayList<Point> tetroTypeOffsets;
 	private int drawSize;
+	private static String[] tetroPreviewString = { "empty200.png", "empty150.png", "empty100.png", "empty70.png",
+			"empty35.png", "empty5.png" };
+	private static BufferedImage[] tetroPreview;
 
 	public InHandHandler(World world, ArrayList<Point> tetroTypeOffsets, int drawSize) {
+		if (tetroPreview == null) {
+			tetroPreview = new BufferedImage[tetroPreviewString.length];
+			for (int i = 0; i < tetroPreviewString.length; i++) {
+				tetroPreview[i] = ImageLoader.loadImage("/res/blocks/emptyTiles/" + tetroPreviewString[i]);
+			}
+		}
 		this.world = world;
 		this.tetroTypeOffsets = tetroTypeOffsets;
 		this.drawSize = drawSize;
@@ -114,6 +125,55 @@ public class InHandHandler {
 		// TODO? exact tetroHitbox
 
 		return tetroApproximation;
+	}
+
+	public void drawFloorTiles(Graphics g) {
+		if (tetroInHand != null) {
+			int[][] hitbox = tetroInHand.getExpandedHitbox();
+			for (int j = 0; j < hitbox.length; j++) {
+				for (int i = 0; i < hitbox[j].length; i++) {
+					if (hitbox[j][i] < 4 * TetroType.hitboxExpansion * TetroType.hitboxExpansion
+							+ 4 * TetroType.hitboxExpansion + 1) {
+
+						drawFloorTile(g, i, j,
+								((int) ((mouse_x - offset_x - world.getGameBoundsX() + 0.5 * GameFrame.BLOCKSIZE
+										+ world.cameraX()) / GameFrame.BLOCKSIZE) - TetroType.hitboxExpansion)
+										* GameFrame.BLOCKSIZE - world.cameraX(),
+								((int) ((mouse_y - offset_y - world.getGameBoundsY() + 0.5 * GameFrame.BLOCKSIZE
+										+ world.cameraY()) / GameFrame.BLOCKSIZE) - TetroType.hitboxExpansion)
+										* GameFrame.BLOCKSIZE - world.cameraY(),
+								rotation, tetroPreview[Math.min(hitbox[j][i], tetroPreview.length - 1)]);
+					}
+				}
+			}
+		}
+		g.setColor(Color.RED);
+		g.drawOval(0, 0, 30, 30);
+	}
+
+	private void drawFloorTile(Graphics g, int dx, int dy, int x, int y, int rotation, BufferedImage img) {
+		switch (rotation % 4) {
+		case 0:
+			g.drawImage(img, dx * GameFrame.BLOCKSIZE + x, dy * GameFrame.BLOCKSIZE + y, GameFrame.BLOCKSIZE,
+					GameFrame.BLOCKSIZE, null);
+			break;
+		case 1:
+			g.drawImage(img, dy * GameFrame.BLOCKSIZE + x,
+					-dx * GameFrame.BLOCKSIZE + y + (4 + 2 * TetroType.hitboxExpansion - 1) * GameFrame.BLOCKSIZE,
+					GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE, null);
+			break;
+		case 2:
+			g.drawImage(img,
+					-dx * GameFrame.BLOCKSIZE + x + (4 + 2 * TetroType.hitboxExpansion - 1) * GameFrame.BLOCKSIZE,
+					-dy * GameFrame.BLOCKSIZE + y + (2 + 2 * TetroType.hitboxExpansion - 1) * GameFrame.BLOCKSIZE,
+					null);
+			break;
+		case 3:
+			g.drawImage(img,
+					-dy * GameFrame.BLOCKSIZE + x + (2 + 2 * TetroType.hitboxExpansion - 1) * GameFrame.BLOCKSIZE,
+					dx * GameFrame.BLOCKSIZE + y, GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE, null);
+			break;
+		}
 	}
 
 	public double getCenterX() {

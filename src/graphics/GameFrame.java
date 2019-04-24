@@ -15,7 +15,6 @@ import input.KeyHandler;
 import loading.LevelLoader;
 import loading.RawPlayerLoader;
 import loading.RawPlayerSaver;
-import loading.SettingSaver;
 import loading.SettingsLoader;
 import logics.GameLoop;
 import sound.SoundPlayer;

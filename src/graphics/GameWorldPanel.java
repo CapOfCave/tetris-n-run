@@ -26,7 +26,8 @@ public class GameWorldPanel extends Panel {
 
 	private final int tetrotypeDrawSize = 30;
 
-	public GameWorldPanel(int width, int height, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
+	public GameWorldPanel(int width, int height, Level level, KeyHandler keyHandler, GameFrame frame,
+			RawPlayer rawPlayer) {
 		super(width, height, level, keyHandler, frame);
 
 		world = new GameWorld(gamePanel, level, keyHandler, frame, rawPlayer);
@@ -93,7 +94,7 @@ public class GameWorldPanel extends Panel {
 
 	public void setLastUsedSALTile(SaveNLoadTile tile) {
 		world.setLastUsedSALTile(tile);
-		
+
 	}
 
 }
