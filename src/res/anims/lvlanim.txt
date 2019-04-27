@@ -7,8 +7,8 @@ pics45 picf="/res/blocks/lvls/blockbanim.png"
 pics45 picg="/res/blocks/lvls/blockganim.png"
 pics45 pich="/res/blocks/lvls/blockhanim.png"
 
-anim1 openinga=pica.1+pica.2+pica.3+pica.4+pica.5+pica.6
-anim1 closinga=pica.6+pica.5+pica.4+pica.3+pica.2+pica.1
+anim1 openinga=pica.2+pica.3+pica.4+pica.5+pica.6
+anim1 closinga=pica.6+pica.5+pica.4+pica.3+pica.2
 anim closea=pica.0
 anim opena=pica.7
 
@@ -17,32 +17,32 @@ anim1 closingb=picb.6+picb.5+picb.4+picb.3+picb.2+picb.1
 anim closeb=picb.0
 anim openb=picb.7
 
-anim1 openingc=picc.1+picc.2+picc.3+picc.4+picc.5+picc.6
-anim1 closingc=picc.6+picc.5+picc.4+picc.3+picc.2+picc.1
+anim1 openingc=picc.2+picc.3+picc.4+picc.5+picc.6
+anim1 closingc=picc.6+picc.5+picc.4+picc.3+picc.2
 anim closec=picc.0
 anim openc=picc.7
 
-anim1 openingd=picd.1+picd.2+picd.3+picd.4+picd.5+picd.6
-anim1 closingd=picd.6+picd.5+picd.4+picd.3+picd.2+picd.1
+anim1 openingd=picd.2+picd.3+picd.4+picd.5+picd.6
+anim1 closingd=picd.6+picd.5+picd.4+picd.3+picd.2
 anim closed=picd.0
 anim opend=picd.7
 
-anim1 openinge=pice.1+pice.2+pice.3+pice.4+pice.5+pice.6
-anim1 closinge=pice.6+pice.5+pice.4+pice.3+pice.2+pice.1
+anim1 openinge=pice.2+pice.3+pice.4+pice.5+pice.6
+anim1 closinge=pice.6+pice.5+pice.4+pice.3+pice.2
 anim closee=pice.0
 anim opene=pice.7
 
-anim1 openingf=picf.1+picf.2+picf.3+picf.4+picf.5+picf.6
-anim1 closingf=picf.6+picf.5+picf.4+picf.3+picf.2+picf.1
+anim1 openingf=picf.2+picf.3+picf.4+picf.5+picf.6
+anim1 closingf=picf.6+picf.5+picf.4+picf.3+picf.2
 anim closef=picf.0
 anim openf=picf.7
 
-anim1 openingg=picg.1+picg.2+picg.3+picg.4+picg.5+picg.6
-anim1 closingg=picg.6+picg.5+picg.4+picg.3+picg.2+picg.1
+anim1 openingg=picg.2+picg.3+picg.4+picg.5+picg.6
+anim1 closingg=picg.6+picg.5+picg.4+picg.3+picg.2
 anim closeg=picg.0
 anim openg=picg.7
 
-anim1 openingh=pich.1+pich.2+pich.3+pich.4+pich.5+pich.6
-anim1 closingh=pich.6+pich.5+pich.4+pich.3+pich.2+pich.1
+anim1 openingh=pich.2+pich.3+pich.4+pich.5+pich.6
+anim1 closingh=pich.6+pich.5+pich.4+pich.3+pich.2
 anim closeh=pich.0
 anim openh=pich.7

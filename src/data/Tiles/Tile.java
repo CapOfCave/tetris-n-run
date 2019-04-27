@@ -161,7 +161,7 @@ public abstract class Tile implements DrawAndSortable {
 	}
 
 	public void drawBackground(Graphics g, float interpolation) {
-		if (needsBackGround ) {
+		if (needsBackGround) {
 			g.drawImage(img, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
 					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
 		}
