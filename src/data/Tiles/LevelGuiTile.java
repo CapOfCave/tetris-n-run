@@ -39,11 +39,11 @@ public class LevelGuiTile extends Tile {
 		if (key == 'a') {
 			if (playerOn) {
 				g.drawImage(akt_anim.getImage(), (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-						(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
+						(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()-79), null);
 
 			} else {
 				g.drawImage(img, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-						(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
+						(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()- 79), null) ;
 			}
 		} else {
 			super.drawBackground(g, interpolation);

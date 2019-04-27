@@ -26,13 +26,11 @@ w;0000000000000h000000000000000
 Td;x=2;y=3;xo=0;yo=0;name=ventilator;
 Td;x=2;y=4;xo=0;yo=0;name=ventilator;
 Td;x=2;y=5;xo=0;yo=0;name=ventilator;
-Td;x=1;y=2;xo=0;yo=-8;name=block0p;
 Td;x=1;y=6;xo=0;yo=-8;name=block0w;
 
 //l1
 Td;x=1;y=2;xo=0;yo=-8;name=block0p;
 Td;x=1;y=6;xo=0;yo=-8;name=block0w;
-Td;x=4;y=3;xo=0;yo=-8;name=block0q;
 Td;x=4;y=5;xo=0;yo=-8;name=block0t;
 
 //l2
