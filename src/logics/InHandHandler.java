@@ -92,7 +92,6 @@ public class InHandHandler {
 		}
 
 		if (debugMode) {
-
 			g.setColor(Color.RED);
 			g.drawOval(mouse_x - offset_x, mouse_y - offset_y, 5, 5);
 			g.setFont(new Font("helvetica", Font.PLAIN, 10));
@@ -147,8 +146,6 @@ public class InHandHandler {
 				}
 			}
 		}
-		g.setColor(Color.RED);
-		g.drawOval(0, 0, 30, 30);
 	}
 
 	private void drawFloorTile(Graphics g, int dx, int dy, int x, int y, int rotation, BufferedImage img) {

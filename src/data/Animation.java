@@ -13,6 +13,7 @@ public class Animation {
 	ArrayList<Point> offsets = new ArrayList<>();
 	int index = 0;
 	private int animTicks;
+	private boolean finished = false;
 
 	public Animation(int animTicks) {
 		this.animTicks = animTicks;
@@ -25,7 +26,11 @@ public class Animation {
 
 	public void next() {
 		index++;
-		index %= frames.size() * animTicks;
+		if (index >= frames.size() * animTicks) {
+			index %= frames.size() * animTicks;
+			finished = true;
+		}
+		
 	}
 
 	public BufferedImage getImage() {
@@ -42,6 +47,7 @@ public class Animation {
 
 	public void reset() {
 		index = 0;
+		finished = false;
 	}
 
 	public void setFrame(int animFrame) {
@@ -63,5 +69,9 @@ public class Animation {
 
 	public int getFrameAmount() {
 		return frames.size();
+	}
+	
+	public boolean isFinished() {
+		return finished;
 	}
 }
