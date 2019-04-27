@@ -18,23 +18,23 @@ public class LevelGuiTile extends Tile {
 		super(key, posX, posY, true, true, false, frame);
 		needsBackGround = true;
 		img = ImageLoader.loadImage("/res/blocks/block" + key + ".png");
-		anims = AnimationLoader.loadAnimations("/res/anims/lvlanima.txt");
-		akt_anim = anims.get("closea");
+		anims = AnimationLoader.loadAnimations("/res/anims/lvlanim.txt");
+		akt_anim = anims.get("close" + key);
 	}
 
 	public void eventWhenEntering() {
 
 		frame.setNextLevel(key);
 		playerOn = true;
-		if (akt_anim == anims.get("closinga")) {
+		if (akt_anim == anims.get("closing" + key)) {
 			int index = akt_anim.getFrameAmount() - akt_anim.getAktIndex();
 			System.out.println(index + ", " + akt_anim.getFrameAmount() + ", " + akt_anim.getAktIndex());
 			akt_anim.reset();
-			akt_anim = anims.get("openinga");
+			akt_anim = anims.get("opening" + key);
 			akt_anim.setFrame(index);
 		} else {
 			akt_anim.reset();
-			akt_anim = anims.get("openinga");
+			akt_anim = anims.get("opening" + key);
 		}
 	}
 
@@ -44,14 +44,14 @@ public class LevelGuiTile extends Tile {
 		playerOn = false;
 //		akt_anim.reset();
 //		akt_anim = anims.get("closinga");
-		if (akt_anim == anims.get("openinga")) {
+		if (akt_anim == anims.get("opening" + key)) {
 			int index = akt_anim.getFrameAmount() - akt_anim.getAktIndex();
 			akt_anim.reset();
-			akt_anim = anims.get("closinga");
+			akt_anim = anims.get("closing" + key);
 			akt_anim.setFrame(index);
 		} else {
 			akt_anim.reset();
-			akt_anim = anims.get("closinga");
+			akt_anim = anims.get("closing" + key);
 		}
 	}
 
@@ -71,14 +71,14 @@ public class LevelGuiTile extends Tile {
 	@Override
 	public void tick() {
 		akt_anim.next();
-		if (akt_anim == anims.get("openinga") || akt_anim == anims.get("closinga")) {
+		if (akt_anim == anims.get("opening" + key) || akt_anim == anims.get("closing" + key)) {
 			if (akt_anim.isFinished()) {
 				if (playerOn) {
 					akt_anim.reset();
-					akt_anim = anims.get("opena");
+					akt_anim = anims.get("open" + key);
 				} else {
 					akt_anim.reset();
-					akt_anim = anims.get("closea");
+					akt_anim = anims.get("close" + key);
 				}
 			}
 		}

@@ -1,8 +1,0 @@
-pics45 pic="/res/blocks/lvls/blockaanim.png"
-pics45 nop="/res/blocks/blocka.png"
-
-anim1 openinga=pic.1+pic.2+pic.3+pic.4+pic.5+pic.6
-anim1 closinga=pic.6+pic.5+pic.4+pic.3+pic.2+pic.1
-
-anim closea=nop.0
-anim opena=pic.7
