@@ -12,7 +12,7 @@ import input.KeyHandler;
 import input.MouseHandler;
 import loading.ImageLoader;
 import logics.InHandHandler;
-import logics.worlds.GameWorld;
+import logics.worlds.World;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -30,10 +30,10 @@ public class GameWorldPanel extends Panel {
 			RawPlayer rawPlayer) {
 		super(width, height, level, keyHandler, frame);
 
-		world = new GameWorld(gamePanel, level, keyHandler, frame, rawPlayer);
+		world = new World(gamePanel, level, keyHandler, frame, rawPlayer);
 
 		inHandHandler = new InHandHandler(world, tetroDrawPositions, tetrotypeDrawSize);
-		mouseHandler = new MouseHandler(inHandHandler, (GameWorld) world);
+		mouseHandler = new MouseHandler(inHandHandler, world);
 		world.addInHandHandler(inHandHandler);
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
@@ -52,14 +52,10 @@ public class GameWorldPanel extends Panel {
 		world.drawPlayerPreview(previewGraphics);
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		// Graphics2D gameGraphics = (Graphics2D) g.create(0, 0, 1300, 900);
-		Graphics2D inventoryGraphics = (Graphics2D) g.create(inventoryPanel.x, inventoryPanel.y, inventoryPanel.width,
-				inventoryPanel.height);
 
 		world.draw(gameGraphics, interpolation, debugMode);
 		inHandHandler.drawPreview(g, debugMode);
 		// world.drawPlayer(gameGraphics, interpolation);
-		((GameWorld) world).drawInventory(inventoryGraphics);
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize, 0);
 			g.setFont(new Font("TimesNewRoman", 1, 25));

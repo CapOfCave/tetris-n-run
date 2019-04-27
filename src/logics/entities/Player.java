@@ -3,17 +3,11 @@ package logics.entities;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
 
 import data.RawPlayer;
 import data.Tiles.Tile;
 import graphics.GameFrame;
-import logics.Inventory;
-import logics.entities.items.Item;
-import logics.entities.items.Weapon;
 import logics.worlds.World;
 
 /**
@@ -22,19 +16,16 @@ import logics.worlds.World;
 public class Player extends LivingEntity {
 
 	private static final long serialVersionUID = 1L;
-	private Inventory inventory;
-	private Weapon activeWeapon;
 	private Tile akt_Tile;
 	private boolean actionPressed;
 	private MovingBlock movingBlockInHand = null;
 	private boolean sprinting = false;
 	private Point movingBlockOffset;
 	private int ticksSinceFootstepNoice = 0;
-	
+
 	private final double moveblockacc = 0.2;
 	private final double moveblockmaxSpeed = 4.0;
 	private final double sprintngmaxSpeed = 14.4;
-	
 
 	public Player(World world, String animPath, RawPlayer rawPlayer) {
 		super(world, animPath, null);
@@ -52,11 +43,8 @@ public class Player extends LivingEntity {
 		lastY = y;
 
 		setAcc(rawPlayer.getAcc());
-		health = rawPlayer.getHealth();
 		brake = rawPlayer.getAcc();
 		setMaxSpeed(rawPlayer.getMaxSpeed());
-		inventory = rawPlayer.getInventory();
-		inventory.setWorld(world);
 	}
 
 	@Override
@@ -64,14 +52,8 @@ public class Player extends LivingEntity {
 		int interpolX = (int) ((x - lastX) * interpolation + lastX);
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 
-//		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
-//				interpolY - world.cameraY() + akt_animation.getOffsetY(), 55, 55, null);
 		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
-			interpolY - world.cameraY() + akt_animation.getOffsetY(), null);
-		if (activeWeapon != null) {
-			activeWeapon.draw(g, interpolX - world.cameraX(), interpolY - world.cameraY(), animation_key,
-					akt_animation.getAktIndex());
-		}
+				interpolY - world.cameraY() + akt_animation.getOffsetY(), null);
 
 	}
 
@@ -83,15 +65,9 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void drawDebug(Graphics g, float interpolation) {
-		int interpolX = (int) ((x - lastX) * interpolation + lastX);
-		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 		// Player hitbox
 		g.setFont(new Font("helvetica", Font.PLAIN, 11));
 
-		g.setColor(Color.RED);
-		g.drawString(Integer.toString(health), interpolX + 30 - world.cameraX(), interpolY - world.cameraY() - 20);
-		g.setColor(Color.GREEN);
-		g.drawString(Integer.toString(hitTicks), interpolX + 40 - world.cameraX(), interpolY - world.cameraY() - 20);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("helvetica", Font.PLAIN, 11));
 		g.drawString("rx=" + x + " | ry=" + y, 20, 40);
@@ -114,17 +90,13 @@ public class Player extends LivingEntity {
 			} else {
 				ticksSinceFootstepNoice++;
 			}
-			
-			
+
 		} else {
 			ticksSinceFootstepNoice = 0;
 		}
 		checkTile();
 		if (movingBlockInHand != null)
 			movingBlockInHand.setPosition(x, y);
-
-		if (activeWeapon != null)
-			activeWeapon.tick();
 		brake = 4;
 	}
 
@@ -138,17 +110,12 @@ public class Player extends LivingEntity {
 		}
 	}
 
-	@Override
-	public void applyDamage(Weapon weapon) {
-		super.applyDamage(weapon);
-	}
-
 	private void checkInput() {
 
 		if (world.getKeyHandler().getShift()) {
 			sprinting = true;
 		} else {
-			sprinting  = false;
+			sprinting = false;
 		}
 
 		if (!world.getKeyHandler().getKameraKey()) {
@@ -192,13 +159,13 @@ public class Player extends LivingEntity {
 			wantsToGoRight = false;
 
 		}
-		
-		if(world.getKeyHandler().getRemoveKey()) {
+
+		if (world.getKeyHandler().getRemoveKey()) {
 			world.removeLastTetro();
 			world.getKeyHandler().setRemoveKey(false);
 		}
-		
-		if(world.getKeyHandler().getRotateKey()) {
+
+		if (world.getKeyHandler().getRotateKey()) {
 			world.rotateTetro();
 		}
 		world.getKeyHandler().setActionpressed(false);
@@ -207,26 +174,6 @@ public class Player extends LivingEntity {
 	private void releaseMovingBlock() {
 		movingBlockInHand.unBind();
 		movingBlockInHand = null;
-	}
-
-	public void addToInventory(Item item, int position) {
-		inventory.addItem(position, item);
-	}
-
-	public void hit() {
-
-		if (activeWeapon != null && attackReady()) {
-			activeWeapon.hit();
-			hitTicks += activeWeapon.getCooldownTicks();
-			for (Enemy enemy : world.getEnemies()) {
-				if (activeWeapon.isInRange(x - world.cameraX(), y - world.cameraY(), rotation,
-						new Rectangle((int) (enemy.getX() - world.cameraX()), (int) (enemy.getY() - world.cameraY()),
-								GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE))) {
-					enemy.applyDamage(activeWeapon);
-				}
-			}
-		}
-
 	}
 
 	@Override
@@ -264,40 +211,11 @@ public class Player extends LivingEntity {
 			}
 		}
 
-		ArrayList<Item> itemsOnTile = world.getItemsAt(getTileY(), getTileX());
-
-		for (Item i : itemsOnTile) {
-			i.collectingEvent();
-			world.removeItem(i);
-		}
-
-	}
-
-	public void setWeapon(Weapon weapon) {
-		this.activeWeapon = weapon;
-	}
-
-	public void drawInventory(Graphics2D g) {
-		inventory.draw(g);
-
-	}
-
-	public void inventoryClick(int x, int y) {
-		inventory.click(x, y);
-
 	}
 
 	@Override
 	protected void kill() {
 		world.backToTheOverworld(true);
-	}
-
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(Inventory inventory) {
-		this.inventory = inventory;
 	}
 
 	public void resetActionPressed() {
@@ -309,7 +227,7 @@ public class Player extends LivingEntity {
 	public void setMovingBlock(MovingBlock movingBlock) {
 		this.movingBlockInHand = movingBlock;
 		this.movingBlockOffset = new Point((int) (movingBlock.getX() - x), (int) (movingBlock.getY() - y));
-		
+
 	}
 
 	public MovingBlock getMovingBlockInHand() {
@@ -330,7 +248,7 @@ public class Player extends LivingEntity {
 
 	@Override
 	protected void bump(double speedloss) {
-		world.playSound("metal" + (int)(Math.random() * 4), -40f + 3.6f * (float)speedloss);
+		world.playSound("metal" + (int) (Math.random() * 4), -40f + 3.6f * (float) speedloss);
 	}
 
 	@Override
@@ -338,15 +256,15 @@ public class Player extends LivingEntity {
 		if (movingBlockInHand == null) {
 			return super.getAcc();
 		} else {
-			return moveblockacc; 
+			return moveblockacc;
 		}
 	}
-	
+
 	@Override
 	public double getMaxSpeed() {
 		if (movingBlockInHand != null) {
 			return moveblockmaxSpeed;
-		} else if (sprinting){
+		} else if (sprinting) {
 			return sprintngmaxSpeed;
 		} else {
 			return super.getMaxSpeed();

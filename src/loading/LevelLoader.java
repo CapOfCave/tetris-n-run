@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 import data.Level;
 import data.RawPlayer;
-import data.RawSpawner;
 import data.RawTetro;
 import data.TetroType;
 import data.Tiles.DekoTile;
@@ -22,11 +21,10 @@ import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.GameFrame;
-import logics.entities.MovingBlockSpawner;
 import logics.entities.Entity;
 import logics.entities.MovingBlock;
+import logics.entities.MovingBlockSpawner;
 import logics.entities.Switch;
-import logics.entities.items.Item;
 
 /**
  * @author Lars Created on 13.08.2018
@@ -40,9 +38,7 @@ public class LevelLoader {
 		ArrayList<TetroType> tetroTypes;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
-		ArrayList<Item> rawItems = new ArrayList<>();
 		ArrayList<DoorTile> doors = new ArrayList<>();
-		ArrayList<RawSpawner> spawner = new ArrayList<>();
 		ArrayList<Entity> entities = new ArrayList<>();
 		Tile[][] arrWorld = null;
 
@@ -135,30 +131,7 @@ public class LevelLoader {
 				if (type >= 0) {
 					rawMaxTetroAmounts.put(type, amount);
 				}
-			} else if (nextLine.startsWith("i")) {
-				String strSplit[] = nextLine.split(";");
-				int x = -100;
-				int y = -100;
-				String typeUrl = null;
-				for (String str : strSplit) {
-					if (str == strSplit[0])
-						continue;
-					if (str.startsWith("x=")) {
-						x = Integer.parseInt(str.substring(2));
-					} else if (str.startsWith("y=")) {
-						y = Integer.parseInt(str.substring(2));
-					} else if (str.startsWith("type=") || str.startsWith("t=")) {
-						typeUrl = str.substring(str.indexOf("=") + 1);
-					}
-				}
-				if (x != -100 && y != -100 && typeUrl != null) {
-					Item item = ItemLoader.readItem(typeUrl);
-					item.setX(x);
-					item.setY(y);
-					item.setTypeUrl(typeUrl);
-					rawItems.add(item);
-				}
-
+			
 			} else if (nextLine.startsWith("e")) {
 				String strSplit[] = nextLine.split(";");
 				String type = null;
@@ -257,43 +230,7 @@ public class LevelLoader {
 							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
 					System.exit(3);
 				}
-			} else if (nextLine.startsWith("s")) {
-				int x = -1;
-				int y = -1;
-				int loff = 0;
-				int toff = 0;
-				int roff = 0;
-				int boff = 0;
-				int max = 1;
-				double rate = -1;
-				boolean start = false;
-				String strSplit[] = nextLine.split(";");
-				for (String str : strSplit) {
-					if (str.startsWith("x=")) {
-						x = Integer.parseInt(str.substring(2));
-					} else if (str.startsWith("y=")) {
-						y = Integer.parseInt(str.substring(2));
-					} else if (str.startsWith("loff=")) {
-						loff = Integer.parseInt(str.substring(5));
-					} else if (str.startsWith("toff=")) {
-						toff = Integer.parseInt(str.substring(5));
-					} else if (str.startsWith("roff=")) {
-						roff = Integer.parseInt(str.substring(5));
-					} else if (str.startsWith("boff=")) {
-						boff = Integer.parseInt(str.substring(5));
-					} else if (str.startsWith("max=")) {
-						max = Integer.parseInt(str.substring(4));
-					} else if (str.startsWith("rate=")) {
-						rate = Double.parseDouble(str.substring(5).replace(",", "."));
-					} else if (str.startsWith("start=")) {
-						start = Boolean.parseBoolean(str.substring(6));
-					}
-				}
-				if (x >= 0 && y >= 0 && rate >= 0) {
-					spawner.add(new RawSpawner(x, y, loff, toff, roff, boff, max, rate, start));
-				} else {
-					System.err.println("Fehler im Level \"" + url + "\": Spawner nicht bestimmt");
-				}
+			
 			} else if (nextLine.startsWith("w")) {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
 				world.add(strTemp);
@@ -428,7 +365,7 @@ public class LevelLoader {
 
 //			initWallTiles(arrWorld);
 
-			return new Level(tetroTypes, rawTetros, arrWorld, rawItems, doors, spawner, entities, tetroAmounts,
+			return new Level(tetroTypes, rawTetros, arrWorld, doors, entities, tetroAmounts,
 					toggleStates, tetrofileUrl, playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
 		} else {
 			System.err.println("Levelerstellung nicht erfolgreich: tetrofileUrl = null");

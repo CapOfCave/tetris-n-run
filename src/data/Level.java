@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
 import logics.entities.Entity;
-import logics.entities.items.Item;
 
 /**
  * @author Lars Created on 13.08.2018
@@ -14,28 +13,24 @@ public class Level {
 	private ArrayList<TetroType> tetroTypes;
 	private ArrayList<RawTetro> rawTetros;
 	private Tile[][] arrWorld;
-	private ArrayList<Item> arrItems;
 	private String tetrofileUrl;
 	private int playerX;
 	private int playerY;
 	private ArrayList<DoorTile> doors;
-	private ArrayList<RawSpawner> spawner;
 	private ArrayList<Entity> entities;
 	private int[] tetroAmounts;
 	private boolean[] toggleStates;
 
 	public Level(ArrayList<TetroType> tetroTypes, ArrayList<RawTetro> rawTetros, Tile[][] arrWorld,
-			ArrayList<Item> arrItems, ArrayList<DoorTile> doors, ArrayList<RawSpawner> spawner,
-			ArrayList<Entity> entities, int[] tetroAmounts, boolean[] toggleStates, String tetrofileUrl, int playerX, int playerY) {
+			ArrayList<DoorTile> doors, ArrayList<Entity> entities, int[] tetroAmounts, boolean[] toggleStates,
+			String tetrofileUrl, int playerX, int playerY) {
 		this.tetroTypes = tetroTypes;
 		this.rawTetros = rawTetros;
 		this.arrWorld = arrWorld;
-		this.arrItems = arrItems;
 		this.tetrofileUrl = tetrofileUrl;
 		this.playerX = playerX;
 		this.playerY = playerY;
 		this.doors = doors;
-		this.spawner = spawner;
 		this.entities = entities;
 		this.tetroAmounts = tetroAmounts;
 		this.toggleStates = toggleStates;
@@ -65,16 +60,8 @@ public class Level {
 		return arrWorld;
 	}
 
-	public ArrayList<Item> getItemWorld() {
-		return arrItems;
-	}
-
 	public ArrayList<DoorTile> getDoors() {
 		return doors;
-	}
-
-	public ArrayList<RawSpawner> getSpawner() {
-		return spawner;
 	}
 
 	public ArrayList<Entity> getEntities() {
@@ -84,10 +71,9 @@ public class Level {
 	public int[] getTetroAmounts() {
 		return tetroAmounts;
 	}
-	
+
 	public boolean[] getToggleStates() {
 		return toggleStates;
 	}
-	
 
 }

@@ -10,7 +10,7 @@ import data.RawPlayer;
 import input.GuiMouseHandler;
 import input.KeyHandler;
 import loading.ImageLoader;
-import logics.worlds.Overworld;
+import logics.worlds.World;
 
 /**
  * @author Marius Created on 13.09.2018
@@ -21,16 +21,13 @@ public class OverworldPanel extends Panel {
 	private static final long serialVersionUID = 1L;
 	private GuiMouseHandler guiMouseHandler;
 	
-//	private BufferedImage playButtonAkt = ImageLoader.loadImage("/res/play.png");
-//	private BufferedImage playButtonDeakt = ImageLoader.loadImage("/res/playNot.png");
-
 	public OverworldPanel(int width, int height, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		super(width, height, level, keyHandler , frame);
 
-		 world = new Overworld(gamePanel, level, keyHandler, frame, rawPlayer);
+		 world = new World(gamePanel, level, keyHandler, frame, rawPlayer);
 		 
 
-		guiMouseHandler = new GuiMouseHandler(frame, (Overworld)world);
+		guiMouseHandler = new GuiMouseHandler(frame, world);
 		addMouseListener(guiMouseHandler);
 	}
 
@@ -43,15 +40,10 @@ public class OverworldPanel extends Panel {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
 		
-		Graphics2D inventoryGraphics = (Graphics2D) g.create(inventoryPanel.x, inventoryPanel.y, inventoryPanel.width,
-				inventoryPanel.height);
-
-
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		world.draw(gameGraphics, interpolation, debugMode);
 		Graphics2D previewGraphics = (Graphics2D) g.create( 54, 680, 1000, 1000);
 		world.drawPlayerPreview(previewGraphics);
-		world.drawInventory(inventoryGraphics);
 		if (debugMode) {
 			gameGraphics.setColor(Color.WHITE);
 			gameGraphics.fillRect(0, 0, 170, 55);

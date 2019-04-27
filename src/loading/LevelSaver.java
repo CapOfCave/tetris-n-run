@@ -7,15 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import data.Level;
-import data.RawSpawner;
 import data.RawTetro;
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
 import graphics.GameFrame;
-import logics.entities.MovingBlockSpawner;
 import logics.entities.Entity;
+import logics.entities.MovingBlockSpawner;
 import logics.entities.Switch;
-import logics.entities.items.Item;
 
 /**
  * @author Lars Created on 13.08.2018
@@ -100,25 +98,11 @@ public class LevelSaver {
 			outpLines.add("t;x=" + rt.getX() + ";y=" + rt.getY() + ";r=" + rt.getRotation() + ";t=" + rt.getType());
 		}
 
-		// items
-		ArrayList<Item> items = level.getItemWorld();
-		for (Item i : items) {
-			outpLines.add("i;x=" + (int)i.getX() + ";y=" + (int)i.getY() + ";t=" + i.getPath());
-		}
-
 		// doors
 		ArrayList<DoorTile> doors = level.getDoors();
 		for (DoorTile dT : doors) {
 			outpLines.add("d;x=" + dT.getPosX() + ";y=" + dT.getPosY() + ";r=" + dT.getRotation() + ";c="
 					+ dT.getColor() + ";o=" + dT.isToggled());
-		}
-
-		// Spawners
-		ArrayList<RawSpawner> spawners = level.getSpawner();
-		for (RawSpawner spawner : spawners) {
-			outpLines.add("s;x=" + spawner.getX() + ";y=" + spawner.getY() + ";loff=" + spawner.getLoff() + ";boff="
-					+ spawner.getBoff() + ";toff=" + spawner.getToff() + ";roff=" + spawner.getRoff() + ";max="
-					+ spawner.getMax() + ";rate=" + spawner.getRate() + ";start=" + spawner.getStart());
 		}
 
 		// Other entities

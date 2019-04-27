@@ -3,8 +3,6 @@ package logics.entities;
 import java.awt.Rectangle;
 
 import graphics.GameFrame;
-import logics.entities.items.Weapon;
-import logics.worlds.GameWorld;
 import logics.worlds.World;
 
 /**
@@ -16,10 +14,8 @@ public abstract class LivingEntity extends Entity {
 	protected double lastX, lastY;
 	protected double hSpeed;
 	protected double vSpeed;
-	protected int health;
 	protected boolean noClip = false;
 
-	protected int hitTicks = 0;
 	private double acc;
 	protected double brake;
 	private double maxSpeed;
@@ -39,7 +35,7 @@ public abstract class LivingEntity extends Entity {
 
 	}
 
-	public LivingEntity(GameWorld world, int x, int y, String animPath, Rectangle relCollisionsRect) {
+	public LivingEntity(World world, int x, int y, String animPath, Rectangle relCollisionsRect) {
 		super(world, x, y, animPath, relCollisionsRect);
 
 	}
@@ -48,9 +44,7 @@ public abstract class LivingEntity extends Entity {
 	public void tick() {
 		lastX = x;
 		lastY = y;
-		hitTicks = Math.max(0, --hitTicks);
 		akt_animation.next();
-		checkHealth();
 	}
 
 	protected void move() {
@@ -124,16 +118,6 @@ public abstract class LivingEntity extends Entity {
 			vSpeed = 0;
 		}
 
-	}
-
-	protected void checkHealth() {
-		if (health <= 0) {
-			kill();
-		}
-	}
-
-	public void applyDamage(Weapon weapon) {
-		health -= weapon.getDamage();
 	}
 
 	protected abstract void kill();
@@ -295,9 +279,7 @@ public abstract class LivingEntity extends Entity {
 			rotation = 90; // rechts
 		}
 
-		if (hitTicks > 0) {
-			animation_key = "hit" + rotation / 90;
-		} else if (Math.abs(hSpeed) < 1 && Math.abs(vSpeed) < 1) {
+		if (Math.abs(hSpeed) < 1 && Math.abs(vSpeed) < 1) {
 			animation_key = "stand" + rotation / 90;
 		} else {
 			animation_key = "walk" + rotation / 90;
@@ -316,10 +298,6 @@ public abstract class LivingEntity extends Entity {
 		} else if (wantsToGoUp && !wantsToGoLeft && !wantsToGoDown && wantsToGoRight) {
 			rotation = 45; // oben rechts
 		}
-	}
-
-	protected boolean attackReady() {
-		return hitTicks == 0;
 	}
 
 	private void move_contact_solid(int i) {
@@ -375,14 +353,6 @@ public abstract class LivingEntity extends Entity {
 		return (world.isTetroAt(getTileY(dy), getTileX(dx))
 				&& world.getTileAt(getTileY(dy), getTileX(dx)).isWalkableWithTetro())
 				|| world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();
-	}
-
-	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
 	}
 
 	protected double getAcc() {

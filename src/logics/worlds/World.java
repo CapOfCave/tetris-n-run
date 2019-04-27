@@ -2,7 +2,6 @@ package logics.worlds;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.Random;
 import data.DrawAndSortable;
 import data.Level;
 import data.RawPlayer;
-import data.RawSpawner;
 import data.RawTetro;
 import data.Tetro;
 import data.TetroType;
@@ -28,14 +26,11 @@ import loading.LevelSaver;
 import logics.Camera;
 import logics.GameLoop;
 import logics.InHandHandler;
-import logics.entities.Enemy;
-import logics.entities.EnemySpawner;
 import logics.entities.Entity;
 import logics.entities.MovingBlock;
 import logics.entities.Player;
-import logics.entities.items.Item;
 
-public abstract class World {
+public class World {
 	private static final double min_interaction_distance = 20;
 	private static final double min_interaction_looking_distance = 50;
 	private static final int render_image_offset = 115;
@@ -73,9 +68,6 @@ public abstract class World {
 	protected ArrayList<DoorTile> doors;
 	protected ArrayList<Tetro> tetros;
 	protected ArrayList<TetroType> tetroTypes;
-	protected ArrayList<Item> items;
-	protected ArrayList<Enemy> enemies;
-	protected ArrayList<EnemySpawner> spawner;
 	protected ArrayList<Entity> otherEntities;
 	protected ArrayList<Entity> allEntities;
 	private ArrayList<Entity> toAdd;
@@ -113,7 +105,6 @@ public abstract class World {
 		tetroFileURL = level.getTetrofileUrl();
 		tetros = new ArrayList<>();
 		allEntities = new ArrayList<>();
-		enemies = new ArrayList<>();
 		otherEntities = level.getEntities();
 		for (Entity e : otherEntities) {
 			e.setWorld(this);
@@ -127,11 +118,6 @@ public abstract class World {
 					t.setWorld(this);
 			}
 		}
-		items = level.getItemWorld();
-		for (Item i : items) {
-			i.setWorld(this);
-		}
-		allEntities.addAll(items);
 
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
 		for (int i = 0; i < tetroWorldHitbox.length; i++) {
@@ -154,11 +140,6 @@ public abstract class World {
 			tetros.add(ft);
 			addTetroToHitbox(ft, ft.getX(), ft.getY(), ft.getRotation());
 		}
-		spawner = new ArrayList<>();
-		for (RawSpawner rS : level.getSpawner()) {
-			addSpawner(rS);
-		}
-		level.getSpawner();
 
 		for (int i = 0; i < toggleStates.length; i++) {
 			if (toggleStates[i]) {
@@ -228,7 +209,7 @@ public abstract class World {
 			for (int i = 0; i < tileWorld[j].length; i++) {
 				if (renderRect.contains(i * GameFrame.BLOCKSIZE - camera.getX(),
 						j * GameFrame.BLOCKSIZE - camera.getY())) {
-					//draw
+					// draw
 					if (tileWorld[j][i] != null) {
 						tileWorld[j][i].drawBackground(g, interpolation);
 					} else {
@@ -240,7 +221,7 @@ public abstract class World {
 		if (inHandHandler != null) {
 			inHandHandler.drawFloorTiles(g);
 		}
-		//Tetros
+		// Tetros
 		for (Tetro t : tetros) {
 			t.draw(g);
 		}
@@ -586,49 +567,17 @@ public abstract class World {
 		return false;
 	}
 
-	public void addEnemy(int x, int y, int health, EnemySpawner enemySpawner) {
-		Enemy e = new Enemy(this, enemySpawner, health, x, y, "/res/anims/enemyAnims.txt");
-		enemies.add(e);
-		allEntities.add(e);
-		otherEntities.add(e);
-		renderer.addDrawable(e);
-	}
-
-	public void addSpawner(int x, int y, int spawnOffsetLeft, int spawnOffsetTop, int spawnOffsetRight,
-			int spawnOffsetBottom, int maxEnemies, double spawnRate, boolean start) {
-		EnemySpawner e = new EnemySpawner(this, x, y, spawnOffsetLeft, spawnOffsetTop, spawnOffsetRight,
-				spawnOffsetBottom, maxEnemies, spawnRate, start);
-		spawner.add(e);
-		allEntities.add(e);
-		otherEntities.add(e);
-		renderer.addDrawable(e);
-	}
-
-	private void addSpawner(RawSpawner rS) {
-		addSpawner(rS.getX(), rS.getY(), rS.getLoff(), rS.getToff(), rS.getRoff(), rS.getBoff(), rS.getMax(),
-				rS.getRate(), rS.getStart());
-	}
-
 	public void save(String path, String fileName) {
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		for (Tetro t : tetros) {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, items, doors, createRawSpawner(),
-				otherEntities, tetroAmount, toggleStates, tetroFileURL, player.getTileX(), player.getTileY());
+		Level temporaryLevel = new Level(tetroTypes, rawTetros, tileWorld, doors, otherEntities, tetroAmount,
+				toggleStates, tetroFileURL, player.getTileX(), player.getTileY());
 		LevelSaver saver = new LevelSaver();
 		saver.saveLevel(temporaryLevel, path, fileName);
 
-	}
-
-	private ArrayList<RawSpawner> createRawSpawner() {
-		ArrayList<RawSpawner> outp = new ArrayList<>();
-		for (EnemySpawner eS : spawner) {
-			outp.add(new RawSpawner((int) eS.getX(), (int) eS.getY(), eS.getLoff(), eS.getToff(), eS.getRoff(),
-					eS.getBoff(), eS.getMax(), eS.getRate(), eS.getStart()));
-		}
-		return outp;
 	}
 
 	private RawTetro createRawTetro(Tetro tetro) {
@@ -647,44 +596,16 @@ public abstract class World {
 		return keyHandler;
 	}
 
-	public ArrayList<Enemy> getEnemies() {
-		return enemies;
-	}
-
 	public Tile getTileAt(int tileY, int tileX) {
 		return tileWorld[tileY][tileX];
 	}
 
-	public ArrayList<Item> getItemsAt(int tileY, int tileX) {
-		ArrayList<Item> outp = new ArrayList<>();
-		for (Item i : items) {
-			if (i.getY() == tileY && i.getX() == tileX) {
-				outp.add(i);
-			}
-		}
-		return outp;
-	}
-
-	public void removeItem(Item i) {
-		items.remove(i);
-		allEntities.remove(i);
-		renderer.removeDrawable(i);
-	}
-
 	public void backToTheOverworld(boolean died) {
-		frame.changeToOverworld(died, new RawPlayer(player.getAcc(), player.getBrake(), player.getMaxSpeed(),
-				player.getHealth(), player.getInventory()));
+		frame.changeToOverworld(died, new RawPlayer(player.getAcc(), player.getBrake(), player.getMaxSpeed()));
 	}
 
 	public Player getPlayer() {
 		return player;
-	}
-
-	public void removeEnemy(Enemy enemy) {
-		enemies.remove(enemy);
-		allEntities.remove(enemy);
-		otherEntities.remove(enemy);
-		renderer.removeDrawable(enemy);
 	}
 
 	public int getMaxX() {
@@ -779,10 +700,6 @@ public abstract class World {
 			return true;
 		}
 		return false;
-	}
-
-	public void drawInventory(Graphics2D inventoryGraphics) {
-		player.drawInventory(inventoryGraphics);
 	}
 
 	public void removeEntity(Entity entity) {
