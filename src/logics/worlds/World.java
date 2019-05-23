@@ -237,11 +237,11 @@ public class World {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 10000, 10000);
 		int size = 4;
-		int startX = 192 - (tileWorld[5].length/2*3) ;
-		//
-		System.out.println(192 - (tileWorld[5].length/2*3));
 		if(tileWorld.length > 45)
 			size = 3;
+		
+		int startX = 192 - (tileWorld[5].length/2*size);
+		int startY = 92 - (tileWorld.length/2*size);
 		int drawX = 0;
 		int drawY = 0;
 		for(Tile[] row : tileWorld) {
@@ -253,7 +253,7 @@ public class World {
 					switch (tile.getKey()) {
 					case '1':
 						g.setColor(Color.WHITE);
-						g.fillRect(drawX + startX, drawY, size, size);
+						g.fillRect(drawX + startX, drawY + startY, size, size);
 						break;
 
 					default:
@@ -261,12 +261,11 @@ public class World {
 					}
 					
 				}
-					
 				
 			}
 		}
 		g.setColor(Color.RED);
-		g.fillRect(player.getTileX()*size + size + startX, player.getTileY()*size + size, size, size);
+		g.fillRect(player.getTileX()*size + size + startX, player.getTileY()*size + size + startY, size, size);
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
