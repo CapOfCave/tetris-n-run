@@ -17,7 +17,7 @@ public class DoorTile extends Tile {
 	private int color = -1;
 	private HashMap<String, Animation> pictures;
 	private int rotation;
-	Color drawColor = Color.BLACK;
+	private Color drawColor = Color.BLACK;
 	private BufferedImage image3d;
 
 	private String str_akt_anim;
@@ -109,8 +109,11 @@ public class DoorTile extends Tile {
 
 	}
 
-	public int getColor() {
+	public int getColorAsInt() {
 		return color;
+	}
+	public Color getColor() {
+		return drawColor;
 	}
 
 	@Override
@@ -173,4 +176,5 @@ public class DoorTile extends Tile {
 		movingBlocksOnTile--;
 		leave();
 	}
+	
 }

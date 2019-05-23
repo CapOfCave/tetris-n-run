@@ -232,40 +232,60 @@ public class World {
 			drawDebug(g, interpolation);
 		}
 	}
-	
+
 	public void drawMap(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 10000, 10000);
-		int size = 4;
-		if(tileWorld.length > 45)
+		int canvasX = 382;
+		int canvasY = 184;
+
+		int size = 5;
+		if (tileWorld.length > 35 || tileWorld[0].length > 75) {
+			size = 4;
+		} else if (tileWorld.length > 45 || tileWorld[0].length > 95) {
 			size = 3;
-		int startX = 192 - (tileWorld[5].length/2*size);
-		
-		int startY = 92 - (tileWorld.length/2*size);
+		}
+		int startX = canvasX / 2 - (tileWorld[5].length / 2 * size);
+		int startY = canvasY / 2 - (tileWorld.length / 2 * size);
 		int drawX = 0;
 		int drawY = 0;
-		for(Tile[] row : tileWorld) {
+		for (Tile[] row : tileWorld) {
 			drawX = 0;
 			drawY += size;
-			for(Tile tile : row) {
+			for (Tile tile : row) {
 				drawX += size;
-				if(tile!= null) {
+				if (tile != null) {
 					switch (tile.getKey()) {
 					case '1':
 						g.setColor(Color.WHITE);
 						g.fillRect(drawX + startX, drawY + startY, size, size);
 						break;
+					case 'D':
+						DoorTile tmpDoorTile = (DoorTile) tile;
+						g.setColor(tmpDoorTile.getColor());
+
+						if (tmpDoorTile.getRotation() % 2 == 0) {
+							g.drawLine(drawX + startX, drawY + startY, drawX + startX, drawY + startY + size - 1);
+							g.drawLine(drawX + startX + size - 1, drawY + startY, drawX + startX + size - 1,
+									drawY + startY + size - 1);
+						} else {
+							g.drawLine(drawX + startX, drawY + startY, drawX + startX + size - 1, drawY + startY);
+							g.drawLine(drawX + startX, drawY + startY + size - 1, drawX + startX + size - 1,
+									drawY + startY + size - 1);
+						}
+
+//						g.drawRect(drawX + startX, drawY + startY, size - 1, size - 1);
 
 					default:
 						break;
 					}
-					
+
 				}
-				
+
 			}
 		}
 		g.setColor(Color.RED);
-		g.fillRect(player.getTileX()*size + size + startX, player.getTileY()*size + size + startY, size, size);
+		g.fillRect(player.getTileX() * size + size + startX, player.getTileY() * size + size + startY, size, size);
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
@@ -671,7 +691,7 @@ public class World {
 	public void switchDoors(int color) {
 		toggleStates[color] = !toggleStates[color];
 		for (DoorTile dT : doors) {
-			if (dT.getColor() == color) {
+			if (dT.getColorAsInt() == color) {
 				dT.changeState();
 			}
 		}
