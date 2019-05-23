@@ -52,8 +52,10 @@ public class GameWorldPanel extends Panel {
 		world.drawPlayerPreview(previewGraphics);
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
+		Graphics2D mapGraphics = (Graphics2D) g.create(337, 670, 384, 184);
 
 		world.draw(gameGraphics, interpolation, debugMode);
+		world.drawMap(mapGraphics);
 		inHandHandler.drawPreview(g, debugMode);
 		// world.drawPlayer(gameGraphics, interpolation);
 		for (int i = 0; i < tetroTypes.size(); i++) {

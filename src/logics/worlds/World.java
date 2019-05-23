@@ -232,6 +232,42 @@ public class World {
 			drawDebug(g, interpolation);
 		}
 	}
+	
+	public void drawMap(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, 10000, 10000);
+		int size = 4;
+		int startX = 192 - (tileWorld[5].length/2*3) ;
+		//
+		System.out.println(192 - (tileWorld[5].length/2*3));
+		if(tileWorld.length > 45)
+			size = 3;
+		int drawX = 0;
+		int drawY = 0;
+		for(Tile[] row : tileWorld) {
+			drawX = 0;
+			drawY += size;
+			for(Tile tile : row) {
+				drawX += size;
+				if(tile!= null) {
+					switch (tile.getKey()) {
+					case '1':
+						g.setColor(Color.WHITE);
+						g.fillRect(drawX + startX, drawY, size, size);
+						break;
+
+					default:
+						break;
+					}
+					
+				}
+					
+				
+			}
+		}
+		g.setColor(Color.RED);
+		g.fillRect(player.getTileX()*size + size + startX, player.getTileY()*size + size, size, size);
+	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
 
