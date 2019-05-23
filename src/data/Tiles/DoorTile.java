@@ -141,7 +141,7 @@ public class DoorTile extends Tile {
 		}
 	}
 
-	public boolean isToggled() {
+	public boolean isStandardOpened() {
 		return standardOpened;
 	}
 
@@ -175,6 +175,10 @@ public class DoorTile extends Tile {
 	public void eventWhenMoveBlockLeaving() {
 		movingBlocksOnTile--;
 		leave();
+	}
+
+	public boolean isOpen() {
+		return walkableWithTetro;
 	}
 	
 }

@@ -102,7 +102,7 @@ public class LevelSaver {
 		ArrayList<DoorTile> doors = level.getDoors();
 		for (DoorTile dT : doors) {
 			outpLines.add("d;x=" + dT.getPosX() + ";y=" + dT.getPosY() + ";r=" + dT.getRotation() + ";c="
-					+ dT.getColorAsInt() + ";o=" + dT.isToggled());
+					+ dT.getColorAsInt() + ";o=" + dT.isStandardOpened());
 		}
 
 		// Other entities
