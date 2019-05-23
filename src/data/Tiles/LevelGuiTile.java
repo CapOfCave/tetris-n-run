@@ -32,7 +32,6 @@ public class LevelGuiTile extends Tile {
 		playerOn = true;
 		if (akt_anim == anims.get("closing" + key)) {
 			int index = akt_anim.getFrameAmount() - akt_anim.getAktIndex();
-			System.out.println(index + ", " + akt_anim.getFrameAmount() + ", " + akt_anim.getAktIndex());
 			akt_anim.reset();
 			akt_anim = anims.get("opening" + key);
 			akt_anim.setFrame(index);
@@ -41,7 +40,6 @@ public class LevelGuiTile extends Tile {
 			akt_anim = anims.get("opening" + key);
 		}
 	}
-
 	public void eventWhenLeaving() {
 
 		frame.setNextLevel(' ');

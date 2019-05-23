@@ -236,12 +236,11 @@ public class World {
 	public void drawMap(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 10000, 10000);
-		int size = 4;
-		int startX = 192 - (tileWorld[5].length/2*3) ;
-		//
-		System.out.println(192 - (tileWorld[5].length/2*3));
+		int size = 5;
+		
 		if(tileWorld.length > 45)
 			size = 3;
+		int startX = 192 - (tileWorld[5].length/2*size);
 		int drawX = 0;
 		int drawY = 0;
 		for(Tile[] row : tileWorld) {
