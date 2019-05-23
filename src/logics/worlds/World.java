@@ -262,25 +262,6 @@ public class World {
 						g.setColor(Color.WHITE);
 						g.fillRect(drawX + startX, drawY + startY, size, size);
 						break;
-					case 'D':
-						DoorTile tmpDoorTile = (DoorTile) tile;
-						g.setColor(tmpDoorTile.getColor());
-
-						if (!tmpDoorTile.isOpen()) {
-							g.fillRect(drawX + startX, drawY + startY, size, size);
-						} else if (tmpDoorTile.getRotation() % 2 == 0) {
-							g.fillRect(drawX + startX - 1, drawY + startY, 2, size);
-							g.fillRect(drawX + startX + size - 1, drawY + startY, 2, size);
-						} else {
-							g.fillRect(drawX + startX, drawY + startY - 1, size, 2);
-							g.fillRect(drawX + startX, drawY + startY + size - 1, size, 2);
-						}
-
-//						if (tmpDoorTile.isStandardOpened()) {
-//							g.drawRect(drawX + startX, drawY + startY, size - 1, size - 1);
-//						} else {
-//							g.fillRect(drawX + startX, drawY + startY, size, size);
-//						}
 
 					default:
 						break;
@@ -288,6 +269,28 @@ public class World {
 
 				}
 
+			}
+		}
+		drawY = 0;
+		for (Tile[] row : tileWorld) {
+			drawX = 0;
+			drawY += size;
+			for (Tile tile : row) {
+				drawX += size;
+				if (tile == null || tile.getKey() != 'D') {
+					continue;
+				}
+				DoorTile tmpDoorTile = (DoorTile) tile;
+				g.setColor(tmpDoorTile.getColor());
+				if (!tmpDoorTile.isOpen()) {
+					g.fillRect(drawX + startX, drawY + startY, size, size);
+				} else if (tmpDoorTile.getRotation() % 2 == 0) {
+					g.fillRect(drawX + startX - 2, drawY + startY, 2, size);
+					g.fillRect(drawX + startX + size, drawY + startY, 2, size);
+				} else {
+					g.fillRect(drawX + startX, drawY + startY - 2, size, 2);
+					g.fillRect(drawX + startX, drawY + startY + size, size, 2);
+				}
 			}
 		}
 		g.setColor(Color.RED);
