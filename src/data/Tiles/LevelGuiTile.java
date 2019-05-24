@@ -40,12 +40,13 @@ public class LevelGuiTile extends Tile {
 			akt_anim = anims.get("opening" + key);
 		}
 	}
+
 	public void eventWhenLeaving() {
 
 		frame.setNextLevel(' ');
 		playerOn = false;
-//		akt_anim.reset();
-//		akt_anim = anims.get("closinga");
+		// akt_anim.reset();
+		// akt_anim = anims.get("closinga");
 		if (akt_anim == anims.get("opening" + key)) {
 			int index = akt_anim.getFrameAmount() - akt_anim.getAktIndex();
 			akt_anim.reset();
@@ -59,8 +60,12 @@ public class LevelGuiTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(akt_anim.getImage(), (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() - 79), null);
+		if (key != 'h')
+			g.drawImage(akt_anim.getImage(), (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
+					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() - 79), null);
+		else
+			g.drawImage(akt_anim.getImage(), (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()) - 45,
+					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() - 180), null);
 
 	}
 
