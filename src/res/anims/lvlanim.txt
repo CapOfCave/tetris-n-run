@@ -3,7 +3,7 @@ pics45 picb="/res/blocks/lvls/blockbanim.png"
 pics45 picc="/res/blocks/lvls/blockcanim.png"
 pics45 picd="/res/blocks/lvls/blockdanim.png"
 pics45 pice="/res/blocks/lvls/blockeanim.png"
-pics45 picf="/res/blocks/lvls/blockbanim.png"
+pics45 picf="/res/blocks/lvls/blockfanim.png"
 pics45 picg="/res/blocks/lvls/blockganim.png"
 pics45 pich="/res/blocks/lvls/blockhanim.png"
 
