@@ -60,7 +60,11 @@ public class Switch extends Entity {
 		return -0.5;
 	}
 
-	public int getColor() {
+	public Color getColor() {
+		return drawColor;
+	}
+	
+	public int getColorAsInt() {
 		return color;
 	}
 	

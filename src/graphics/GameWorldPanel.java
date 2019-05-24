@@ -52,7 +52,7 @@ public class GameWorldPanel extends Panel {
 		world.drawPlayerPreview(previewGraphics);
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		Graphics2D mapGraphics = (Graphics2D) g.create(337, 670, 384, 184);
+		Graphics2D mapGraphics = (Graphics2D) g.create(870, 670, 384, 184);
 
 		world.draw(gameGraphics, interpolation, debugMode);
 		world.drawMap(mapGraphics);
@@ -77,7 +77,7 @@ public class GameWorldPanel extends Panel {
 		g.setFont(new Font("Timesnewroman", 0, 18));
 		if (text.length > 0) {
 			for (int i = 0; i < text.length; i++) {
-				g.drawString(text[i], 920, 710 + (i * 21));
+				g.drawString(text[i], 185, 705 + (i * 21));
 			}
 		}
 

@@ -221,8 +221,7 @@ public class GameFrame extends JFrame {
 			remove(oPanel);
 			gameLoop.changePlayable(lPanel);
 		} else {
-			addLineToText("da kein Zwischenstad existiert.");
-			addLineToText("Es kann kein Level geladen werden, ");
+			addLineToText("Es kann kein Level geladen werden, da kein Zwischenstad existiert.");
 
 		}
 	}

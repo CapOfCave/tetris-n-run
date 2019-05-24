@@ -98,4 +98,8 @@ public class PressurePlateTile extends Tile {
 	public double getHeight() {
 		return -1;
 	}
+	
+	public Color getColor() {
+		return drawColor;
+	}
 }

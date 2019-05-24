@@ -117,15 +117,15 @@ public class OverworldPanel extends Panel {
 		}
 		g.setColor(Color.BLACK);
 		
-		Graphics2D chatCraphics = (Graphics2D) g.create( 890, 671, 365, 184);
+		Graphics2D chatGraphics = (Graphics2D) g.create( 185, 665, 365, 184);
 		
 		g.drawString("Load", 1075, 470);
 		g.drawString("Menu", 1070, 580);
 		String[] text = frame.getText();
-		chatCraphics.setFont(new Font("Timesnewroman", 0, 18));
+		chatGraphics.setFont(new Font("Timesnewroman", 0, 18));
 		if(text.length > 0){
 		for(int i = 0; i < text.length; i++) {
-			chatCraphics.drawString(text[i], 30, 40 + (i * 21));
+			chatGraphics.drawString(text[i], 30, 40 + (i * 21));
 			
 		}
 		}
