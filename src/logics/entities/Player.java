@@ -72,7 +72,9 @@ public class Player extends LivingEntity {
 		g.setFont(new Font("helvetica", Font.PLAIN, 11));
 		g.drawString("rx=" + x + " | ry=" + y, 20, 40);
 		g.drawString("vx=" + x / GameFrame.BLOCKSIZE + " | vy=" + y / GameFrame.BLOCKSIZE, 20, 55);
-
+		g.setColor(Color.CYAN);
+		g.drawOval((int) (x + relCheckX + GameFrame.BLOCKSIZE / 2 - world.cameraX()),
+				(int) (y + relCheckY + GameFrame.BLOCKSIZE / 2 - world.cameraY()), 3, 3);
 	}
 
 	@Override

@@ -41,14 +41,6 @@ public class TetroType {
 			}
 		}
 
-//		for (int y = 0; y < expandedHitbox.length; y++) {
-//			for (int x = 0; x < expandedHitbox[y].length; x++) {
-//				System.out.print(expandedHitbox[y][x]);
-//
-//			}
-//			System.out.println();
-//		}
-//		System.out.println("______________________________");
 
 	}
 

@@ -64,7 +64,6 @@ public class KeyHandler implements KeyListener {
 			actionPressed = true;
 		}
 		if (ev.getKeyCode() == keyCodes.get(8)) {
-			System.out.println("kill");
 			killPlayer = true;
 		}
 

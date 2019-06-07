@@ -50,7 +50,6 @@ public class Renderer {
 	}
 
 	public void tick() {
-//		System.out.println(drawables1.size());
 		ArrayList<DrawAndSortable> passive_ArrayList;
 		if (drawable1) {
 			passive_ArrayList = drawables2;

@@ -77,6 +77,7 @@ public class World {
 	protected int[][] worldDeco;
 	protected InHandHandler inHandHandler;
 	protected Tetro newestTetro = null;
+	private boolean noClip = false;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		double probsTotal = 0;
@@ -251,6 +252,7 @@ public class World {
 		int startY = canvasY / 2 - (tileWorld.length / 2 * size);
 		int drawX = 0;
 		int drawY = 0;
+		// Walls
 		for (Tile[] row : tileWorld) {
 			drawX = 0;
 			drawY += size;
@@ -271,6 +273,8 @@ public class World {
 
 			}
 		}
+
+		// Doors
 		drawY = 0;
 		for (Tile[] row : tileWorld) {
 			drawX = 0;
@@ -293,6 +297,7 @@ public class World {
 				}
 			}
 		}
+
 		g.setColor(Color.RED);
 		g.fillRect(player.getTileX() * size + size + startX, player.getTileY() * size + size + startY, size, size);
 	}
@@ -411,43 +416,43 @@ public class World {
 
 	public void addTetro(TetroType tetroType, int x, int y, int mouse_x, int mouse_y, int rotation) {
 
-		// if (!keyHandler.getCtrl()) {
+		if (!keyHandler.getKameraKey() || noClip) {
 
-		if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
-			int placeX;
-			int placeY;
+			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
+				int placeX;
+				int placeY;
 
-			if (x + camera.getX() < 0) {
-				placeX = (x + camera.getX() - GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
+				if (x + camera.getX() < 0) {
+					placeX = (x + camera.getX() - GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
+				} else {
+					placeX = (x + camera.getX() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
+				}
+				if (y + camera.getY() < 0) {
+					placeY = (y + camera.getY() - GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
+				} else {
+					placeY = (y + camera.getY() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
+				}
+				Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
+				if (isAllowed(tetro) && Panel.gamePanel.contains(mouse_x, mouse_y)) {
+					tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
+					newestTetro = tetro;
+					tetros.add(tetro);
+					addTetroToHitbox(tetro, placeX, placeY, rotation);
+
+					playSound("synth", -5f);
+
+				} else {
+					playSound("error", -3f);
+					System.err.println("nicht erlaubte Platzierung");
+				}
 			} else {
-				placeX = (x + camera.getX() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
-			}
-			if (y + camera.getY() < 0) {
-				placeY = (y + camera.getY() - GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
-			} else {
-				placeY = (y + camera.getY() + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE;
-			}
-			Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
-			if (isAllowed(tetro) && Panel.gamePanel.contains(mouse_x, mouse_y)) {
-				tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
-				newestTetro = tetro;
-				tetros.add(tetro);
-				addTetroToHitbox(tetro, placeX, placeY, rotation);
-
-				playSound("synth", -5f);
-
-			} else {
-				playSound("error", -3f);
-				System.err.println("nicht erlaubte Platzierung");
+				frame.addLineToText("mehr da. ");
+				frame.addLineToText("Es sind keine Tetros dieser Art");
 			}
 		} else {
-			frame.addLineToText("mehr da. ");
-			frame.addLineToText("Es sind keine Tetros dieser Art");
+			frame.addLineToText("Tetros gesetzt werden. ");
+			frame.addLineToText("Es können im Kameramodus keine");
 		}
-		// } else {
-		// frame.addLineToText("Tetros gesetzt werden. ");
-		// frame.addLineToText("Es können im Kameramodus keine");
-		// }
 
 	}
 
@@ -827,6 +832,60 @@ public class World {
 
 	public SaveNLoadTile getLastUsedSALTile() {
 		return lastUsedSALTile;
+	}
+
+	public double minDistanceToEntity(int rotation, double x, double y, Entity collider, double minDist) {
+		for (Entity barrier : allEntities) {
+			if (barrier == collider
+					|| (collider instanceof Player && barrier == ((Player) collider).getMovingBlockInHand())
+					|| Math.abs(barrier.getX() - x) + Math.abs(barrier.getY() - y) > 3 * GameFrame.BLOCKSIZE) {
+				continue;
+			} else {
+				switch (rotation) {
+				case 0:
+					if (barrier.getX() < x - GameFrame.BLOCKSIZE / 2 || barrier.getX() >= x + GameFrame.BLOCKSIZE
+							|| barrier.getY() > y) {
+						continue;
+					} else {
+						minDist = Math.min(minDist, y - barrier.getY());
+					}
+					break;
+				case 1:
+					if (barrier.getY() < y - GameFrame.BLOCKSIZE / 2 || barrier.getY() >= y + GameFrame.BLOCKSIZE
+							|| barrier.getX() < x) {
+						continue;
+					} else {
+						minDist = Math.min(minDist, barrier.getX() - x);
+					}
+					break;
+				case 2:
+					if (barrier.getX() < x - GameFrame.BLOCKSIZE / 2 || barrier.getX() >= x + GameFrame.BLOCKSIZE
+							|| barrier.getY() < y) {
+						continue;
+					} else {
+						minDist = Math.min(minDist, barrier.getY() - y);
+					}
+					break;
+				case 3:
+					if (barrier.getY() < y - GameFrame.BLOCKSIZE / 2 || barrier.getY() >= y + GameFrame.BLOCKSIZE
+							|| barrier.getX() > x) {
+						continue;
+					} else {
+						minDist = Math.min(minDist, x - barrier.getX());
+					}
+					break;
+				}
+				// Only colliders left
+
+			}
+		}
+		return minDist;
+	}
+
+	public void switchNoClip() {
+		noClip = !noClip;
+		player.switchNoClip();
+		
 	}
 
 }
