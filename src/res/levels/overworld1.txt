@@ -19,13 +19,11 @@ w;000000000000000000000
 Td;x=6;y=3;xo=0;yo=-90;name=dekoDoor1;
 
 //l0
-
-/Td;x=2;y=3;xo=0;yo=0;name=ventilator;
-/Td;x=2;y=4;xo=0;yo=0;name=ventilator;
-/Td;x=2;y=5;xo=0;yo=0;name=ventilator;
-/Td;x=1;y=6;xo=0;yo=-8;name=block0w;
+Td;x=1;y=8;xo=0;yo=-8;name=block0u;
 
 //l1
-/Td;x=1;y=2;xo=0;yo=-8;name=block0p;
-/Td;x=1;y=6;xo=0;yo=-8;name=block0w;
-/Td;x=4;y=5;xo=0;yo=-8;name=block0t;
+Td;x=3;y=8;xo=0;yo=0;name=ventilator;
+Td;x=4;y=8;xo=0;yo=0;name=ventilator;
+Td;x=5;y=8;xo=0;yo=0;name=ventilator;
+Td;x=2;y=10;xo=0;yo=-8;name=block0w;
+Td;x=1;y=10;xo=0;yo=-55;name=dekoTurm1;

@@ -224,12 +224,16 @@ public class World {
 		if (inHandHandler != null) {
 			inHandHandler.drawFloorTiles(g);
 		}
-		// Tetros
+		
 		for (Tetro t : tetros) {
 			t.draw(g);
 		}
+		
 		// 3D-Rendering
 		renderer.draw(g, interpolation);
+		
+		// Tetros
+				
 
 		if (debugMode) {
 			drawDebug(g, interpolation);
