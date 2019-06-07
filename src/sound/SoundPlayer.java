@@ -43,7 +43,6 @@ public class SoundPlayer {
 				clip = AudioSystem.getClip();
 				
 				clip.open(AudioSystem.getAudioInputStream(sounds.get(sound)));
-				
 				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
 				float min = gainControl.getMinimum();
@@ -53,10 +52,10 @@ public class SoundPlayer {
 				float normalisedVolume = (volume - min) / ( max - min);
 				float normalisedProduct = normalisedVolume * generalVolume;
 				float product = normalisedProduct * (max - min) + min;
-				gainControl.setValue(product);
+				gainControl.setValue(Math.min(product, 6.0206f));
 				clip.start();
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.err.println("Mal wieder ein Fehler im Sound-System");
 			}
 		} else {
 			System.err.println("Sound \"" + sound + "\" not found. Sounds in database: " + sounds);

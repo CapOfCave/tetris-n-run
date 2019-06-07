@@ -121,7 +121,7 @@ public class LevelSaver {
 				break;
 			case "switch":
 				Switch entitySwitch = (Switch) entity;
-				outpLines.add(outp + ";color=" + entitySwitch.getColor());
+				outpLines.add(outp + ";color=" + entitySwitch.getColorAsInt());
 				break;
 			default:
 				System.err.println("Requested Entity (\"" + entity.getType() + "\") undefind in saving process");
