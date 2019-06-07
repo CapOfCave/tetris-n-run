@@ -28,6 +28,7 @@ public abstract class LivingEntity extends Entity {
 	protected double edgeTolerancePercentage = 25;
 
 	private double speedloss = 0;
+	double relCheckX, relCheckY;
 
 	public LivingEntity(World world, String animPath, Rectangle relCollisionsRect) {
 		super(world, animPath, relCollisionsRect);
@@ -141,7 +142,7 @@ public abstract class LivingEntity extends Entity {
 				if (isRelAccessible(getExtremePosition(0),
 						-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100)
 						&& !wantsToGoLeft) {
-					move_contact_solid(3);
+					move_contact_solid(3, true);
 				} else {
 					speedloss += Math.abs(vSpeed);
 					vSpeed = 0;
@@ -155,7 +156,7 @@ public abstract class LivingEntity extends Entity {
 				if (isRelAccessible(getExtremePosition(0),
 						GameFrame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100)
 						&& !wantsToGoRight) {
-					move_contact_solid(1);
+					move_contact_solid(1, true);
 				} else {
 					speedloss += Math.abs(vSpeed);
 					vSpeed = 0;
@@ -169,7 +170,7 @@ public abstract class LivingEntity extends Entity {
 				if (isRelAccessible(getExtremePosition(2),
 						-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100)
 						&& !wantsToGoLeft) {
-					move_contact_solid(3);
+					move_contact_solid(3, true);
 				} else {
 					speedloss += Math.abs(vSpeed);
 					vSpeed = 0;
@@ -180,7 +181,7 @@ public abstract class LivingEntity extends Entity {
 				if (isRelAccessible(getExtremePosition(2),
 						GameFrame.BLOCKSIZE / 2 - edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100)
 						&& !wantsToGoRight) {
-					move_contact_solid(1);
+					move_contact_solid(1, true);
 
 				} else {
 					speedloss += Math.abs(vSpeed);
@@ -197,7 +198,7 @@ public abstract class LivingEntity extends Entity {
 			if (!isRelAccessible(-GameFrame.BLOCKSIZE / 2, getExtremePosition(3))) {
 				if (isRelAccessible(-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100,
 						getExtremePosition(3)) && !wantsToGoUp) {
-					move_contact_solid(0);
+					move_contact_solid(0, true);
 				} else {
 					speedloss += Math.abs(hSpeed);
 					hSpeed = 0;
@@ -207,7 +208,7 @@ public abstract class LivingEntity extends Entity {
 			if (!isRelAccessible(GameFrame.BLOCKSIZE / 2 - 1, getExtremePosition(3))) {
 				if (isRelAccessible(GameFrame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100,
 						getExtremePosition(3)) && !wantsToGoDown) {
-					move_contact_solid(2);
+					move_contact_solid(2, true);
 				} else {
 					speedloss += Math.abs(hSpeed);
 					hSpeed = 0;
@@ -223,7 +224,7 @@ public abstract class LivingEntity extends Entity {
 			if (!isRelAccessible(-GameFrame.BLOCKSIZE / 2, getExtremePosition(1))) {
 				if (isRelAccessible(-GameFrame.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100,
 						getExtremePosition(1)) && !wantsToGoUp) {
-					move_contact_solid(0);
+					move_contact_solid(0, true);
 				} else {
 					speedloss += Math.abs(hSpeed);
 					hSpeed = 0;
@@ -233,7 +234,7 @@ public abstract class LivingEntity extends Entity {
 			if (!isRelAccessible(GameFrame.BLOCKSIZE / 2 - 1, getExtremePosition(1))) {
 				if (isRelAccessible(GameFrame.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrame.BLOCKSIZE / 100,
 						getExtremePosition(1)) && !wantsToGoDown) {
-					move_contact_solid(2);
+					move_contact_solid(2, true);
 				} else {
 					speedloss += Math.abs(hSpeed);
 					hSpeed = 0;
@@ -300,22 +301,89 @@ public abstract class LivingEntity extends Entity {
 		}
 	}
 
-	private void move_contact_solid(int i) {
+	@SuppressWarnings("unused")
+	private void move_contact_solid_alt(int i) {
 		switch (i) {
 		case 0:
+			double alt1 = y;
 			y = getTileY() * GameFrame.BLOCKSIZE;
 			break;
 		case 1:
+			double alt2 = x;
 			x = getTileX() * GameFrame.BLOCKSIZE;
 			break;
 		case 2:
+			double alt3 = y;
 			y = getTileY() * GameFrame.BLOCKSIZE;
 			break;
 		case 3:
+			double alt4 = x;
 			x = getTileX() * GameFrame.BLOCKSIZE;
 			break;
 		}
 
+	}
+
+	private void move_contact_solid(int rotation) {
+		move_contact_solid(rotation, false);
+	}
+
+	private void move_contact_solid(int rotation, boolean inv) {
+		// Nächster Punkt des Spielers
+		relCheckX = (rotation % 2) * (rotation - 2) * (-GameFrame.BLOCKSIZE / 2);
+		relCheckY = ((rotation + 1) % 2) * (rotation - 1) * (GameFrame.BLOCKSIZE / 2);
+
+		double minDist = 0;
+		switch (rotation) {
+		case 0:
+			if (!isRelAccessible(true, relCheckY, -GameFrame.BLOCKSIZE / 2)
+					|| !isRelAccessible(true, relCheckY, GameFrame.BLOCKSIZE / 2 - 1)) {
+				minDist = y - getTileY() * GameFrame.BLOCKSIZE;
+			} 
+
+			break;
+		case 1:
+
+			if (!isRelAccessible(true, -GameFrame.BLOCKSIZE / 2, relCheckX)
+					|| !isRelAccessible(true, GameFrame.BLOCKSIZE / 2 - 1, relCheckX)) {
+				minDist = getTileX() * GameFrame.BLOCKSIZE - x;
+
+			}
+			break;
+		case 2:
+			if (!isRelAccessible(true, relCheckY, -GameFrame.BLOCKSIZE / 2)
+					|| !isRelAccessible(true, relCheckY, GameFrame.BLOCKSIZE / 2 - 1)) {
+				minDist = getTileY() * GameFrame.BLOCKSIZE - y;
+			} 
+			break;
+		case 3:
+			if (!isRelAccessible(true, -GameFrame.BLOCKSIZE / 2, relCheckX)
+					|| !isRelAccessible(true, GameFrame.BLOCKSIZE / 2 - 1, relCheckX)) {
+				minDist = x - getTileX() * GameFrame.BLOCKSIZE;
+
+			} 
+			break;
+		}
+//		if (inv) {
+//			minDist = -minDist;
+//		}
+		minDist = world.minDistanceToEntity(rotation, x + relCheckX + GameFrame.BLOCKSIZE / 2,
+				y + relCheckY + GameFrame.BLOCKSIZE / 2, this, minDist);
+		switch (rotation) {
+		case 0:
+			y -= minDist;
+			break;
+		case 1:
+			x += minDist;
+			break;
+		case 2:
+			y += minDist;
+			break;
+		case 3:
+			x -= minDist;
+			break;
+
+		}
 	}
 
 	private int getTileX(double dx) {
@@ -335,6 +403,10 @@ public abstract class LivingEntity extends Entity {
 	}
 
 	private boolean isRelAccessible(double dy, double dx) {
+		return isRelAccessible(false, dy, dx);
+	}
+
+	private boolean isRelAccessible(boolean wallsOnly, double dy, double dx) {
 
 		// world bounds
 		if ((x + GameFrame.BLOCKSIZE / 2 + dx) >= world.getMaxX()
@@ -342,11 +414,11 @@ public abstract class LivingEntity extends Entity {
 				|| (y + GameFrame.BLOCKSIZE / 2 + dy) < 0) {
 			return false;
 		}
-		if (world.isEntityAt(this, y + GameFrame.BLOCKSIZE / 2 + dy, x + GameFrame.BLOCKSIZE / 2 + dx)) {
-			return true;
+		if (!wallsOnly && world.isEntityAt(this, y + GameFrame.BLOCKSIZE / 2 + dy, x + GameFrame.BLOCKSIZE / 2 + dx)) {
+			return false;
 		}
-
-		if (world.getTileAt(getTileY(dy), getTileX(dx)) == null) // Empty Tile
+		// Empty Tile
+		if (world.getTileAt(getTileY(dy), getTileX(dx)) == null)
 			return (world.isTetroAt(getTileY(dy), getTileX(dx)));
 
 		// tetro or walkable tile

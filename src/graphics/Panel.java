@@ -70,7 +70,7 @@ public abstract class Panel extends JPanel implements Playable {
 			frame.addLineToText("debugMode " + (debugMode ? "enabled" : "disabled"));
 		}
 		if (keyHandler.isF4pressed()) {
-			world.getPlayer().switchNoClip();
+			world.switchNoClip();
 			keyHandler.setF4pressed(false);
 			frame.addLineToText("noClip " + (world.getPlayer().getNoClip() ? "enabled" : "disabled"));
 		}
