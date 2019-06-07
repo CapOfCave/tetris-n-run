@@ -15,6 +15,7 @@ import data.Tetro;
 import data.TetroType;
 import data.WallImgFrame;
 import data.Tiles.DoorTile;
+import data.Tiles.PressurePlateTile;
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import graphics.GameFrame;
@@ -29,6 +30,7 @@ import logics.InHandHandler;
 import logics.entities.Entity;
 import logics.entities.MovingBlock;
 import logics.entities.Player;
+import logics.entities.Switch;
 
 public class World {
 	private static final double min_interaction_distance = 20;
@@ -235,7 +237,7 @@ public class World {
 	}
 
 	public void drawMap(Graphics g) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, 10000, 10000);
 		int canvasX = 382;
 		int canvasY = 184;
@@ -261,9 +263,27 @@ public class World {
 				if (tile != null) {
 					switch (tile.getKey()) {
 					case '1':
+						g.setColor(Color.BLACK);
+						g.fillRect(drawX + startX, drawY + startY, size, size);
+						break;
+					case 'à':
+					case 'è':
+					case 'ì':
+					case 'ò':
+					case 'ù':
+						PressurePlateTile tmpPPT = (PressurePlateTile) tile;
+						g.setColor(tmpPPT.getColor());
+						g.fillRect(drawX + startX, drawY + startY + size - 3, size, 3);
+						break;
+					case'!':
 						g.setColor(Color.WHITE);
 						g.fillRect(drawX + startX, drawY + startY, size, size);
 						break;
+					case'2':
+						g.setColor(Color.GRAY);
+						g.fillRect(drawX + startX, drawY + startY, size, size);
+						break;
+						
 
 					default:
 						break;
@@ -298,6 +318,24 @@ public class World {
 			}
 		}
 
+		for (int i = 0; i < allEntities.size(); i++) {
+			Entity tmpEntity = allEntities.get(i);
+			if (tmpEntity.getType() == "switch") {
+				Switch tmpSwitch = (Switch) tmpEntity;
+				g.setColor(tmpSwitch.getColor());
+				if (tmpSwitch.isToggled()) {
+					for (int j = 0; j < size ; j++)
+						g.fillRect((int) tmpSwitch.getX() / GameFrame.BLOCKSIZE * size + startX + size + size - j - 1,
+								(int) tmpSwitch.getY() / GameFrame.BLOCKSIZE * size + startY + size + j, 1,
+								1 + size - j - 1);
+				} else
+					for (int j = 0; j < size ; j++)
+						g.fillRect((int) tmpSwitch.getX() / GameFrame.BLOCKSIZE * size + startX + size + j,
+								(int) tmpSwitch.getY() / GameFrame.BLOCKSIZE * size + startY + size + j, 1,
+								1 + size - j - 1);
+			}
+		}
+
 		g.setColor(Color.RED);
 		g.fillRect(player.getTileX() * size + size + startX, player.getTileY() * size + size + startY, size, size);
 	}
@@ -309,17 +347,18 @@ public class World {
 		} else {
 			g.drawImage(nullTileImgs[worldDeco[y][x]], (int) (x * GameFrame.BLOCKSIZE - cameraX()),
 					(int) (y * GameFrame.BLOCKSIZE - cameraY()), null);
-//			if (inHandHandler != null && inHandHandler.isHoldingTetro()) {
-//				if (Tools.distance((x + 0.5) * GameFrame.BLOCKSIZE - camera.getX(),
-//						(y + 0.5) * GameFrame.BLOCKSIZE - camera.getY(), inHandHandler.getCenterX(),
-//						inHandHandler.getCenterY()) < (TetroType.hitboxExpansion + 2) * GameFrame.BLOCKSIZE) { // ungefähre
-//																												// entfernung
-//																												// passend
-//
-//					g.drawImage(tetroPreview, (int) (x * GameFrame.BLOCKSIZE - cameraX()),
-//							(int) (y * GameFrame.BLOCKSIZE - cameraY()), null);
-//				}
-//			}
+			// if (inHandHandler != null && inHandHandler.isHoldingTetro()) {
+			// if (Tools.distance((x + 0.5) * GameFrame.BLOCKSIZE - camera.getX(),
+			// (y + 0.5) * GameFrame.BLOCKSIZE - camera.getY(), inHandHandler.getCenterX(),
+			// inHandHandler.getCenterY()) < (TetroType.hitboxExpansion + 2) *
+			// GameFrame.BLOCKSIZE) { // ungefähre
+			// // entfernung
+			// // passend
+			//
+			// g.drawImage(tetroPreview, (int) (x * GameFrame.BLOCKSIZE - cameraX()),
+			// (int) (y * GameFrame.BLOCKSIZE - cameraY()), null);
+			// }
+			// }
 		}
 	}
 
@@ -446,8 +485,7 @@ public class World {
 					System.err.println("nicht erlaubte Platzierung");
 				}
 			} else {
-				frame.addLineToText("mehr da. ");
-				frame.addLineToText("Es sind keine Tetros dieser Art");
+				frame.addLineToText("Es sind keine Tetros dieser Art mehr da.");
 			}
 		} else {
 			frame.addLineToText("Tetros gesetzt werden. ");
@@ -468,8 +506,7 @@ public class World {
 			}
 
 		} else {
-			frame.addLineToText("Block entfernen.");
-			frame.addLineToText("Du kannst nur den zuletzt gesetzten");
+			frame.addLineToText("Du kannst nur den zuletzt gesetzten Block entfernen.");
 		}
 
 	}

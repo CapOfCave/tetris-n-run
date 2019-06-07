@@ -3,9 +3,9 @@ pics45 picb="/res/blocks/lvls/blockbanim.png"
 pics45 picc="/res/blocks/lvls/blockcanim.png"
 pics45 picd="/res/blocks/lvls/blockdanim.png"
 pics45 pice="/res/blocks/lvls/blockeanim.png"
-pics45 picf="/res/blocks/lvls/blockbanim.png"
+pics45 picf="/res/blocks/lvls/blockfanim.png"
 pics45 picg="/res/blocks/lvls/blockganim.png"
-pics45 pich="/res/blocks/lvls/blockhanim.png"
+pics135 pich="/res/blocks/lvls/blockhanim.png"
 
 anim1 openinga=pica.2+pica.3+pica.4+pica.5+pica.6
 anim1 closinga=pica.6+pica.5+pica.4+pica.3+pica.2
@@ -42,7 +42,7 @@ anim1 closingg=picg.6+picg.5+picg.4+picg.3+picg.2
 anim closeg=picg.0
 anim openg=picg.7
 
-anim1 openingh=pich.2+pich.3+pich.4+pich.5+pich.6
-anim1 closingh=pich.6+pich.5+pich.4+pich.3+pich.2
+anim1 openingh=pich.1+pich.2+pich.3+pich.4
+anim1 closingh=pich.4+pich.3+pich.2+pich.1
 anim closeh=pich.0
-anim openh=pich.7
+anim openh=pich.5
