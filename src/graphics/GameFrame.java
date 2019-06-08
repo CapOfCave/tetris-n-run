@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import data.ConsoleLine;
 import data.RawPlayer;
 import data.Tiles.SaveNLoadTile;
 import input.KeyHandler;
@@ -35,9 +36,10 @@ public class GameFrame extends JFrame {
 	private char nextLevel;
 	private int levelSolved = 0;
 	private boolean inOverworld = true;
-	private String[] text;
+	private ConsoleLine[] text;
 	private SoundPlayer soundPlayer;
 	public static final int BLOCKSIZE = 45;
+	public static final int TEXTOFFSET = 21;
 
 	private KeyHandler keyHandler;
 
@@ -53,22 +55,23 @@ public class GameFrame extends JFrame {
 
 			// System.ot.println(savesFile);
 
-
 		}
-		
+
 		File keyCodesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
-		
+
 		if (!keyCodesFile.exists()) {
 			new MenuFrame(0);
-		}else {
-		
-		ArrayList<Integer> keyCodes = SettingsLoader.loadKeyCodes(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
-		int levelSolved = SettingsLoader.loadLevelSolved(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
+		} else {
 
-		if (keyCodes != null)
-			new MenuFrame(keyCodes, levelSolved);
-		else
-			new MenuFrame(levelSolved);
+			ArrayList<Integer> keyCodes = SettingsLoader
+					.loadKeyCodes(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
+			int levelSolved = SettingsLoader
+					.loadLevelSolved(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
+
+			if (keyCodes != null)
+				new MenuFrame(keyCodes, levelSolved);
+			else
+				new MenuFrame(levelSolved);
 		}
 	}
 
@@ -78,14 +81,14 @@ public class GameFrame extends JFrame {
 
 		this.keyCodes = keyCodes;
 		keyHandler = new KeyHandler(keyCodes);
-		text = new String[7];
-		text[0] = "";
-		text[1] = "";
-		text[2] = "";
-		text[3] = "";
-		text[4] = "";
-		text[5] = "";
-		text[6] = "";
+		text = new ConsoleLine[7];
+		text[0] = null;
+		text[1] = null;
+		text[2] = null;
+		text[3] = null;
+		text[4] = null;
+		text[5] = null;
+		text[6] = null;
 
 		soundPlayer = new SoundPlayer();
 		this.levelSolved = levelSolved;
@@ -127,7 +130,7 @@ public class GameFrame extends JFrame {
 	}
 
 	public void changeToOverworld(boolean died, RawPlayer rawPlayer) {
-		
+
 		clearText();
 		File overworldFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
 		if (!died) {
@@ -227,15 +230,20 @@ public class GameFrame extends JFrame {
 	}
 
 	public void addLineToText(String line) {
+		addLineToText(line, 1);
+	}
+	public void addLineToText(String line, int factor) {
 		for (int i = text.length - 1; i > 0; i--) {
 			text[i] = text[i - 1];
+			if (text[i] != null)
+				text[i].addOffset(TEXTOFFSET);
 		}
-		text[0] = line;
+		text[0] = new ConsoleLine(line, factor);
 	}
 
 	public void clearText() {
 		for (int i = 0; i < text.length; i++) {
-			text[i] = "";
+			text[i] = null;
 		}
 
 	}
@@ -259,16 +267,20 @@ public class GameFrame extends JFrame {
 		this.nextLevel = nextLevel;
 	}
 
-	public String[] getText() {
+	public ConsoleLine[] getText() {
 		return text;
 	}
 
-	public void setText(String[] text) {
-		this.text = text;
-	}
-	
 	public void setLevelSolved(int levelSolved) {
-		
+
+	}
+
+	public void updateConsole() {
+		for (ConsoleLine cl : text) {
+			if (cl != null)
+				cl.tick();
+		}
+
 	}
 
 }

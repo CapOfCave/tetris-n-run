@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import data.ConsoleLine;
 import data.Level;
 import data.RawPlayer;
 import data.Tiles.SaveNLoadTile;
@@ -73,11 +74,15 @@ public class GameWorldPanel extends Panel {
 
 		g.setColor(Color.BLACK);
 		g.drawString("Overworld", 1020, 585);
-		String[] text = frame.getText();
-		g.setFont(new Font("Timesnewroman", 0, 18));
+		ConsoleLine[] text = frame.getText();
+
 		if (text.length > 0) {
 			for (int i = 0; i < text.length; i++) {
-				g.drawString(text[i], 185, 705 + (i * 21));
+				if (text[i] != null) {
+					g.setFont(new Font("Timesnewroman", Font.PLAIN, text[i].getFontSize())); // 18 / 20
+					g.setColor(new Color(0, 0, 0, text[i].getOpacity()));
+					g.drawString(text[i].getContent(), 185, 705 + (i * GameFrame.TEXTOFFSET) - text[i].getOffset());
+				}
 			}
 		}
 

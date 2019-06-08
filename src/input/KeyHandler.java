@@ -19,7 +19,8 @@ public class KeyHandler implements KeyListener {
 	private boolean shift = false;
 	private boolean kameraKey = false;
 	private boolean killPlayer = false;
-	
+	private boolean tip = false; // einfügen in die änderbaren Keys
+
 	private boolean f4Pressed = false;
 	private boolean actionPressed = false;
 	private boolean f3Pressed = false;
@@ -39,7 +40,7 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(2)) {
 			downKey = true;
 		}
-		if (ev.getKeyCode() ==keyCodes.get(3)) {
+		if (ev.getKeyCode() == keyCodes.get(3)) {
 			rightKey = true;
 		}
 		if (ev.getKeyCode() == keyCodes.get(5)) {
@@ -65,6 +66,9 @@ public class KeyHandler implements KeyListener {
 		}
 		if (ev.getKeyCode() == keyCodes.get(8)) {
 			killPlayer = true;
+		}
+		if (ev.getKeyCode() == KeyEvent.VK_T) {
+			tip = true;
 		}
 
 	}
@@ -98,6 +102,9 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(8)) {
 			killPlayer = false;
 		}
+		if (ev.getKeyCode() == KeyEvent.VK_T) {
+			tip = false;
+		}
 
 	}
 
@@ -116,15 +123,19 @@ public class KeyHandler implements KeyListener {
 	public boolean getRightKey() {
 		return rightKey;
 	}
+
 	public boolean getRotateKey() {
 		return rotateKey;
 	}
+
 	public void setRotateKey(boolean r) {
 		this.rotateKey = r;
 	}
+
 	public boolean getRemoveKey() {
 		return removeKey;
 	}
+
 	public void setRemoveKey(boolean e) {
 		this.removeKey = e;
 	}
@@ -132,11 +143,11 @@ public class KeyHandler implements KeyListener {
 	public boolean getShift() {
 		return shift;
 	}
-	
+
 	public boolean getKillPlayer() {
 		return killPlayer;
 	}
-	
+
 	public boolean getKameraKey() {
 		return kameraKey;
 	}
@@ -144,21 +155,29 @@ public class KeyHandler implements KeyListener {
 	public boolean isF4pressed() {
 		return f4Pressed;
 	}
-	
+
 	public boolean isF3pressed() {
 		return f3Pressed;
+	}
+
+	public boolean isTipPressed() {
+		return tip;
 	}
 
 	public boolean isActionPressed() {
 		return actionPressed;
 	}
 
-	public void setF3pressed(boolean b) {
-		this.f3Pressed = b;
+	public void resetTipPressed() {
+		tip = false;
 	}
 
-	public void setActionpressed(boolean b) {
-		this.actionPressed = b;
+	public void resetF3pressed() {
+		this.f3Pressed = false;
+	}
+
+	public void resetActionpressed() {
+		this.actionPressed = false;
 	}
 
 	@Override
@@ -166,12 +185,13 @@ public class KeyHandler implements KeyListener {
 
 	}
 
-	public void setF4pressed(boolean b) {
-		this.f4Pressed = b;
+	public void resetF4pressed() {
+		this.f4Pressed = false;
 	}
 
-	public void setKillPlayer(boolean b) {
-		this.killPlayer = b;
+	public void resetKillPlayer() {
+		killPlayer = false;
 		
 	}
+
 }

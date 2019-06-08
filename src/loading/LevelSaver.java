@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import data.Level;
 import data.RawTetro;
 import data.Tiles.DoorTile;
+import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import graphics.GameFrame;
 import logics.entities.Entity;
@@ -149,14 +150,31 @@ public class LevelSaver {
 		for (Tile[] row : world) {
 
 			for (Tile field : row) {
+				//SAL-Tile
 				if (field != null && field.getKey() == '2') {
 					StringBuilder worldLine = new StringBuilder("Tl;");
 					worldLine.append("x=" + field.getPosX() + ";");
 					worldLine.append("y=" + field.getPosY() + ";");
+					
+					SaveNLoadTile fieldCast = (SaveNLoadTile) field;
+					if (fieldCast.getTip() != null) {
+						worldLine.append("tip=" + fieldCast.getTip() + ";");
+						if (fieldCast.getTip2() != null) {
+							worldLine.append("tip2=" + fieldCast.getTip2() + ";");
+							if (fieldCast.getTip3() != null) {
+								worldLine.append("tip3=" + fieldCast.getTip3() + ";");
+								if (fieldCast.getTip4() != null) {
+									worldLine.append("tip4=" + fieldCast.getTip4() + ";");
+									
+								}
+							}
+						}
+					}
 					worldLine.append("amount=");
 					for (int amount : field.getTetroAmount())
 						worldLine.append(amount + ",");
 					outpLines.add(worldLine.toString());
+					//Decoration
 				} else if (field != null && field.getKey() == 'X') {
 					StringBuilder worldLine = new StringBuilder("Td;");
 					worldLine.append("x=" + field.getPosX() + ";");

@@ -51,6 +51,8 @@ public abstract class Panel extends JPanel implements Playable {
 		tetroDrawPositions.add(new Point(1165, 406));
 
 	}
+	
+	
 
 	@Override
 	public void render(float interpolation, int fps, int ups) {
@@ -63,16 +65,35 @@ public abstract class Panel extends JPanel implements Playable {
 	@Override
 	public void tick() {
 		world.tick();
-
+		frame.updateConsole();
 		if (keyHandler.isF3pressed()) {
 			debugMode = !debugMode;
-			keyHandler.setF3pressed(false);
+			keyHandler.resetF3pressed();
 			frame.addLineToText("debugMode " + (debugMode ? "enabled" : "disabled"));
 		}
 		if (keyHandler.isF4pressed()) {
 			world.switchNoClip();
-			keyHandler.setF4pressed(false);
+			keyHandler.resetF4pressed();
 			frame.addLineToText("noClip " + (world.getPlayer().getNoClip() ? "enabled" : "disabled"));
+		}
+		if (keyHandler.isTipPressed()) {
+			int show_duration = 1;
+			keyHandler.resetTipPressed();
+			if (world.getLastCrossedSALTile() != null &&  world.getLastCrossedSALTile().getTip() != null) {
+				if (world.getLastCrossedSALTile().getTip2() != null) {
+					show_duration = 2;
+					if (world.getLastCrossedSALTile().getTip3() != null) {
+						show_duration = 3;
+						if (world.getLastCrossedSALTile().getTip4() != null) {
+							show_duration = 4;
+							frame.addLineToText(world.getLastCrossedSALTile().getTip4(), show_duration);
+						}
+						frame.addLineToText(world.getLastCrossedSALTile().getTip3(), show_duration);
+					}
+					frame.addLineToText(world.getLastCrossedSALTile().getTip2(), show_duration);
+				}
+				frame.addLineToText(world.getLastCrossedSALTile().getTip(), show_duration);
+			}
 		}
 
 	}

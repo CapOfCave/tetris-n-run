@@ -77,13 +77,13 @@ w;00000000111111111111111
 
 
 ###
-Tl;x=3;y=7;amount=10,10,10,10,10,10,10
-Tl;x=14;y=3;amount=3,0,0,0,0,0,0
-Tl;x=20;y=6;amount=1,0,1,0,0,0,0
-Tl;x=16;y=11;amount=0,1,1,0,0,0,1
-Tl;x=10;y=17;amount=2,3,1,1,1,2,1
-Tl;x=3;y=25;amount=2,2,2,2,2,1,1
-Tl;x=15;y=30;amount=3,1,0,1,1,1,1
+Tl;x=3;y=7;amount=10,10,10,10,10,10,10;tip=Baue einen Weg aus den Tetros zum nächsten Checkpoint.;tip2=Dort, wo du ein Tetro platziert hast, kann sich der Spieler bewegen.
+Tl;x=14;y=3;amount=3,0,0,0,0,0,0;tip=Du bekommst an jedem Checkpoint neue, für den folgenden Bereich;tip2=benötigte Tetros. Setze die passenden Tetros in die Lücken.
+Tl;x=20;y=6;amount=1,0,1,0,0,0,0;tip=Falls du einen Fehler machen solltest, kannst du das letzte Tetro;tip2=(standardmäßig mit E) zurücknehmen.
+Tl;x=16;y=11;amount=0,1,1,0,0,0,1;tip=Du kannst ein Tetro mit der rechten Maustaste oder mit der entsprechenden;tip2=Taste auf der Tastatur (standardmäßig R) drehen.
+Tl;x=10;y=17;amount=2,3,1,1,1,2,1;tip=Mit dem Kameramodus (standardmäßig STRG gedrückt halten und;tip2=mit W, A, S und D die Kamera bewegen) kannst du dir einen besseren;tip3=Überblick verschaffen.
+Tl;x=3;y=25;amount=2,2,2,2,2,1,1;tip=An manchen Stellen hast du die Wahl zwischen zwei Wegen - wähle den;tip2=Weg, der dir am einfachsten erscheint.
+Tl;x=15;y=30;amount=3,1,0,1,1,1,1;tip=Manchmal ist es notwendig, ein bestimmtes Tetro an einer;tip2=bestimmten Stelle zu setzen. Bewahre es;tip3=dir bis zu der Stelle auf, oder platziere es sofern möglich sofort.;tip4=Interagiere (mit Leertaste) mit dem Ziel zum Abschließen des Levels.
 
 Td;x=9;y=15;xo=0;yo=0;name=ventilator
 

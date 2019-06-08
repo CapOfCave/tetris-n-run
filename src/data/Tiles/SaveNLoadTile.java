@@ -20,10 +20,15 @@ public class SaveNLoadTile extends Tile {
 	boolean addingTetros;
 	File loadFile = null;
 	static HashMap<String, Animation> all_animations = null;
+	private String tip;
+	private String tip2;
+	private String tip3;
+	private String tip4;
 
 	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
 
-	public SaveNLoadTile(char key, int posX, int posY, GameFrame frame, int[] tetroAmount, boolean addingTetros) {
+	public SaveNLoadTile(char key, int posX, int posY, GameFrame frame, int[] tetroAmount, boolean addingTetros,
+			String tip, String tip2, String tip3, String tip4) {
 		super(key, posX, posY, false, true, true, frame);
 		needsBackGround = true;
 //		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoadAc.png");
@@ -31,6 +36,10 @@ public class SaveNLoadTile extends Tile {
 
 		this.tetroAmount = tetroAmount;
 		this.addingTetros = addingTetros;
+		this.tip = tip;
+		this.tip2 = tip2;
+		this.tip3 = tip3;
+		this.tip4 = tip4;
 
 		if (all_animations == null) {
 			all_animations = AnimationLoader.loadAnimations("/res/anims/savenload.txt");
@@ -63,14 +72,15 @@ public class SaveNLoadTile extends Tile {
 //					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
 //		} TODO remove since not needed
 
-		g.drawImage(akt_animation.getImage(), (int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
+		g.drawImage(akt_animation.getImage(),
+				(int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
 				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), null);
-		//TODO Tile-Render-Reihenfolge
+		// TODO Tile-Render-Reihenfolge
 	}
 
 	@Override
 	public void eventWhenEntering() {
-
+		world.setLastCrossedSALTile(this);
 		new File(folderName).mkdirs();
 		int prefix = (new File(folderName).listFiles().length + 1);
 
@@ -114,9 +124,6 @@ public class SaveNLoadTile extends Tile {
 				}
 			}
 			frame.swichLevel(loadFile.getAbsolutePath(), this);
-			
-			
-			
 
 		}
 	}
@@ -138,5 +145,21 @@ public class SaveNLoadTile extends Tile {
 	@Override
 	public double getHeight() {
 		return -1;
+	}
+
+	public String getTip() {
+		return tip;
+	}
+
+	public String getTip2() {
+		return tip2;
+	}
+
+	public String getTip3() {
+		return tip3;
+	}
+
+	public String getTip4() {
+		return tip4;
 	}
 }

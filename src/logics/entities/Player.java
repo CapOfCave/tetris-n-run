@@ -170,7 +170,7 @@ public class Player extends LivingEntity {
 		if (world.getKeyHandler().getRotateKey()) {
 			world.rotateTetro();
 		}
-		world.getKeyHandler().setActionpressed(false);
+		world.getKeyHandler().resetActionpressed();
 	}
 
 	private void releaseMovingBlock() {
@@ -222,7 +222,7 @@ public class Player extends LivingEntity {
 
 	public void resetActionPressed() {
 
-		world.getKeyHandler().setActionpressed(false);
+		world.getKeyHandler().resetActionpressed();
 		actionPressed = false;
 	}
 

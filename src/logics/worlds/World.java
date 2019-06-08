@@ -80,6 +80,7 @@ public class World {
 	protected InHandHandler inHandHandler;
 	protected Tetro newestTetro = null;
 	private boolean noClip = false;
+	private SaveNLoadTile lastCrossedSALTile = null;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		double probsTotal = 0;
@@ -224,16 +225,15 @@ public class World {
 		if (inHandHandler != null) {
 			inHandHandler.drawFloorTiles(g);
 		}
-		
+
 		for (Tetro t : tetros) {
 			t.draw(g);
 		}
-		
+
 		// 3D-Rendering
 		renderer.draw(g, interpolation);
-		
+
 		// Tetros
-				
 
 		if (debugMode) {
 			drawDebug(g, interpolation);
@@ -279,15 +279,14 @@ public class World {
 						g.setColor(tmpPPT.getColor());
 						g.fillRect(drawX + startX, drawY + startY + size - 3, size, 3);
 						break;
-					case'!':
+					case '!':
 						g.setColor(Color.WHITE);
 						g.fillRect(drawX + startX, drawY + startY, size, size);
 						break;
-					case'2':
+					case '2':
 						g.setColor(Color.GRAY);
 						g.fillRect(drawX + startX, drawY + startY, size, size);
 						break;
-						
 
 					default:
 						break;
@@ -328,12 +327,12 @@ public class World {
 				Switch tmpSwitch = (Switch) tmpEntity;
 				g.setColor(tmpSwitch.getColor());
 				if (tmpSwitch.isToggled()) {
-					for (int j = 0; j < size ; j++)
+					for (int j = 0; j < size; j++)
 						g.fillRect((int) tmpSwitch.getX() / GameFrame.BLOCKSIZE * size + startX + size + size - j - 1,
 								(int) tmpSwitch.getY() / GameFrame.BLOCKSIZE * size + startY + size + j, 1,
 								1 + size - j - 1);
 				} else
-					for (int j = 0; j < size ; j++)
+					for (int j = 0; j < size; j++)
 						g.fillRect((int) tmpSwitch.getX() / GameFrame.BLOCKSIZE * size + startX + size + j,
 								(int) tmpSwitch.getY() / GameFrame.BLOCKSIZE * size + startY + size + j, 1,
 								1 + size - j - 1);
@@ -416,6 +415,7 @@ public class World {
 		renderer.tick();
 
 		if (keyHandler.getKillPlayer()) {
+			keyHandler.resetKillPlayer();
 			if (lastUsedSALTile != null)
 				lastUsedSALTile.interact();
 		}
@@ -526,9 +526,6 @@ public class World {
 					switch (tetro.getRotation()) {
 					case 0:
 						if (!isTetroPlacableAt(i + virX, j + virY)) {
-							// System.err.println(
-							// "Nicht erlaubte Platzierung eines Tetros bei " + (i + virX) + "|" + (j +
-							// virY));
 							return false;
 						} else {
 							break;
@@ -871,8 +868,12 @@ public class World {
 		lastUsedSALTile = tile;
 	}
 
-	public SaveNLoadTile getLastUsedSALTile() {
-		return lastUsedSALTile;
+	public void setLastCrossedSALTile(SaveNLoadTile tile) {
+		lastCrossedSALTile  = tile;
+	}
+
+	public SaveNLoadTile getLastCrossedSALTile() {
+		return lastCrossedSALTile;
 	}
 
 	public double minDistanceToEntity(int rotation, double x, double y, Entity collider, double minDist) {
@@ -926,7 +927,7 @@ public class World {
 	public void switchNoClip() {
 		noClip = !noClip;
 		player.switchNoClip();
-		
+
 	}
 
 }

@@ -131,7 +131,7 @@ public class LevelLoader {
 				if (type >= 0) {
 					rawMaxTetroAmounts.put(type, amount);
 				}
-			
+
 			} else if (nextLine.startsWith("e")) {
 				String strSplit[] = nextLine.split(";");
 				String type = null;
@@ -230,7 +230,7 @@ public class LevelLoader {
 							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
 					System.exit(3);
 				}
-			
+
 			} else if (nextLine.startsWith("w")) {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
 				world.add(strTemp);
@@ -246,6 +246,10 @@ public class LevelLoader {
 
 				int x = -1;
 				int y = -1;
+				String tip = null;
+				String tip2 = null;
+				String tip3 = null;
+				String tip4 = null;
 				boolean addingTetros = false;
 				int amountList[] = { 0, 0, 0, 0, 0, 0, 0 };
 				for (String str : strSplit) {
@@ -266,11 +270,19 @@ public class LevelLoader {
 						if (str.substring(2).equals("true"))
 							addingTetros = true;
 
+					} else if (str.startsWith("tip=")) {
+						tip = str.substring(4);
+					} else if (str.startsWith("tip2=")) {
+						tip2 = str.substring(5);
+					} else if (str.startsWith("tip3=")) {
+						tip3 = str.substring(5);
+					} else if (str.startsWith("tip4=")) {
+						tip4 = str.substring(5);
 					}
 
 				}
 //				System.ot.println("" + x + y + amountList + addingTetros);
-				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList, addingTetros);
+				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList, addingTetros, tip, tip2, tip3, tip4);
 			} else if (nextLine.startsWith("Td")) {
 				String strSplit[] = nextLine.split(";");
 				int x = -1;
@@ -315,7 +327,8 @@ public class LevelLoader {
 					} else if (tileChar == '0') {
 						arrWorld[j][i] = null;
 					} else if (tileChar == '2') {
-						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, frame, new int[] { 0, 0 }, false);
+						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, frame, new int[] { 0, 0 }, false, null, null,
+								null, null);
 					} else if (tileChar == 'D') {
 
 						for (DoorTile dT : doors) {
@@ -365,8 +378,8 @@ public class LevelLoader {
 
 //			initWallTiles(arrWorld);
 
-			return new Level(tetroTypes, rawTetros, arrWorld, doors, entities, tetroAmounts,
-					toggleStates, tetrofileUrl, playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
+			return new Level(tetroTypes, rawTetros, arrWorld, doors, entities, tetroAmounts, toggleStates, tetrofileUrl,
+					playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
 		} else {
 			System.err.println("Levelerstellung nicht erfolgreich: tetrofileUrl = null");
 			System.exit(1);
