@@ -83,7 +83,7 @@ Tl;x=20;y=6;amount=1,0,1,0,0,0,0;tip=Falls du einen Fehler machen solltest, kann
 Tl;x=16;y=11;amount=0,1,1,0,0,0,1;tip=Du kannst ein Tetro mit der rechten Maustaste oder mit der entsprechenden;tip2=Taste auf der Tastatur (standardmäßig R) drehen.
 Tl;x=10;y=17;amount=2,3,1,1,1,2,1;tip=Mit dem Kameramodus (standardmäßig STRG gedrückt halten und;tip2=mit W, A, S und D die Kamera bewegen) kannst du dir einen besseren;tip3=Überblick verschaffen.
 Tl;x=3;y=25;amount=2,2,2,2,2,1,1;tip=An manchen Stellen hast du die Wahl zwischen zwei Wegen - wähle den;tip2=Weg, der dir am einfachsten erscheint.
-Tl;x=15;y=30;amount=3,1,0,1,1,1,1;tip=Manchmal ist es notwendig, ein bestimmtes Tetro an einer;tip2=bestimmten Stelle zu setzen. Bewahre es;tip3=dir bis zu der Stelle auf, oder platziere es sofern möglich sofort.;tip4=Interagiere (mit Leertaste) mit dem Ziel zum Abschließen des Levels.
+Tl;x=15;y=30;amount=3,1,0,1,1,1,1;tip=Manchmal ist es notwendig, ein bestimmtes Tetro an einer bestimmten;tip2=Stelle zu setzen. Bewahre es dir bis zu der Stelle auf, oder platziere;tip3=es sofern möglich sofort.;tip4=Interagiere (mit Leertaste) mit dem Ziel zum Abschließen des Levels.
 
 Td;x=9;y=15;xo=0;yo=0;name=ventilator
 

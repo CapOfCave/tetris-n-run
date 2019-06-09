@@ -49,10 +49,10 @@ public class ConsoleLine {
 									(common_fontsize - highlighted_fontsize)
 											* (tick_age - fs_max_frames - fs_fade_in_frames) / fs_fade_out_frames
 											+ highlighted_fontsize));
-			if (drawYOffset > 0) {
-				fontSize = common_fontsize;
-//				opacity = 255;
-			}
+//			if (drawYOffset > 0) {
+//				fontSize = common_fontsize;
+////				opacity = 255;
+//			}
 //			System.out
 //					.println(
 //							tick_age + ": "

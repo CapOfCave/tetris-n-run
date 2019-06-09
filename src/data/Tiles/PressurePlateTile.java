@@ -102,4 +102,7 @@ public class PressurePlateTile extends Tile {
 	public Color getColor() {
 		return drawColor;
 	}
+	public boolean isOccupiedByMoveblock() {
+		return moveBlocksOnTile >= 1;
+	}
 }

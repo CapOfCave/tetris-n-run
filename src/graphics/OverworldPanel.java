@@ -59,7 +59,7 @@ public class OverworldPanel extends Panel {
 			switch ((Character.getNumericValue(frame.getNextLevel()) - 9)) {
 			case 1:
 				g.setFont(new Font("Timesnewroman", 1, 34));
-				g.drawString("An new", 1070, 150);
+				g.drawString("A new", 1070, 150);
 				g.drawString("beginning", 1050, 190);
 				g.setFont(new Font("Timesnewroman", 1, 44));
 				break;
@@ -134,7 +134,6 @@ public class OverworldPanel extends Panel {
 
 	public void save() {
 		world.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "overworldSave.txt");
-
 	}
 
 }

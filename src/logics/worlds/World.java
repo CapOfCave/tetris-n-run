@@ -256,6 +256,16 @@ public class World {
 		}
 		int startX = canvasX / 2 - (tileWorld[5].length / 2 * size);
 		int startY = canvasY / 2 - (tileWorld.length / 2 * size);
+		//Tetros
+		for(int y = 0; y < tetroWorldHitbox.length; y++) {
+			for(int x = 0; x < tetroWorldHitbox[y].length; x++) {
+				if (tetroWorldHitbox[y][x]) {
+					g.setColor(Color.DARK_GRAY.brighter());
+					g.fillRect((x + 1) * size + startX, (y + 1) * size + startY, size, size);
+				}
+			}
+		}
+		
 		int drawX = 0;
 		int drawY = 0;
 		// Walls
@@ -277,7 +287,13 @@ public class World {
 					case 'ù':
 						PressurePlateTile tmpPPT = (PressurePlateTile) tile;
 						g.setColor(tmpPPT.getColor());
-						g.fillRect(drawX + startX, drawY + startY + size - 3, size, 3);
+						if (tmpPPT.isOccupiedByMoveblock()) {
+							g.fillRect(drawX + startX, drawY + startY + size -2, size, 2);
+						} else {
+							g.fillRect(drawX + startX, drawY + startY + size - 3, size, 3);
+						}
+						
+						
 						break;
 					case '!':
 						g.setColor(Color.WHITE);
@@ -320,7 +336,7 @@ public class World {
 				}
 			}
 		}
-
+		//Schalter
 		for (int i = 0; i < allEntities.size(); i++) {
 			Entity tmpEntity = allEntities.get(i);
 			if (tmpEntity.getType() == "switch") {
@@ -339,8 +355,13 @@ public class World {
 			}
 		}
 
+		//Spieler
 		g.setColor(Color.RED);
 		g.fillRect(player.getTileX() * size + size + startX, player.getTileY() * size + size + startY, size, size);
+		
+		//Kamera
+		g.setColor(Color.LIGHT_GRAY);
+//		g.drawRect(x, y, width, height); //TODO
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
