@@ -224,6 +224,7 @@ public class World {
 		}
 		if (inHandHandler != null) {
 			inHandHandler.drawFloorTiles(g);
+			
 		}
 
 		for (Tetro t : tetros) {
@@ -360,8 +361,12 @@ public class World {
 		g.fillRect(player.getTileX() * size + size + startX, player.getTileY() * size + size + startY, size, size);
 		
 		//Kamera
-		g.setColor(Color.LIGHT_GRAY);
-//		g.drawRect(x, y, width, height); //TODO
+		g.setColor(new Color(255, 255, 255, 50));
+		g.fillRect(cameraX()/45 * size + size + startX, cameraY()/45 * size + size + startY, size*20, size*14); 
+		g.setColor(new Color(255, 255, 255, 60));
+		g.drawRect(cameraX()/45 * size + size + startX, cameraY()/45 * size + size + startY, size*20, size*14);
+		
+		
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {

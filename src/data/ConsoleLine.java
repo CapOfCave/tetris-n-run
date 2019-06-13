@@ -4,7 +4,7 @@ public class ConsoleLine {
 
 	// opacity
 	static final int fade_in_frames = 8;
-	static final int full_opacity_frames_normal = 55;
+	static final int full_opacity_frames_normal = 70;
 	static final int fade_out_frames = 10;
 	// fontsize
 	static final int fs_fade_in_frames = 2;
