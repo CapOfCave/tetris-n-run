@@ -38,6 +38,9 @@ public class PressurePlateTile extends Tile {
 		}else if (key == 'ù') {
 			color = 4;
 			drawColor = new Color(243, 119, 53);
+		}else if (key == 'À') {
+			color = 5;
+			drawColor = new Color(210, 114, 255);
 
 		}
 		pictures = AnimationLoader.loadAnimations("/res/anims/pressurePlate.txt");

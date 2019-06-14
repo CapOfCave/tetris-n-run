@@ -15,6 +15,7 @@ import data.Tetro;
 import data.TetroType;
 import data.WallImgFrame;
 import data.Tiles.DoorTile;
+import data.Tiles.EmptyTile;
 import data.Tiles.PressurePlateTile;
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
@@ -889,6 +890,11 @@ public class World {
 		}
 
 	}
+	
+	public void cameraTrackingShot(int x, int y) {
+		camera.trackingShot(x, y);
+	}
+	
 
 	public void setLastUsedSALTile(SaveNLoadTile tile) {
 		lastUsedSALTile = tile;

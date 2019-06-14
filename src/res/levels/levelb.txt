@@ -162,7 +162,7 @@ w;000000000000000000000000000000000000000000000000000000000000000000000000000000
 
 
 ###
-Tl;x=5;y=8;amount=100,100,100,100,100,100,100;tip=Mit den Schaltern kannst du alle Türen der entsprechenden Farbe;tip2=umschalten. Lege sie mit der Interaktionstaste (standardmäßg mit der;tip3=Leertaste) um.
+Tl;x=5;y=8;amount=0,0,0,0,0,0,0;tip=Mit den Schaltern kannst du alle Türen der entsprechenden Farbe;tip2=umschalten. Lege sie mit der Interaktionstaste (standardmäßg mit der;tip3=Leertaste) um.
 Tl;x=14;y=11;amount=0,0,0,0,0,0,0;tip=Stelle dir die Fragen: "Welche Tür, durch die ich gehen muss,;tip2=ist verschlossen? Wie kann ich sie öffnen?"
 Tl;x=19;y=12;amount=3,3,3,3,3,3,1;tip=Du musst nicht direkt auf den Schaltern stehen, um sie zu;tip2=betätigen - es reicht, auf einem benachbarten Feld zu stehen;tip3=und sich in ihre Richtung zu wenden.
 Tl;x=28;y=10;amount=0,0,0,0,0,0,0;tip=Bei Interaktion mit einem Button wird ein Schiebeblock gespawnt. Steuerung;tip2=für Schiebeblöcke: Leertaste kurz drücken zum Aufnehmen, dann in Richtung;tip3=des Blockes laufen um ihn zu schieben, zum Loslassen erneut Leertaste;tip4=drücken oder in die entgegengesetzte Richtung laufen.
