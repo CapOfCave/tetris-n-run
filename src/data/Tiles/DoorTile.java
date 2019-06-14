@@ -46,6 +46,8 @@ public class DoorTile extends Tile {
 			drawColor = new Color(255, 196, 37);
 		}else if (color == 4) {
 			drawColor = new Color(243, 119, 53);
+		}else if (color == 5) {
+			drawColor = new Color(210, 114, 255);
 		}
 		str_akt_anim = (open ? "opened" : "closed") + rotation;
 		image3d = GraphicalTools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);

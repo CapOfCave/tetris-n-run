@@ -2,43 +2,45 @@ b;tetrofile=/res/tetros.txt
 p;x=19;y=24
 o;false;false;false;false;false
 m;type=6;amount=71
+
 t;x=18;y=24;r=3;t=0
 t;x=18;y=28;r=3;t=0
-t;x=12;y=19;r=0;t=0
-t;x=8;y=19;r=2;t=5
-t;x=8;y=20;r=0;t=5
-t;x=7;y=22;r=2;t=2
-t;x=9;y=23;r=0;t=6
-t;x=6;y=23;r=0;t=1
-t;x=4;y=21;r=2;t=5
-t;x=2;y=20;r=2;t=5
+t;x=4;y=19;r=2;t=2
+t;x=3;y=19;r=0;t=6
 t;x=2;y=19;r=3;t=2
-t;x=4;y=19;r=0;t=0
-t;x=23;y=19;r=0;t=0
-t;x=18;y=12;r=3;t=0
-t;x=17;y=10;r=2;t=5
-t;x=19;y=11;r=2;t=2
-t;x=15;y=11;r=2;t=1
-t;x=21;y=10;r=2;t=5
-t;x=13;y=10;r=2;t=5
-t;x=14;y=11;r=0;t=1
-t;x=22;y=11;r=0;t=2
-t;x=21;y=8;r=2;t=5
-t;x=13;y=8;r=2;t=5
-t;x=18;y=7;r=0;t=5
-t;x=23;y=6;r=0;t=6
-t;x=14;y=6;r=0;t=6
-t;x=16;y=6;r=0;t=1
-t;x=20;y=6;r=0;t=2
-t;x=18;y=5;r=0;t=5
-t;x=18;y=1;r=1;t=1
-t;x=19;y=3;r=2;t=2
-t;x=15;y=3;r=0;t=0
-t;x=13;y=2;r=2;t=2
-t;x=13;y=4;r=2;t=5
+t;x=4;y=21;r=0;t=0
+t;x=8;y=18;r=1;t=1
+t;x=7;y=24;r=2;t=5
+t;x=6;y=22;r=3;t=2
+t;x=8;y=22;r=0;t=6
+t;x=9;y=20;r=3;t=0
+t;x=10;y=19;r=0;t=0
+t;x=14;y=19;r=0;t=0
 t;x=21;y=2;r=2;t=5
 t;x=22;y=3;r=0;t=2
-t;x=3;y=36;r=2;t=5
+t;x=20;y=2;r=0;t=1
+t;x=18;y=3;r=0;t=5
+t;x=17;y=2;r=0;t=3
+t;x=14;y=2;r=3;t=5
+t;x=15;y=1;r=1;t=2
+t;x=14;y=3;r=1;t=1
+t;x=18;y=5;r=3;t=4
+t;x=18;y=7;r=0;t=5
+t;x=20;y=6;r=0;t=1
+t;x=21;y=6;r=2;t=5
+t;x=22;y=7;r=0;t=2
+t;x=23;y=9;r=3;t=3
+t;x=22;y=11;r=0;t=5
+t;x=15;y=6;r=0;t=5
+t;x=14;y=7;r=0;t=1
+t;x=14;y=8;r=1;t=5
+t;x=14;y=11;r=0;t=1
+t;x=16;y=10;r=0;t=1
+t;x=20;y=10;r=0;t=2
+t;x=17;y=10;r=2;t=5
+t;x=17;y=12;r=2;t=5
+t;x=18;y=14;r=3;t=0
+t;x=23;y=19;r=0;t=0
 
 d;x=19;y=28;r=0;c=0;o=false
 d;x=7;y=21;r=1;c=0;o=true
@@ -136,11 +138,11 @@ w;00011110101111100111111111111111000100
 w;00010000100000000000000000000000000100
 w;00011111111111111111111111111111111100
 ###
-Tl;x=19;y=24;amount=1,2,2,1,1,1,1,
-Tl;x=13;y=19;amount=0,2,2,1,1,0,0;a=true
-Tl;x=19;y=12;amount=0,0,0,0,0,0,0;a=true
-Tl;x=24;y=19;amount=1,4,1,1,2,1,0;
-Tl;x=19;y=30;amount=5,3,5,2,2,4,2;
+Tl;x=19;y=24;amount=1,1,1,1,1,1,1;tip=Du solltest dafür sorgen, dass du in alle vier Richtungen gehen kannst.
+Tl;x=13;y=19;amount=0,2,2,1,1,0,0;a=true;tip=Wenn eine Druckplatte neben einer Tür liegt;tip2=kannst du sie nur in eine Richtung nutzen.
+Tl;x=19;y=12;amount=0,0,0,0,0,0,0;a=true;tip=Sorge dafür das der Rückweg am Ende offen ist.
+Tl;x=24;y=19;amount=1,4,1,1,2,1,0;tip=Dieser Abschnitt ist symmetrisch doch deine Tetros nicht.
+Tl;x=19;y=30;amount=5,3,5,2,2,4,2;tip=Überlege dir genau welcher Weg am kürzesten ist.
 
 Td;x=13;y=21;xo=0;yo=-34;name=block0a;
 Td;x=12;y=21;xo=0;yo=-8;name=block0p;

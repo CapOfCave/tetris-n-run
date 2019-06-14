@@ -1,5 +1,6 @@
 package input;
 
+import java.awt.PointerInfo;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -10,14 +11,17 @@ public class GuiMouseHandler implements MouseListener {
 
 	GameFrame frame;
 	World overworld;
+	PointerInfo a;
 
 	public GuiMouseHandler(GameFrame frame, World world) {
 		this.frame = frame;
 		this.overworld = world;
+		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println(e.getX());
 
 	}
 

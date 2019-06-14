@@ -46,13 +46,13 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(5)) {
 			rotateKey = true;
 		}
-		if (ev.getKeyCode() == keyCodes.get(7)) {
+		if (ev.getKeyCode() == keyCodes.get(6)) {
 			removeKey = true;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = true;
 		}
-		if (ev.getKeyCode() == keyCodes.get(6)) {
+		if (ev.getKeyCode() == keyCodes.get(7)) {
 			kameraKey = true;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_F4) {
@@ -90,13 +90,13 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(5)) {
 			rotateKey = false;
 		}
-		if (ev.getKeyCode() == keyCodes.get(7)) {
+		if (ev.getKeyCode() == keyCodes.get(6)) {
 			removeKey = false;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
 			shift = false;
 		}
-		if (ev.getKeyCode() == keyCodes.get(6)) {
+		if (ev.getKeyCode() == keyCodes.get(7)) {
 			kameraKey = false;
 		}
 		if (ev.getKeyCode() == keyCodes.get(8)) {
