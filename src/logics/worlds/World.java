@@ -81,6 +81,7 @@ public class World {
 	protected Tetro newestTetro = null;
 	private boolean noClip = false;
 	private SaveNLoadTile lastCrossedSALTile = null;
+	private Entity lastTouched = null;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		double probsTotal = 0;
@@ -256,16 +257,16 @@ public class World {
 		}
 		int startX = canvasX / 2 - (tileWorld[5].length / 2 * size);
 		int startY = canvasY / 2 - (tileWorld.length / 2 * size);
-		//Tetros
-		for(int y = 0; y < tetroWorldHitbox.length; y++) {
-			for(int x = 0; x < tetroWorldHitbox[y].length; x++) {
+		// Tetros
+		for (int y = 0; y < tetroWorldHitbox.length; y++) {
+			for (int x = 0; x < tetroWorldHitbox[y].length; x++) {
 				if (tetroWorldHitbox[y][x]) {
 					g.setColor(Color.DARK_GRAY.brighter());
 					g.fillRect((x + 1) * size + startX, (y + 1) * size + startY, size, size);
 				}
 			}
 		}
-		
+
 		int drawX = 0;
 		int drawY = 0;
 		// Walls
@@ -288,12 +289,11 @@ public class World {
 						PressurePlateTile tmpPPT = (PressurePlateTile) tile;
 						g.setColor(tmpPPT.getColor());
 						if (tmpPPT.isOccupiedByMoveblock()) {
-							g.fillRect(drawX + startX, drawY + startY + size -2, size, 2);
+							g.fillRect(drawX + startX, drawY + startY + size - 2, size, 2);
 						} else {
 							g.fillRect(drawX + startX, drawY + startY + size - 3, size, 3);
 						}
-						
-						
+
 						break;
 					case '!':
 						g.setColor(Color.WHITE);
@@ -336,7 +336,7 @@ public class World {
 				}
 			}
 		}
-		//Schalter
+		// Schalter
 		for (int i = 0; i < allEntities.size(); i++) {
 			Entity tmpEntity = allEntities.get(i);
 			if (tmpEntity.getType() == "switch") {
@@ -355,11 +355,11 @@ public class World {
 			}
 		}
 
-		//Spieler
+		// Spieler
 		g.setColor(Color.RED);
 		g.fillRect(player.getTileX() * size + size + startX, player.getTileY() * size + size + startY, size, size);
-		
-		//Kamera
+
+		// Kamera
 		g.setColor(Color.LIGHT_GRAY);
 //		g.drawRect(x, y, width, height); //TODO
 	}
@@ -890,7 +890,7 @@ public class World {
 	}
 
 	public void setLastCrossedSALTile(SaveNLoadTile tile) {
-		lastCrossedSALTile  = tile;
+		lastCrossedSALTile = tile;
 	}
 
 	public SaveNLoadTile getLastCrossedSALTile() {
@@ -898,6 +898,7 @@ public class World {
 	}
 
 	public double minDistanceToEntity(int rotation, double x, double y, Entity collider, double minDist) {
+		minDist = 100;
 		for (Entity barrier : allEntities) {
 			if (barrier == collider
 					|| (collider instanceof Player && barrier == ((Player) collider).getMovingBlockInHand())
@@ -910,7 +911,10 @@ public class World {
 							|| barrier.getY() > y) {
 						continue;
 					} else {
-						minDist = Math.min(minDist, y - barrier.getY());
+						if (y - barrier.getY() < minDist) {
+							minDist = y - barrier.getY();
+							lastTouched = barrier;
+						}
 					}
 					break;
 				case 1:
@@ -918,7 +922,10 @@ public class World {
 							|| barrier.getX() < x) {
 						continue;
 					} else {
-						minDist = Math.min(minDist, barrier.getX() - x);
+						if (barrier.getX() - x < minDist) {
+							minDist = barrier.getX() - x;
+							lastTouched = barrier;
+						}
 					}
 					break;
 				case 2:
@@ -926,7 +933,10 @@ public class World {
 							|| barrier.getY() < y) {
 						continue;
 					} else {
-						minDist = Math.min(minDist, barrier.getY() - y);
+						if (barrier.getY() - y < minDist) {
+							minDist = barrier.getY() - y;
+							lastTouched = barrier;
+						}
 					}
 					break;
 				case 3:
@@ -934,7 +944,10 @@ public class World {
 							|| barrier.getX() > x) {
 						continue;
 					} else {
-						minDist = Math.min(minDist, x - barrier.getX());
+						if (x - barrier.getX() < minDist) {
+							minDist = x - barrier.getX();
+							lastTouched = barrier;
+						}
 					}
 					break;
 				}
@@ -949,6 +962,13 @@ public class World {
 		noClip = !noClip;
 		player.switchNoClip();
 
+	}
+
+	public MovingBlock getLastTouchedMovingBlock() {
+		if (lastTouched instanceof MovingBlock)
+			return (MovingBlock) lastTouched;
+		else
+			return null;
 	}
 
 }

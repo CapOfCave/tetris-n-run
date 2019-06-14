@@ -4,7 +4,7 @@ public class ConsoleLine {
 
 	// opacity
 	static final int fade_in_frames = 8;
-	static final int full_opacity_frames_normal = 55;
+	static final int full_opacity_frames_normal = 70;
 	static final int fade_out_frames = 10;
 	// fontsize
 	static final int fs_fade_in_frames = 2;
@@ -13,7 +13,6 @@ public class ConsoleLine {
 	static final int highlighted_fontsize = 23;
 	static final int common_fontsize = 20;
 //	static final int highlight_frames = 27;
-
 	private String content;
 	private int tick_age;
 	private int opacity = (int) (Math.random() * 255);
