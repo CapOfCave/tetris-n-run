@@ -73,7 +73,6 @@ public class Camera {
 				x = clipBorderX((pX - offsetX) * stickyness + lastX * (1 - stickyness));
 			}
 		} else {
-			System.out.println(trackX - x - offsetX + " " + (trackY - y - offsetY));
 			if (trackY - y - offsetY < 100 && trackX - x - offsetX < 100) {
 
 				inTrackingShot = false;
@@ -106,7 +105,6 @@ public class Camera {
 		if (!inTrackingShot) {
 			inTrackingShot = true;
 			stickyness = .04;
-			System.out.println(x);
 			trackX = x;
 			trackY = y;
 

@@ -363,10 +363,9 @@ public class World {
 		
 		//Kamera
 		g.setColor(new Color(255, 255, 255, 50));
-		g.fillRect(cameraX()/45 * size + size + startX, cameraY()/45 * size + size + startY, size*20, size*14); 
+		g.fillRect(cameraX()/45 * size + size + startX + (int)((cameraX() % 45)/ 45.0 * size), cameraY()/45 * size + size + startY + (int)((cameraY() % 45) /45.0 * size), size*20, size*14); 
 		g.setColor(new Color(255, 255, 255, 60));
-		g.drawRect(cameraX()/45 * size + size + startX, cameraY()/45 * size + size + startY, size*20, size*14);
-		
+		g.drawRect(cameraX()/45 * size + size + startX + (int)((cameraX() % 45) / 45.0 * size), cameraY()/45 * size + size + startY + (int)((cameraY() % 45) /45.0 * size), size*20, size*14);
 		
 	}
 
