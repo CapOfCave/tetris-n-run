@@ -21,7 +21,6 @@ public class GuiMouseHandler implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getX());
 
 	}
 

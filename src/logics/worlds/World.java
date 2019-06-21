@@ -15,7 +15,6 @@ import data.Tetro;
 import data.TetroType;
 import data.WallImgFrame;
 import data.Tiles.DoorTile;
-import data.Tiles.EmptyTile;
 import data.Tiles.PressurePlateTile;
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
@@ -257,7 +256,7 @@ public class World {
 		} else {
 			size = 5;
 		}
-		int startX = canvasX / 2 - (tileWorld[5].length / 2 * size);
+		int startX = canvasX / 2 - (tileWorld[0].length / 2 * size);
 		int startY = canvasY / 2 - (tileWorld.length / 2 * size);
 		// Tetros
 		for (int y = 0; y < tetroWorldHitbox.length; y++) {
@@ -431,7 +430,7 @@ public class World {
 		}
 
 		// camera adjustment
-		camera.tick(player.getX(), player.getY());
+		camera.tick();
 
 		for (int i = 0; i < allEntities.size(); i++) {
 			allEntities.get(i).tick();

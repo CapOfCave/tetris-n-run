@@ -101,6 +101,7 @@ public abstract class Panel extends JPanel implements Playable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 	}
 
 	protected void drawDebug(Graphics g) {

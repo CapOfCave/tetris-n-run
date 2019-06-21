@@ -39,10 +39,10 @@ public class MovingBlockSpawner extends Entity {
 
 	@Override
 	public void interact() {
-		if (child != null)
+		if (child != null) {
 			child.kill();
-		else {
-			System.out.println(cubeX);
+			world.cameraTrackingShot((int) cubeX, (int) cubeY); // TODO remove
+		} else {
 			world.cameraTrackingShot((int) cubeX, (int) cubeY);
 
 		}

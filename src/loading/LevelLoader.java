@@ -43,7 +43,7 @@ public class LevelLoader {
 		Tile[][] arrWorld = null;
 
 		HashMap<Integer, Integer> rawMaxTetroAmounts = new HashMap<>();
-		boolean[] toggleStates = new boolean[5];
+		boolean[] toggleStates = new boolean[6];
 		for (int i = 0; i < toggleStates.length; i++) {
 			toggleStates[i] = false;
 		}

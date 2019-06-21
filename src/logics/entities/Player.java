@@ -325,8 +325,8 @@ public class Player extends Entity {
 
 		double minDistEntity = world.minDistanceToEntity(rotation, x + relCheckX + GameFrame.BLOCKSIZE / 2,
 				y + relCheckY + GameFrame.BLOCKSIZE / 2, this, minDist);
-		if (minDistEntity < 100)
-			System.out.println(minDist + " " + minDistEntity + "; " + rotation);
+//		if (minDistEntity < 100)
+//			System.out.println(minDist + " " + minDistEntity + "; " + rotation);
 		if (minDistEntity < minDist) {
 			minDist = minDistEntity;
 //			if (world.getLastTouchedMovingBlock() != null) {
