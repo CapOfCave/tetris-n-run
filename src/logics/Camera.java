@@ -49,7 +49,6 @@ public class Camera {
 		this.lastY = clipBorderY(y - offsetY);
 	}
 
-
 	public void setOffsetX(int offsetX) {
 		this.offsetX = offsetX;
 	}
@@ -100,6 +99,9 @@ public class Camera {
 			case 2: // Max. Speed erreicht, jetzt bremsen
 				double dist = Math.sqrt((x - trackX) * (x - trackX) + (y - trackY) * (y - trackY));
 				if (dist < stopping_distance1) {
+					if (trackingShotPhase == 1) {
+						speed -= ACC1;
+					}
 					speed -= BRAKE1;
 					if (speed < 0) {
 						speed = 0;
@@ -132,7 +134,6 @@ public class Camera {
 								* (y - clipBorderY(world.getPlayer().getY() - offsetY)));
 
 				angle = Math.acos((clipBorderX(world.getPlayer().getX() - offsetX) - x) / dist);
-				System.out.println((clipBorderX(world.getPlayer().getX() - offsetX) - x) + " ... " + dist);
 				if (clipBorderY(world.getPlayer().getY() - offsetY) - y < 0) {
 					angle = Math.PI * 2 - angle;
 				}
@@ -153,12 +154,11 @@ public class Camera {
 				trackingShotPhase = 0;
 				break;
 			}
+
 			if (speed > 0) {
 				y += speed * Math.sin(angle);
-				System.out.println("X: " + x + "; angle=" + angle);
 				x += speed * Math.cos(angle);
 			}
-
 //			y = clipBorderY(y + speed * Math.sin(angle));
 //			x = clipBorderX(x + speed * Math.cos(angle));
 		}
@@ -188,17 +188,10 @@ public class Camera {
 			trackX = clipBorderX(pX - offsetX);
 			trackY = clipBorderY(pY - offsetY);
 
-			System.out.println("(" + x + "|" + y + ")   " + "(   " + trackX + "|" + trackY + ")");
-			System.out.println((trackY - y) + " / " + (trackX - x));
-			System.out.println(Math.toDegrees(Math.atan((double) (trackY - y) / (trackX - x))));
-
 			angle = Math.acos((trackX - x) / Math.sqrt((trackY - y) * (trackY - y) + (trackX - x) * (trackX - x)));
 			if ((trackY - y) < 0) {
 				angle = Math.PI * 2 - angle;
 			}
-//			angle = Math.atan((double) (trackY - y) / (trackX - x));
-
-			System.out.println(Math.toDegrees(angle));
 		}
 
 	}
