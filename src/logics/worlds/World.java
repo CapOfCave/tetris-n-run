@@ -78,10 +78,12 @@ public class World {
 	private boolean toggleStates[];
 	protected int[][] worldDeco;
 	protected InHandHandler inHandHandler;
-	protected Tetro newestTetro = null;
+//	protected Tetro newestTetro = null;
+	private ArrayList<Tetro> newestTetros;
 	private boolean noClip = false;
 	private SaveNLoadTile lastCrossedSALTile = null;
 	private Entity lastTouched = null;
+	private boolean tookBackTetro = false;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		double probsTotal = 0;
@@ -140,6 +142,7 @@ public class World {
 		player = new Player(this, level.getPlayerX(), level.getPlayerY(), "/res/anims/character.txt", rawPlayer);
 
 		// Erstellen der Tetros
+		newestTetros = new ArrayList<>();
 		for (RawTetro ut : level.getUnfinishedTetros()) {
 			Tetro ft = ut.createTetro(level.getTetroTypes(), camera);
 			tetros.add(ft);
@@ -225,7 +228,7 @@ public class World {
 		}
 		if (inHandHandler != null) {
 			inHandHandler.drawFloorTiles(g);
-			
+
 		}
 
 		for (Tetro t : tetros) {
@@ -240,6 +243,7 @@ public class World {
 		if (debugMode) {
 			drawDebug(g, interpolation);
 		}
+
 	}
 
 	public void drawMap(Graphics g) {
@@ -359,14 +363,13 @@ public class World {
 		// Spieler
 		g.setColor(Color.RED);
 		g.fillRect(player.getTileX() * size + size + startX, player.getTileY() * size + size + startY, size, size);
-		
-		//Kamera
+
+		// Kamera
 		g.setColor(new Color(255, 255, 255, 50));
-		g.fillRect(cameraX()/45 * size + size + startX, cameraY()/45 * size + size + startY, size*20, size*14); 
+		g.fillRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY, size * 20, size * 14);
 		g.setColor(new Color(255, 255, 255, 60));
-		g.drawRect(cameraX()/45 * size + size + startX, cameraY()/45 * size + size + startY, size*20, size*14);
-		
-		
+		g.drawRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY, size * 20, size * 14);
+
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
@@ -487,7 +490,7 @@ public class World {
 
 		if (!keyHandler.getKameraKey() || noClip) {
 
-			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0) {
+			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0 || noClip) {
 				int placeX;
 				int placeY;
 
@@ -504,7 +507,9 @@ public class World {
 				Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
 				if (isAllowed(tetro) && Panel.gamePanel.contains(mouse_x, mouse_y)) {
 					tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
-					newestTetro = tetro;
+//					newestTetro = tetro;
+					newestTetros.add(0, tetro);
+					tookBackTetro = false;
 					tetros.add(tetro);
 					addTetroToHitbox(tetro, placeX, placeY, rotation);
 
@@ -525,16 +530,22 @@ public class World {
 	}
 
 	public void removeLastTetro() {
-		if (newestTetro != null) {
-			if (!isPlayeronTetro(newestTetro)) {
-				removeTetroFromHitbox(newestTetro, newestTetro.getX(), newestTetro.getY(), newestTetro.getRotation());
-				tetroAmount[this.tetroTypes.indexOf(newestTetro.getType())] += 1;
-				tetros.remove(newestTetro);
-				newestTetro = null;
+		if (!tookBackTetro || noClip) {
+			if (newestTetros.size() == 0) {
+				frame.addLineToText("Du hast seit dem letzten Speichervorgang noch kein Tetro platziert.");
 			} else {
-				frame.addLineToText("Du stehst auf diesem Block.");
+				Tetro newestTetro = newestTetros.get(0);
+				if (!isPlayeronTetro(newestTetro)) {
+					removeTetroFromHitbox(newestTetro, newestTetro.getX(), newestTetro.getY(),
+							newestTetro.getRotation());
+					tetroAmount[this.tetroTypes.indexOf(newestTetro.getType())] += 1;
+					tetros.remove(newestTetro);
+					newestTetros.remove(0);
+					tookBackTetro = true;
+				} else {
+					frame.addLineToText("Du stehst auf diesem Block.");
+				}
 			}
-
 		} else {
 			frame.addLineToText("Du kannst nur den zuletzt gesetzten Block entfernen.");
 		}
@@ -889,11 +900,10 @@ public class World {
 		}
 
 	}
-	
+
 	public void cameraTrackingShot(int x, int y) {
 		camera.trackingShot(x, y);
 	}
-	
 
 	public void setLastUsedSALTile(SaveNLoadTile tile) {
 		lastUsedSALTile = tile;

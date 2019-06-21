@@ -16,7 +16,6 @@ import input.KeyHandler;
 import loading.LevelLoader;
 import loading.RawPlayerLoader;
 import loading.RawPlayerSaver;
-import loading.SettingsLoader;
 import logics.GameLoop;
 import sound.SoundPlayer;
 
@@ -28,13 +27,13 @@ import sound.SoundPlayer;
 public class GameFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private MenuFrame menuFrame;
 	private OverworldPanel oPanel;
-	private ArrayList<Integer> keyCodes;
 	private GameWorldPanel lPanel;
 	private RawPlayer rawPlayer;
 	private GameLoop gameLoop;
 	private char nextLevel;
-	private int levelSolved = 0;
+	private int levelSolvedAtThisDifficulty = 0;
 	private boolean inOverworld = true;
 	private ConsoleLine[] text;
 	private SoundPlayer soundPlayer;
@@ -45,41 +44,14 @@ public class GameFrame extends JFrame {
 
 	private final int panel_width;
 	private final int panel_height;
+	private int difficulty;
 
-	public static void main(String[] args) {
-
-		File savesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves");
-
-		if (!savesFile.exists()) {
-			savesFile.mkdirs();
-
-			// System.ot.println(savesFile);
-
-		}
-
-		File keyCodesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
-
-		if (!keyCodesFile.exists()) {
-			new MenuFrame(0);
-		} else {
-
-			ArrayList<Integer> keyCodes = SettingsLoader
-					.loadKeyCodes(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
-			int levelSolved = SettingsLoader
-					.loadLevelSolved(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
-
-			if (keyCodes != null)
-				new MenuFrame(keyCodes, levelSolved);
-			else
-				new MenuFrame(levelSolved);
-		}
-	}
-
-	public GameFrame(int width, int height, ArrayList<Integer> keyCodes, int levelSolved) {
+	public GameFrame(int width, int height, ArrayList<Integer> keyCodes, int levelSolved, MenuFrame menuFrame,
+			int difficulty) {
 		this.panel_width = width;
 		this.panel_height = height;
-
-		this.keyCodes = keyCodes;
+		this.menuFrame = menuFrame;
+		this.difficulty = difficulty;
 		keyHandler = new KeyHandler(keyCodes);
 		text = new ConsoleLine[7];
 		text[0] = null;
@@ -91,19 +63,20 @@ public class GameFrame extends JFrame {
 		text[6] = null;
 
 		soundPlayer = new SoundPlayer();
-		this.levelSolved = levelSolved;
+		this.levelSolvedAtThisDifficulty = levelSolved;
 
 		rawPlayer = RawPlayerLoader.readRawPlayer();
 		rawPlayer.init();
 
-		File file1 = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
-		if (file1.exists()) {
-			oPanel = new OverworldPanel(width, height, LevelLoader.loadLevel(file1.getPath(), this, rawPlayer),
-					keyHandler, this, rawPlayer);
+		File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
+		if (akt_Overworld.exists()) {
+			oPanel = new OverworldPanel(width, height,
+					LevelLoader.loadLevel(akt_Overworld.getPath(), this, rawPlayer, difficulty), keyHandler, this,
+					rawPlayer);
 		} else {
 			oPanel = new OverworldPanel(width, height,
-					LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
-					this, rawPlayer);
+					LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer, difficulty),
+					keyHandler, this, rawPlayer);
 		}
 		setLayout(new CardLayout());
 		add(oPanel);
@@ -140,22 +113,24 @@ public class GameFrame extends JFrame {
 			deleteAll();
 		}
 
-		if (((int) nextLevel - 96) > levelSolved && !died) {
-			levelSolved = ((int) nextLevel - 96);
+		if (((int) nextLevel - 96) > levelSolvedAtThisDifficulty && !died) {
+			levelSolvedAtThisDifficulty = ((int) nextLevel - 96);
 			overworldFile.delete();
 		}
 
-		oPanel = new OverworldPanel(panel_width, panel_height,
-				LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
-				this, rawPlayer);
+		oPanel = new OverworldPanel(panel_width, panel_height, LevelLoader
+				.loadLevel("/res/levels/overworld" + levelSolvedAtThisDifficulty + ".txt", this, rawPlayer, difficulty),
+				keyHandler, this, rawPlayer);
 
 		if (overworldFile.exists()) {
 			oPanel = new OverworldPanel(panel_width, panel_height,
-					LevelLoader.loadLevel(overworldFile.getPath(), this, rawPlayer), keyHandler, this, rawPlayer);
+					LevelLoader.loadLevel(overworldFile.getPath(), this, rawPlayer, difficulty), keyHandler, this,
+					rawPlayer);
 		} else {
 			oPanel = new OverworldPanel(panel_width, panel_height,
-					LevelLoader.loadLevel("/res/levels/overworld" + levelSolved + ".txt", this, rawPlayer), keyHandler,
-					this, rawPlayer);
+					LevelLoader.loadLevel("/res/levels/overworld" + levelSolvedAtThisDifficulty + ".txt", this,
+							rawPlayer, difficulty),
+					keyHandler, this, rawPlayer);
 		}
 
 		add(oPanel);
@@ -171,8 +146,8 @@ public class GameFrame extends JFrame {
 			oPanel.save();
 			deleteAll();
 			lPanel = new GameWorldPanel(panel_width, panel_height,
-					LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer), keyHandler, this,
-					rawPlayer);
+					LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer, difficulty),
+					keyHandler, this, rawPlayer);
 
 			add(lPanel);
 			remove(oPanel);
@@ -193,8 +168,8 @@ public class GameFrame extends JFrame {
 		clearText();
 		GameWorldPanel tempPanel = lPanel;
 
-		lPanel = new GameWorldPanel(panel_width, panel_height, LevelLoader.loadLevel(path, this, rawPlayer), keyHandler,
-				this, rawPlayer);
+		lPanel = new GameWorldPanel(panel_width, panel_height, LevelLoader.loadLevel(path, this, rawPlayer, difficulty),
+				keyHandler, this, rawPlayer);
 
 		add(lPanel);
 		remove(tempPanel);
@@ -217,8 +192,8 @@ public class GameFrame extends JFrame {
 			return;
 		}
 		if (file.exists()) {
-			lPanel = new GameWorldPanel(panel_width, panel_height, LevelLoader.loadLevel(path, this, rawPlayer),
-					keyHandler, this, rawPlayer);
+			lPanel = new GameWorldPanel(panel_width, panel_height,
+					LevelLoader.loadLevel(path, this, rawPlayer, difficulty), keyHandler, this, rawPlayer);
 
 			add(lPanel);
 			remove(oPanel);
@@ -232,6 +207,7 @@ public class GameFrame extends JFrame {
 	public void addLineToText(String line) {
 		addLineToText(line, 1);
 	}
+
 	public void addLineToText(String line, int factor) {
 		for (int i = text.length - 1; i > 0; i--) {
 			text[i] = text[i - 1];
@@ -250,7 +226,7 @@ public class GameFrame extends JFrame {
 
 	public void backToMenu() {
 		oPanel.save();
-		new MenuFrame(keyCodes, levelSolved);
+		menuFrame.setVisible(true);
 		this.dispose();
 
 	}

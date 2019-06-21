@@ -32,8 +32,8 @@ public class OptionPanel extends JPanel {
 		keyCodes.add(3, 68);
 		keyCodes.add(4, 32);
 		keyCodes.add(5, 82);
-		keyCodes.add(6, 17);
-		keyCodes.add(7, 69);
+		keyCodes.add(6, 69);
+		keyCodes.add(7, 17);
 		keyCodes.add(8, 70);
 
 		this.frame = frame;
@@ -140,8 +140,8 @@ public class OptionPanel extends JPanel {
 
 	public void changeKeyCode(int keyCode) {
 		if (keyCodeForChange >= 0) {
-			for (int i = 0; i <= 7; i++) {
-				if (frame.getKeyCodes().get(i) == keyCode) {
+			for (int i = 0; i < keyCodes.size(); i++) {
+				if (keyCodes.get(i) == keyCode) {
 					keyCodeForChange = -1;
 					frame.playSound("error", -5f);
 					repaint();
@@ -158,6 +158,10 @@ public class OptionPanel extends JPanel {
 
 	public ArrayList<Integer> getKeyCodes() {
 		return keyCodes;
+	}
+
+	public void setKeyCodes(ArrayList<Integer> keyCodes) {
+		this.keyCodes = keyCodes;
 	}
 
 }

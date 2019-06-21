@@ -94,8 +94,6 @@ public class GameWorldPanel extends Panel {
 			g.drawRect(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		}
 		
-		g.setColor(Color.CYAN);
-		g.drawRect(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 	}
 
 	public void setLastUsedSALTile(SaveNLoadTile tile) {

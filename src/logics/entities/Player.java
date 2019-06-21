@@ -86,12 +86,10 @@ public class Player extends Entity {
 	public void drawDebug(Graphics g, float interpolation) {
 		// Player hitbox
 		g.setFont(new Font("helvetica", Font.PLAIN, 11));
-
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("helvetica", Font.PLAIN, 11));
 		g.drawString("rx=" + x + " | ry=" + y, 20, 40);
 		g.drawString("vx=" + x / GameFrame.BLOCKSIZE + " | vy=" + y / GameFrame.BLOCKSIZE, 20, 55);
-		g.setColor(Color.CYAN);
 	}
 
 	public void setMaxSpeed(double maxSpeed) {

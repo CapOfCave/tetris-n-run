@@ -130,8 +130,6 @@ public class OverworldPanel extends Panel {
 				}
 			}
 		}
-		g.setColor(Color.CYAN);
-		g.drawRect(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 	}
 
 	public void save() {
