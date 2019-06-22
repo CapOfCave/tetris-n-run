@@ -101,4 +101,9 @@ public class GameWorldPanel extends Panel {
 
 	}
 
+	public void updateTetros() {
+		((SaveNLoadTile) world.getTileAt(world.getPlayer().getTileY(), world.getPlayer().getTileX())).refreshTetros();
+		
+	}
+
 }

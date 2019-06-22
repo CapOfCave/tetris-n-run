@@ -242,12 +242,12 @@ public class LevelLoader {
 						x = Integer.parseInt(str.substring(2));
 					} else if (str.startsWith("y=")) {
 						y = Integer.parseInt(str.substring(2));
-					} else if (str.startsWith("amount=") || str.startsWith("amount" + difficulty + "=")) { 
+					} else if (str.startsWith("amount=") || str.startsWith("amount" + difficulty + "=")) {
 
 						String[] amounts = str.substring(str.indexOf("=") + 1).split(",");
-
+						
 						for (int i = 0; i < amounts.length; i++) {
-							if (amountList.length <= amounts.length)
+							if (i < amountList.length)
 								amountList[i] = Integer.parseInt(amounts[i]);
 						}
 					} else if (str.startsWith("a=")) {
@@ -328,7 +328,7 @@ public class LevelLoader {
 						}
 
 					} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò'
-							|| tileChar == 'ù'|| tileChar == 'À') {
+							|| tileChar == 'ù' || tileChar == 'À') {
 						arrWorld[j][i] = new PressurePlateTile(tileChar, i, j, frame);
 					} else if (tileChar == '!') {
 						arrWorld[j][i] = new GoalTile(i, j, frame);

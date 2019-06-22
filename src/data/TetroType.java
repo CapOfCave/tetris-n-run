@@ -16,9 +16,13 @@ public class TetroType {
 	private boolean[][] hitbox;
 	private int[][] expandedHitbox;
 
-	public TetroType(String strHitbox, BufferedImage img) {
+	private Pics sliced;
+	private int slicedColor;
+
+	public TetroType(String strHitbox, BufferedImage img, int slicedColor) {
 		this.strHitbox = strHitbox;
 		this.img = img;
+		this.slicedColor = slicedColor;
 
 		hitbox = new boolean[2][4];
 		expandedHitbox = new int[hitbox.length + 2 * hitboxExpansion][hitbox[0].length + 2 * hitboxExpansion];
@@ -40,7 +44,6 @@ public class TetroType {
 				}
 			}
 		}
-
 
 	}
 
@@ -92,6 +95,13 @@ public class TetroType {
 
 	public String getStrHitbox() {
 		return strHitbox;
+	}
+
+	public Pics getSliced() {
+		if (sliced == null) {
+			sliced = new Pics("/res/slicedTetros/slicedPane" + slicedColor + ".png", GameFrame.BLOCKSIZE);
+		}
+		return sliced;
 	}
 
 }

@@ -31,7 +31,7 @@ public class SoundPlayer {
 			sounds.put("error", this.getClass().getResource("/res/sounds/error1.wav"));
 			sounds.put("lever", this.getClass().getResource("/res/sounds/lever.wav"));
 			sounds.put("save", this.getClass().getResource("/res/sounds/save.wav"));
-			
+			sounds.put("glassbreak", this.getClass().getResource("/res/sounds/glassbreak.wav"));
 		 
 
 

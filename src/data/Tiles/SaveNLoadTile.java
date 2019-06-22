@@ -33,7 +33,8 @@ public class SaveNLoadTile extends Tile {
 		needsBackGround = true;
 //		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoadAc.png");
 //		image3dUnSaved = ImageLoader.loadImage("/res/blocks/saveNLoadDeac.png");
-
+		
+		
 		this.tetroAmount = tetroAmount;
 		this.addingTetros = addingTetros;
 		this.tip = tip;
@@ -106,11 +107,7 @@ public class SaveNLoadTile extends Tile {
 
 		if (!fileExists) {
 			frame.addLineToText("Spielstand wurde gespeichert.");
-			if (addingTetros)
-				world.addTetroAmount(tetroAmount);
-
-			else
-				world.setTetroAmount(tetroAmount);
+			refreshTetros();
 			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
 			checkIfExists();
 		} else {
@@ -126,6 +123,14 @@ public class SaveNLoadTile extends Tile {
 			frame.swichLevel(loadFile.getAbsolutePath(), this);
 
 		}
+	}
+	
+	public void refreshTetros() {
+		if (addingTetros)
+			world.addTetroAmount(tetroAmount);
+
+		else
+			world.setTetroAmount(tetroAmount);
 	}
 
 	private void checkIfExists() {

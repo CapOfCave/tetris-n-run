@@ -24,7 +24,7 @@ public class MenuFrame extends JFrame {
 	private MenuKeyHandler keyHandler;
 	private ArrayList<Integer> levelSolved;
 	
-	private int difficulty = 1; //0: eZ, 1: normal, 2: expert, 3: impossible
+	//private int difficulty = 1; //0: eZ, 1: normal, 2: expert, 3: impossible
 	
 	public static void main(String[] args) {
 
@@ -52,12 +52,11 @@ public class MenuFrame extends JFrame {
 	}
 	
 	public MenuFrame(int difficulty, ArrayList<Integer> levelSolved) {
-		this.difficulty = difficulty;
 		this.levelSolved = levelSolved;
 
 		mPanel = new MenuPanel(this);
 		tPanel = new TutorialPanel(this);
-		oPanel = new OptionPanel(this);
+		oPanel = new OptionPanel(this, difficulty);
 		keyHandler = new MenuKeyHandler(oPanel);
 		soundPlayer = new SoundPlayer();
 		
@@ -119,11 +118,11 @@ public class MenuFrame extends JFrame {
 	}
 
 	public int getLevelSolved() {
-		return levelSolved.get(difficulty);
+		return levelSolved.get(getDifficulty());
 	}
 
 	public int getDifficulty() {
-		return difficulty;
+		return oPanel.getDifficulty();
 	}
 
 }

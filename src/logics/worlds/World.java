@@ -2,6 +2,7 @@ package logics.worlds;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import graphics.Renderer;
 import input.KeyHandler;
 import loading.ImageLoader;
 import loading.LevelSaver;
+import logics.BreakingAnimator;
 import logics.Camera;
 import logics.GameLoop;
 import logics.InHandHandler;
@@ -61,6 +63,7 @@ public class World {
 	protected Camera camera;
 	protected GameFrame frame;
 	protected KeyHandler keyHandler;
+	protected BreakingAnimator breakingAnimator;
 
 	// Halten die Weltinformationen
 	protected Tile[][] tileWorld;
@@ -96,7 +99,7 @@ public class World {
 
 		// Initialisierungen
 		this.graphicClip = graphicClip;
-
+		breakingAnimator = new BreakingAnimator();
 		renderRect = new Rectangle(-render_image_offset, -render_image_offset,
 				graphicClip.width + 2 * render_image_offset, graphicClip.height + 2 * render_image_offset);
 		this.tetroTypes = level.getTetroTypes();
@@ -208,7 +211,6 @@ public class World {
 	}
 
 	public void draw(Graphics g, float interpolation, boolean debugMode) {
-
 		GameLoop.actualframes++;
 		camera.prepareDraw(interpolation);
 		// 2D-Rendering background
@@ -234,12 +236,10 @@ public class World {
 		for (Tetro t : tetros) {
 			t.draw(g);
 		}
-
+		
 		// 3D-Rendering
 		renderer.draw(g, interpolation);
-
-		// Tetros
-
+		breakingAnimator.show((Graphics2D) g);
 		if (debugMode) {
 			drawDebug(g, interpolation);
 		}
@@ -416,10 +416,13 @@ public class World {
 		g.setColor(Color.PINK);
 		g.drawOval((int) ((4 - 0.5) * GameFrame.BLOCKSIZE - camera.getX()),
 				(int) ((4 - 0.5) * GameFrame.BLOCKSIZE - camera.getY()), 5, 5);
+
 	}
 
 	public void tick() {
 		GameLoop.actualupdates++;
+
+		breakingAnimator.tick();
 
 		// Player movement
 		player.tick();
@@ -542,6 +545,9 @@ public class World {
 					tetros.remove(newestTetro);
 					newestTetros.remove(0);
 					tookBackTetro = true;
+					playSound("glassbreak", 5);
+					breakingAnimator.startAnimation(newestTetro.getX(), newestTetro.getY(), newestTetro, cameraX(), cameraY());
+
 				} else {
 					frame.addLineToText("Du stehst auf diesem Block.");
 				}

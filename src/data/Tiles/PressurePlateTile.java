@@ -49,7 +49,7 @@ public class PressurePlateTile extends Tile {
 
 	@Override
 	public void eventWhenEntering() {
-		frame.playSound("ButtonSound", -15f);
+		world.playSound("ButtonSound", -15f);
 		pressedByPlayer = true;
 		if (moveBlocksOnTile == 0) {
 			world.switchDoors(color);
@@ -60,7 +60,7 @@ public class PressurePlateTile extends Tile {
 
 	@Override
 	public void eventWhenMoveBlockEntering() {
-		frame.playSound("ButtonSound", -15f);
+		world.playSound("ButtonSound", -15f);
 		moveBlocksOnTile++;
 		if (!pressedByPlayer && moveBlocksOnTile == 1) {
 			world.switchDoors(color);
@@ -71,7 +71,7 @@ public class PressurePlateTile extends Tile {
 
 	@Override
 	public void eventWhenMoveBlockLeaving() {
-		frame.playSound("ButtonSound", -15f);
+		world.playSound("ButtonSound", -15f);
 		moveBlocksOnTile--;
 		if (!pressedByPlayer && moveBlocksOnTile == 0) {
 			world.switchDoors(color);
@@ -83,7 +83,7 @@ public class PressurePlateTile extends Tile {
 
 	@Override
 	public void eventWhenLeaving() {
-		frame.playSound("ButtonSound", -15f);
+		world.playSound("ButtonSound", -15f);
 		if (moveBlocksOnTile == 0) {
 			world.switchDoors(color);
 			pressedByPlayer = false;

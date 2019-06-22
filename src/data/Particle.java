@@ -1,34 +1,62 @@
 package data;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public class Particle {
 
 	double x, y;
 	double vx, vy;
-	double opacity;
 	Color color;
-	double lifeSpan;
-	
+	int lifeSpan;
+	BufferedImage img;
+	float opacity = 1f;
 
-	public Particle(double x, double y, double vx, double vy, double opacity, Color color, double lifeSpan) {
+	boolean dead = false;
+	int age = 0;
+
+	public Particle(double x, double y, double vx, double vy, Color color, int lifeSpan, BufferedImage img) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
-		this.opacity = opacity;
 		this.color = color;
 		this.lifeSpan = lifeSpan;
+		this.img = img;
 	}
 
+	double acc = 0.32;
 	public void update() {
 		x += vx;
 		y += vy;
+		if (vx > 0) {
+			vx = Math.max(0, vx - acc);
+		} else {
+			vx =  Math.min(0, vx + acc);
+		}
+		
+		if (vy > 0) {
+			vy = Math.max(0, vy - acc);
+		} else {
+			vy =  Math.min(0, vy + acc);
+		}
+		age++;
+		if (age >= lifeSpan) {
+			dead = true;
+		}
+		opacity = 1f - (float) age / lifeSpan;
+
 	}
 
-	public void show(Graphics g) {
-		g.fillOval((int) x, (int) y, 5, 5);
+	public void show(Graphics2D g) {
+		if (img != null) {
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+			g.drawImage(img, (int) x, (int) y, null);
+		} else {
+			g.fillOval((int) 200, (int) 200, 15, 15);
+		}
 	}
 
 	public double getX() {
@@ -63,20 +91,16 @@ public class Particle {
 		this.vy = vy;
 	}
 
-	public double getOpacity() {
-		return opacity;
-	}
-
-	public void setOpacity(double opacity) {
-		this.opacity = opacity;
-	}
-
 	public Color getColor() {
 		return color;
 	}
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public boolean isDead() {
+		return dead;
 	}
 
 }

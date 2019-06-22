@@ -165,7 +165,7 @@ public class GameFrame extends JFrame {
 
 	// Level to level
 	public void swichLevel(String path, SaveNLoadTile tile) {
-		clearText();
+//		clearText();
 		GameWorldPanel tempPanel = lPanel;
 
 		lPanel = new GameWorldPanel(panel_width, panel_height, LevelLoader.loadLevel(path, this, rawPlayer, difficulty),
@@ -175,6 +175,8 @@ public class GameFrame extends JFrame {
 		remove(tempPanel);
 		gameLoop.changePlayable(lPanel);
 		lPanel.setLastUsedSALTile(tile);
+		lPanel.updateTetros();
+		
 
 	}
 
