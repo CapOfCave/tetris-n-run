@@ -87,6 +87,10 @@ public class World {
 	private Entity lastTouched = null;
 	private boolean tookBackTetro = false;
 
+	public static final int removedTetroFocusTicks = 5;
+	private int currentFocusTicks = 0;
+	private int focusedTetroType;
+
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame, RawPlayer rawPlayer) {
 		double probsTotal = 0;
 		for (int i = 0; i < probs.length; i++) {
@@ -422,6 +426,9 @@ public class World {
 	public void tick() {
 		GameLoop.actualupdates++;
 
+		if (currentFocusTicks > 0)
+			currentFocusTicks--;
+
 		particleHandler.tick();
 
 		// Player movement
@@ -547,6 +554,8 @@ public class World {
 					tookBackTetro = true;
 					playSound("glassbreak", 5);
 					particleHandler.startBreakingAnimation(newestTetro.getX(), newestTetro.getY(), newestTetro);
+					currentFocusTicks = removedTetroFocusTicks;
+					focusedTetroType = newestTetro.getType().getColor();
 				} else {
 					frame.addLineToText("Du stehst auf diesem Block.");
 				}
@@ -555,6 +564,14 @@ public class World {
 			frame.addLineToText("Du kannst nur den zuletzt gesetzten Block entfernen.");
 		}
 
+	}
+
+	public int getFocusedTetroType() {
+		if (currentFocusTicks > 0) {
+			return focusedTetroType;
+		} else {
+			return -1;
+		}
 	}
 
 	private boolean isAllowed(Tetro tetro) {
@@ -916,7 +933,7 @@ public class World {
 	}
 
 	public void setLastCrossedSALTile(SaveNLoadTile tile) {
-		
+
 		lastCrossedSALTile = tile;
 	}
 
@@ -1000,6 +1017,14 @@ public class World {
 
 	public ParticleHandler getParticleHandler() {
 		return particleHandler;
+	}
+
+	public boolean noClip() {
+		return noClip;
+	}
+
+	public float getFocusedTetroTicks() {
+		return removedTetroFocusTicks - currentFocusTicks;
 	}
 
 }

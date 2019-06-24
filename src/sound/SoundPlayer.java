@@ -31,6 +31,7 @@ public class SoundPlayer {
 		sounds.put("lever", this.getClass().getResource("/res/sounds/lever.wav"));
 		sounds.put("save", this.getClass().getResource("/res/sounds/save.wav"));
 		sounds.put("glassbreak", this.getClass().getResource("/res/sounds/glassbreak.wav"));
+		sounds.put("menuHover", this.getClass().getResource("/res/sounds/menuHoverSound.wav"));
 
 	}
 

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import data.ConsoleLine;
 import data.Level;
@@ -26,6 +27,11 @@ public class GameWorldPanel extends Panel {
 	private MouseHandler mouseHandler;
 
 	private final int tetrotypeDrawSize = 30;
+	private final int tetrotypeDrawSizeHovered = 34;
+
+	private final int tetroHoverOffset = (tetrotypeDrawSizeHovered - tetrotypeDrawSize) / 2;
+
+	private BufferedImage emptyTetro;
 
 	private int seconds = 0;
 
@@ -40,6 +46,8 @@ public class GameWorldPanel extends Panel {
 		world.addInHandHandler(inHandHandler);
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
+
+		emptyTetro = ImageLoader.loadImage("/res/tetros/empty.png");
 	}
 
 	@Override
@@ -59,9 +67,27 @@ public class GameWorldPanel extends Panel {
 
 		world.draw(gameGraphics, interpolation, debugMode);
 		world.drawMap(mapGraphics);
-		inHandHandler.drawPreview(g, debugMode);
+
 		for (int i = 0; i < tetroTypes.size(); i++) {
-			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize, 0);
+			BufferedImage img = null;
+			if (world.getTetroAmount()[i] <= 0) {
+				img = emptyTetro;
+			}
+
+			if (tetroTypes.get(i) == inHandHandler.tetroInHand && world.getTetroAmount()[i] <= 1) {
+				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize,
+						0, emptyTetro);
+			} else if (tetroTypes.get(i) == mouseHandler.getCurrentlyHoveredTetro()) {
+				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x - tetroHoverOffset * 4,
+						tetroDrawPositions.get(i).y - tetroHoverOffset * 2, tetrotypeDrawSizeHovered, 0, img);
+			} else if (world.getFocusedTetroType() == i) {
+				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x - tetroHoverOffset * 4,
+						tetroDrawPositions.get(i).y - tetroHoverOffset * 2, tetrotypeDrawSizeHovered, 0, img);
+			} else {
+				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize,
+						0, img);
+			}
+
 			g.setFont(new Font("TimesNewRoman", 1, 25));
 			if (i % 2 == 0 && world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
 				g.drawString("" + world.getTetroAmount()[i], 1212, 153 + 58 * i + i / 2);
@@ -86,6 +112,8 @@ public class GameWorldPanel extends Panel {
 				}
 			}
 		}
+
+		inHandHandler.drawPreview(g, debugMode);
 
 		if (debugMode) {
 			gameGraphics.setColor(Color.WHITE);
