@@ -25,7 +25,7 @@ public class SaveNLoadTile extends Tile {
 	private String tip3;
 	private String tip4;
 
-	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves\\";
+	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves\\";
 
 	public SaveNLoadTile(char key, int posX, int posY, GameFrame frame, int[] tetroAmount, boolean addingTetros,
 			String tip, String tip2, String tip3, String tip4) {

@@ -54,7 +54,6 @@ public class SettingsLoader {
 			}
 
 		}
-		System.out.println(difficulty);
 		if (keyCodes.size() > 0) {
 			this.keyCodes = keyCodes;
 		}

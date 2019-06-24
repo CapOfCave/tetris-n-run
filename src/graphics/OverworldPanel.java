@@ -131,9 +131,14 @@ public class OverworldPanel extends Panel {
 			}
 		}
 	}
+	
+	@Override
+	public void secondPassed() {
+		frame.getStats().addSecond();
+	}
 
 	public void save() {
-		world.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "overworldSave.txt");
+		world.save(System.getenv("APPDATA") + "\\tetris-n-run\\saves", "overworldSave.txt");
 	}
 
 }

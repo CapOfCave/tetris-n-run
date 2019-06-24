@@ -103,6 +103,7 @@ public abstract class Panel extends JPanel implements Playable {
 		super.paintComponent(g);
 		
 	}
+	
 
 	protected void drawDebug(Graphics g) {
 		world.drawDebug(g, interpolation);

@@ -25,7 +25,7 @@ import graphics.Renderer;
 import input.KeyHandler;
 import loading.ImageLoader;
 import loading.LevelSaver;
-import logics.BreakingAnimator;
+import logics.ParticleHandler;
 import logics.Camera;
 import logics.GameLoop;
 import logics.InHandHandler;
@@ -63,7 +63,7 @@ public class World {
 	protected Camera camera;
 	protected GameFrame frame;
 	protected KeyHandler keyHandler;
-	protected BreakingAnimator breakingAnimator;
+	protected ParticleHandler particleHandler;
 
 	// Halten die Weltinformationen
 	protected Tile[][] tileWorld;
@@ -81,7 +81,6 @@ public class World {
 	private boolean toggleStates[];
 	protected int[][] worldDeco;
 	protected InHandHandler inHandHandler;
-//	protected Tetro newestTetro = null;
 	private ArrayList<Tetro> newestTetros;
 	private boolean noClip = false;
 	private SaveNLoadTile lastCrossedSALTile = null;
@@ -99,7 +98,8 @@ public class World {
 
 		// Initialisierungen
 		this.graphicClip = graphicClip;
-		breakingAnimator = new BreakingAnimator();
+		particleHandler = new ParticleHandler(this);
+
 		renderRect = new Rectangle(-render_image_offset, -render_image_offset,
 				graphicClip.width + 2 * render_image_offset, graphicClip.height + 2 * render_image_offset);
 		this.tetroTypes = level.getTetroTypes();
@@ -236,10 +236,10 @@ public class World {
 		for (Tetro t : tetros) {
 			t.draw(g);
 		}
-		
+
 		// 3D-Rendering
 		renderer.draw(g, interpolation);
-		breakingAnimator.show((Graphics2D) g);
+		particleHandler.show((Graphics2D) g);
 		if (debugMode) {
 			drawDebug(g, interpolation);
 		}
@@ -422,7 +422,7 @@ public class World {
 	public void tick() {
 		GameLoop.actualupdates++;
 
-		breakingAnimator.tick();
+		particleHandler.tick();
 
 		// Player movement
 		player.tick();
@@ -490,7 +490,6 @@ public class World {
 	}
 
 	public void addTetro(TetroType tetroType, int x, int y, int mouse_x, int mouse_y, int rotation) {
-
 		if (!keyHandler.getKameraKey() || noClip) {
 
 			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0 || noClip) {
@@ -509,14 +508,15 @@ public class World {
 				}
 				Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
 				if (isAllowed(tetro) && Panel.gamePanel.contains(mouse_x, mouse_y)) {
+					// success
 					tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
-//					newestTetro = tetro;
 					newestTetros.add(0, tetro);
 					tookBackTetro = false;
 					tetros.add(tetro);
 					addTetroToHitbox(tetro, placeX, placeY, rotation);
 
 					playSound("synth", -5f);
+					frame.getStats().addTetro();
 
 				} else {
 					playSound("error", -3f);
@@ -539,6 +539,7 @@ public class World {
 			} else {
 				Tetro newestTetro = newestTetros.get(0);
 				if (!isPlayeronTetro(newestTetro)) {
+					// success
 					removeTetroFromHitbox(newestTetro, newestTetro.getX(), newestTetro.getY(),
 							newestTetro.getRotation());
 					tetroAmount[this.tetroTypes.indexOf(newestTetro.getType())] += 1;
@@ -546,8 +547,8 @@ public class World {
 					newestTetros.remove(0);
 					tookBackTetro = true;
 					playSound("glassbreak", 5);
-					breakingAnimator.startAnimation(newestTetro.getX(), newestTetro.getY(), newestTetro, cameraX(), cameraY());
-
+					particleHandler.startBreakingAnimation(newestTetro.getX(), newestTetro.getY(), newestTetro);
+					frame.getStats().removeTetro();
 				} else {
 					frame.addLineToText("Du stehst auf diesem Block.");
 				}
@@ -912,10 +913,12 @@ public class World {
 	}
 
 	public void setLastUsedSALTile(SaveNLoadTile tile) {
+		newestTetros = new ArrayList<>();
 		lastUsedSALTile = tile;
 	}
 
 	public void setLastCrossedSALTile(SaveNLoadTile tile) {
+		
 		lastCrossedSALTile = tile;
 	}
 
@@ -995,6 +998,15 @@ public class World {
 			return (MovingBlock) lastTouched;
 		else
 			return null;
+	}
+
+	public void achieve(String string) {
+		frame.achieve(string);
+
+	}
+	
+	public ParticleHandler getParticleHandler() {
+		return particleHandler;
 	}
 
 }

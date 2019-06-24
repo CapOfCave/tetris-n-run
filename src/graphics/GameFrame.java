@@ -16,6 +16,8 @@ import input.KeyHandler;
 import loading.LevelLoader;
 import loading.RawPlayerLoader;
 import loading.RawPlayerSaver;
+import loading.Statistics;
+import logics.AchievementHandler;
 import logics.GameLoop;
 import sound.SoundPlayer;
 
@@ -33,7 +35,7 @@ public class GameFrame extends JFrame {
 	private RawPlayer rawPlayer;
 	private GameLoop gameLoop;
 	private char nextLevel;
-	private int levelSolvedAtThisDifficulty = 0;
+	private int lastLevelSolved = 0;
 	private boolean inOverworld = true;
 	private ConsoleLine[] text;
 	private SoundPlayer soundPlayer;
@@ -41,6 +43,8 @@ public class GameFrame extends JFrame {
 	public static final int TEXTOFFSET = 21;
 
 	private KeyHandler keyHandler;
+	private Statistics stats;
+	private AchievementHandler achievementHandler;
 
 	private final int panel_width;
 	private final int panel_height;
@@ -63,12 +67,16 @@ public class GameFrame extends JFrame {
 		text[6] = null;
 
 		soundPlayer = new SoundPlayer();
-		this.levelSolvedAtThisDifficulty = levelSolved;
+		this.lastLevelSolved = levelSolved;
+
+		achievementHandler = new AchievementHandler(this);
+		stats = new Statistics(System.getenv("APPDATA") + "\\tetris-n-run\\stats.txt", achievementHandler);
+		stats.loadStats();
 
 		rawPlayer = RawPlayerLoader.readRawPlayer();
 		rawPlayer.init();
 
-		File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
+		File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
 		if (akt_Overworld.exists()) {
 			oPanel = new OverworldPanel(width, height,
 					LevelLoader.loadLevel(akt_Overworld.getPath(), this, rawPlayer, difficulty), keyHandler, this,
@@ -94,32 +102,51 @@ public class GameFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (inOverworld)
+				if (inOverworld) {
 					oPanel.save();
-
+				}
+				stats.saveStats();
 			}
 		});
 
 	}
 
 	public void changeToOverworld(boolean died, RawPlayer rawPlayer) {
-
-		clearText();
-		File overworldFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\overworldSave.txt");
+//		clearText(); //TODO maybe
+		File overworldFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
 		if (!died) {
-
+			// Finished the level
 			RawPlayerSaver.writePlayer(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\player.txt", rawPlayer);
 
 			deleteAll();
+
+			if (((int) nextLevel - 96) > lastLevelSolved) {
+				lastLevelSolved = ((int) nextLevel - 96);
+				overworldFile.delete();
+				if (lastLevelSolved == 8) {// AchievementGoal
+					achievementHandler.achieve("geschafft");
+					if (difficulty == 0) {// AchievementGoal
+						achievementHandler.achieve("erfahreneranfaenger");
+					} else if (difficulty == 2) {// AchievementGoal
+						achievementHandler.achieve("theexpert");
+					} else if (difficulty == 3) {// AchievementGoal
+						achievementHandler.achieve("wardasueberhauptmoeglich");
+					}
+					if (stats.getTotalInGameSeconds() <= 1800) {// AchievementGoal //TODO Seconds for Game completion
+						achievementHandler.achieve("speedrunner");
+					}
+				} else if (lastLevelSolved == 1 && lPanel.getSeconds() <= 40) {// AchievementGoal
+					achievementHandler.achieve("wieimschlaf");
+				}
+				addLineToText("Benötigte Zeit für Level " + lastLevelSolved + ": " + (lPanel.getSeconds() / 60) + ":"
+						+ ((lPanel.getSeconds() % 60) / 10) + lPanel.getSeconds() % 60 % 10);
+				System.out.println("Benötigte Zeit für Level " + lastLevelSolved + ": " + (lPanel.getSeconds() / 60)
+						+ ":" + ((lPanel.getSeconds() % 60) / 10) + lPanel.getSeconds() % 60 % 10);
+			}
 		}
 
-		if (((int) nextLevel - 96) > levelSolvedAtThisDifficulty && !died) {
-			levelSolvedAtThisDifficulty = ((int) nextLevel - 96);
-			overworldFile.delete();
-		}
-
-		oPanel = new OverworldPanel(panel_width, panel_height, LevelLoader
-				.loadLevel("/res/levels/overworld" + levelSolvedAtThisDifficulty + ".txt", this, rawPlayer, difficulty),
+		oPanel = new OverworldPanel(panel_width, panel_height,
+				LevelLoader.loadLevel("/res/levels/overworld" + lastLevelSolved + ".txt", this, rawPlayer, difficulty),
 				keyHandler, this, rawPlayer);
 
 		if (overworldFile.exists()) {
@@ -127,9 +154,8 @@ public class GameFrame extends JFrame {
 					LevelLoader.loadLevel(overworldFile.getPath(), this, rawPlayer, difficulty), keyHandler, this,
 					rawPlayer);
 		} else {
-			oPanel = new OverworldPanel(panel_width, panel_height,
-					LevelLoader.loadLevel("/res/levels/overworld" + levelSolvedAtThisDifficulty + ".txt", this,
-							rawPlayer, difficulty),
+			oPanel = new OverworldPanel(panel_width, panel_height, LevelLoader
+					.loadLevel("/res/levels/overworld" + lastLevelSolved + ".txt", this, rawPlayer, difficulty),
 					keyHandler, this, rawPlayer);
 		}
 
@@ -148,6 +174,9 @@ public class GameFrame extends JFrame {
 			lPanel = new GameWorldPanel(panel_width, panel_height,
 					LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer, difficulty),
 					keyHandler, this, rawPlayer);
+			if (nextLevel == 8) { // AchievementGoal
+				achievementHandler.achieve("dasendenaht");
+			}
 
 			add(lPanel);
 			remove(oPanel);
@@ -156,7 +185,7 @@ public class GameFrame extends JFrame {
 	}
 
 	private void deleteAll() {
-		File tmpSaveFolder = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves");
+		File tmpSaveFolder = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
 		if (tmpSaveFolder.exists())
 			for (File f : tmpSaveFolder.listFiles()) {
 				f.delete();
@@ -176,12 +205,12 @@ public class GameFrame extends JFrame {
 		gameLoop.changePlayable(lPanel);
 		lPanel.setLastUsedSALTile(tile);
 		lPanel.updateTetros();
-		
+		stats.loadLevel();
 
 	}
 
 	public void loadLevel() {
-		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\tmpSaves");
+		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
 		int folder_length = file.listFiles().length;
 		String path = null;
 		for (File f : file.listFiles()) {
@@ -196,7 +225,7 @@ public class GameFrame extends JFrame {
 		if (file.exists()) {
 			lPanel = new GameWorldPanel(panel_width, panel_height,
 					LevelLoader.loadLevel(path, this, rawPlayer, difficulty), keyHandler, this, rawPlayer);
-
+			stats.loadLevel();
 			add(lPanel);
 			remove(oPanel);
 			gameLoop.changePlayable(lPanel);
@@ -210,7 +239,7 @@ public class GameFrame extends JFrame {
 		addLineToText(line, 1);
 	}
 
-	public void addLineToText(String line, int factor) {
+	public void addLineToText(String line, float factor) {
 		for (int i = text.length - 1; i > 0; i--) {
 			text[i] = text[i - 1];
 			if (text[i] != null)
@@ -259,6 +288,14 @@ public class GameFrame extends JFrame {
 				cl.tick();
 		}
 
+	}
+
+	public Statistics getStats() {
+		return stats;
+	}
+
+	public void achieve(String str) {
+		achievementHandler.achieve(str);
 	}
 
 }

@@ -7,7 +7,7 @@ pics45 picf="/res/blocks/lvls/blockfanim.png"
 pics45 picg="/res/blocks/lvls/blockganim.png"
 pics135 pich="/res/blocks/lvls/blockhanim.png"
 
-anim1 openinga=pica.2+pica.3+pica.4+pica.5+pica.6
+anim1 openinga=pica.1+pica.2+pica.3+pica.4+pica.5+pica.6
 anim1 closinga=pica.6+pica.5+pica.4+pica.3+pica.2
 anim closea=pica.0
 anim opena=pica.7

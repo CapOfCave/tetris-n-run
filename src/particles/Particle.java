@@ -1,9 +1,11 @@
-package data;
+package particles;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
+import logics.worlds.World;
 
 public class Particle {
 
@@ -16,8 +18,9 @@ public class Particle {
 
 	boolean dead = false;
 	int age = 0;
+	World world;
 
-	public Particle(double x, double y, double vx, double vy, Color color, int lifeSpan, BufferedImage img) {
+	public Particle(World world, double x, double y, double vx, double vy, Color color, int lifeSpan, BufferedImage img) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
@@ -25,6 +28,7 @@ public class Particle {
 		this.color = color;
 		this.lifeSpan = lifeSpan;
 		this.img = img;
+		this.world = world;
 	}
 
 	double acc = 0.32;
@@ -53,9 +57,11 @@ public class Particle {
 	public void show(Graphics2D g) {
 		if (img != null) {
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-			g.drawImage(img, (int) x, (int) y, null);
+			g.drawImage(img, (int) x - world.cameraX(), (int) y - world.cameraY(), null);
 		} else {
-			g.fillOval((int) 200, (int) 200, 15, 15);
+			g.setColor(color);
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+			g.fillOval((int) x - world.cameraX(), (int) y - world.cameraY(), 4, 4);
 		}
 	}
 

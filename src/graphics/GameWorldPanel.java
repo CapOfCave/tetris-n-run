@@ -27,6 +27,8 @@ public class GameWorldPanel extends Panel {
 
 	private final int tetrotypeDrawSize = 30;
 
+	private int seconds = 0;
+
 	public GameWorldPanel(int width, int height, Level level, KeyHandler keyHandler, GameFrame frame,
 			RawPlayer rawPlayer) {
 		super(width, height, level, keyHandler, frame);
@@ -93,7 +95,7 @@ public class GameWorldPanel extends Panel {
 			g.setColor(Color.GREEN);
 			g.drawRect(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		}
-		
+
 	}
 
 	public void setLastUsedSALTile(SaveNLoadTile tile) {
@@ -103,7 +105,17 @@ public class GameWorldPanel extends Panel {
 
 	public void updateTetros() {
 		((SaveNLoadTile) world.getTileAt(world.getPlayer().getTileY(), world.getPlayer().getTileX())).refreshTetros();
-		
+
+	}
+
+	@Override
+	public void secondPassed() {
+		frame.getStats().addInGameSecond();
+		seconds++;
+	}
+
+	public int getSeconds() {
+		return seconds;
 	}
 
 }

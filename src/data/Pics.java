@@ -42,4 +42,8 @@ public class Pics {
 		return "Pics(width=" + width + ",amount=" + amount + ", img=" + img + ")";
 	}
 
+	public int getAmount() {
+		return amount;
+	}
+
 }

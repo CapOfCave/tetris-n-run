@@ -29,14 +29,14 @@ public class MenuFrame extends JFrame {
 	public static void main(String[] args) {
 
 		SettingsLoader loader = new SettingsLoader(
-				System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
+				System.getenv("APPDATA") + "\\tetris-n-run\\settings.txt");
 		File savesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves");
 
 		if (!savesFile.exists()) {
 			savesFile.mkdirs();
 		}
 
-		File settingsFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves\\settings.txt");
+		File settingsFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\settings.txt");
 		
 		if (!settingsFile.exists()) {
 			ArrayList<Integer> blankLevels = new ArrayList<>();
@@ -74,7 +74,7 @@ public class MenuFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SettingSaver.saveSettings(oPanel.getKeyCodes(), difficulty, levelSolved, System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "settings.txt");
+				SettingSaver.saveSettings(oPanel.getKeyCodes(), difficulty, levelSolved, System.getenv("APPDATA") + "\\tetris-n-run", "settings.txt");
 
 			}
 		});

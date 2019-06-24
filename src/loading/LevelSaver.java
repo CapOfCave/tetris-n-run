@@ -1,9 +1,5 @@
 package loading;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import data.Level;
@@ -19,35 +15,12 @@ import logics.entities.Switch;
 /**
  * @author Lars Created on 13.08.2018
  */
-public class LevelSaver {
+public class LevelSaver extends Saver {
 	public void saveLevel(Level level, String path, String fileName) {
 		print(createOutput(level), path, fileName);
 	}
 
-	private void print(ArrayList<String> content, String path, String fileName) {
-		File file = new File(path + "\\" + fileName);
-		if (!file.exists()) {
-			try {
-				File temp = new File(path);
-				temp.mkdirs();
-
-				file.createNewFile();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			for (String str : content) {
-				bw.write(str);
-				bw.newLine();
-			}
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	private ArrayList<String> createOutput(Level level) {
 		ArrayList<String> outpLines = new ArrayList<>();

@@ -109,10 +109,13 @@ public class Player extends Entity {
 		if (hSpeed != 0 || vSpeed != 0) {
 			if (ticksSinceFootstepNoice > 12) {
 				world.playSound("step", 0);
+				
 				ticksSinceFootstepNoice = 0;
+				
 			} else {
 				ticksSinceFootstepNoice++;
 			}
+			world.getParticleHandler().walk((int)x, (int)y, rotation);
 
 		} else {
 			ticksSinceFootstepNoice = 0;
@@ -249,10 +252,6 @@ public class Player extends Entity {
 			}
 		}
 
-	}
-
-	protected void kill() {
-		world.backToTheOverworld(true);
 	}
 
 	public void resetActionPressed() {
