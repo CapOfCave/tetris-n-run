@@ -101,7 +101,7 @@ public class Player extends Entity {
 		lastX = x;
 		lastY = y;
 		akt_animation.next();
-
+		//TODO mit movingblock verbuggt
 		checkInput();
 		checkActionPressEvent();
 		move();
@@ -115,7 +115,6 @@ public class Player extends Entity {
 			} else {
 				ticksSinceFootstepNoice++;
 			}
-			world.getParticleHandler().walk((int)x, (int)y, rotation);
 
 		} else {
 			ticksSinceFootstepNoice = 0;

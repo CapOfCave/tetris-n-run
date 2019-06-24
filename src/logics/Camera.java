@@ -1,7 +1,6 @@
 package logics;
 
 import logics.worlds.World;
-import tools.Easing;
 
 /**
  * @author Lars Created on 05.08.2018

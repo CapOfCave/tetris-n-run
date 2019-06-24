@@ -16,8 +16,6 @@ import input.KeyHandler;
 import loading.LevelLoader;
 import loading.RawPlayerLoader;
 import loading.RawPlayerSaver;
-import loading.Statistics;
-import logics.AchievementHandler;
 import logics.GameLoop;
 import sound.SoundPlayer;
 
@@ -43,8 +41,6 @@ public class GameFrame extends JFrame {
 	public static final int TEXTOFFSET = 21;
 
 	private KeyHandler keyHandler;
-	private Statistics stats;
-	private AchievementHandler achievementHandler;
 
 	private final int panel_width;
 	private final int panel_height;
@@ -68,10 +64,6 @@ public class GameFrame extends JFrame {
 
 		soundPlayer = new SoundPlayer();
 		this.lastLevelSolved = levelSolved;
-
-		achievementHandler = new AchievementHandler(this);
-		stats = new Statistics(System.getenv("APPDATA") + "\\tetris-n-run\\stats.txt", achievementHandler);
-		stats.loadStats();
 
 		rawPlayer = RawPlayerLoader.readRawPlayer();
 		rawPlayer.init();
@@ -105,7 +97,6 @@ public class GameFrame extends JFrame {
 				if (inOverworld) {
 					oPanel.save();
 				}
-				stats.saveStats();
 			}
 		});
 
@@ -123,21 +114,6 @@ public class GameFrame extends JFrame {
 			if (((int) nextLevel - 96) > lastLevelSolved) {
 				lastLevelSolved = ((int) nextLevel - 96);
 				overworldFile.delete();
-				if (lastLevelSolved == 8) {// AchievementGoal
-					achievementHandler.achieve("geschafft");
-					if (difficulty == 0) {// AchievementGoal
-						achievementHandler.achieve("erfahreneranfaenger");
-					} else if (difficulty == 2) {// AchievementGoal
-						achievementHandler.achieve("theexpert");
-					} else if (difficulty == 3) {// AchievementGoal
-						achievementHandler.achieve("wardasueberhauptmoeglich");
-					}
-					if (stats.getTotalInGameSeconds() <= 1800) {// AchievementGoal //TODO Seconds for Game completion
-						achievementHandler.achieve("speedrunner");
-					}
-				} else if (lastLevelSolved == 1 && lPanel.getSeconds() <= 40) {// AchievementGoal
-					achievementHandler.achieve("wieimschlaf");
-				}
 				addLineToText("Benötigte Zeit für Level " + lastLevelSolved + ": " + (lPanel.getSeconds() / 60) + ":"
 						+ ((lPanel.getSeconds() % 60) / 10) + lPanel.getSeconds() % 60 % 10);
 				System.out.println("Benötigte Zeit für Level " + lastLevelSolved + ": " + (lPanel.getSeconds() / 60)
@@ -174,9 +150,6 @@ public class GameFrame extends JFrame {
 			lPanel = new GameWorldPanel(panel_width, panel_height,
 					LevelLoader.loadLevel("/res/levels/level" + nextLevel + ".txt", this, rawPlayer, difficulty),
 					keyHandler, this, rawPlayer);
-			if (nextLevel == 8) { // AchievementGoal
-				achievementHandler.achieve("dasendenaht");
-			}
 
 			add(lPanel);
 			remove(oPanel);
@@ -205,7 +178,6 @@ public class GameFrame extends JFrame {
 		gameLoop.changePlayable(lPanel);
 		lPanel.setLastUsedSALTile(tile);
 		lPanel.updateTetros();
-		stats.loadLevel();
 
 	}
 
@@ -225,7 +197,6 @@ public class GameFrame extends JFrame {
 		if (file.exists()) {
 			lPanel = new GameWorldPanel(panel_width, panel_height,
 					LevelLoader.loadLevel(path, this, rawPlayer, difficulty), keyHandler, this, rawPlayer);
-			stats.loadLevel();
 			add(lPanel);
 			remove(oPanel);
 			gameLoop.changePlayable(lPanel);
@@ -288,14 +259,6 @@ public class GameFrame extends JFrame {
 				cl.tick();
 		}
 
-	}
-
-	public Statistics getStats() {
-		return stats;
-	}
-
-	public void achieve(String str) {
-		achievementHandler.achieve(str);
 	}
 
 }

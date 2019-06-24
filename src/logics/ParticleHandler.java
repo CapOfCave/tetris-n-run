@@ -5,18 +5,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data.Tetro;
-import graphics.GameFrame;
-import loading.ImageLoader;
 import logics.worlds.World;
 import particles.BreakingAnimation;
 import particles.ParticleAnimation;
-import particles.SimpleParticleAnimation;
 
 public class ParticleHandler {
 
 	ArrayList<ParticleAnimation> anims;
 	BufferedImage img;
-	private BufferedImage walkParticle;
 	private World world;
 
 	public ParticleHandler(World world) {
@@ -70,15 +66,4 @@ public class ParticleHandler {
 		}
 	}
 
-	public void walk(int x, int y, int rotation) {
-		anims.add(new SimpleParticleAnimation(world, x + GameFrame.BLOCKSIZE / 2, y + GameFrame.BLOCKSIZE - 15,
-				getWalkParticle()));
-	}
-
-	private BufferedImage getWalkParticle() {
-		if (walkParticle == null) {
-			walkParticle = ImageLoader.loadImage("/res/character/dust.png");
-		}
-		return walkParticle;
-	}
 }

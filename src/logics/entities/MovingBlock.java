@@ -24,7 +24,7 @@ public class MovingBlock extends Entity {
 		super(world, x, y, animPath, new Rectangle(0, 0, GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE));
 		lastX = x;
 		lastY = y;
-		this.x = x; // TODO maybe remove? War vorher nicht da
+		this.x = x;
 		this.y = y;
 		
 		type = "moveblock";

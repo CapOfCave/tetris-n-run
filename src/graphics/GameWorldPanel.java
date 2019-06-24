@@ -60,7 +60,6 @@ public class GameWorldPanel extends Panel {
 		world.draw(gameGraphics, interpolation, debugMode);
 		world.drawMap(mapGraphics);
 		inHandHandler.drawPreview(g, debugMode);
-		// world.drawPlayer(gameGraphics, interpolation);
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize, 0);
 			g.setFont(new Font("TimesNewRoman", 1, 25));
@@ -110,7 +109,6 @@ public class GameWorldPanel extends Panel {
 
 	@Override
 	public void secondPassed() {
-		frame.getStats().addInGameSecond();
 		seconds++;
 	}
 

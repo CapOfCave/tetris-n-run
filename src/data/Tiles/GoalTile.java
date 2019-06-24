@@ -6,13 +6,10 @@ import java.awt.image.BufferedImage;
 import data.RawPlayer;
 import graphics.GameFrame;
 import loading.ImageLoader;
-import logics.GameLoop;
 
 public class GoalTile extends Tile {
 
 	private BufferedImage image3d;
-	private int onTileTicks = 0;
-	private boolean onTile = false;
 
 	public GoalTile(int posX, int posY, GameFrame frame) {
 		super('!', posX, posY, false, true, true, frame);
@@ -34,30 +31,8 @@ public class GoalTile extends Tile {
 	}
 
 	@Override
-	public void tick() {
-		if (onTile) {
-			onTileTicks++;
-			if (onTileTicks == 20 * GameLoop.FREQUENCY) { //AchievementGoal
-				world.achieve("kanneskaumerwarten");
-			}
-		}
-	}
-	
-	@Override
 	public double getHeight() {
 		return -1;
-	}
-
-	@Override
-	public void eventWhenEntering() {
-		onTile = true;
-	}
-
-	@Override
-
-	public void eventWhenLeaving() {
-		onTile = false;
-		onTileTicks = 0;
 	}
 
 }

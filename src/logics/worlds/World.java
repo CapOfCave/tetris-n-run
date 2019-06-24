@@ -516,7 +516,6 @@ public class World {
 					addTetroToHitbox(tetro, placeX, placeY, rotation);
 
 					playSound("synth", -5f);
-					frame.getStats().addTetro();
 
 				} else {
 					playSound("error", -3f);
@@ -538,7 +537,7 @@ public class World {
 				frame.addLineToText("Du hast seit dem letzten Speichervorgang noch kein Tetro platziert.");
 			} else {
 				Tetro newestTetro = newestTetros.get(0);
-				if (!isPlayeronTetro(newestTetro)) {
+				if (!isPlayeronTetro(newestTetro) || noClip) {
 					// success
 					removeTetroFromHitbox(newestTetro, newestTetro.getX(), newestTetro.getY(),
 							newestTetro.getRotation());
@@ -548,7 +547,6 @@ public class World {
 					tookBackTetro = true;
 					playSound("glassbreak", 5);
 					particleHandler.startBreakingAnimation(newestTetro.getX(), newestTetro.getY(), newestTetro);
-					frame.getStats().removeTetro();
 				} else {
 					frame.addLineToText("Du stehst auf diesem Block.");
 				}
@@ -1000,11 +998,6 @@ public class World {
 			return null;
 	}
 
-	public void achieve(String string) {
-		frame.achieve(string);
-
-	}
-	
 	public ParticleHandler getParticleHandler() {
 		return particleHandler;
 	}

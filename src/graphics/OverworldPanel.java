@@ -134,7 +134,6 @@ public class OverworldPanel extends Panel {
 	
 	@Override
 	public void secondPassed() {
-		frame.getStats().addSecond();
 	}
 
 	public void save() {

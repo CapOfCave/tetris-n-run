@@ -1,3 +1,0 @@
-¬í sr logics.entities.items.WeaponY”)tÔA· 	I damageI hitTicksD hitWidthD rangeD thetaL imgHitOffsett Ljava/awt/Point;L 
-imgHitPatht Ljava/lang/String;L 	imgOffsetq ~ L imgPathq ~ xr logics.entities.items.ItemüÄi
-^s  xr logics.entities.EntityVáy˜þÿÃQ I rotationD xD yxp   Z                       @       @F€     @rÀ     sr java.awt.Point¶ÄŠr4~È& I xI yxp      t /res/sword-hit.pngsq ~         t /res/sword-in-hand.png
