@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputListener;
 
+import data.TetroType;
 import logics.InHandHandler;
 import logics.worlds.World;
 
@@ -16,6 +17,7 @@ public class MouseHandler implements MouseInputListener {
 	private int mouseY = -1;
 	private InHandHandler inHandHandler;
 	private World world;
+	private TetroType currentlyHoveredTetro = null;
 
 	public MouseHandler(InHandHandler inHandHandler, World world) {
 		this.inHandHandler = inHandHandler;
@@ -60,7 +62,11 @@ public class MouseHandler implements MouseInputListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO mousemove-animations
+		TetroType hovered = inHandHandler.getTetroTypeAt(e.getX(), e.getY());
+		if(hovered != null && hovered != currentlyHoveredTetro) {
+			world.playSound("menuHover", -6f);
+		}
+		currentlyHoveredTetro = hovered;
 	}
 
 	/*
@@ -88,5 +94,10 @@ public class MouseHandler implements MouseInputListener {
 	public int getMouseY() {
 		return mouseY;
 	}
+
+	public TetroType getCurrentlyHoveredTetro() {
+		return currentlyHoveredTetro;
+	}
+
 
 }

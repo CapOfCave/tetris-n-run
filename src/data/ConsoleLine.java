@@ -13,7 +13,6 @@ public class ConsoleLine {
 	static final int highlighted_fontsize = 23;
 	static final int common_fontsize = 20;
 //	static final int highlight_frames = 27;
-
 	private String content;
 	private int tick_age;
 	private int opacity = (int) (Math.random() * 255);
@@ -21,10 +20,10 @@ public class ConsoleLine {
 	private int fontSize = common_fontsize;
 	private int full_opacity_frames;
 
-	public ConsoleLine(String content, int show_factor) {
+	public ConsoleLine(String content, float factor) {
 		this.content = content;
 		this.tick_age = 0;
-		full_opacity_frames = full_opacity_frames_normal * show_factor;
+		full_opacity_frames = (int)(full_opacity_frames_normal * factor);
 	}
 
 	public int getTick_age() {

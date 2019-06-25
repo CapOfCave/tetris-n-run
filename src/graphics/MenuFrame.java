@@ -4,12 +4,14 @@ import java.awt.CardLayout;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import input.MenuKeyHandler;
 import loading.SettingSaver;
+import loading.SettingsLoader;
 import sound.SoundPlayer;
 
 public class MenuFrame extends JFrame {
@@ -20,17 +22,43 @@ public class MenuFrame extends JFrame {
 	private OptionPanel oPanel;
 	private TutorialPanel tPanel;
 	private MenuKeyHandler keyHandler;
-	private int levelSolved;
+	private ArrayList<Integer> levelSolved;
 	
-	public MenuFrame(int levelSolved) {
+	//private int difficulty = 1; //0: eZ, 1: normal, 2: expert, 3: impossible
+	
+	public static void main(String[] args) {
+
+		SettingsLoader loader = new SettingsLoader(
+				System.getenv("APPDATA") + "\\tetris-n-run\\settings.txt");
+		File savesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves");
+
+		if (!savesFile.exists()) {
+			savesFile.mkdirs();
+		}
+
+		File settingsFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\settings.txt");
+		
+		if (!settingsFile.exists()) {
+			ArrayList<Integer> blankLevels = new ArrayList<>();
+			for(int i = 0; i < 4; i++) {
+				blankLevels.add(0);
+			}
+			new MenuFrame(1, blankLevels);
+		} else {
+			loader.loadAll();
+
+			new MenuFrame(loader.getKeyCodes(), loader.getDifficulty(), loader.getLevelSolved());
+		}
+	}
+	
+	public MenuFrame(int difficulty, ArrayList<Integer> levelSolved) {
+		this.levelSolved = levelSolved;
+
 		mPanel = new MenuPanel(this);
 		tPanel = new TutorialPanel(this);
-		oPanel = new OptionPanel(this);
+		oPanel = new OptionPanel(this, difficulty);
 		keyHandler = new MenuKeyHandler(oPanel);
-
-
 		soundPlayer = new SoundPlayer();
-
 		
 		setLayout(new CardLayout());
 		add(mPanel);
@@ -46,7 +74,7 @@ public class MenuFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SettingSaver.saveSettings(oPanel.getKeyCodes(), levelSolved, System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "settings.txt");
+				SettingSaver.saveSettings(oPanel.getKeyCodes(), difficulty, levelSolved, System.getenv("APPDATA") + "\\tetris-n-run", "settings.txt");
 
 			}
 		});
@@ -54,35 +82,9 @@ public class MenuFrame extends JFrame {
 
 	}
 	
-	public MenuFrame(ArrayList<Integer> keyCodes, int levelSolved) {
-		mPanel = new MenuPanel(this);
-		tPanel = new TutorialPanel(this);
-		oPanel = new OptionPanel(this, keyCodes);
-		keyHandler = new MenuKeyHandler(oPanel);
-
-		this.levelSolved = levelSolved;
-
-		soundPlayer = new SoundPlayer();
-
-		
-		setLayout(new CardLayout());
-		add(mPanel);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/res/gegner.png")));
-		addKeyListener(keyHandler);
-		setResizable(false);
-		setDefaultCloseOperation(0);
-		pack();
-		setDefaultCloseOperation(3);
-		setLocationRelativeTo(null);
-		setVisible(true);
-		
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				SettingSaver.saveSettings(oPanel.getKeyCodes(), levelSolved, System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "settings.txt");
-
-			}
-		});
+	public MenuFrame(ArrayList<Integer> keyCodes, int difficulty, ArrayList<Integer> levelSolved) {
+		this(difficulty, levelSolved);
+		oPanel.setKeyCodes(keyCodes);
 	}
 
 	public void startMenu() {
@@ -116,7 +118,11 @@ public class MenuFrame extends JFrame {
 	}
 
 	public int getLevelSolved() {
-		return levelSolved;
+		return levelSolved.get(getDifficulty());
+	}
+
+	public int getDifficulty() {
+		return oPanel.getDifficulty();
 	}
 
 }

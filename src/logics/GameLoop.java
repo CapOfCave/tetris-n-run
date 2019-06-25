@@ -9,11 +9,11 @@ public class GameLoop implements Runnable {
 	public static int actualframes = 0;
 	public static int actualupdates = 0;
 
-	private final double FREQUENCY = 30.;
-	private final double TIME_BETWEEN_UPDATES = 1000000000 / FREQUENCY;
-	private final int MAX_UPDATES_BEFORE_RENDER = 5;
-	private final double MAX_FPS = 60;
-	private final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / MAX_FPS;
+	public final static double FREQUENCY = 30.;
+	private final static double TIME_BETWEEN_UPDATES = 1000000000 / FREQUENCY;
+	private final static int MAX_UPDATES_BEFORE_RENDER = 5;
+	private final static double MAX_FPS = 60;
+	private final static double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / MAX_FPS;
 
 	private Thread th;
 	private Playable game;
@@ -60,6 +60,7 @@ public class GameLoop implements Runnable {
 					actualframes = 0;
 					actualupdates = 0;
 					lastSecondTime = currentTimeSeconds;
+					game.secondPassed();
 				}
 
 				while (currentTime - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS

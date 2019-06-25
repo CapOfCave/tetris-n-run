@@ -16,9 +16,13 @@ public class TetroType {
 	private boolean[][] hitbox;
 	private int[][] expandedHitbox;
 
-	public TetroType(String strHitbox, BufferedImage img) {
+	private Pics sliced;
+	private int colorInt;
+
+	public TetroType(String strHitbox, BufferedImage img, int slicedColor) {
 		this.strHitbox = strHitbox;
 		this.img = img;
+		this.colorInt = slicedColor;
 
 		hitbox = new boolean[2][4];
 		expandedHitbox = new int[hitbox.length + 2 * hitboxExpansion][hitbox[0].length + 2 * hitboxExpansion];
@@ -41,7 +45,6 @@ public class TetroType {
 			}
 		}
 
-
 	}
 
 	public void draw(Graphics g, int x, int y, int rotation) {
@@ -49,23 +52,30 @@ public class TetroType {
 		for (int j = 0; j < hitbox.length; j++) {
 			for (int i = 0; i < hitbox[j].length; i++) {
 				if (hitbox[j][i]) {
-					drawBlock(g, i, j, x, y, rotation, GameFrame.BLOCKSIZE);
+					drawBlock(g, i, j, x, y, rotation, GameFrame.BLOCKSIZE, img);
 				}
 			}
 		}
 	}
 
-	public void draw(Graphics g, int x, int y, int blockWidth, int rotation) {
+	public void draw(Graphics g, int x, int y, int blockWidth, int rotation, BufferedImage img) {
+		
 		for (int j = 0; j < hitbox.length; j++) {
 			for (int i = 0; i < hitbox[j].length; i++) {
 				if (hitbox[j][i]) {
-					drawBlock(g, i, j, x, y, rotation, blockWidth);
+					if (img == null) {
+						drawBlock(g, i, j, x, y, rotation, blockWidth, this.img);
+					} else {
+						drawBlock(g, i, j, x, y, rotation, blockWidth, img);
+					}
+					
 				}
 			}
 		}
 	}
 
-	public void drawBlock(Graphics g, int i, int j, int x, int y, int rotation, int blockWidth) {
+	
+	public void drawBlock(Graphics g, int i, int j, int x, int y, int rotation, int blockWidth, BufferedImage img) {
 		switch (rotation % 4) {
 		case 0:
 			g.drawImage(img, i * blockWidth + x, j * blockWidth + y, blockWidth, blockWidth, null);
@@ -92,6 +102,17 @@ public class TetroType {
 
 	public String getStrHitbox() {
 		return strHitbox;
+	}
+
+	public Pics getSliced() {
+		if (sliced == null) {
+			sliced = new Pics("/res/slicedTetros/slicedPane" + colorInt + ".png", GameFrame.BLOCKSIZE);
+		}
+		return sliced;
+	}
+	
+	public int getColor() {
+		return colorInt;
 	}
 
 }

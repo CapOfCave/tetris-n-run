@@ -21,7 +21,6 @@ public class GuiMouseHandler implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getX());
 
 	}
 
@@ -37,7 +36,23 @@ public class GuiMouseHandler implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		int x = e.getX();
+		int y = e.getY();
+		
+		if (x >= 1008 && y >= 286 && x < 1255 && y < 386) {
+			// play button
+			frame.playSound("ButtonKlick", -5f);
+		}
+		
+		if (x >= 1008 && y >= 386 && x < 1255 && y < 486) {
+			// load button
+			frame.playSound("ButtonKlick", -5f);
+		}
+		
+		if (x >= 1008 && y >= 486 && x < 1255 && y < 586) {
+			// menu button
+			frame.playSound("ButtonKlick", -5f);
+		}
 	}
 
 	@Override
@@ -49,23 +64,20 @@ public class GuiMouseHandler implements MouseListener {
 		
 		if (x >= 1008 && y >= 286 && x < 1255 && y < 386) {
 			// play button
-			frame.playSound("ButtonKlick", -5f);
 			frame.startLevel();
 			//overworld.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves" , "\\overworldSave.txt");
 		}
 		
 		if (x >= 1008 && y >= 386 && x < 1255 && y < 486) {
 			// load button
-			frame.playSound("ButtonKlick", -5f);
 			frame.loadLevel();
-			overworld.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves" , "\\overworldSave.txt");
+			overworld.save(System.getenv("APPDATA") + "\\tetris-n-run\\saves" , "\\overworldSave.txt");
 		}
 		
 		if (x >= 1008 && y >= 486 && x < 1255 && y < 586) {
 			// menu button
-			frame.playSound("ButtonKlick", -5f);
 			frame.backToMenu();
-			overworld.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves" , "\\overworldSave.txt");
+			overworld.save(System.getenv("APPDATA") + "\\tetris-n-run\\saves" , "\\overworldSave.txt");
 		}
 	}
 

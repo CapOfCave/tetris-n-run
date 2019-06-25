@@ -1,9 +1,5 @@
 package loading;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import data.Level;
@@ -19,35 +15,12 @@ import logics.entities.Switch;
 /**
  * @author Lars Created on 13.08.2018
  */
-public class LevelSaver {
+public class LevelSaver extends Saver {
 	public void saveLevel(Level level, String path, String fileName) {
 		print(createOutput(level), path, fileName);
 	}
 
-	private void print(ArrayList<String> content, String path, String fileName) {
-		File file = new File(path + "\\" + fileName);
-		if (!file.exists()) {
-			try {
-				File temp = new File(path);
-				temp.mkdirs();
-
-				file.createNewFile();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			for (String str : content) {
-				bw.write(str);
-				bw.newLine();
-			}
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	private ArrayList<String> createOutput(Level level) {
 		ArrayList<String> outpLines = new ArrayList<>();
@@ -70,22 +43,6 @@ public class LevelSaver {
 		boolean[] toggleStates = level.getToggleStates();
 		outpLines.add("o;" + toggleStates[0] + ";" + toggleStates[1] + ";" + toggleStates[2] + ";" + toggleStates[3]
 				+ ";" + toggleStates[4]);
-		// } else if (nextLine.startsWith("m")) {
-		// String strSplit[] = nextLine.split(";");
-		// int type = -1;
-		// int amount = 0;
-		// for (String str : strSplit) {
-		// if (str == strSplit[0])
-		// continue;
-		// if (str.startsWith("amount=") || str.startsWith("a=")) {
-		// amount = Integer.parseInt(str.substring(str.indexOf("=") + 1));
-		// } else if (str.startsWith("type=") || str.startsWith("t=")) {
-		// type = Integer.parseInt(str.substring(str.indexOf("=") + 1));
-		// }
-		// }
-		// if (type >= 0) {
-		// rawMaxTetroAmounts.put(type, amount);
-		// }
 		int[] tetroAmounts = level.getTetroAmounts();
 		for (int i = 0; i < tetroAmounts.length; i++) {
 			if (tetroAmounts[i] != 0) {

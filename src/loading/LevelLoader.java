@@ -33,7 +33,7 @@ public class LevelLoader {
 
 	private static final int tetrotype_amount = 7;
 
-	public static Level loadLevel(String url, GameFrame frame, RawPlayer rawPlayer) {
+	public static Level loadLevel(String url, GameFrame frame, RawPlayer rawPlayer, int difficulty) {
 		String tetrofileUrl = null;
 		ArrayList<TetroType> tetroTypes;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
@@ -43,7 +43,7 @@ public class LevelLoader {
 		Tile[][] arrWorld = null;
 
 		HashMap<Integer, Integer> rawMaxTetroAmounts = new HashMap<>();
-		boolean[] toggleStates = new boolean[5];
+		boolean[] toggleStates = new boolean[6];
 		for (int i = 0; i < toggleStates.length; i++) {
 			toggleStates[i] = false;
 		}
@@ -114,22 +114,6 @@ public class LevelLoader {
 				}
 				if (x != -100 && y != -100 && rotation != -1 && type != -1) {
 					rawTetros.add(new RawTetro(type, x, y, rotation));
-				}
-			} else if (nextLine.startsWith("m")) {
-				String strSplit[] = nextLine.split(";");
-				int type = -1;
-				int amount = 0;
-				for (String str : strSplit) {
-					if (str == strSplit[0])
-						continue;
-					if (str.startsWith("amount=") || str.startsWith("a=")) {
-						amount = Integer.parseInt(str.substring(str.indexOf("=") + 1));
-					} else if (str.startsWith("type=") || str.startsWith("t=")) {
-						type = Integer.parseInt(str.substring(str.indexOf("=") + 1));
-					}
-				}
-				if (type >= 0) {
-					rawMaxTetroAmounts.put(type, amount);
 				}
 
 			} else if (nextLine.startsWith("e")) {
@@ -258,12 +242,12 @@ public class LevelLoader {
 						x = Integer.parseInt(str.substring(2));
 					} else if (str.startsWith("y=")) {
 						y = Integer.parseInt(str.substring(2));
-					} else if (str.startsWith("amount=")) {
+					} else if (str.startsWith("amount=") || str.startsWith("amount" + difficulty + "=")) {
 
-						String[] amounts = str.substring(7).split(",");
-
+						String[] amounts = str.substring(str.indexOf("=") + 1).split(",");
+						
 						for (int i = 0; i < amounts.length; i++) {
-							if (amountList.length <= amounts.length)
+							if (i < amountList.length)
 								amountList[i] = Integer.parseInt(amounts[i]);
 						}
 					} else if (str.startsWith("a=")) {
@@ -344,7 +328,7 @@ public class LevelLoader {
 						}
 
 					} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò'
-							|| tileChar == 'ù'|| tileChar == 'À') {
+							|| tileChar == 'ù' || tileChar == 'À') {
 						arrWorld[j][i] = new PressurePlateTile(tileChar, i, j, frame);
 					} else if (tileChar == '!') {
 						arrWorld[j][i] = new GoalTile(i, j, frame);

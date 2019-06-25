@@ -48,10 +48,16 @@ public class InHandHandler {
 		return tetroInHand != null;
 	}
 
-	public boolean setInHand(int x, int y) {
+	public void setInHand(int x, int y) {
 
-		tetroInHand = getTetroTypeAt(x, y);
-		return tetroInHand != null;
+		TetroType clickedOn = getTetroTypeAt(x, y);
+		if (clickedOn == null || world.getTetroAmount()[clickedOn.getColor()] > 0 || world.noClip()) {
+			tetroInHand = clickedOn;
+		} else {
+			world.playSound("error", -5f);
+		}
+//		
+		
 	}
 
 	public void rotateInHand(boolean turnLeft) {
@@ -107,7 +113,7 @@ public class InHandHandler {
 		}
 	}
 
-	private TetroType getTetroTypeAt(int x, int y) {
+	public TetroType getTetroTypeAt(int x, int y) {
 
 		TetroType tetroApproximation = null;
 		for (int i = 0; i < world.getTetroTypeCount(); i++) {

@@ -119,21 +119,25 @@ public class OverworldPanel extends Panel {
 		g.drawString("Load", 1075, 470);
 		g.drawString("Menu", 1070, 580);
 		ConsoleLine[] text = frame.getText();
-		
+
 		if (text.length > 0) {
 			for (int i = 0; i < text.length; i++) {
 				if (text[i] != null) {
 					chatGraphics.setFont(new Font("Timesnewroman", 0, text[i].getFontSize()));
 					chatGraphics.setColor(new Color(0, 0, 0, text[i].getOpacity()));
-					chatGraphics.drawString(text[i].getContent(), 30, 40 + (i * GameFrame.TEXTOFFSET) - text[i].getOffset());
+					chatGraphics.drawString(text[i].getContent(), 30,
+							40 + (i * GameFrame.TEXTOFFSET) - text[i].getOffset());
 				}
 			}
 		}
-
+	}
+	
+	@Override
+	public void secondPassed() {
 	}
 
 	public void save() {
-		world.save(System.getenv("APPDATA") + "\\tetris-n-run\\levelSaves", "overworldSave.txt");
+		world.save(System.getenv("APPDATA") + "\\tetris-n-run\\saves", "overworldSave.txt");
 	}
 
 }

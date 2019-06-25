@@ -23,8 +23,11 @@ public class OptionPanel extends JPanel {
 	private OptionMouseHandler mouseHandler;
 	private final int width = 1300, height = 900;
 	private BufferedImage option;
+	private int difficulty = 1;
+	private String[] strDif = {"Easy", "Normal", "Expert", "Impossible"};
 
-	public OptionPanel(MenuFrame frame) {
+	public OptionPanel(MenuFrame frame, int difficulty) {
+		this.difficulty = difficulty;
 		keyCodes = new ArrayList<Integer>();
 		keyCodes.add(0, 87);
 		keyCodes.add(1, 65);
@@ -32,8 +35,8 @@ public class OptionPanel extends JPanel {
 		keyCodes.add(3, 68);
 		keyCodes.add(4, 32);
 		keyCodes.add(5, 82);
-		keyCodes.add(6, 17);
-		keyCodes.add(7, 69);
+		keyCodes.add(6, 69);
+		keyCodes.add(7, 17);
 		keyCodes.add(8, 70);
 
 		this.frame = frame;
@@ -45,8 +48,8 @@ public class OptionPanel extends JPanel {
 
 	}
 
-	public OptionPanel(MenuFrame menuFrame, ArrayList<Integer> keyCodes) {
-		this(menuFrame);
+	public OptionPanel(MenuFrame menuFrame, ArrayList<Integer> keyCodes, int difficulty) {
+		this(menuFrame, difficulty);
 		this.keyCodes = keyCodes;
 	}
 
@@ -106,6 +109,10 @@ public class OptionPanel extends JPanel {
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(8)), 458, 712);
 		g.setFont(new Font("TimesNewRoman", 1, 24));
 
+		g.setFont(new Font("TimesNewRoman", 1, 30));
+		g.drawString("Difficulty: - " + difficulty + " + ", 950, 170);
+		g.drawString(strDif[difficulty], 990, 210);
+		
 	}
 
 	public void mousePressed(int x, int y) {
@@ -132,7 +139,19 @@ public class OptionPanel extends JPanel {
 		if (x >= 950 && y >= 745 && x <= 1250 && y <= 856) {
 			frame.startMenu();
 			frame.playSound("ButtonKlick", -5f);
-
+		}
+		if (x >= 1087 && y >= 146 && x <= 1117 && y <= 176) {
+			difficulty--;
+			if (difficulty < 0) {
+				difficulty = 0;
+			}
+		}
+		if (x >= 1138 && y >= 146 && x <= 1168 && y <= 176) {
+			
+			difficulty++;
+			if (difficulty > 3) {
+				difficulty = 3;
+			}
 		}
 		repaint();
 
@@ -140,8 +159,8 @@ public class OptionPanel extends JPanel {
 
 	public void changeKeyCode(int keyCode) {
 		if (keyCodeForChange >= 0) {
-			for (int i = 0; i <= 7; i++) {
-				if (frame.getKeyCodes().get(i) == keyCode) {
+			for (int i = 0; i < keyCodes.size(); i++) {
+				if (keyCodes.get(i) == keyCode) {
 					keyCodeForChange = -1;
 					frame.playSound("error", -5f);
 					repaint();
@@ -158,6 +177,14 @@ public class OptionPanel extends JPanel {
 
 	public ArrayList<Integer> getKeyCodes() {
 		return keyCodes;
+	}
+
+	public void setKeyCodes(ArrayList<Integer> keyCodes) {
+		this.keyCodes = keyCodes;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
 	}
 
 }

@@ -7,4 +7,5 @@ package logics;
 public interface Playable {
 	public void tick();
 	public void render(float interpolation, int fps, int ups);
+	public void secondPassed();
 }
