@@ -313,6 +313,7 @@ public class LevelLoader {
 					} else if (tileChar == '2') {
 						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, frame, new int[] { 0, 0 }, false, null, null,
 								null, null);
+						System.out.println("Tl;x="+i+";y="+j+";amount=0,0,0,0,0,0,0;");
 					} else if (tileChar == 'D') {
 
 						for (DoorTile dT : doors) {
@@ -321,8 +322,9 @@ public class LevelLoader {
 							}
 						}
 						if (arrWorld[j][i] == null) {
-							System.err.println(
-									"Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j + ")");
+//							System.err.println(
+//									"Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j + ")");
+							System.out.println("d;x=" + i + ";y="+j+";r=;c=;o=false");
 							arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
 
 						}

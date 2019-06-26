@@ -902,6 +902,7 @@ public class World {
 				continue;
 			} else {
 				if (barrier.collidesWith(y, x)) {
+					System.out.println(barrier);
 					// System.ot.println(collider + " collides with " + barrier);
 					return true;
 				}
