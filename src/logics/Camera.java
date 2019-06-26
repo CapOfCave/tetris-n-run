@@ -88,6 +88,8 @@ public class Camera {
 				x = clipBorderX((world.getPlayer().getX() - offsetX) * stickyness + lastX * (1 - stickyness));
 			}
 		} else {
+
+
 			switch (trackingShotPhase) {
 			case 1:
 				speed += ACC1;
@@ -95,6 +97,7 @@ public class Camera {
 					speed = MAX1;
 					trackingShotPhase = 2;
 				}
+
 
 			case 2: // Max. Speed erreicht, jetzt bremsen
 				double dist = Math.sqrt((x - trackX) * (x - trackX) + (y - trackY) * (y - trackY));
@@ -180,9 +183,11 @@ public class Camera {
 //		return (int) y;
 	}
 
+
 	public void trackingShot(int pX, int pY) {
 		if (trackingShotPhase == 0) {
 			trackingShotPhase = 1;
+
 
 //			stickyness = .04;
 			trackX = clipBorderX(pX - offsetX);
