@@ -20,19 +20,19 @@ public class MovingBlock extends Entity {
 	protected int direction;
 	private Tile standingTile;
 	private static Tile emptyTile = new EmptyTile('0', 0, 0);
-	
+
 	public MovingBlock(World world, double x, double y) {
 		super(world, x, y, animPath, new Rectangle(0, 0, GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE));
 		lastX = x;
 		lastY = y;
-		this.x = x;
-		this.y = y;
-		
+
 		type = "moveblock";
 		if (world != null) {
 			setWorld(world);
 		}
 		
+		setPosition(x, y);
+
 	}
 
 	@Override
@@ -86,15 +86,14 @@ public class MovingBlock extends Entity {
 		this.y = y + offset.y;
 
 		Tile last_Tile = standingTile; // vor der Bewegung: standingTile
-		Tile akt_Tile = world.getTileAt((int) ((this.y + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE),
-				(int) ((this.x + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE)); // nach der Bewegung: akt_Tile
+		Tile akt_Tile = world.getTileAt(getTileY(), getTileX()); // nach der Bewegung: akt_Tile
 		if (standingTile == null || akt_Tile != standingTile) {
 			setStandingTile(akt_Tile); // Bewegen und entern
 			if (last_Tile != null && last_Tile != emptyTile) {
 				last_Tile.eventWhenMoveBlockLeaving();
 			}
 		}
-		
+
 	}
 
 	private void setStandingTile(Tile akt_Tile) {
@@ -120,7 +119,7 @@ public class MovingBlock extends Entity {
 			standingTile.eventWhenMoveBlockLeaving();
 		}
 		unBind();
-		world.removeEntity(this);
+		world.initiateRemoveEntity(this);
 
 	}
 

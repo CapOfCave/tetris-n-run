@@ -114,6 +114,8 @@ public class LevelLoader {
 				double rcx = -1;
 				double rcy = -1;
 				int color = 0;
+				int currentCubeX = -1000;
+				int currentCubeY = -1000;
 
 				for (String str : strSplit) {
 					if (str == strSplit[0])
@@ -138,6 +140,10 @@ public class LevelLoader {
 						rcy = Integer.parseInt(str.substring(4));
 					} else if (str.startsWith("color=") || str.startsWith("c=")) {
 						color = Integer.parseInt(str.substring(str.indexOf("=") + 1));
+					} else if (str.startsWith("currentCubeX=")) {
+						currentCubeX = Integer.parseInt(str.substring(13));
+					} else if (str.startsWith("currentCubeY=")) {
+						currentCubeY = Integer.parseInt(str.substring(13));
 					}
 
 				}
@@ -156,7 +162,7 @@ public class LevelLoader {
 					} else if (type.equals("moveblock")) {
 						entities.add(new MovingBlock(null, rx, ry));
 					} else if (type.equals("moveblockspawner")) {
-						entities.add(new MovingBlockSpawner(null, rx, ry, rcx, rcy));
+						entities.add(new MovingBlockSpawner(null, rx, ry, rcx, rcy, currentCubeX, currentCubeY));
 					} else {
 						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y + "): \"" + type + "\"");
 					}
@@ -336,11 +342,6 @@ public class LevelLoader {
 			} else {
 				tetroAmounts[i] = 0;
 			}
-		}
-		
-		System.out.println("Im Loader: ");
-		for (int i = 0; i < toggleStates.length; i++) {
-			System.out.print(toggleStates[i] + ", ");
 		}
 
 		return new Level(rawTetros, arrWorld, doors, entities, tetroAmounts, toggleStates,

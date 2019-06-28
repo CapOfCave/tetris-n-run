@@ -29,10 +29,6 @@ public class LevelSaver extends Saver {
 
 		// Toggle states
 		boolean[] toggleStates = level.getToggleStates();
-		System.out.println();
-		for (int i = 0; i < toggleStates.length; i++) {
-			System.out.print(toggleStates[i] + ", ");
-		}
 		outpLines.add("o;" + toggleStates[0] + ";" + toggleStates[1] + ";" + toggleStates[2] + ";" + toggleStates[3]
 				+ ";" + toggleStates[4] + ";" + toggleStates[5]);
 		int[] tetroAmounts = level.getTetroAmounts();
@@ -61,12 +57,17 @@ public class LevelSaver extends Saver {
 			String outp = "e;rx=" + (int) entity.getX() + ";ry=" + (int) entity.getY() + ";type=" + entity.getType();
 			switch (entity.getType()) {
 			case "moveblock":
-				outpLines.add(outp);
+				//Don't save the moveblock!
 				break;
 			case "moveblockspawner":
 				MovingBlockSpawner cubeSpawner = (MovingBlockSpawner) entity;
-				outpLines.add(outp + ";cx=" + (int) cubeSpawner.getCX() / GameFrame.BLOCKSIZE + ";cy="
-						+ (int) cubeSpawner.getCY() / GameFrame.BLOCKSIZE);
+				outp +=";cx=" + (int) cubeSpawner.getCX() / GameFrame.BLOCKSIZE + ";cy="
+						+ (int) cubeSpawner.getCY() / GameFrame.BLOCKSIZE;
+				if (cubeSpawner.getCurrentCubeX() != -1000) {
+					outp += ";currentCubeX=" + cubeSpawner.getCurrentCubeX() + ";currentCubeY=" + cubeSpawner.getCurrentCubeY();
+				}
+				outpLines.add(outp);
+				
 				break;
 			case "switch":
 				Switch entitySwitch = (Switch) entity;

@@ -26,6 +26,7 @@ import graphics.Renderer;
 import input.KeyHandler;
 import logics.entities.Entity;
 import logics.entities.MovingBlock;
+import logics.entities.MovingBlockSpawner;
 import logics.entities.Player;
 import logics.entities.Switch;
 
@@ -68,6 +69,7 @@ public class World {
 	protected ArrayList<TetroType> tetroTypes;
 	protected ArrayList<Entity> otherEntities;
 	protected ArrayList<Entity> allEntities;
+	protected ArrayList<MovingBlockSpawner> movingblockSpawners;
 	private ArrayList<Entity> toAdd;
 	private ArrayList<Entity> toRemove;
 	private int tetroAmount[];
@@ -82,19 +84,16 @@ public class World {
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame) {
 		// Initialisierungen
-				this.graphicClip = graphicClip;
-				this.tetroTypes = frame.getTetroTypes();
-				this.keyHandler = keyHandler;
-				this.frame = frame;
-				
-		
-		
-		
+		this.graphicClip = graphicClip;
+		this.tetroTypes = frame.getTetroTypes();
+		this.keyHandler = keyHandler;
+		this.frame = frame;
+
 		particleHandler = new ParticleHandler(this);
 
 		renderRect = new Rectangle(-render_image_offset, -render_image_offset,
 				graphicClip.width + 2 * render_image_offset, graphicClip.height + 2 * render_image_offset);
-		
+
 		toggleStates = level.getToggleStates();
 
 		toAdd = new ArrayList<>();
@@ -105,7 +104,8 @@ public class World {
 		tetros = new ArrayList<>();
 		allEntities = new ArrayList<>();
 		otherEntities = level.getEntities();
-		
+		movingblockSpawners = new ArrayList<>();
+
 		tileWorld = level.getArrWorld();
 		for (Tile[] tt : tileWorld) {
 			for (Tile t : tt) {
@@ -118,13 +118,16 @@ public class World {
 				tileWorld[0].length * GameFrame.BLOCKSIZE - (int) graphicClip.getWidth(),
 				(int) (graphicClip.getWidth() / 2 - GameFrame.BLOCKSIZE / 2),
 				(int) (graphicClip.getHeight() / 2 - GameFrame.BLOCKSIZE / 2.));
-		
+
 		for (Entity e : otherEntities) {
 			e.setWorld(this);
+			if (e.getType() == "moveblockspawner") {
+				movingblockSpawners.add((MovingBlockSpawner) e);
+			}
 		}
+		
 		allEntities.addAll(otherEntities);
 		doors = level.getDoors();
-		
 
 		tetroWorldHitbox = new boolean[tileWorld.length][tileWorld[0].length];
 		for (int i = 0; i < tetroWorldHitbox.length; i++) {
@@ -132,8 +135,6 @@ public class World {
 				tetroWorldHitbox[i][j] = false;
 			}
 		}
-
-		
 
 		player = new Player(this, level.getPlayerX(), level.getPlayerY());
 
@@ -143,14 +144,6 @@ public class World {
 			Tetro ft = ut.createTetro(frame.getTetroTypes(), camera);
 			tetros.add(ft);
 			addTetroToHitbox(ft, ft.getX(), ft.getY(), ft.getRotation());
-		}
-
-		System.out.println("World init: ");
-		for (int i = 0; i < toggleStates.length; i++) {
-			if (toggleStates[i]) {
-				switchDoors(i);
-			}
-			System.out.println(toggleStates[i]);
 		}
 
 		// Wall Image Framing
@@ -174,6 +167,8 @@ public class World {
 				wallImgFrames[j][i] = new WallImgFrame(this, imageId, i, j);
 			}
 		}
+		
+		
 		// add everything to renderer
 		for (Entity entity : allEntities) {
 			if (entity instanceof MovingBlock) {
@@ -184,7 +179,10 @@ public class World {
 				((MovingBlock) entity).setCurrentTile(currentTile);
 			}
 		}
-		
+		for (MovingBlockSpawner e : movingblockSpawners) {
+			e.initMoveBlock();
+		}
+
 		// Deko erzeugen
 		nullTileImgs = new BufferedImage[5];
 		nullTileImgs[0] = getImage("/res/blocks/block0.png");
@@ -199,8 +197,7 @@ public class World {
 
 		if (probsTotal != 1)
 			System.err.println("Total deko Probs: " + probsTotal);
-		
-		
+
 		worldDeco = new int[tileWorld.length][tileWorld[0].length];
 		for (int y = 0; y < worldDeco.length; y++) {
 			for (int x = 0; x < worldDeco[y].length; x++) {
@@ -437,7 +434,6 @@ public class World {
 
 		particleHandler.tick();
 
-		
 		// Player movement
 		player.tick();
 
@@ -744,8 +740,8 @@ public class World {
 			rawTetros.add(createRawTetro(t));
 		}
 
-		return new Level(rawTetros, tileWorld, doors, otherEntities, tetroAmount, toggleStates,
-				 player.getTileX(), player.getTileY());
+		return new Level(rawTetros, tileWorld, doors, otherEntities, tetroAmount, toggleStates, player.getTileX(),
+				player.getTileY());
 	}
 
 	private RawTetro createRawTetro(Tetro tetro) {
@@ -801,15 +797,15 @@ public class World {
 		switchDoors(color);
 	}
 
-	public void updateDoors(int color){
-		
+	public void updateDoors(int color) {
+
 		for (DoorTile dT : doors) {
 			if (dT.getColorAsInt() == color) {
 				dT.changeState();
 			}
 		}
 	}
-	
+
 	public void switchDoors(int color) {
 		toggleStates[color] = !toggleStates[color];
 		updateDoors(color);
@@ -847,15 +843,11 @@ public class World {
 					/ GameFrame.BLOCKSIZE].interact();
 		}
 		for (Entity e : toAdd) {
-			allEntities.add(e);
-			otherEntities.add(e);
-			renderer.addDrawable(e);
+			addEntityDirectly(e);
 		}
 		toAdd.clear();
 		for (Entity e : toRemove) {
-			allEntities.remove(e);
-			otherEntities.remove(e);
-			renderer.removeDrawable(e);
+			removeEntityDirectly(e);
 		}
 		toRemove.clear();
 
@@ -875,14 +867,26 @@ public class World {
 		return false;
 	}
 
-	public void removeEntity(Entity entity) {
+	public void initiateRemoveEntity(Entity entity) {
 		toRemove.add(entity);
 
 	}
-
-	public void addEntity(Entity entity) {
+	
+	public void initiateAddEntity(Entity entity) {
 		toAdd.add(entity);
 
+	}
+	
+	public void removeEntityDirectly(Entity e) {
+		allEntities.remove(e);
+		otherEntities.remove(e);
+		renderer.removeDrawable(e);
+	}
+
+	public void addEntityDirectly(Entity e) {
+		allEntities.add(e);
+		otherEntities.add(e);
+		renderer.addDrawable(e);
 	}
 
 	public int[] getTetroAmount() {
@@ -1048,5 +1052,5 @@ public class World {
 	public HashMap<String, Animation> loadAnimations(String url) {
 		return frame.loadAnimation(url);
 	}
-	
+
 }

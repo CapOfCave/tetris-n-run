@@ -24,35 +24,34 @@ public class PressurePlateTile extends Tile {
 		needsBackGround = true;
 		if (key == 'à') {
 			color = 0;
-			drawColor = new Color(209, 17, 65); //rot
+			drawColor = new Color(209, 17, 65); // rot
 		} else if (key == 'è') {
 			color = 1;
-			drawColor = new Color(0, 177, 89); //Grün
+			drawColor = new Color(0, 177, 89); // Grün
 		} else if (key == 'ì') {
 			color = 2;
-			drawColor = new Color(0, 174, 219); //Cyan
+			drawColor = new Color(0, 174, 219); // Cyan
 		} else if (key == 'ò') {
 			color = 3;
-			drawColor = new Color(255, 196, 37); //gelb
-		}else if (key == 'ù') {
+			drawColor = new Color(255, 196, 37); // gelb
+		} else if (key == 'ù') {
 			color = 4;
-			drawColor = new Color(243, 119, 53); //orange
-		}else if (key == 'À') {
+			drawColor = new Color(243, 119, 53); // orange
+		} else if (key == 'À') {
 			color = 5;
-			drawColor = new Color(198, 76, 255); //pink
+			drawColor = new Color(198, 76, 255); // pink
 
 		}
-		 
+
 	}
-	
+
 	public void setWorld(World world) {
 		super.setWorld(world);
 		pictures = world.loadAnimations("/res/anims/pressurePlate.txt");
-		//TODO inefficient, aber autofixed later
+		// TODO inefficient, aber autofixed later
 		image3d = GraphicalTools.setColor(world.getImage("/res/blocks/PressurePlate.png"), drawColor);
-		
+
 	}
-	
 
 	@Override
 	public void eventWhenEntering() {
@@ -82,7 +81,7 @@ public class PressurePlateTile extends Tile {
 		moveBlocksOnTile--;
 		if (!pressedByPlayer && moveBlocksOnTile == 0) {
 			world.switchDoors(color);
-			 pressedByPlayer = false;
+			pressedByPlayer = false;
 			image3d = GraphicalTools.setColor(
 					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
 		}
@@ -94,7 +93,8 @@ public class PressurePlateTile extends Tile {
 		if (moveBlocksOnTile == 0) {
 			world.switchDoors(color);
 			pressedByPlayer = false;
-			image3d = GraphicalTools.setColor(pictures.get(pressedByPlayer ? "state0" : "state1").getImage(), drawColor);
+			image3d = GraphicalTools.setColor(pictures.get(pressedByPlayer ? "state0" : "state1").getImage(),
+					drawColor);
 		}
 	}
 
@@ -108,10 +108,11 @@ public class PressurePlateTile extends Tile {
 	public double getHeight() {
 		return -1;
 	}
-	
+
 	public Color getColor() {
 		return drawColor;
 	}
+
 	public boolean isOccupiedByMoveblock() {
 		return moveBlocksOnTile >= 1;
 	}

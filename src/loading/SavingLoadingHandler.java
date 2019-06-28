@@ -39,21 +39,18 @@ public class SavingLoadingHandler implements Runnable {
 				FileHandler.deleteAllSaveNLoadSaves();
 			} else if (levelsToLoadUrls.size() > 0) {
 				if (!imageLoader.isEverythingLoaded()) {
-					System.out.println("Now Loading: all Images");
+					System.out.println("Now Loading: All Images");
 					imageLoader.loadAll();
+					System.out.println("Image Load completed");
 				}
 
-				System.out.print("Now Loading: " + levelsToLoadUrls.get(0));
 				loadedLevels.put(levelsToLoadUrls.get(0), LevelLoader.loadLevel(levelsToLoadUrls.get(0)));
 				levelsToLoadUrls.remove(0);
-				System.out.println(" - completed");
 
 			} else if (levelsToSave.size() > 0) {
-				System.out.print("Now Saving: " + levelsToSaveUrls.get(0));
 				levelSaver.saveLevel(levelsToSave.get(0), levelsToSaveUrls.get(0));
 				levelsToSave.remove(0);
 				levelsToSaveUrls.remove(0);
-				System.out.println("- completed");
 			} else {
 				try {
 					Thread.sleep(10);
@@ -79,7 +76,6 @@ public class SavingLoadingHandler implements Runnable {
 			running = false;
 			try {
 				th.join(1000);
-				System.out.println("Stopped succesfully");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
