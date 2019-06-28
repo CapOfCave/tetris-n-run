@@ -9,30 +9,26 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import input.TutorialMouseHandler;
-import loading.ImageLoader;
 
 public class TutorialPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private MenuFrame frame;
 	private TutorialMouseHandler mouseHandler;
-	private final int width = 1300, height = 900;
 	private BufferedImage tutorial;
 
 	public TutorialPanel(MenuFrame frame) {
 		this.frame = frame;
 		mouseHandler = new TutorialMouseHandler(frame, this);
-		setPreferredSize(new Dimension(width, height));
+		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
 
-		tutorial = ImageLoader.loadImage("/res/Tutorial.png");
+		tutorial = frame.getImage("/res/Tutorial.png");
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, width, height);
 		g.drawImage(tutorial, 0, 0, null);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("TimesNewRoman", 1, 55));

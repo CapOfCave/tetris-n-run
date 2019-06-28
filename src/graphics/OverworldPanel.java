@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
-import data.ConsoleLine;
 import data.Level;
-import data.RawPlayer;
+import data.TetroType;
 import input.GuiMouseHandler;
 import input.KeyHandler;
-import loading.ImageLoader;
-import logics.worlds.World;
+import logics.World;
 
 /**
  * @author Marius Created on 13.09.2018
@@ -21,13 +21,14 @@ public class OverworldPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 	private GuiMouseHandler guiMouseHandler;
+	private BufferedImage backOverworld;
 
-	public OverworldPanel(int width, int height, Level level, KeyHandler keyHandler, GameFrame frame,
-			RawPlayer rawPlayer) {
-		super(width, height, level, keyHandler, frame);
+	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrame frame, ArrayList<TetroType> tetroTypes) {
+		super(level, keyHandler, frame, tetroTypes);
+		backOverworld = frame.getImage("/res/imgs/backOverworld.png");
+		world = new World(gamePanel, level, keyHandler, frame);
 
-		world = new World(gamePanel, level, keyHandler, frame, rawPlayer);
-
+		
 		guiMouseHandler = new GuiMouseHandler(frame, world);
 		addMouseListener(guiMouseHandler);
 	}
@@ -35,24 +36,52 @@ public class OverworldPanel extends Panel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, width, height);
-
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		world.draw(gameGraphics, interpolation, debugMode);
+		if (frame.isLoading()) {
+			drawLoadingScreen(gameGraphics);
+		} else {
+			drawOverworldScreen(gameGraphics);
+		}
+
 		Graphics2D previewGraphics = (Graphics2D) g.create(54, 680, 1000, 1000);
 		world.drawPlayerPreview(previewGraphics);
+
+		drawLevelCaption(g);
+
+		g.drawImage(backOverworld, 0, 0, 1300, 900, null);
+
+		drawConsole(g);
+
+	}
+
+	private void drawOverworldScreen(Graphics gameGraphics) {
+
+		world.draw(gameGraphics, interpolation, debugMode);
 		if (debugMode) {
-			gameGraphics.setColor(Color.WHITE);
-			gameGraphics.fillRect(0, 0, 170, 55);
 			drawDebug(gameGraphics);
 		}
-		g.drawImage(ImageLoader.loadImage("/res/backOverworld.png"), 0, 0, 1300, 900, null);
+	}
 
+	private void drawLoadingScreen(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("Timesnewroman", 1, 44));
+		g.fillRect(0, 0, gamePanel.width, gamePanel.height);
+		g.setColor(Color.WHITE);
+		g.drawRect((int) ((0.5 - loadingScreenProgression / 120.) * gamePanel.width),
+				(int) ((0.5 - loadingScreenProgression / 120.) * gamePanel.height),
+				(int) ((loadingScreenProgression / 60.) * gamePanel.width),
+				(int) ((loadingScreenProgression / 60.) * gamePanel.height));
 
+	}
+
+	@Override
+	public void secondPassed() {
+	}
+
+	public void save() {
+		world.initiateSaving(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
+	}
+
+	public void drawLevelCaption(Graphics g) {
 		if (Character.isLowerCase(frame.getNextLevel())) {
 			g.setColor(Color.BLACK);
 
@@ -103,8 +132,6 @@ public class OverworldPanel extends Panel {
 				break;
 			}
 
-			g.drawString("Play", 1085, 360);
-
 		} else {
 			g.setColor(Color.GRAY);
 			g.setFont(new Font("Timesnewroman", 1, 34));
@@ -112,32 +139,11 @@ public class OverworldPanel extends Panel {
 			g.setFont(new Font("Timesnewroman", 1, 44));
 			g.drawString("Play", 1085, 360);
 		}
+		g.drawString("Play", 1085, 360);
 		g.setColor(Color.BLACK);
-
-		Graphics2D chatGraphics = (Graphics2D) g.create(185, 665, 365, 184);
-
 		g.drawString("Load", 1075, 470);
 		g.drawString("Menu", 1070, 580);
-		ConsoleLine[] text = frame.getText();
 
-		if (text.length > 0) {
-			for (int i = 0; i < text.length; i++) {
-				if (text[i] != null) {
-					chatGraphics.setFont(new Font("Timesnewroman", 0, text[i].getFontSize()));
-					chatGraphics.setColor(new Color(0, 0, 0, text[i].getOpacity()));
-					chatGraphics.drawString(text[i].getContent(), 30,
-							40 + (i * GameFrame.TEXTOFFSET) - text[i].getOffset());
-				}
-			}
-		}
-	}
-	
-	@Override
-	public void secondPassed() {
-	}
-
-	public void save() {
-		world.save(System.getenv("APPDATA") + "\\tetris-n-run\\saves", "overworldSave.txt");
 	}
 
 }

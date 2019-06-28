@@ -5,21 +5,15 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import graphics.GameFrame;
-import loading.ImageLoader;
+import logics.World;
 
-public class DekoTile extends Tile{
-	
+public class DekoTile extends Tile {
+
 	private BufferedImage image3d;
-	
 
-	
-	public DekoTile(char key, int posX, int posY, int xo, int yo, String name, GameFrame frame) {
-		super(key, posX, posY, false, false, false, frame);
-		img = ImageLoader.loadImage("/res/blocks/block0.png");
+	public DekoTile(char key, int posX, int posY, int xo, int yo, String name) {
+		super(key, posX, posY, false, false, false);
 		this.name = name;
-
-		image3d = ImageLoader.loadImage("/res/blocks/" + name + ".png");
-		
 		offset = new Point(xo, yo);
 	}
 
@@ -33,6 +27,13 @@ public class DekoTile extends Tile{
 	public void drawBackground(Graphics g, float interpolation) {
 		g.drawImage(img, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
 				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
+	}
+
+	@Override
+	public void setWorld(World world) {
+		super.setWorld(world);
+		img = world.getImage("/res/blocks/block0.png");
+		image3d = world.getImage("/res/blocks/" + name + ".png");
 	}
 
 }

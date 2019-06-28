@@ -16,33 +16,25 @@ import logics.entities.Switch;
  * @author Lars Created on 13.08.2018
  */
 public class LevelSaver extends Saver {
-	public void saveLevel(Level level, String path, String fileName) {
-		print(createOutput(level), path, fileName);
-	}
 
-	
+	public void saveLevel(Level level, String url) {
+		print(createOutput(level), url);
+	}
 
 	private ArrayList<String> createOutput(Level level) {
 		ArrayList<String> outpLines = new ArrayList<>();
-
-		// settings
-		StringBuilder settings = new StringBuilder("b");
-		String tetroFileUrl = level.getTetrofileUrl();
-		if (tetroFileUrl != null && tetroFileUrl != "") {
-			settings.append(";tetrofile=" + tetroFileUrl);
-		}
-		String strSettings = settings.toString();
-		if (!strSettings.equals("i")) {
-			outpLines.add(strSettings);
-		}
 
 		// player position
 		outpLines.add("p;x=" + level.getPlayerX() + ";y=" + level.getPlayerY());
 
 		// Toggle states
 		boolean[] toggleStates = level.getToggleStates();
+		System.out.println();
+		for (int i = 0; i < toggleStates.length; i++) {
+			System.out.print(toggleStates[i] + ", ");
+		}
 		outpLines.add("o;" + toggleStates[0] + ";" + toggleStates[1] + ";" + toggleStates[2] + ";" + toggleStates[3]
-				+ ";" + toggleStates[4]);
+				+ ";" + toggleStates[4] + ";" + toggleStates[5]);
 		int[] tetroAmounts = level.getTetroAmounts();
 		for (int i = 0; i < tetroAmounts.length; i++) {
 			if (tetroAmounts[i] != 0) {
@@ -66,16 +58,15 @@ public class LevelSaver extends Saver {
 		// Other entities
 		ArrayList<Entity> entities = level.getEntities();
 		for (Entity entity : entities) {
-			String outp = "e;rx=" + (int) entity.getX() + ";ry=" + (int) entity.getY() + ";type=" + entity.getType()
-					+ ";url=" + entity.getAnimPath();
+			String outp = "e;rx=" + (int) entity.getX() + ";ry=" + (int) entity.getY() + ";type=" + entity.getType();
 			switch (entity.getType()) {
 			case "moveblock":
 				outpLines.add(outp);
 				break;
 			case "moveblockspawner":
 				MovingBlockSpawner cubeSpawner = (MovingBlockSpawner) entity;
-				outpLines.add(outp + ";cx=" + (int) cubeSpawner.getCX()/GameFrame.BLOCKSIZE + ";cy=" + (int) cubeSpawner.getCY()/GameFrame.BLOCKSIZE + ";curl="
-						+ cubeSpawner.getCurl());
+				outpLines.add(outp + ";cx=" + (int) cubeSpawner.getCX() / GameFrame.BLOCKSIZE + ";cy="
+						+ (int) cubeSpawner.getCY() / GameFrame.BLOCKSIZE);
 				break;
 			case "switch":
 				Switch entitySwitch = (Switch) entity;
@@ -92,8 +83,8 @@ public class LevelSaver extends Saver {
 		for (Tile[] row : world) {
 			StringBuilder worldLine = new StringBuilder("w;");
 			for (Tile field : row) {
-				if(field != null)
-				worldLine.append(field.getKey());
+				if (field != null)
+					worldLine.append(field.getKey());
 				else
 					worldLine.append('0');
 			}
@@ -107,12 +98,12 @@ public class LevelSaver extends Saver {
 		for (Tile[] row : world) {
 
 			for (Tile field : row) {
-				//SAL-Tile
+				// SAL-Tile
 				if (field != null && field.getKey() == '2') {
 					StringBuilder worldLine = new StringBuilder("Tl;");
 					worldLine.append("x=" + field.getPosX() + ";");
 					worldLine.append("y=" + field.getPosY() + ";");
-					
+
 					SaveNLoadTile fieldCast = (SaveNLoadTile) field;
 					if (fieldCast.getTip() != null) {
 						worldLine.append("tip=" + fieldCast.getTip() + ";");
@@ -122,7 +113,7 @@ public class LevelSaver extends Saver {
 								worldLine.append("tip3=" + fieldCast.getTip3() + ";");
 								if (fieldCast.getTip4() != null) {
 									worldLine.append("tip4=" + fieldCast.getTip4() + ";");
-									
+
 								}
 							}
 						}
@@ -131,15 +122,15 @@ public class LevelSaver extends Saver {
 					for (int amount : field.getTetroAmount())
 						worldLine.append(amount + ",");
 					outpLines.add(worldLine.toString());
-					//Decoration
+					// Decoration
 				} else if (field != null && field.getKey() == 'X') {
 					StringBuilder worldLine = new StringBuilder("Td;");
 					worldLine.append("x=" + field.getPosX() + ";");
 					worldLine.append("y=" + field.getPosY() + ";");
-					worldLine.append("xo=" + (int)field.getOffSet().getX() + ";");
-					worldLine.append("yo=" + (int)field.getOffSet().getY() + ";");
+					worldLine.append("xo=" + (int) field.getOffSet().getX() + ";");
+					worldLine.append("yo=" + (int) field.getOffSet().getY() + ";");
 					worldLine.append("name=" + field.getName() + ";");
-					
+
 					outpLines.add(worldLine.toString());
 				}
 			}

@@ -3,7 +3,7 @@ package data.Tiles;
 import java.awt.Graphics;
 
 import graphics.GameFrame;
-import loading.ImageLoader;
+import logics.World;
 
 /**
  * @author Lars Created on 14.09.2018
@@ -11,12 +11,18 @@ import loading.ImageLoader;
 public class WallTile extends Tile {
 
 	
-	public WallTile(char key, int posX, int posY, GameFrame frame) {
-		super(key, posX, posY, false, false, false, frame);
+	public WallTile(char key, int posX, int posY) {
+		super(key, posX, posY, false, false, false);
 		isBlockingTetro = true;
-		img = ImageLoader.loadImage("/res/blocks/block0.png");
+		
 
 	}
+	
+	public void setWorld(World world) {
+		super.setWorld(world);
+		img = world.getImage("/res/blocks/block0.png");
+	}
+	
 	
 	@Override
 	public void draw(Graphics g, float interpolation) {

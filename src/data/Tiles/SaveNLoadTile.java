@@ -7,8 +7,7 @@ import java.util.HashMap;
 
 import data.Animation;
 import graphics.GameFrame;
-import loading.AnimationLoader;
-import logics.worlds.World;
+import logics.World;
 
 public class SaveNLoadTile extends Tile {
 
@@ -17,6 +16,7 @@ public class SaveNLoadTile extends Tile {
 
 	Animation akt_animation;
 	boolean fileExists = false;
+	boolean isCreating = false;
 	boolean addingTetros;
 	File loadFile = null;
 	static HashMap<String, Animation> all_animations = null;
@@ -27,14 +27,11 @@ public class SaveNLoadTile extends Tile {
 
 	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves\\";
 
-	public SaveNLoadTile(char key, int posX, int posY, GameFrame frame, int[] tetroAmount, boolean addingTetros,
-			String tip, String tip2, String tip3, String tip4) {
-		super(key, posX, posY, false, true, true, frame);
+	public SaveNLoadTile(char key, int posX, int posY, int[] tetroAmount, boolean addingTetros, String tip, String tip2,
+			String tip3, String tip4) {
+		super(key, posX, posY, false, true, true);
 		needsBackGround = true;
-//		image3dSaved = ImageLoader.loadImage("/res/blocks/saveNLoadAc.png");
-//		image3dUnSaved = ImageLoader.loadImage("/res/blocks/saveNLoadDeac.png");
-		
-		
+
 		this.tetroAmount = tetroAmount;
 		this.addingTetros = addingTetros;
 		this.tip = tip;
@@ -42,9 +39,6 @@ public class SaveNLoadTile extends Tile {
 		this.tip3 = tip3;
 		this.tip4 = tip4;
 
-		if (all_animations == null) {
-			all_animations = AnimationLoader.loadAnimations("/res/anims/savenload.txt");
-		}
 	}
 
 	@Override
@@ -55,6 +49,9 @@ public class SaveNLoadTile extends Tile {
 	@Override
 	public void setWorld(World world) {
 		super.setWorld(world);
+		if (all_animations == null) {
+			all_animations = world.loadAnimations("/res/anims/savenload.txt");
+		}
 		checkIfExists();
 		if (fileExists) {
 			akt_animation = all_animations.get("ac");
@@ -85,14 +82,16 @@ public class SaveNLoadTile extends Tile {
 		new File(folderName).mkdirs();
 		int prefix = (new File(folderName).listFiles().length + 1);
 
-		if (!fileExists) {
+		if (!fileExists && !isCreating) {
+			world.initiateSaving(folderName + prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
+			isCreating = true;
 			frame.addLineToText("Spielstand wurde gespeichert.");
 			world.playSound("save", 0);
 			if (addingTetros)
 				world.addTetroAmount(tetroAmount);
 			else
 				world.setTetroAmount(tetroAmount);
-			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
+
 			checkIfExists();
 			akt_animation = all_animations.get("ac");
 			world.setLastUsedSALTile(this);
@@ -103,14 +102,7 @@ public class SaveNLoadTile extends Tile {
 	public void interact() {
 		super.interact();
 		new File(folderName).mkdirs();
-		int prefix = (new File(folderName).listFiles().length + 1);
-
-		if (!fileExists) {
-			frame.addLineToText("Spielstand wurde gespeichert.");
-			refreshTetros();
-			world.save(folderName, prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
-			checkIfExists();
-		} else {
+		if (fileExists) {
 			frame.addLineToText("Spielstand wurde geladen.");
 			// remove later saves
 
@@ -120,11 +112,19 @@ public class SaveNLoadTile extends Tile {
 					f.delete();
 				}
 			}
-			frame.swichLevel(loadFile.getAbsolutePath(), this);
+			frame.switchLevel(loadFile.getAbsolutePath(), this);
 
+		} else if (isCreating) {
+			checkIfExists();
+			if (fileExists) {
+				interact();
+			} else {
+				frame.addLineToText("Wenns n bug war sry"); // TODO remove :D
+				frame.addLineToText("Bitte warte einige Sekunden, bevor du den Spielstand laden kannst.");
+			}
 		}
 	}
-	
+
 	public void refreshTetros() {
 		if (addingTetros)
 			world.addTetroAmount(tetroAmount);

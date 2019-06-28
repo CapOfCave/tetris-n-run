@@ -9,7 +9,7 @@ import data.Animation;
 import data.DrawAndSortable;
 import graphics.GameFrame;
 import graphics.Renderer;
-import loading.AnimationLoader;
+import logics.World;
 import tools.GraphicalTools;
 
 public class DoorTile extends Tile {
@@ -19,6 +19,7 @@ public class DoorTile extends Tile {
 	private int rotation;
 	private Color drawColor = Color.BLACK;
 	private BufferedImage image3d;
+	BufferedImage bottomImage;
 
 	private String str_akt_anim;
 	private DrawAndSortable bottomPart;
@@ -28,13 +29,12 @@ public class DoorTile extends Tile {
 
 	private int changesSinceOccupied = 0;
 
-	public DoorTile(int color, int x, int y, int rotation, boolean open, GameFrame frame) {
-		super('D', x, y, false, open, true, frame);
+	public DoorTile(int color, int x, int y, int rotation, boolean open) {
+		super('D', x, y, false, open, true);
 		needsBackGround = true;
 		this.rotation = rotation;
 		this.color = color;
 		this.standardOpened = open;
-		pictures = AnimationLoader.loadAnimations("/res/anims/door.txt");
 
 		if (color == 0) {
 			drawColor = new Color(209, 17, 65);
@@ -50,9 +50,8 @@ public class DoorTile extends Tile {
 			drawColor = new Color(210, 114, 255);
 		}
 		str_akt_anim = (open ? "opened" : "closed") + rotation;
-		image3d = GraphicalTools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
 
-		BufferedImage bottomImage = GraphicalTools.setColor(pictures.get("bottom_image").getImage(), drawColor);
+		
 		bottomPart = new DrawAndSortable() {
 
 			public double getHeight() {
@@ -94,9 +93,12 @@ public class DoorTile extends Tile {
 			}
 		};
 	}
-
-	public DoorTile() {
-		super('D', -1, -1, false, false, true, null);
+	@Override
+	public void setWorld(World world) {
+		super.setWorld(world);
+		pictures = world.loadAnimations("/res/anims/door.txt");
+		image3d = GraphicalTools.setColor(pictures.get(str_akt_anim).getImage(), drawColor);
+		bottomImage = GraphicalTools.setColor(pictures.get("bottom_image").getImage(), drawColor);
 	}
 
 	public void changeState() {

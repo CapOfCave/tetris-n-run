@@ -79,7 +79,6 @@ public class GameLoop implements Runnable {
 
 	public void start() {
 		if (!running) {
-			System.out.println("Starting...");
 			running = true;
 			th = new Thread(this);
 			th.start();
@@ -88,7 +87,6 @@ public class GameLoop implements Runnable {
 
 	public void stop() {
 		if (running) {
-			System.out.println("Stopping...");
 			running = false;
 			try {
 				th.join(1000);

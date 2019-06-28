@@ -17,10 +17,8 @@ public class SoundPlayer {
 
 		sounds = new HashMap<>();
 
-		sounds.put("test", this.getClass().getResource("/res/sounds/test2.wav"));
+		sounds.put("ButtonSound", this.getClass().getResource("/res/sounds/pressurePlate.wav"));
 		sounds.put("ButtonKlick", this.getClass().getResource("/res/sounds/klick.wav"));
-		sounds.put("ButtonSound", this.getClass().getResource("/res/sounds/button2.wav"));
-		sounds.put("SwitchSound", this.getClass().getResource("/res/sounds/button1.wav"));
 		sounds.put("step", this.getClass().getResource("/res/sounds/metal_footsteps.wav"));
 		sounds.put("metal0", this.getClass().getResource("/res/sounds/metal0.wav"));
 		sounds.put("metal1", this.getClass().getResource("/res/sounds/metal1.wav"));

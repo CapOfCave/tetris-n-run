@@ -7,8 +7,7 @@ import java.awt.image.BufferedImage;
 import data.DrawAndSortable;
 import graphics.GameFrame;
 import graphics.Renderer;
-import loading.ImageLoader;
-import logics.worlds.World;
+import logics.World;
 
 /**
  * @author Lars Created on 11.09.2018
@@ -32,18 +31,16 @@ public abstract class Tile implements DrawAndSortable {
 
 	protected boolean needsBackGround = false;;
 
-	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, boolean tetroPlacable,
-			GameFrame frame) {
+	public Tile(char key, int posX, int posY, boolean walkable, boolean walkableWithTetro, boolean tetroPlacable) {
 		this.key = key;
 		this.posX = posX;
 		this.posY = posY;
-		this.frame = frame;
 		this.walkable = walkable;
 		this.walkableWithTetro = walkableWithTetro;
 		this.tetroPlacable = tetroPlacable;
 
 		isBlockingTetro = false;
-		img = ImageLoader.loadImage("/res/blocks/block0.png");
+		
 	}
 
 	public void tick() {
@@ -129,6 +126,7 @@ public abstract class Tile implements DrawAndSortable {
 
 	public void setWorld(World world) {
 		this.world = world;
+		img = world.getImage("/res/blocks/block0.png");
 	}
 
 	public boolean isWalkableWithTetro() {
@@ -182,5 +180,9 @@ public abstract class Tile implements DrawAndSortable {
 
 	public void eventWhenMoveBlockLeaving() {
 		// do nothing
+	}
+
+	public void setFrame(GameFrame frame) {
+		this.frame = frame;
 	}
 }

@@ -10,8 +10,7 @@ public class SettingsLoader {
 
 	String url;
 	ArrayList<Integer> keyCodes = null;
-	ArrayList<Integer> levelSolved = null;
-	int difficulty = -1;
+	int levelSolved = -1;
 
 	public SettingsLoader(String url) {
 		this.url = url;
@@ -19,7 +18,6 @@ public class SettingsLoader {
 
 	public void loadAll() {
 		ArrayList<Integer> keyCodes = new ArrayList<>();
-		ArrayList<Integer> levelSolved = new ArrayList<>();
 
 		Scanner sc = null;
 		if (!LevelLoader.isAbsolute(url)) {
@@ -44,27 +42,23 @@ public class SettingsLoader {
 				}
 
 			} else if (nextLine.startsWith("l")) {
-				String levelInString = nextLine.substring(2);
-				for (String code : levelInString.split(",")) {
-					if (code != "")
-						levelSolved.add(Integer.parseInt(code));
+				try {
+				levelSolved = Integer.parseInt(nextLine.substring(2));
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+					levelSolved = 0;
+					System.err.println("Reset LevelSolved to 0");
 				}
-			} else if (nextLine.startsWith("d")) {
-				this.difficulty = Integer.parseInt(nextLine.substring(2));
 			}
-
 		}
 		if (keyCodes.size() > 0) {
 			this.keyCodes = keyCodes;
 		}
-		if (levelSolved.size() > 0) {
-			this.levelSolved = levelSolved;
-		}
 
 	}
 
-	public ArrayList<Integer> getLevelSolved() {
-		if (levelSolved == null) {
+	public int getLevelSolved() {
+		if (levelSolved == -1) {
 			loadAll();
 		}
 		return levelSolved;
@@ -75,13 +69,6 @@ public class SettingsLoader {
 			loadAll();
 		}
 		return keyCodes;
-	}
-
-	public int getDifficulty() {
-		if (difficulty == -1) {
-			loadAll();
-		}
-		return difficulty;
 	}
 
 }

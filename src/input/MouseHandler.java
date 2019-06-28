@@ -6,7 +6,7 @@ import javax.swing.event.MouseInputListener;
 
 import data.TetroType;
 import logics.InHandHandler;
-import logics.worlds.World;
+import logics.World;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -40,7 +40,7 @@ public class MouseHandler implements MouseInputListener {
 			// Rechte Maustaste : drehen
 			inHandHandler.rotateInHand(false);
 		} else if (e.getButton() == MouseEvent.BUTTON2) {
-			world.save("C:/JavaEclipse/", "level.txt");
+			world.initiateSaving("C:/JavaEclipse/level.txt");
 		}
 	}
 

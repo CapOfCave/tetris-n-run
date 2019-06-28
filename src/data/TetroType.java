@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import graphics.GameFrame;
+import loading.ImageLoader;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -18,11 +19,13 @@ public class TetroType {
 
 	private Pics sliced;
 	private int colorInt;
+	private ImageLoader imageLoader;
 
-	public TetroType(String strHitbox, BufferedImage img, int slicedColor) {
+	public TetroType(String strHitbox, BufferedImage img, int slicedColor, ImageLoader imageLoader) {
 		this.strHitbox = strHitbox;
 		this.img = img;
 		this.colorInt = slicedColor;
+		this.imageLoader = imageLoader;
 
 		hitbox = new boolean[2][4];
 		expandedHitbox = new int[hitbox.length + 2 * hitboxExpansion][hitbox[0].length + 2 * hitboxExpansion];
@@ -106,7 +109,7 @@ public class TetroType {
 
 	public Pics getSliced() {
 		if (sliced == null) {
-			sliced = new Pics("/res/slicedTetros/slicedPane" + colorInt + ".png", GameFrame.BLOCKSIZE);
+			sliced = new Pics("/res/slicedTetros/slicedPane" + colorInt + ".png", GameFrame.BLOCKSIZE, imageLoader);
 		}
 		return sliced;
 	}

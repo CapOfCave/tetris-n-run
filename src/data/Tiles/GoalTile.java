@@ -3,24 +3,28 @@ package data.Tiles;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import data.RawPlayer;
 import graphics.GameFrame;
-import loading.ImageLoader;
+import logics.World;
 
 public class GoalTile extends Tile {
 
 	private BufferedImage image3d;
 
-	public GoalTile(int posX, int posY, GameFrame frame) {
-		super('!', posX, posY, false, true, true, frame);
+	public GoalTile(int posX, int posY) {
+		super('!', posX, posY, false, true, true);
 		needsBackGround = true;
-		image3d = ImageLoader.loadImage("/res/goal.png");
+		
 	}
+	@Override
+	public void setWorld(World world) {
+		super.setWorld(world);
+		image3d = world.getImage("/res/imgs/goal.png");
+	}
+	
 
 	@Override
 	public void interact() {
-		frame.changeToOverworld(false, new RawPlayer(world.getPlayer().getAcc(), world.getPlayer().getBrake(),
-				world.getPlayer().getMaxSpeed()));
+		frame.changeToOverworld(false);
 		world.getPlayer().resetActionPressed();
 	}
 

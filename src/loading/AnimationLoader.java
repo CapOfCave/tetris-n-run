@@ -15,7 +15,14 @@ import data.Pics;
  */
 public class AnimationLoader {
 
-	public static HashMap<String, Animation> loadAnimations(String url) {
+	
+	private ImageLoader imageLoader;
+
+	public AnimationLoader(ImageLoader imageLoader) {
+		this.imageLoader = imageLoader;
+	}
+	
+	public HashMap<String, Animation> loadAnimations(String url) {
 		Scanner sc = null;
 		try {
 		if (!LevelLoader.isAbsolute(url)) {
@@ -43,7 +50,7 @@ public class AnimationLoader {
 				String name = nextLine.substring(nextLine.indexOf(" "), nextLine.indexOf("=")).trim();
 				try {
 					pics.put(name, new Pics(nextLine.substring(nextLine.indexOf("\"") + 1, nextLine.length() - 1),
-							Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" ")))));
+							Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" "))), imageLoader));
 				} catch (IllegalArgumentException e) {
 					System.err.println("Fehler mit dem Dateiformat von " + url);
 					e.printStackTrace();

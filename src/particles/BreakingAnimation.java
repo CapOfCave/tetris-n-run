@@ -2,7 +2,7 @@ package particles;
 
 import data.Pics;
 import graphics.GameFrame;
-import logics.worlds.World;
+import logics.World;
 
 public class BreakingAnimation extends ParticleAnimation {
 

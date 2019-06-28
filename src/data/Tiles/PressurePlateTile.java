@@ -7,8 +7,7 @@ import java.util.HashMap;
 
 import data.Animation;
 import graphics.GameFrame;
-import loading.AnimationLoader;
-import loading.ImageLoader;
+import logics.World;
 import tools.GraphicalTools;
 
 public class PressurePlateTile extends Tile {
@@ -20,8 +19,8 @@ public class PressurePlateTile extends Tile {
 	Color drawColor = Color.BLACK;
 	private BufferedImage image3d;
 
-	public PressurePlateTile(char key, int posX, int posY, GameFrame frame) {
-		super(key, posX, posY, false, true, true, frame);
+	public PressurePlateTile(char key, int posX, int posY) {
+		super(key, posX, posY, false, true, true);
 		needsBackGround = true;
 		if (key == 'à') {
 			color = 0;
@@ -43,9 +42,17 @@ public class PressurePlateTile extends Tile {
 			drawColor = new Color(198, 76, 255); //pink
 
 		}
-		pictures = AnimationLoader.loadAnimations("/res/anims/pressurePlate.txt");
-		image3d = GraphicalTools.setColor(ImageLoader.loadImage("/res/blocks/PressurePlate.png"), drawColor);
+		 
 	}
+	
+	public void setWorld(World world) {
+		super.setWorld(world);
+		pictures = world.loadAnimations("/res/anims/pressurePlate.txt");
+		//TODO inefficient, aber autofixed later
+		image3d = GraphicalTools.setColor(world.getImage("/res/blocks/PressurePlate.png"), drawColor);
+		
+	}
+	
 
 	@Override
 	public void eventWhenEntering() {

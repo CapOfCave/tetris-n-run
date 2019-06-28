@@ -1,4 +1,0 @@
-pics200 p = "/res/ItemImageTemplate.png"
-
-anim stand0 = p.0
-anim preview = p.0

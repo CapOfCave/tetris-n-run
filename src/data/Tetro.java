@@ -46,7 +46,7 @@ public class Tetro {
 	}
 
 	public void draw(Graphics g) {
-		type.draw(g, x * GameFrame.BLOCKSIZE - camera.getX(), y * GameFrame.BLOCKSIZE - camera.getY(), rotation);
+		type.draw(g, x * GameFrame.BLOCKSIZE - camera.getDrawX(), y * GameFrame.BLOCKSIZE - camera.getDrawY(), rotation);
 	}
 
 	public TetroType getType() {

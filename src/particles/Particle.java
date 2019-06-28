@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import logics.worlds.World;
+import logics.World;
 
 public class Particle {
 

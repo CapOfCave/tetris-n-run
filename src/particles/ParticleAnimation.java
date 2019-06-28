@@ -3,7 +3,7 @@ package particles;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import logics.worlds.World;
+import logics.World;
 
 public class ParticleAnimation {
 	protected ArrayList<Particle> particles;

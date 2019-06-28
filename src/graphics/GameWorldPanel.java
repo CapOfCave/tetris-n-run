@@ -5,16 +5,15 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
-import data.ConsoleLine;
 import data.Level;
-import data.RawPlayer;
+import data.TetroType;
 import data.Tiles.SaveNLoadTile;
 import input.KeyHandler;
 import input.MouseHandler;
-import loading.ImageLoader;
 import logics.InHandHandler;
-import logics.worlds.World;
+import logics.World;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -28,18 +27,22 @@ public class GameWorldPanel extends Panel {
 
 	private final int tetrotypeDrawSize = 30;
 	private final int tetrotypeDrawSizeHovered = 34;
+	public final int removedTetroFocusTicks = 5;
 
 	private final int tetroHoverOffset = (tetrotypeDrawSizeHovered - tetrotypeDrawSize) / 2;
 
 	private BufferedImage emptyTetro;
+	private BufferedImage backLevel;
 
 	private int seconds = 0;
 
-	public GameWorldPanel(int width, int height, Level level, KeyHandler keyHandler, GameFrame frame,
-			RawPlayer rawPlayer) {
-		super(width, height, level, keyHandler, frame);
+	private int currentFocusTicks = 0;
+	private int focusedTetroType = -1;
 
-		world = new World(gamePanel, level, keyHandler, frame, rawPlayer);
+	public GameWorldPanel(Level level, KeyHandler keyHandler, GameFrame frame, ArrayList<TetroType> tetroTypes) {
+		super(level, keyHandler, frame, tetroTypes);
+
+		world = new World(gamePanel, level, keyHandler, frame);
 
 		inHandHandler = new InHandHandler(world, tetroDrawPositions, tetrotypeDrawSize);
 		mouseHandler = new MouseHandler(inHandHandler, world);
@@ -47,7 +50,8 @@ public class GameWorldPanel extends Panel {
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
 
-		emptyTetro = ImageLoader.loadImage("/res/tetros/empty.png");
+		emptyTetro = frame.getImage("/res/tetros/empty.png");
+		backLevel = frame.getImage("/res/imgs/backLevel.png");
 	}
 
 	@Override
@@ -55,7 +59,7 @@ public class GameWorldPanel extends Panel {
 		super.paintComponent(g);
 
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, width, height);
+		g.fillRect(0, 0, GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT);
 		g.setFont(new Font("TimesNewRoman", 1, 44));
 		g.setColor(Color.BLACK);
 
@@ -68,59 +72,20 @@ public class GameWorldPanel extends Panel {
 		world.draw(gameGraphics, interpolation, debugMode);
 		world.drawMap(mapGraphics);
 
-		for (int i = 0; i < tetroTypes.size(); i++) {
-			BufferedImage img = null;
-			if (world.getTetroAmount()[i] <= 0) {
-				img = emptyTetro;
-			}
+		drawTetroPreview(g);
 
-			if (tetroTypes.get(i) == inHandHandler.tetroInHand && world.getTetroAmount()[i] <= 1) {
-				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize,
-						0, emptyTetro);
-			} else if (tetroTypes.get(i) == mouseHandler.getCurrentlyHoveredTetro()) {
-				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x - tetroHoverOffset * 4,
-						tetroDrawPositions.get(i).y - tetroHoverOffset * 2, tetrotypeDrawSizeHovered, 0, img);
-			} else if (world.getFocusedTetroType() == i) {
-				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x - tetroHoverOffset * 4,
-						tetroDrawPositions.get(i).y - tetroHoverOffset * 2, tetrotypeDrawSizeHovered, 0, img);
-			} else {
-				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize,
-						0, img);
-			}
-
-			g.setFont(new Font("TimesNewRoman", 1, 25));
-			if (i % 2 == 0 && world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
-				g.drawString("" + world.getTetroAmount()[i], 1212, 153 + 58 * i + i / 2);
-			} else if (world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
-				g.drawString("" + world.getTetroAmount()[i], 1085, 212 + 58 * i + i / 2);
-			}
-			g.setFont(new Font("TimesNewRoman", 1, 44));
-		}
-
-		g.drawImage(ImageLoader.loadImage("/res/backLevel.png"), 0, 0, 1300, 900, null);
+		g.drawImage(backLevel, 0, 0, 1300, 900, null);
 
 		g.setColor(Color.BLACK);
+		g.setFont(new Font("TimesNewRoman", 1, 44));
 		g.drawString("Overworld", 1020, 585);
-		ConsoleLine[] text = frame.getText();
 
-		if (text.length > 0) {
-			for (int i = 0; i < text.length; i++) {
-				if (text[i] != null) {
-					g.setFont(new Font("Timesnewroman", Font.PLAIN, text[i].getFontSize())); // 18 / 20
-					g.setColor(new Color(0, 0, 0, text[i].getOpacity()));
-					g.drawString(text[i].getContent(), 185, 705 + (i * GameFrame.TEXTOFFSET) - text[i].getOffset());
-				}
-			}
-		}
+		drawConsole(g);
 
 		inHandHandler.drawPreview(g, debugMode);
 
 		if (debugMode) {
-			gameGraphics.setColor(Color.WHITE);
-			gameGraphics.fillRect(0, 0, 170, 55);
 			drawDebug(gameGraphics);
-			g.setColor(Color.GREEN);
-			g.drawRect(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		}
 
 	}
@@ -136,6 +101,13 @@ public class GameWorldPanel extends Panel {
 	}
 
 	@Override
+	public void tick() {
+		super.tick();
+		if (currentFocusTicks > 0)
+			currentFocusTicks--;
+	}
+
+	@Override
 	public void secondPassed() {
 		seconds++;
 	}
@@ -144,4 +116,50 @@ public class GameWorldPanel extends Panel {
 		return seconds;
 	}
 
+	public void focusTetroType(int color) {
+		focusedTetroType = color;
+		currentFocusTicks = removedTetroFocusTicks;
+
+	}
+
+	public int getFocusedTetroType() {
+		if (currentFocusTicks > 0) {
+			return focusedTetroType;
+		} else {
+			return -1;
+		}
+	}
+
+	
+
+	private void drawTetroPreview(Graphics g) {
+		for (int i = 0; i < tetroTypes.size(); i++) {
+			BufferedImage img = null;
+			if (world.getTetroAmount()[i] <= 0) {
+				img = emptyTetro;
+			}
+
+			if (tetroTypes.get(i) == inHandHandler.tetroInHand && world.getTetroAmount()[i] <= 1) {
+				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize,
+						0, emptyTetro);
+			} else if (tetroTypes.get(i) == mouseHandler.getCurrentlyHoveredTetro()) {
+				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x - tetroHoverOffset * 4,
+						tetroDrawPositions.get(i).y - tetroHoverOffset * 2, tetrotypeDrawSizeHovered, 0, img);
+			} else if (getFocusedTetroType() == i) {
+				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x - tetroHoverOffset * 4,
+						tetroDrawPositions.get(i).y - tetroHoverOffset * 2, tetrotypeDrawSizeHovered, 0, img);
+			} else {
+				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize,
+						0, img);
+			}
+
+			g.setFont(new Font("TimesNewRoman", 1, 25));
+			if (i % 2 == 0 && world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
+				g.drawString("" + world.getTetroAmount()[i], 1212, 153 + 58 * i + i / 2);
+			} else if (world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
+				g.drawString("" + world.getTetroAmount()[i], 1085, 212 + 58 * i + i / 2);
+			}
+
+		}
+	}
 }

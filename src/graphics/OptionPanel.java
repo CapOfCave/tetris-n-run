@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import input.OptionMouseHandler;
-import loading.ImageLoader;
+import loading.SettingSaver;
 
 public class OptionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -21,13 +21,9 @@ public class OptionPanel extends JPanel {
 
 	private MenuFrame frame;
 	private OptionMouseHandler mouseHandler;
-	private final int width = 1300, height = 900;
 	private BufferedImage option;
-	private int difficulty = 1;
-	private String[] strDif = {"Easy", "Normal", "Expert", "Impossible"};
 
-	public OptionPanel(MenuFrame frame, int difficulty) {
-		this.difficulty = difficulty;
+	public OptionPanel(MenuFrame frame) {
 		keyCodes = new ArrayList<Integer>();
 		keyCodes.add(0, 87);
 		keyCodes.add(1, 65);
@@ -41,23 +37,21 @@ public class OptionPanel extends JPanel {
 
 		this.frame = frame;
 		mouseHandler = new OptionMouseHandler(frame, this);
-		setPreferredSize(new Dimension(width, height));
+		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
 
-		option = ImageLoader.loadImage("/res/Optionen.png");
+		option =frame.getImage("/res/Optionen.png");
 
 	}
 
-	public OptionPanel(MenuFrame menuFrame, ArrayList<Integer> keyCodes, int difficulty) {
-		this(menuFrame, difficulty);
+	public OptionPanel(MenuFrame menuFrame, ArrayList<Integer> keyCodes) {
+		this(menuFrame);
 		this.keyCodes = keyCodes;
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, width, height);
 		g.drawImage(option, 0, 0, null);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("TimesNewRoman", 1, 55));
@@ -107,11 +101,6 @@ public class OptionPanel extends JPanel {
 		if(keyCodeForChange == 8) 
 			g.setFont(new Font("TimesNewRoman", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(8)), 458, 712);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
-
-		g.setFont(new Font("TimesNewRoman", 1, 30));
-		g.drawString("Difficulty: - " + difficulty + " + ", 950, 170);
-		g.drawString(strDif[difficulty], 990, 210);
 		
 	}
 
@@ -137,21 +126,9 @@ public class OptionPanel extends JPanel {
 		if (x >= 427 && y >= 690 && x <= 527 && y <= 720)
 			keyCodeForChange = 8;
 		if (x >= 950 && y >= 745 && x <= 1250 && y <= 856) {
+			SettingSaver.saveSettings(getKeyCodes(), frame.getLevelSolved(), System.getenv("APPDATA") + "\\tetris-n-run", "settings.txt");
 			frame.startMenu();
 			frame.playSound("ButtonKlick", -5f);
-		}
-		if (x >= 1087 && y >= 146 && x <= 1117 && y <= 176) {
-			difficulty--;
-			if (difficulty < 0) {
-				difficulty = 0;
-			}
-		}
-		if (x >= 1138 && y >= 146 && x <= 1168 && y <= 176) {
-			
-			difficulty++;
-			if (difficulty > 3) {
-				difficulty = 3;
-			}
 		}
 		repaint();
 
@@ -181,10 +158,6 @@ public class OptionPanel extends JPanel {
 
 	public void setKeyCodes(ArrayList<Integer> keyCodes) {
 		this.keyCodes = keyCodes;
-	}
-
-	public int getDifficulty() {
-		return difficulty;
 	}
 
 }

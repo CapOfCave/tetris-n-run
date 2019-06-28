@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import data.Level;
-import data.RawPlayer;
 import data.RawTetro;
-import data.TetroType;
 import data.Tiles.DekoTile;
 import data.Tiles.DoorTile;
 import data.Tiles.EmptyTile;
@@ -33,9 +31,7 @@ public class LevelLoader {
 
 	private static final int tetrotype_amount = 7;
 
-	public static Level loadLevel(String url, GameFrame frame, RawPlayer rawPlayer, int difficulty) {
-		String tetrofileUrl = null;
-		ArrayList<TetroType> tetroTypes;
+	public static Level loadLevel(String url) {
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
 		ArrayList<DoorTile> doors = new ArrayList<>();
@@ -67,17 +63,7 @@ public class LevelLoader {
 
 			// Lines for Tetros, enteties, etc.
 			String nextLine = sc.nextLine();
-			if (nextLine.startsWith("b")) {
-				String[] strSettings = nextLine.split(";");
-				for (String str : strSettings) {
-					if (str == strSettings[0])
-						continue;
-					if (str.startsWith("tetrofile=")) {
-						tetrofileUrl = str.substring(10);
-					}
-
-				}
-			} else if (nextLine.startsWith("p")) {
+			if (nextLine.startsWith("p")) {
 				String[] attribs = nextLine.split(";");
 				for (String attr : attribs) {
 					if (attr.startsWith("x=")) {
@@ -123,12 +109,10 @@ public class LevelLoader {
 				double y = -1;
 				double rx = -1;
 				double ry = -1;
-				String animPath = null;
 				double cx = -1;
 				double cy = -1;
 				double rcx = -1;
 				double rcy = -1;
-				String canimPath = null;
 				int color = 0;
 
 				for (String str : strSplit) {
@@ -144,8 +128,6 @@ public class LevelLoader {
 						ry = Integer.parseInt(str.substring(3));
 					} else if (str.startsWith("type=")) {
 						type = str.substring(str.indexOf("=") + 1);
-					} else if (str.startsWith("path=") || str.startsWith("url=")) {
-						animPath = str.substring(str.indexOf("=") + 1);
 					} else if (str.startsWith("cx=")) {
 						cx = Integer.parseInt(str.substring(3));
 					} else if (str.startsWith("cy=")) {
@@ -154,8 +136,6 @@ public class LevelLoader {
 						rcx = Integer.parseInt(str.substring(4));
 					} else if (str.startsWith("rcy=")) {
 						rcy = Integer.parseInt(str.substring(4));
-					} else if (str.startsWith("cpath=") || str.startsWith("curl=")) {
-						canimPath = str.substring(str.indexOf("=") + 1);
 					} else if (str.startsWith("color=") || str.startsWith("c=")) {
 						color = Integer.parseInt(str.substring(str.indexOf("=") + 1));
 					}
@@ -170,19 +150,18 @@ public class LevelLoader {
 					rx = x * GameFrame.BLOCKSIZE;
 					ry = y * GameFrame.BLOCKSIZE;
 				}
-				if (animPath != null && type != null && rx >= 0 && ry >= 0) {
+				if (type != null && rx >= 0 && ry >= 0) {
 					if (type.equals("switch")) {
-						entities.add(new Switch(null, rx, ry, animPath, color));
+						entities.add(new Switch(null, rx, ry, color));
 					} else if (type.equals("moveblock")) {
-						entities.add(new MovingBlock(null, rx, ry, animPath));
+						entities.add(new MovingBlock(null, rx, ry));
 					} else if (type.equals("moveblockspawner")) {
-						entities.add(new MovingBlockSpawner(null, rx, ry, animPath, rcx, rcy, canimPath));
+						entities.add(new MovingBlockSpawner(null, rx, ry, rcx, rcy));
 					} else {
 						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y + "): \"" + type + "\"");
 					}
 				} else {
-					System.err.println("Entityerstellung fehlerhaft bei [virtual](" + x + "|" + y
-							+ "). Grund: animPath != null: " + (animPath != null) + " type != null: " + (type != null));
+					System.err.println("Entityerstellung fehlerhaft bei [virtual](" + x + "|" + y + ").");
 				}
 			} else if (nextLine.startsWith("d")) {
 				int x = -100;
@@ -208,7 +187,7 @@ public class LevelLoader {
 
 				}
 				if (x >= 0 && y >= 0 && rotation >= 0 && color >= 0) {
-					doors.add(new DoorTile(color, x, y, rotation, open, frame));
+					doors.add(new DoorTile(color, x, y, rotation, open));
 				} else {
 					System.err.println("Fehler im Level \"" + url + "\": Tür kann nicht erstellt werden wegen "
 							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
@@ -242,10 +221,10 @@ public class LevelLoader {
 						x = Integer.parseInt(str.substring(2));
 					} else if (str.startsWith("y=")) {
 						y = Integer.parseInt(str.substring(2));
-					} else if (str.startsWith("amount=") || str.startsWith("amount" + difficulty + "=")) {
+					} else if (str.startsWith("amount=")) {
 
 						String[] amounts = str.substring(str.indexOf("=") + 1).split(",");
-						
+
 						for (int i = 0; i < amounts.length; i++) {
 							if (i < amountList.length)
 								amountList[i] = Integer.parseInt(amounts[i]);
@@ -266,14 +245,14 @@ public class LevelLoader {
 
 				}
 //				System.ot.println("" + x + y + amountList + addingTetros);
-				arrWorld[y][x] = new SaveNLoadTile('2', x, y, frame, amountList, addingTetros, tip, tip2, tip3, tip4);
+				arrWorld[y][x] = new SaveNLoadTile('2', x, y, amountList, addingTetros, tip, tip2, tip3, tip4);
 			} else if (nextLine.startsWith("Td")) {
 				String strSplit[] = nextLine.split(";");
 				int x = -1;
 				int y = -1;
 				int xo = -1;
 				int yo = -1;
-				String name = "block1";
+				String name = "block0";
 
 				for (String str : strSplit) {
 
@@ -291,7 +270,7 @@ public class LevelLoader {
 					}
 
 				}
-				arrWorld[y][x] = new DekoTile('X', x, y, xo, yo, name, frame);
+				arrWorld[y][x] = new DekoTile('X', x, y, xo, yo, name);
 			}
 
 		}
@@ -307,13 +286,13 @@ public class LevelLoader {
 					char tileChar = worldString.charAt(i);
 
 					if (tileChar == '1') {
-						arrWorld[j][i] = new WallTile(tileChar, i, j, frame);
+						arrWorld[j][i] = new WallTile(tileChar, i, j);
 					} else if (tileChar == '0') {
 						arrWorld[j][i] = null;
 					} else if (tileChar == '2') {
-						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, frame, new int[] { 0, 0 }, false, null, null,
-								null, null);
-						System.out.println("Tl;x="+i+";y="+j+";amount=0,0,0,0,0,0,0;");
+						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, new int[] { 0, 0 }, false, null, null, null,
+								null);
+						System.err.println("Tl;x=" + i + ";y=" + j + ";amount=0,0,0,0,0,0,0;");
 					} else if (tileChar == 'D') {
 
 						for (DoorTile dT : doors) {
@@ -324,21 +303,21 @@ public class LevelLoader {
 						if (arrWorld[j][i] == null) {
 //							System.err.println(
 //									"Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j + ")");
-							System.out.println("d;x=" + i + ";y="+j+";r=;c=;o=false");
-							arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
+							System.err.println("d;x=" + i + ";y=" + j + ";r=;c=;o=false");
+							arrWorld[j][i] = new EmptyTile(tileChar, i, j);
 
 						}
 
 					} else if (tileChar == 'à' || tileChar == 'è' || tileChar == 'ì' || tileChar == 'ò'
 							|| tileChar == 'ù' || tileChar == 'À') {
-						arrWorld[j][i] = new PressurePlateTile(tileChar, i, j, frame);
+						arrWorld[j][i] = new PressurePlateTile(tileChar, i, j);
 					} else if (tileChar == '!') {
-						arrWorld[j][i] = new GoalTile(i, j, frame);
+						arrWorld[j][i] = new GoalTile(i, j);
 					} else if (Character.isLowerCase(tileChar)) {
-						arrWorld[j][i] = new LevelGuiTile(tileChar, i, j, frame);
+						arrWorld[j][i] = new LevelGuiTile(tileChar, i, j);
 					} else {
 						System.err.println("Unbekanntes Tile bei (" + i + "|" + j + ")");
-						arrWorld[j][i] = new EmptyTile(tileChar, i, j, frame);
+						arrWorld[j][i] = new EmptyTile(tileChar, i, j);
 					}
 				}
 			}
@@ -358,19 +337,14 @@ public class LevelLoader {
 				tetroAmounts[i] = 0;
 			}
 		}
-
-		if (tetrofileUrl != null) {
-			tetroTypes = TetroLoader.loadTetros(tetrofileUrl);
-
-//			initWallTiles(arrWorld);
-
-			return new Level(tetroTypes, rawTetros, arrWorld, doors, entities, tetroAmounts, toggleStates, tetrofileUrl,
-					playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
-		} else {
-			System.err.println("Levelerstellung nicht erfolgreich: tetrofileUrl = null");
-			System.exit(1);
-			return null;
+		
+		System.out.println("Im Loader: ");
+		for (int i = 0; i < toggleStates.length; i++) {
+			System.out.print(toggleStates[i] + ", ");
 		}
+
+		return new Level(rawTetros, arrWorld, doors, entities, tetroAmounts, toggleStates,
+				playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
 	}
 
 //	private static void initWallTiles(Tile[][] arrWorld) {

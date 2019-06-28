@@ -8,19 +8,20 @@ import java.awt.Rectangle;
 import data.Tiles.EmptyTile;
 import data.Tiles.Tile;
 import graphics.GameFrame;
-import logics.worlds.World;
+import logics.World;
 
 public class MovingBlock extends Entity {
 
 	private static final long serialVersionUID = 1L;
+	private static final String animPath = "/res/anims/movingblock.txt";
 	protected double lastX, lastY;
 	protected boolean sticky = false;
 	protected Point offset = new Point(0, 0);
 	protected int direction;
 	private Tile standingTile;
-	private static Tile emptyTile = new EmptyTile('0', 0, 0, null);
-
-	public MovingBlock(World world, double x, double y, String animPath) {
+	private static Tile emptyTile = new EmptyTile('0', 0, 0);
+	
+	public MovingBlock(World world, double x, double y) {
 		super(world, x, y, animPath, new Rectangle(0, 0, GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE));
 		lastX = x;
 		lastY = y;
@@ -28,6 +29,10 @@ public class MovingBlock extends Entity {
 		this.y = y;
 		
 		type = "moveblock";
+		if (world != null) {
+			setWorld(world);
+		}
+		
 	}
 
 	@Override

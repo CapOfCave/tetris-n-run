@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
+import java.util.stream.Collectors;
 
 import data.DrawAndSortable;
 
@@ -32,14 +33,20 @@ public class Renderer {
 		if (drawable1) {
 			drawables2.add(das);
 			toAdd1.add(das);
+
 		} else {
 			drawables1.add(das);
 			toAdd2.add(das);
 		}
 	}
 
+	public ArrayList<DrawAndSortable> cleanUpList(ArrayList<DrawAndSortable> passive_ArrayList) {
+		return (ArrayList<DrawAndSortable>) passive_ArrayList.stream().distinct()
+				.collect(Collectors.toList());
+	}
+
 	public void removeDrawable(DrawAndSortable das) {
-		
+
 		if (drawable1) {
 			drawables2.remove(das);
 			toRemove1.add(das);
@@ -52,12 +59,17 @@ public class Renderer {
 	public void tick() {
 		ArrayList<DrawAndSortable> passive_ArrayList;
 		if (drawable1) {
-			passive_ArrayList = drawables2;
 			workOffAR(drawables2, toRemove2, toAdd2);
+			drawables2 = cleanUpList(drawables2);
+			passive_ArrayList = drawables2;
+			
 		} else {
-			passive_ArrayList = drawables1;
 			workOffAR(drawables1, toRemove1, toAdd1);
+			drawables1 = cleanUpList(drawables1);
+			passive_ArrayList = drawables1;
+			
 		}
+		
 		passive_ArrayList.sort(new Comparator<DrawAndSortable>() {
 
 			@Override
@@ -102,10 +114,25 @@ public class Renderer {
 		} catch (ConcurrentModificationException ex) {
 			System.err.println("Fehler beim Rendern"); // TODO remove
 		}
-		
+
 	}
 
-	public boolean isDAScontained(DrawAndSortable entity) {
-		return drawables1.contains(entity) || drawables2.contains(entity);
+	public boolean isDAScontained(DrawAndSortable entity) { // TODO efficiency
+		 return (drawables1.contains(entity) || toAdd1.contains(entity)) &&
+		 (drawables2.contains(entity) || toAdd2.contains(entity));
+//		return drawables1.contains(entity) || drawables2.contains(entity);
+	}
+
+	public void reset() {
+		drawables1 = new ArrayList<>();
+		drawables2 = new ArrayList<>();
+		toAdd1 = new ArrayList<>();
+		toAdd2 = new ArrayList<>();
+		toRemove1 = new ArrayList<>();
+		toRemove2 = new ArrayList<>();
+	}
+
+	public String getElementAmount() {
+		return (drawable1?"1   ":"2   ") + drawables1.size() + " bzw. " + drawables2.size();
 	}
 }

@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 import data.Animation;
 import data.DrawAndSortable;
+import graphics.GameFrame;
 import graphics.Renderer;
-import loading.AnimationLoader;
-import logics.worlds.World;
+import logics.World;
 
 /**
  * @author Lars Created on 18.09.2018
@@ -26,27 +26,21 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 	protected transient Animation akt_animation;
 	protected transient String animation_key;
 	protected String type;
-	private String animPath;
 
 	protected Rectangle relCollisionsRect;
 	private boolean hasCollisions;
+	private String animPath;
 
 	public Entity(World world, String animPath, Rectangle relCollisionsRect) {
 		this.world = world;
+		this.animPath = animPath;
 		if (relCollisionsRect != null) {
 			this.relCollisionsRect = relCollisionsRect;
 			hasCollisions = true;
 		} else {
 			hasCollisions = false;
 		}
-		if (animPath != null) {
-			this.anims = AnimationLoader.loadAnimations(animPath);
-			this.animPath = animPath;
-		}
-		if (anims != null)
-			akt_animation = anims.get(anims.keySet().toArray()[0]);
-		else
-			akt_animation = null;
+		
 	}
 
 	public Entity(World world, double x, double y, String animPath, Rectangle relCollisionsRect) {
@@ -83,10 +77,15 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 
 	public void setWorld(World world) {
 		this.world = world;
+		if (animPath != null) {
+			this.anims = world.loadAnimations(animPath);
+		}
+		if (anims != null)
+			akt_animation = anims.get(anims.keySet().toArray()[0]);
+		else
+			akt_animation = null;
 	}
 
-	static double minh = Double.MAX_VALUE;
-	static double maxh = Double.MIN_VALUE;
 
 	@Override
 	public double getHeight() {
@@ -117,16 +116,28 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 		return type;
 	}
 
-	public String getAnimPath() {
-		return animPath;
-	}
-
 	public boolean collidesWith(double colliderY, double colliderX) {
 		if (!hasCollisions) {
 			return false;
 		} else {
 			return relCollisionsRect.contains(colliderX - x, colliderY - y);
 		}
+	}
+	
+	protected int getTileX(double dx) { //dx vom Zentrum aus
+		return (int) ((x + dx + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
+	}
+
+	protected int getTileY(double dy) {
+		return (int) ((y + dy + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
+	}
+
+	public int getTileX() {
+		return (int) ((x + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
+	}
+	
+	public int getTileY() {
+		return (int) ((y + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
 	}
 
 }

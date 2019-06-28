@@ -21,9 +21,10 @@ public class KeyHandler implements KeyListener {
 	private boolean killPlayer = false;
 	private boolean tip = false; // einfügen in die änderbaren Keys
 
-	private boolean f4Pressed = false;
 	private boolean actionPressed = false;
 	private boolean f3Pressed = false;
+	private boolean f4Pressed = false;
+	private boolean f5Pressed = false;
 
 	public KeyHandler(ArrayList<Integer> keyCodes) {
 		this.keyCodes = keyCodes;
@@ -60,6 +61,9 @@ public class KeyHandler implements KeyListener {
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_F3) {
 			f3Pressed = true;
+		}
+		if (ev.getKeyCode() == KeyEvent.VK_F5) {
+			f5Pressed = true;
 		}
 		if (ev.getKeyCode() == keyCodes.get(4)) {
 			actionPressed = true;
@@ -152,6 +156,10 @@ public class KeyHandler implements KeyListener {
 		return kameraKey;
 	}
 
+	public boolean isF5pressed() {
+		return f5Pressed;
+	}
+
 	public boolean isF4pressed() {
 		return f4Pressed;
 	}
@@ -176,6 +184,10 @@ public class KeyHandler implements KeyListener {
 		this.f3Pressed = false;
 	}
 
+	public void resetF5pressed() {
+		this.f5Pressed = false;
+	}
+
 	public void resetActionpressed() {
 		this.actionPressed = false;
 	}
@@ -191,7 +203,26 @@ public class KeyHandler implements KeyListener {
 
 	public void resetKillPlayer() {
 		killPlayer = false;
-		
+
+	}
+
+	public void resetKeyboardInputs() {
+		upKey = false;
+		leftKey = false;
+		downKey = false;
+		rightKey = false;
+		rotateKey = false;
+		removeKey = false;
+		shift = false;
+		kameraKey = false;
+		killPlayer = false;
+		tip = false; // einfügen in die änderbaren Keys
+
+		actionPressed = false;
+		f3Pressed = false;
+		f4Pressed = false;
+		f5Pressed = false;
+
 	}
 
 }

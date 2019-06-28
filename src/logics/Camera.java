@@ -1,7 +1,5 @@
 package logics;
 
-import logics.worlds.World;
-
 /**
  * @author Lars Created on 05.08.2018
  */
@@ -57,6 +55,13 @@ public class Camera {
 		this.offsetY = offsetY;
 	}
 
+	public int getDrawX() {
+		return drawX;
+	}
+
+	public int getDrawY() {
+		return drawY;
+	}
 	public int getX() {
 		return drawX;
 	}
@@ -64,6 +69,14 @@ public class Camera {
 	public int getY() {
 		return drawY;
 	}
+	public int getLastX() {
+		return drawX;
+	}
+
+	public int getLastY() {
+		return drawY;
+	}
+	
 
 	public void tick() {
 		lastX = (int) x;
@@ -182,6 +195,7 @@ public class Camera {
 		return (int) Math.max(0, Math.min(maxY, y));
 //		return (int) y;
 	}
+	
 
 
 	public void trackingShot(int pX, int pY) {

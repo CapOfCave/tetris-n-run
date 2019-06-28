@@ -13,9 +13,9 @@ public class Pics {
 	int width;
 	int amount;
 
-	public Pics(String url, int width) {
+	public Pics(String url, int width, ImageLoader imageLoader) {
 
-		this(ImageLoader.loadImage(url), width);
+		this(imageLoader.getImage(url), width);
 
 	}
 

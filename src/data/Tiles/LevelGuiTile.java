@@ -6,8 +6,7 @@ import java.util.HashMap;
 
 import data.Animation;
 import graphics.GameFrame;
-import loading.AnimationLoader;
-import loading.ImageLoader;
+import logics.World;
 
 public class LevelGuiTile extends Tile {
 
@@ -16,13 +15,17 @@ public class LevelGuiTile extends Tile {
 	Animation akt_anim;
 	private BufferedImage imgD;
 
-	public LevelGuiTile(char key, int posX, int posY, GameFrame frame) {
-		super(key, posX, posY, true, true, false, frame);
+	public LevelGuiTile(char key, int posX, int posY) {
+		super(key, posX, posY, true, true, false);
 		needsBackGround = true;
-		img = ImageLoader.loadImage("/res/levelBackground/blockH" + key + ".png");
-		imgD = ImageLoader.loadImage("/res/levelBackground/blockD" + key + ".png");
 
-		anims = AnimationLoader.loadAnimations("/res/anims/lvlanim.txt");
+	}
+
+	public void setWorld(World world) {
+		super.setWorld(world);
+		img = world.getImage("/res/levelBackground/blockH" + key + ".png");
+		imgD = world.getImage("/res/levelBackground/blockD" + key + ".png");
+		anims = world.loadAnimations("/res/anims/lvlanim.txt");
 		akt_anim = anims.get("close" + key);
 	}
 

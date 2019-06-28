@@ -4,17 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import logics.worlds.World;
+import logics.World;
 import tools.GraphicalTools;
 
 public class Switch extends Entity {
 	private static final long serialVersionUID = 1L;
+	private static final String animPath = "/res/anims/switch.txt";
 	private int color;
 	private boolean toggled = Math.random() < 0.5;
 	private BufferedImage akt_image;
 	private Color drawColor = Color.PINK;
 
-	public Switch(World world, double x, double y, String animPath, int color) {
+	public Switch(World world, double x, double y, int color) {
 		super(world, x, y, animPath, null);
 		this.color = color;
 		if (color == 0) {
@@ -31,10 +32,15 @@ public class Switch extends Entity {
 			drawColor = new Color(210, 114, 255);
 		}
 
-		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
-		akt_image = GraphicalTools.setColor(akt_animation.getImage(), drawColor);
 		type = "switch";
 		
+	}
+	
+	@Override
+	public void setWorld(World world) {
+		super.setWorld(world);
+		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
+		akt_image = GraphicalTools.setColor(akt_animation.getImage(), drawColor);
 	}
 
 	@Override

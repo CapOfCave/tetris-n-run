@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data.Tetro;
-import logics.worlds.World;
 import particles.BreakingAnimation;
 import particles.ParticleAnimation;
 

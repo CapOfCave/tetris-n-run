@@ -5,8 +5,7 @@ import java.awt.image.BufferedImage;
 
 import graphics.GameFrame;
 import graphics.Renderer;
-import loading.ImageLoader;
-import logics.worlds.World;
+import logics.World;
 
 public class WallImgFrame implements DrawAndSortable {
 
@@ -22,22 +21,22 @@ public class WallImgFrame implements DrawAndSortable {
 		this.posY = posY;
 		if (images == null) {
 			images = new BufferedImage[16];
-			images[15] = ImageLoader.loadImage("/res/blocks/walls/tttt.png");
-			images[14] = ImageLoader.loadImage("/res/blocks/walls/tttf.png");
-			images[13] = ImageLoader.loadImage("/res/blocks/walls/ttft.png");
-			images[12] = ImageLoader.loadImage("/res/blocks/walls/ttff.png");
-			images[11] = ImageLoader.loadImage("/res/blocks/walls/tftt.png");
-			images[10] = ImageLoader.loadImage("/res/blocks/walls/tftf.png");
-			images[9] = ImageLoader.loadImage("/res/blocks/walls/tfft.png");
-			images[8] = ImageLoader.loadImage("/res/blocks/walls/tfff.png");
-			images[7] = ImageLoader.loadImage("/res/blocks/walls/fttt.png");
-			images[6] = ImageLoader.loadImage("/res/blocks/walls/fttf.png");
-			images[5] = ImageLoader.loadImage("/res/blocks/walls/ftft.png");
-			images[4] = ImageLoader.loadImage("/res/blocks/walls/ftff.png");
-			images[3] = ImageLoader.loadImage("/res/blocks/walls/fftt.png");
-			images[2] = ImageLoader.loadImage("/res/blocks/walls/fftf.png");
-			images[1] = ImageLoader.loadImage("/res/blocks/walls/ffft.png");
-			images[0] = ImageLoader.loadImage("/res/blocks/walls/ffff.png");
+			images[15] = world.getImage("/res/blocks/walls/tttt.png");
+			images[14] = world.getImage("/res/blocks/walls/tttf.png");
+			images[13] = world.getImage("/res/blocks/walls/ttft.png");
+			images[12] = world.getImage("/res/blocks/walls/ttff.png");
+			images[11] = world.getImage("/res/blocks/walls/tftt.png");
+			images[10] = world.getImage("/res/blocks/walls/tftf.png");
+			images[9] = world.getImage("/res/blocks/walls/tfft.png");
+			images[8] = world.getImage("/res/blocks/walls/tfff.png");
+			images[7] = world.getImage("/res/blocks/walls/fttt.png");
+			images[6] = world.getImage("/res/blocks/walls/fttf.png");
+			images[5] = world.getImage("/res/blocks/walls/ftft.png");
+			images[4] = world.getImage("/res/blocks/walls/ftff.png");
+			images[3] = world.getImage("/res/blocks/walls/fftt.png");
+			images[2] = world.getImage("/res/blocks/walls/fftf.png");
+			images[1] = world.getImage("/res/blocks/walls/ffft.png");
+			images[0] = world.getImage("/res/blocks/walls/ffff.png");
 		}
 	}
 

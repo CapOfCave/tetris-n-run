@@ -3,22 +3,22 @@ package logics.entities;
 import java.awt.Graphics;
 
 import graphics.GameFrame;
-import logics.worlds.World;
+import logics.World;
 
 public class MovingBlockSpawner extends Entity {
 
+	
+	private static final String animPath = "/res/anims/movingblockspawner.txt";
+	
 	private double cubeX;
 	private double cubeY;
-	private String cubeAnims;
-
+	
 	private MovingBlock child;
 
-	public MovingBlockSpawner(World world, double x, double y, String animPath, double cx, double cy,
-			String cubeAnims) {
+	public MovingBlockSpawner(World world, double x, double y, double cx, double cy) {
 		super(world, x, y, animPath, null);
 		this.cubeX = cx;
 		this.cubeY = cy;
-		this.cubeAnims = cubeAnims;
 		type = "moveblockspawner";
 	}
 
@@ -48,7 +48,7 @@ public class MovingBlockSpawner extends Entity {
 		}
 
 		child = null;
-		child = new MovingBlock(world, cubeX, cubeY, cubeAnims);
+		child = new MovingBlock(world, cubeX, cubeY);
 		world.addEntity(child);
 
 	}
@@ -59,10 +59,6 @@ public class MovingBlockSpawner extends Entity {
 
 	public double getCY() {
 		return cubeY;
-	}
-
-	public String getCurl() {
-		return cubeAnims;
 	}
 
 }

@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 import data.TetroType;
 import graphics.GameFrame;
-import loading.ImageLoader;
-import logics.worlds.World;
 
 /**
  * @author Lars Created on 08.08.2018
@@ -36,7 +34,7 @@ public class InHandHandler {
 		if (tetroPreview == null) {
 			tetroPreview = new BufferedImage[tetroPreviewString.length];
 			for (int i = 0; i < tetroPreviewString.length; i++) {
-				tetroPreview[i] = ImageLoader.loadImage("/res/blocks/emptyTiles/" + tetroPreviewString[i]);
+				tetroPreview[i] = world.getImage("/res/blocks/emptyTiles/" + tetroPreviewString[i]);
 			}
 		}
 		this.world = world;
