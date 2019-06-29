@@ -109,8 +109,10 @@ public class World {
 		tileWorld = level.getArrWorld();
 		for (Tile[] tt : tileWorld) {
 			for (Tile t : tt) {
-				if (t != null)
+				if (t != null) {
 					t.setWorld(this);
+				}
+					
 			}
 		}
 		camera = new Camera(this, level.getPlayerX(), level.getPlayerY(),
@@ -532,7 +534,6 @@ public class World {
 
 				} else {
 					playSound("error", -3f);
-					System.err.println("nicht erlaubte Platzierung");
 				}
 			} else {
 				frame.addLineToText("Es sind keine Tetros dieser Art mehr da.");

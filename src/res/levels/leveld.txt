@@ -50,16 +50,12 @@ d;x=19;y=13;r=0;c=0;o=true
 d;x=23;y=9;r=0;c=0;o=false
 d;x=17;y=3;r=1;c=0;o=false
 d;x=14;y=19;r=1;c=0;o=true
-d;x=17;y=3;r=1;c=0;o=true
 d;x=15;y=35;r=0;c=0;o=true
-
-d;x=19;y=29;r=0;c=1;o=false
 d;x=19;y=29;r=0;c=1;o=false
 d;x=15;y=19;r=1;c=1;o=true
 d;x=19;y=14;r=0;c=1;o=true
 d;x=15;y=5;r=0;c=1;o=false
 d;x=7;y=24;r=1;c=1;o=false
-
 d;x=19;y=26;r=0;c=2;o=false
 d;x=19;y=15;r=0;c=2;o=false
 d;x=17;y=11;r=1;c=2;o=true

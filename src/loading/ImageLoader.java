@@ -63,7 +63,9 @@ public class ImageLoader {
 		if (images.get(path) == null) {
 			loadAndSave(path);
 			if (!eclipseVersion) {
-				System.err.println("Had to load Image at " + path);
+				if (path != "/res/Menu.png" && path != "/res/Tutorial.png" && path != "/res/Optionen.png") {
+					System.err.println("Had to load Image at " + path);
+				}
 			}
 		}
 		return images.get(path);

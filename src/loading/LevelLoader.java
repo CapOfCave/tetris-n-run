@@ -32,6 +32,7 @@ public class LevelLoader {
 	private static final int tetrotype_amount = 7;
 
 	public static Level loadLevel(String url) {
+		boolean error = false;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
 		ArrayList<DoorTile> doors = new ArrayList<>();
@@ -204,10 +205,7 @@ public class LevelLoader {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
 				world.add(strTemp);
 				worldlength = Math.max(worldlength, strTemp.length());
-			}
-
-			// Lines for Tiles
-			else if (nextLine.startsWith("###")) {
+			} else if (nextLine.startsWith("###")) {
 				if (arrWorld == null)
 					arrWorld = new Tile[world.size()][worldlength];
 			} else if (nextLine.startsWith("Tl")) {
@@ -304,6 +302,8 @@ public class LevelLoader {
 						for (DoorTile dT : doors) {
 							if (dT.getPosX() == i && dT.getPosY() == j) {
 								arrWorld[j][i] = dT;
+								doors.remove(dT);
+								break;
 							}
 						}
 						if (arrWorld[j][i] == null) {
@@ -328,6 +328,13 @@ public class LevelLoader {
 				}
 			}
 		}
+		
+		for (DoorTile dT : doors) {
+			System.err.println("Unused door: x=" + dT.getPosX() + ";y=" + dT.getPosY());
+			error = true;
+		}
+		doors.clear();
+		
 
 		// int max_tetroamount_index = 0;
 		// // Tetro maximums
@@ -342,6 +349,10 @@ public class LevelLoader {
 			} else {
 				tetroAmounts[i] = 0;
 			}
+		}
+		
+		if (error) {
+			System.exit(1);
 		}
 
 		return new Level(rawTetros, arrWorld, doors, entities, tetroAmounts, toggleStates,

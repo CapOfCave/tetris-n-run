@@ -44,14 +44,13 @@ public class DoorTile extends Tile {
 			drawColor = new Color(0, 174, 219);
 		} else if (color == 3) {
 			drawColor = new Color(255, 196, 37);
-		}else if (color == 4) {
+		} else if (color == 4) {
 			drawColor = new Color(243, 119, 53);
-		}else if (color == 5) {
+		} else if (color == 5) {
 			drawColor = new Color(210, 114, 255);
 		}
 		str_akt_anim = (open ? "opened" : "closed") + rotation;
 
-		
 		bottomPart = new DrawAndSortable() {
 
 			public double getHeight() {
@@ -93,6 +92,7 @@ public class DoorTile extends Tile {
 			}
 		};
 	}
+
 	@Override
 	public void setWorld(World world) {
 		super.setWorld(world);
@@ -102,6 +102,7 @@ public class DoorTile extends Tile {
 	}
 
 	public void changeState() {
+		pictures = world.loadAnimations("/res/anims/door.txt");
 		if (playerOnTile || movingBlocksOnTile > 0) {
 			changesSinceOccupied++;
 		} else {
@@ -116,6 +117,7 @@ public class DoorTile extends Tile {
 	public int getColorAsInt() {
 		return color;
 	}
+
 	public Color getColor() {
 		return drawColor;
 	}
@@ -131,7 +133,8 @@ public class DoorTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + pictures.get(str_akt_anim).getOffsetX()),
+		g.drawImage(image3d,
+				(int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + pictures.get(str_akt_anim).getOffsetX()),
 				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + pictures.get(str_akt_anim).getOffsetY()), null);
 	}
 
@@ -184,5 +187,5 @@ public class DoorTile extends Tile {
 	public boolean isOpen() {
 		return walkableWithTetro;
 	}
-	
+
 }
