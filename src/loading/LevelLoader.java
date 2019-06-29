@@ -302,7 +302,6 @@ public class LevelLoader {
 						for (DoorTile dT : doors) {
 							if (dT.getPosX() == i && dT.getPosY() == j) {
 								arrWorld[j][i] = dT;
-								doors.remove(dT);
 								break;
 							}
 						}
@@ -336,12 +335,6 @@ public class LevelLoader {
 		doors.clear();
 		
 
-		// int max_tetroamount_index = 0;
-		// // Tetro maximums
-		// for (Integer key : rawMaxTetroAmounts.keySet()) {
-		// max_tetroamount_index = Math.max(rawMaxTetroAmounts.get(key),
-		// max_tetroamount_index);
-		// }
 		int[] tetroAmounts = new int[tetrotype_amount];
 		for (int i = 0; i < tetroAmounts.length; i++) {
 			if (rawMaxTetroAmounts.get(i) != null) {
