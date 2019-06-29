@@ -36,6 +36,7 @@ public class LevelLoader {
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
 		ArrayList<DoorTile> doors = new ArrayList<>();
+		ArrayList<DoorTile> doorsToAdd = new ArrayList<>();
 		ArrayList<Entity> entities = new ArrayList<>();
 		Tile[][] arrWorld = null;
 
@@ -195,6 +196,7 @@ public class LevelLoader {
 				}
 				if (x >= 0 && y >= 0 && rotation >= 0 && color >= 0) {
 					doors.add(new DoorTile(color, x, y, rotation, open));
+					doorsToAdd.add(doors.get(doors.size() - 1));
 				} else {
 					System.err.println("Fehler im Level \"" + url + "\": Tür kann nicht erstellt werden wegen "
 							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
@@ -302,6 +304,7 @@ public class LevelLoader {
 						for (DoorTile dT : doors) {
 							if (dT.getPosX() == i && dT.getPosY() == j) {
 								arrWorld[j][i] = dT;
+								doorsToAdd.remove(dT);
 								break;
 							}
 						}
@@ -328,11 +331,10 @@ public class LevelLoader {
 			}
 		}
 		
-		for (DoorTile dT : doors) {
+		for (DoorTile dT : doorsToAdd) {
 			System.err.println("Unused door: x=" + dT.getPosX() + ";y=" + dT.getPosY());
 			error = true;
 		}
-		doors.clear();
 		
 
 		int[] tetroAmounts = new int[tetrotype_amount];
