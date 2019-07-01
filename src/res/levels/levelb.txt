@@ -107,7 +107,6 @@ d;x=48;y=12;r=0;c=1;o=false
 d;x=53;y=12;r=0;c=1;o=true
 
 d;x=41;y=7;r=1;c=2;o=true
-d;x=47;y=9;r=1;c=2;o=true
 d;x=45;y=15;r=1;c=2;o=false
 d;x=55;y=6;r=1;c=2;o=false
 d;x=57;y=8;r=0;c=2;o=false

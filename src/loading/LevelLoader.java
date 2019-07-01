@@ -32,9 +32,11 @@ public class LevelLoader {
 	private static final int tetrotype_amount = 7;
 
 	public static Level loadLevel(String url) {
+		boolean error = false;
 		ArrayList<RawTetro> rawTetros = new ArrayList<>();
 		ArrayList<String> world = new ArrayList<>();
 		ArrayList<DoorTile> doors = new ArrayList<>();
+		ArrayList<DoorTile> doorsToAdd = new ArrayList<>();
 		ArrayList<Entity> entities = new ArrayList<>();
 		Tile[][] arrWorld = null;
 
@@ -194,6 +196,7 @@ public class LevelLoader {
 				}
 				if (x >= 0 && y >= 0 && rotation >= 0 && color >= 0) {
 					doors.add(new DoorTile(color, x, y, rotation, open));
+					doorsToAdd.add(doors.get(doors.size() - 1));
 				} else {
 					System.err.println("Fehler im Level \"" + url + "\": Tür kann nicht erstellt werden wegen "
 							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
@@ -204,10 +207,7 @@ public class LevelLoader {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
 				world.add(strTemp);
 				worldlength = Math.max(worldlength, strTemp.length());
-			}
-
-			// Lines for Tiles
-			else if (nextLine.startsWith("###")) {
+			} else if (nextLine.startsWith("###")) {
 				if (arrWorld == null)
 					arrWorld = new Tile[world.size()][worldlength];
 			} else if (nextLine.startsWith("Tl")) {
@@ -304,6 +304,8 @@ public class LevelLoader {
 						for (DoorTile dT : doors) {
 							if (dT.getPosX() == i && dT.getPosY() == j) {
 								arrWorld[j][i] = dT;
+								doorsToAdd.remove(dT);
+								break;
 							}
 						}
 						if (arrWorld[j][i] == null) {
@@ -328,13 +330,13 @@ public class LevelLoader {
 				}
 			}
 		}
+		
+		for (DoorTile dT : doorsToAdd) {
+			System.err.println("Unused door: x=" + dT.getPosX() + ";y=" + dT.getPosY());
+			error = true;
+		}
+		
 
-		// int max_tetroamount_index = 0;
-		// // Tetro maximums
-		// for (Integer key : rawMaxTetroAmounts.keySet()) {
-		// max_tetroamount_index = Math.max(rawMaxTetroAmounts.get(key),
-		// max_tetroamount_index);
-		// }
 		int[] tetroAmounts = new int[tetrotype_amount];
 		for (int i = 0; i < tetroAmounts.length; i++) {
 			if (rawMaxTetroAmounts.get(i) != null) {
@@ -342,6 +344,10 @@ public class LevelLoader {
 			} else {
 				tetroAmounts[i] = 0;
 			}
+		}
+		
+		if (error) {
+			System.exit(1);
 		}
 
 		return new Level(rawTetros, arrWorld, doors, entities, tetroAmounts, toggleStates,

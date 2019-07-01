@@ -189,7 +189,6 @@ d;x=20;y=9;r=0;c=5;o=false
 d;x=32;y=9;r=0;c=5;o=false
 d;x=36;y=9;r=0;c=5;o=false
 d;x=14;y=11;r=1;c=5;o=false
-d;x=38;y=11;r=1;c=5;o=false
 d;x=10;y=15;r=1;c=5;o=false
 
 e;x=20;y=15;type=switch;url=/res/anims/switch.txt;color=0
