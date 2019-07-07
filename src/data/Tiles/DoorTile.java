@@ -23,7 +23,6 @@ public class DoorTile extends Tile {
 
 	private String str_akt_anim;
 	private DrawAndSortable bottomPart;
-	private boolean standardOpened;
 	private boolean playerOnTile = false;
 	private int movingBlocksOnTile = 0;
 
@@ -34,7 +33,6 @@ public class DoorTile extends Tile {
 		needsBackGround = true;
 		this.rotation = rotation;
 		this.color = color;
-		this.standardOpened = open;
 
 		if (color == 0) {
 			drawColor = new Color(209, 17, 65);
@@ -149,7 +147,7 @@ public class DoorTile extends Tile {
 	}
 
 	public boolean isStandardOpened() {
-		return standardOpened;
+		return walkableWithTetro;
 	}
 
 	@Override
