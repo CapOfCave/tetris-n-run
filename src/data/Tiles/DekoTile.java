@@ -10,10 +10,12 @@ import logics.World;
 public class DekoTile extends Tile {
 
 	private BufferedImage image3d;
+	private int priorityInDrawQueue;
 
-	public DekoTile(char key, int posX, int posY, int xo, int yo, String name) {
+	public DekoTile(char key, int posX, int posY, int xo, int yo, String name, int priorityInDrawQueue) {
 		super(key, posX, posY, false, false, false);
 		this.name = name;
+		this.priorityInDrawQueue = priorityInDrawQueue;
 		offset = new Point(xo, yo);
 	}
 
@@ -34,6 +36,11 @@ public class DekoTile extends Tile {
 		super.setWorld(world);
 		img = world.getImage("/res/blocks/block0.png");
 		image3d = world.getImage("/res/blocks/" + name + ".png");
+	}
+	
+	@Override
+	public int getPriorityInDrawQueue() {
+		return priorityInDrawQueue;
 	}
 
 }

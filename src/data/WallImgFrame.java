@@ -96,5 +96,10 @@ public class WallImgFrame implements DrawAndSortable {
 	public double getY() {
 		return posY * GameFrame.BLOCKSIZE;
 	}
+	
+	@Override
+	public int getPriorityInDrawQueue() {
+		return 0;
+	}
 
 }

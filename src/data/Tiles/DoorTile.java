@@ -88,6 +88,11 @@ public class DoorTile extends Tile {
 			public double getY() {
 				return DoorTile.this.getY();
 			}
+
+			@Override
+			public int getPriorityInDrawQueue() {
+				return 0;
+			}
 		};
 	}
 

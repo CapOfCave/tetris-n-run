@@ -185,4 +185,9 @@ public abstract class Tile implements DrawAndSortable {
 	public void setFrame(GameFrame frame) {
 		this.frame = frame;
 	}
+	
+	@Override
+	public int getPriorityInDrawQueue() {
+		return 0;
+	}
 }

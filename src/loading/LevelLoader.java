@@ -250,7 +250,7 @@ public class LevelLoader {
 					}
 
 				}
-//				System.ot.println("" + x + y + amountList + addingTetros);
+				// System.ot.println("" + x + y + amountList + addingTetros);
 				arrWorld[y][x] = new SaveNLoadTile('2', x, y, amountList, addingTetros, tip, tip2, tip3, tip4);
 			} else if (nextLine.startsWith("Td")) {
 				String strSplit[] = nextLine.split(";");
@@ -258,6 +258,7 @@ public class LevelLoader {
 				int y = -1;
 				int xo = -1;
 				int yo = -1;
+				int pidq = 0;
 				String name = "block0";
 
 				for (String str : strSplit) {
@@ -272,11 +273,12 @@ public class LevelLoader {
 						yo = Integer.parseInt(str.substring(3));
 					} else if (str.startsWith("name=")) {
 						name = str.substring(5);
-
+					} else if (str.startsWith("p=")) {
+						pidq = Integer.parseInt(str.substring(2));
 					}
 
 				}
-				arrWorld[y][x] = new DekoTile('X', x, y, xo, yo, name);
+				arrWorld[y][x] = new DekoTile('X', x, y, xo, yo, name, pidq);
 			}
 
 		}
@@ -309,8 +311,9 @@ public class LevelLoader {
 							}
 						}
 						if (arrWorld[j][i] == null) {
-//							System.err.println(
-//									"Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j + ")");
+							// System.err.println(
+							// "Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j +
+							// ")");
 							System.err.println("d;x=" + i + ";y=" + j + ";r=;c=;o=false");
 							arrWorld[j][i] = new EmptyTile(tileChar, i, j);
 
@@ -330,12 +333,11 @@ public class LevelLoader {
 				}
 			}
 		}
-		
+
 		for (DoorTile dT : doorsToAdd) {
 			System.err.println("Unused door: x=" + dT.getPosX() + ";y=" + dT.getPosY());
 			error = true;
 		}
-		
 
 		int[] tetroAmounts = new int[tetrotype_amount];
 		for (int i = 0; i < tetroAmounts.length; i++) {
@@ -345,7 +347,7 @@ public class LevelLoader {
 				tetroAmounts[i] = 0;
 			}
 		}
-		
+
 		if (error) {
 			System.exit(1);
 		}
@@ -354,25 +356,28 @@ public class LevelLoader {
 				playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
 	}
 
-//	private static void initWallTiles(Tile[][] arrWorld) {
-//		for (int j = 0; j < arrWorld.length; j++) {
-//			for (int i = 0; i < arrWorld[j].length; i++) {
-//				if (arrWorld[j][i] != null && arrWorld[j][i].getKey() == '1') {
-//					boolean t, r, b, l;
-//					t = (j == 0 || arrWorld[j - 1][i] == null || arrWorld[j - 1][i].getKey() != '1');
-//					r = (i == arrWorld[j].length - 1 || arrWorld[j][i + 1] == null
-//							|| arrWorld[j][i + 1].getKey() != '1');
-//					b = (j == arrWorld.length - 1 || arrWorld[j + 1][i] == null || arrWorld[j + 1][i].getKey() != '1');
-//					l = (i == 0 || arrWorld[j][i - 1] == null || arrWorld[j][i - 1].getKey() != '1');
-//
-//				}
-//
-//			}
-//
-//		}
-//
-//
-//	}
+	// private static void initWallTiles(Tile[][] arrWorld) {
+	// for (int j = 0; j < arrWorld.length; j++) {
+	// for (int i = 0; i < arrWorld[j].length; i++) {
+	// if (arrWorld[j][i] != null && arrWorld[j][i].getKey() == '1') {
+	// boolean t, r, b, l;
+	// t = (j == 0 || arrWorld[j - 1][i] == null || arrWorld[j - 1][i].getKey() !=
+	// '1');
+	// r = (i == arrWorld[j].length - 1 || arrWorld[j][i + 1] == null
+	// || arrWorld[j][i + 1].getKey() != '1');
+	// b = (j == arrWorld.length - 1 || arrWorld[j + 1][i] == null || arrWorld[j +
+	// 1][i].getKey() != '1');
+	// l = (i == 0 || arrWorld[j][i - 1] == null || arrWorld[j][i - 1].getKey() !=
+	// '1');
+	//
+	// }
+	//
+	// }
+	//
+	// }
+	//
+	//
+	// }
 
 	public static boolean isAbsolute(String url) {
 		return !url.startsWith("/") && !url.startsWith("\\") && !url.startsWith(File.separator);
