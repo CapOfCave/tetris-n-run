@@ -57,7 +57,7 @@ public class PressurePlateTile extends Tile {
 		world.playSound("ButtonSound", -15f);
 		pressedByPlayer = true;
 		if (moveBlocksOnTile == 0) {
-			world.switchDoors(color);
+			world.updateDoors(color);
 			image3d = GraphicalTools.setColor(
 					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
 		}
@@ -68,7 +68,7 @@ public class PressurePlateTile extends Tile {
 		world.playSound("ButtonSound", -15f);
 		moveBlocksOnTile++;
 		if (!pressedByPlayer && moveBlocksOnTile == 1) {
-			world.switchDoors(color);
+			world.updateDoors(color);
 			image3d = GraphicalTools.setColor(
 					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
 		}

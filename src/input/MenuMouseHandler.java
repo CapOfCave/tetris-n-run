@@ -2,12 +2,13 @@ package input;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import graphics.MenuFrame;
 import graphics.MenuPanel;
 
 
-public class MenuMouseHandler implements MouseListener {
+public class MenuMouseHandler implements MouseListener, MouseMotionListener {
 	
 	MenuFrame frame;
 	MenuPanel panel;
@@ -40,6 +41,17 @@ public class MenuMouseHandler implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		panel.mouseMoved(e.getX(), e.getY());
 		
 	}
 

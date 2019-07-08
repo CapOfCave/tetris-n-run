@@ -139,7 +139,6 @@ public class World {
 		}
 
 		for (int i = 0; i < toggleStates.length; i++) {
-			System.out.println(toggleStates[i]);
 			if (toggleStates[i] == true) {
 				updateDoors(i);
 			}
@@ -807,10 +806,8 @@ public class World {
 	}
 
 	public void updateDoors(int color) {
-		System.out.println("Update " + color);
 		for (DoorTile dT : doors) {
 			if (dT.getColorAsInt() == color) {
-				System.out.print("a");
 				dT.changeState();
 			}
 		}

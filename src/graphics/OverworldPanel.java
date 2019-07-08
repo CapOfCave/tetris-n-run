@@ -9,9 +9,10 @@ import java.util.ArrayList;
 
 import data.Level;
 import data.TetroType;
-import input.GuiMouseHandler;
+import input.OverworldMouseHandler;
 import input.KeyHandler;
 import logics.World;
+import tools.Fonts;
 
 /**
  * @author Marius Created on 13.09.2018
@@ -20,17 +21,23 @@ import logics.World;
 public class OverworldPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
-	private GuiMouseHandler guiMouseHandler;
+	private OverworldMouseHandler overworldMouseHandler;
 	private BufferedImage backOverworld;
+	private BufferedImage buttonImg;
+	private BufferedImage buttonImgPressed;
+	private int highlighted = -1;
+	private int clicked = -1;
 
 	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrame frame, ArrayList<TetroType> tetroTypes) {
 		super(level, keyHandler, frame, tetroTypes);
 		backOverworld = frame.getImage("/res/imgs/backOverworld.png");
+		buttonImg = frame.getImage("/res/imgs/overworldButton.png");
+		buttonImgPressed = frame.getImage("/res/imgs/overworldButtonPressed.png");
 		world = new World(gamePanel, level, keyHandler, frame);
 
-		
-		guiMouseHandler = new GuiMouseHandler(frame, world);
-		addMouseListener(guiMouseHandler);
+		overworldMouseHandler = new OverworldMouseHandler(frame, this, world);
+		addMouseListener(overworldMouseHandler);
+		addMouseMotionListener(overworldMouseHandler);
 	}
 
 	@Override
@@ -47,6 +54,8 @@ public class OverworldPanel extends Panel {
 		world.drawPlayerPreview(previewGraphics);
 
 		drawLevelCaption(g);
+		drawGuiButtons(g);
+		drawGuiButtonCaptions(g);
 
 		g.drawImage(backOverworld, 0, 0, 1300, 900, null);
 
@@ -136,14 +145,86 @@ public class OverworldPanel extends Panel {
 			g.setColor(Color.GRAY);
 			g.setFont(new Font(GameFrame.fontString, 1, 34));
 			g.drawString("Kein Level", 1048, 150);
-			g.setFont(new Font(GameFrame.fontString, 1, 44));
-			//g.drawString("Play", 1085, 360);
+
+			// g.drawString("Play", 1085, 360);
 		}
-		g.drawString("Start", 1085, 360); //TODO verschieben
-		g.setColor(Color.BLACK);
-		g.drawString("Load", 1075, 470);
-		g.drawString("Menu", 1070, 580);
 
 	}
+
+	private void drawGuiButtons(Graphics g) {
+		if (clicked == 0) {
+			g.drawImage(buttonImgPressed, 1008, 296, 248, 100, null);
+		} else {
+			g.drawImage(buttonImg, 1008, 296, 248, 100, null);
+		}
+		if (clicked == 1) {
+			g.drawImage(buttonImgPressed, 1008, 406, 248, 100, null);
+		} else {
+			g.drawImage(buttonImg, 1008, 406, 248, 100, null);
+		}
+		if (clicked == 2) {
+			g.drawImage(buttonImgPressed, 1008, 516, 248, 100, null);
+		} else {
+			g.drawImage(buttonImg, 1008, 516, 248, 100, null);
+
+		}
+
+	}
+
+	private void drawGuiButtonCaptions(Graphics g) {
+		int size = 44;
+		int sizeDif = 6;
+
+		// Color stays gray if needed
+
+		if (highlighted == 0 && Character.isLowerCase(frame.getNextLevel())) {
+			g.setFont(new Font(GameFrame.fontString, 1, sizeDif + size));
+		} else {
+			g.setFont(new Font(GameFrame.fontString, 1, size));
+		}
+		Fonts.drawCenteredString("Start", 1008, 296, 248, 100, g);
+		g.setColor(Color.BLACK);
+		if (highlighted == 1) {
+			g.setFont(new Font(GameFrame.fontString, 1, sizeDif + size));
+		} else {
+			g.setFont(new Font(GameFrame.fontString, 1, size));
+		}
+		Fonts.drawCenteredString("Load", 1008, 406, 248, 100, g);
+
+		if (highlighted == 2) {
+			g.setFont(new Font(GameFrame.fontString, 1, sizeDif + size));
+		} else {
+			g.setFont(new Font(GameFrame.fontString, 1, size));
+
+		}
+
+		Fonts.drawCenteredString("Menu", 1008, 516, 248, 100, g);
+	}
+
+	public boolean isHighlighted(int i) {
+		return highlighted == i;
+	}
+
+	public void highlight(int i) {
+		this.highlighted = i;
+	}
+
+	public void click(int i) {
+		if (i == 0 && !Character.isLowerCase(frame.getNextLevel())) {
+			frame.playSound("error", -5f);
+			return;
+		}
+		this.clicked = i;
+		if (i == -1) {
+			return;
+		}
+		frame.playSound("ButtonKlick", -5f);
+	}
+
+	public boolean isClicked(int i) {
+		System.out.println(clicked);
+		return clicked == i;
+	}
+
 
 }

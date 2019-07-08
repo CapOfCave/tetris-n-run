@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import input.MenuMouseHandler;
 import logics.Playable;
+import tools.Fonts;
 
 public class MenuPanel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
@@ -18,13 +19,16 @@ public class MenuPanel extends JPanel implements Playable {
 	private MenuFrame frame;
 	private MenuMouseHandler mouseHandler;
 	private BufferedImage menu;
+	private int highlighted = -1;
+	int loadingx = 20;
 
 	public MenuPanel(MenuFrame frame) {
-		
+
 		this.frame = frame;
 		mouseHandler = new MenuMouseHandler(frame, this);
 		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
+		addMouseMotionListener(mouseHandler);
 		setBackground(Color.WHITE);
 		menu = frame.getImage("/res/Menu.png");
 
@@ -32,33 +36,50 @@ public class MenuPanel extends JPanel implements Playable {
 
 	}
 
-	int loadingx = 20;
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (frame.isLoading()) {
 			g.setFont(new Font(GameFrame.fontString, 1, 70));
-			g.drawString("Loading. Screen fehlt noch. add pls. ",
-					loadingx, 400);
+			g.drawString("Loading. Screen fehlt noch. add pls. ", loadingx, 400);
 			g.drawString("kann man sogar animieren.", loadingx + 50, 500);
 		} else {
 			g.drawImage(menu, 0, 0, null);
 			g.setColor(Color.BLACK);
-			g.setFont(new Font(GameFrame.fontString, 1, 130));
-			g.drawString("Play", 490, 472);
-			g.setFont(new Font(GameFrame.fontString, 1, 100));
-			g.drawString("Tutorial", 135, 705);
-			g.setFont(new Font(GameFrame.fontString, 1, 100));
-			g.drawString("Settings", 745, 705);
+			int sizeDifPlay = 16;
+			int normSizePlay = 130;
+			int sizeDifRest = 10;
+			int normSizeRest = 100;
+
+			if (highlighted == 0) {
+				g.setFont(new Font(GameFrame.fontString, 1, sizeDifPlay + normSizePlay));
+			} else {
+				g.setFont(new Font(GameFrame.fontString, 1, normSizePlay));
+			}
+			Fonts.drawCenteredString("Play", 35, 332, 1230, 204, g);
+
+			if (highlighted == 1) {
+				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest + sizeDifRest));
+			} else {
+				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest));
+			}
+			Fonts.drawCenteredString("Tutorial", 35, 571, 620, 204, g);
+
+			if (highlighted == 2) {
+				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest + sizeDifRest));
+			} else {
+				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest));
+
+			}
+			Fonts.drawCenteredString("Settings", 645, 571, 620, 204, g);
+
 		}
 	}
 
 	public void mousePressed(int x, int y) {
 
-		repaint();
-
 		if (!frame.isLoading()) {
-			if (x > 35 && y > 332 && x < 1252 && y < 523) {
+			if (playContains(x, y)) {
 				frame.playSound("ButtonKlick", -5f);
 
 				File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
@@ -67,18 +88,41 @@ public class MenuPanel extends JPanel implements Playable {
 				} else {
 					frame.loadLevel("/res/levels/overworld" + frame.getLevelSolved() + ".txt");
 				}
-				
-			}
 
-			if (x > 35 && y > 571 && x < 644 && y < 764) {
+			} else if (tutorialContains(x, y)) {
 				frame.playSound("ButtonKlick", -5f);
 				frame.startTutorial();
-			}
-			if (x > 655 && y > 571 && x < 1254 && y < 764) {
+			} else if (optionsContains(x, y)) {
 				frame.playSound("ButtonKlick", -5f);
 				frame.startOption();
 			}
 		}
+	}
+
+	public void mouseMoved(int x, int y) {
+		if (playContains(x, y)) {
+			if (highlighted != 0) {
+				frame.playSound("menuHover", -6f);
+				highlight(0);
+			}
+		} else if (tutorialContains(x, y)) {
+			if (highlighted != 1) {
+				frame.playSound("menuHover", -6f);
+				highlight(1);
+			}
+		} else if (optionsContains(x, y)) {
+			if (highlighted != 2) {
+				frame.playSound("menuHover", -6f);
+				highlight(2);
+			}
+		} else {
+			highlight(-1);
+		}
+	}
+
+	private void highlight(int i) {
+		this.highlighted = i;
+
 	}
 
 	@Override
@@ -87,7 +131,7 @@ public class MenuPanel extends JPanel implements Playable {
 		if (frame.isLoading()) {
 			loadingx = (loadingx + 3290) % 2300 - 1000;
 		}
-		
+
 	}
 
 	@Override
@@ -97,6 +141,19 @@ public class MenuPanel extends JPanel implements Playable {
 
 	@Override
 	public void secondPassed() {
-		
+
 	}
+
+	private boolean playContains(int x, int y) {
+		return x > 35 && y > 332 && x < 1252 && y < 523;
+	}
+
+	private boolean tutorialContains(int x, int y) {
+		return x > 35 && y > 571 && x < 644 && y < 764;
+	}
+
+	private boolean optionsContains(int x, int y) {
+		return x > 655 && y > 571 && x < 1254 && y < 764;
+	}
+
 }

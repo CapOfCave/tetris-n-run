@@ -35,7 +35,6 @@ public class MenuFrame extends JFrame {
 	private ImageLoader imageLoader;
 
 	public static void main(String[] args) {
-
 		SettingsLoader loader = new SettingsLoader(System.getenv("APPDATA") + "\\tetris-n-run\\settings.txt");
 		File savesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves");
 
@@ -79,7 +78,7 @@ public class MenuFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		gameLoop.start();
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -136,7 +135,7 @@ public class MenuFrame extends JFrame {
 		loadingLevelUrl = url;
 		savingLoadingHandler.loadLevel(url);
 	}
-	
+
 	public void checkIfLoading() {
 		if (loadingLevelUrl != null) {
 			if (savingLoadingHandler.isLoaded(loadingLevelUrl)) {
