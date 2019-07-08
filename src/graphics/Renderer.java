@@ -30,27 +30,31 @@ public class Renderer {
 	}
 
 	public void addDrawable(DrawAndSortable das) {
-		if (drawable1) {
-			 addAfterPrioritization(drawables2, das);
-			 addAfterPrioritization(toAdd1, das);
-			//drawables2.add(das);
-			//toAdd1.add(das);
-
-		} else {
-			addAfterPrioritization(drawables1, das);
-			 addAfterPrioritization(toAdd2, das);
-			//drawables1.add(das);
-			//toAdd2.add(das);
-		}
+		 if (drawable1) {
+		 addAfterPrioritization(drawables2, das);
+		 addAfterPrioritization(toAdd1, das);
+//		 drawables2.add(das);
+//		 toAdd1.add(das);
+		
+		 } else {
+		 addAfterPrioritization(drawables1, das);
+		 addAfterPrioritization(toAdd2, das);
+//		 drawables1.add(das);
+//		 toAdd2.add(das);
+		 }
+		 
 	}
-	
+
 	public void addAfterPrioritization(ArrayList<DrawAndSortable> drawableList, DrawAndSortable das) {
-		if(drawableList.isEmpty()) {
+		if (drawableList.isEmpty()) {
 			drawableList.add(das);
 		}
-		
-	for(int i = 0; i < drawableList.size(); i++) {
-			if(-das.getPriorityInDrawQueue() > -drawableList.get(i).getPriorityInDrawQueue()) {
+//		else {
+//			return;
+//		}
+
+		for (int i = 0; i < drawableList.size(); i++) {
+			if (-das.getPriorityInDrawQueue() > -drawableList.get(i).getPriorityInDrawQueue()) {
 				drawableList.add(i, das);
 				return;
 			}
@@ -59,8 +63,7 @@ public class Renderer {
 	}
 
 	public ArrayList<DrawAndSortable> cleanUpList(ArrayList<DrawAndSortable> passive_ArrayList) {
-		return (ArrayList<DrawAndSortable>) passive_ArrayList.stream().distinct()
-				.collect(Collectors.toList());
+		return (ArrayList<DrawAndSortable>) passive_ArrayList.stream().distinct().collect(Collectors.toList());
 	}
 
 	public void removeDrawable(DrawAndSortable das) {
@@ -80,14 +83,14 @@ public class Renderer {
 			workOffAR(drawables2, toRemove2, toAdd2);
 			drawables2 = cleanUpList(drawables2);
 			passive_ArrayList = drawables2;
-			
+
 		} else {
 			workOffAR(drawables1, toRemove1, toAdd1);
 			drawables1 = cleanUpList(drawables1);
 			passive_ArrayList = drawables1;
-			
+
 		}
-		
+
 		passive_ArrayList.sort(new Comparator<DrawAndSortable>() {
 
 			@Override
@@ -113,7 +116,7 @@ public class Renderer {
 			}
 			if (toAdd.size() > 0) {
 				addAfterPrioritization(drawables,toAdd.get(0));
-				//drawables.add(toAdd.get(0));
+//				drawables.add(toAdd.get(0));
 				toAdd.remove(0);
 			}
 		}
@@ -137,9 +140,9 @@ public class Renderer {
 	}
 
 	public boolean isDAScontained(DrawAndSortable entity) { // TODO efficiency
-		 return (drawables1.contains(entity) || toAdd1.contains(entity)) &&
-		 (drawables2.contains(entity) || toAdd2.contains(entity));
-//		return drawables1.contains(entity) || drawables2.contains(entity);
+		return (drawables1.contains(entity) || toAdd1.contains(entity))
+				&& (drawables2.contains(entity) || toAdd2.contains(entity));
+		// return drawables1.contains(entity) || drawables2.contains(entity);
 	}
 
 	public void reset() {
@@ -152,6 +155,6 @@ public class Renderer {
 	}
 
 	public String getElementAmount() {
-		return (drawable1?"1   ":"2   ") + drawables1.size() + " bzw. " + drawables2.size();
+		return (drawable1 ? "1   " : "2   ") + drawables1.size() + " bzw. " + drawables2.size();
 	}
 }

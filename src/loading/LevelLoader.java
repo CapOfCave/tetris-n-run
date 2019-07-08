@@ -78,7 +78,6 @@ public class LevelLoader {
 			} else if (nextLine.startsWith("o")) {
 				String[] attribs = nextLine.split(";");
 				for (int i = 1; i < attribs.length; i++) {
-					toggleStates[i - 1] = Boolean.parseBoolean(attribs[i]);
 				}
 			} else if (nextLine.startsWith("t")) {
 				int x = -100;

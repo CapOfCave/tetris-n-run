@@ -113,7 +113,6 @@ d;x=39;y=7;r=0;c=0;o=true
 d;x=39;y=13;r=0;c=0;o=false
 d;x=39;y=20;r=0;c=0;o=true
 d;x=43;y=25;r=0;c=0;o=true
-d;x=33;y=17;r=1;c=0;o=true
 d;x=29;y=34;r=0;c=0;o=false
 d;x=17;y=33;r=1;c=0;o=true
 
@@ -126,7 +125,6 @@ d;x=39;y=27;r=0;c=1;o=false
 d;x=14;y=3;r=0;c=2;o=false
 d;x=3;y=6;r=0;c=2;o=false
 d;x=15;y=13;r=0;c=2;o=true
-d;x=37;y=33;r=1;c=2;o=false
 d;x=23;y=33;r=0;c=2;o=true
 d;x=38;y=33;r=1;c=2;o=false
 

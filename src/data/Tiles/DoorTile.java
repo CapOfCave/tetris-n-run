@@ -20,6 +20,7 @@ public class DoorTile extends Tile {
 	private Color drawColor = Color.BLACK;
 	private BufferedImage image3d;
 	BufferedImage bottomImage;
+	private boolean isStandardOpened;
 
 	private String str_akt_anim;
 	private DrawAndSortable bottomPart;
@@ -33,6 +34,8 @@ public class DoorTile extends Tile {
 		needsBackGround = true;
 		this.rotation = rotation;
 		this.color = color;
+		
+		isStandardOpened = open;
 
 		if (color == 0) {
 			drawColor = new Color(209, 17, 65);
@@ -152,7 +155,7 @@ public class DoorTile extends Tile {
 	}
 
 	public boolean isStandardOpened() {
-		return walkableWithTetro;
+		return isStandardOpened;
 	}
 
 	@Override
