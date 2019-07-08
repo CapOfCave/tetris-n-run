@@ -112,7 +112,7 @@ public class World {
 				if (t != null) {
 					t.setWorld(this);
 				}
-					
+
 			}
 		}
 		camera = new Camera(this, level.getPlayerX(), level.getPlayerY(),
@@ -127,7 +127,7 @@ public class World {
 				movingblockSpawners.add((MovingBlockSpawner) e);
 			}
 		}
-		
+
 		allEntities.addAll(otherEntities);
 		doors = level.getDoors();
 
@@ -135,6 +135,12 @@ public class World {
 		for (int i = 0; i < tetroWorldHitbox.length; i++) {
 			for (int j = 0; j < tetroWorldHitbox[i].length; j++) {
 				tetroWorldHitbox[i][j] = false;
+			}
+		}
+
+		for (int i = 0; i < toggleStates.length; i++) {
+			if (toggleStates[i] == true) {
+				updateDoors(i);
 			}
 		}
 
@@ -169,8 +175,9 @@ public class World {
 				wallImgFrames[j][i] = new WallImgFrame(this, imageId, i, j);
 			}
 		}
-		
-		
+
+//	
+
 		// add everything to renderer
 		for (Entity entity : allEntities) {
 			if (entity instanceof MovingBlock) {
@@ -793,11 +800,6 @@ public class World {
 		return tileWorld.length;
 	}
 
-	public void toggle(int color) {
-		toggleStates[color] = !toggleStates[color];
-		switchDoors(color);
-	}
-
 	public void updateDoors(int color) {
 
 		for (DoorTile dT : doors) {
@@ -872,12 +874,12 @@ public class World {
 		toRemove.add(entity);
 
 	}
-	
+
 	public void initiateAddEntity(Entity entity) {
 		toAdd.add(entity);
 
 	}
-	
+
 	public void removeEntityDirectly(Entity e) {
 		allEntities.remove(e);
 		otherEntities.remove(e);

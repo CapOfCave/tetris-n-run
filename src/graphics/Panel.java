@@ -136,7 +136,7 @@ public abstract class Panel extends JPanel implements Playable {
 		if (text.length > 0) {
 			for (int i = 0; i < text.length; i++) {
 				if (text[i] != null) {
-					g.setFont(new Font("Timesnewroman", Font.PLAIN, text[i].getFontSize())); // 18 / 20
+					g.setFont(new Font(GameFrame.fontString, Font.PLAIN, text[i].getFontSize())); // 18 / 20
 					g.setColor(new Color(0, 0, 0, text[i].getOpacity()));
 					g.drawString(text[i].getContent(), 185, 705 + (i * GameFrame.CONSOLETEXTMARGINY) - text[i].getOffset());
 				}

@@ -35,6 +35,7 @@ public class GameFrame extends JFrame {
 	public static final int PANEL_WIDTH = 1300, PANEL_HEIGHT = 900;
 	public static final int BLOCKSIZE = 45;
 	public static final int CONSOLETEXTMARGINY = 21;
+	public static final String fontString = "Times new Roman";
 
 	private MenuFrame menuFrame;
 	private OverworldPanel oPanel;
@@ -285,5 +286,5 @@ public class GameFrame extends JFrame {
 		return animationLoader.loadAnimations(url);
 
 	}
-
+	
 }

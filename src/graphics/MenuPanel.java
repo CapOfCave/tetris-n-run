@@ -37,18 +37,19 @@ public class MenuPanel extends JPanel implements Playable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (frame.isLoading()) {
-			g.setFont(new Font("TimesNewRoman", 1, 70));
+			g.setFont(new Font(GameFrame.fontString, 1, 70));
 			g.drawString("Loading. Screen fehlt noch. add pls. ",
 					loadingx, 400);
 			g.drawString("kann man sogar animieren.", loadingx + 50, 500);
 		} else {
 			g.drawImage(menu, 0, 0, null);
 			g.setColor(Color.BLACK);
-			g.setFont(new Font("TimesNewRoman", 1, 130));
+			g.setFont(new Font(GameFrame.fontString, 1, 130));
 			g.drawString("Play", 490, 472);
-			g.setFont(new Font("TimesNewRoman", 1, 100));
+			g.setFont(new Font(GameFrame.fontString, 1, 100));
 			g.drawString("Tutorial", 135, 705);
-			g.drawString("Optionen", 745, 705);
+			g.setFont(new Font(GameFrame.fontString, 1, 100));
+			g.drawString("Settings", 745, 705);
 		}
 	}
 

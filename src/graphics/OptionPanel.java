@@ -54,52 +54,52 @@ public class OptionPanel extends JPanel {
 		super.paintComponent(g);
 		g.drawImage(option, 0, 0, null);
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("TimesNewRoman", 1, 55));
+		g.setFont(new Font("GameFrame.fontString", 1, 55));
 		g.drawString("Menu", 1035, 823);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
 		if(keyCodeForChange == 0) 
-			g.setFont(new Font("TimesNewRoman", 2, 26));
+			g.setFont(new Font("GameFrame.fontString", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(0)), 152, 204);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
 		if(keyCodeForChange == 1) 
-			g.setFont(new Font("TimesNewRoman", 2, 26));
+			g.setFont(new Font("GameFrame.fontString", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(1)), 160, 243);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
 		if(keyCodeForChange == 2) 
-			g.setFont(new Font("TimesNewRoman", 2, 26));
+			g.setFont(new Font("GameFrame.fontString", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(2)), 188, 282);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
 		if(keyCodeForChange == 3) 
-			g.setFont(new Font("TimesNewRoman", 2, 26));
+			g.setFont(new Font("GameFrame.fontString", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(3)), 175, 321);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
 		if(keyCodeForChange == 4) 
-			g.setFont(new Font("TimesNewRoman", 2, 26));
+			g.setFont(new Font("GameFrame.fontString", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(4)), 250, 399);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
 		if(keyCodeForChange == 5) 
-			g.setFont(new Font("TimesNewRoman", 2, 26));
+			g.setFont(new Font("GameFrame.fontString", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(5)), 195, 517);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
 		if(keyCodeForChange == 6) 
-			g.setFont(new Font("TimesNewRoman", 2, 26));
+			g.setFont(new Font("GameFrame.fontString", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(6)), 213, 556);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
 		if(keyCodeForChange == 7) 
-			g.setFont(new Font("TimesNewRoman", 2, 26));
+			g.setFont(new Font("GameFrame.fontString", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(7)), 335, 634);
-		g.setFont(new Font("TimesNewRoman", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
 		if(keyCodeForChange == 8) 
-			g.setFont(new Font("TimesNewRoman", 2, 26));
+			g.setFont(new Font("GameFrame.fontString", 2, 26));
 		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(8)), 458, 712);
 		
 	}

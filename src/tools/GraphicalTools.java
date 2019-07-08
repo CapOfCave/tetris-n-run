@@ -50,4 +50,5 @@ public class GraphicalTools {
 
 		return img;
 	}
+
 }

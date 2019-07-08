@@ -87,59 +87,59 @@ public class OverworldPanel extends Panel {
 
 			switch ((Character.getNumericValue(frame.getNextLevel()) - 9)) {
 			case 1:
-				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.setFont(new Font(GameFrame.fontString, 1, 34));
 				g.drawString("A new", 1070, 150);
 				g.drawString("beginning", 1050, 190);
-				g.setFont(new Font("Timesnewroman", 1, 44));
+				g.setFont(new Font(GameFrame.fontString, 1, 44));
 				break;
 
 			case 2:
-				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.setFont(new Font(GameFrame.fontString, 1, 34));
 				g.drawString("Doors and", 1048, 150);
 				g.drawString("Switches", 1060, 190);
-				g.setFont(new Font("Timesnewroman", 1, 44));
+				g.setFont(new Font(GameFrame.fontString, 1, 44));
 				break;
 
 			case 4:
-				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.setFont(new Font(GameFrame.fontString, 1, 34));
 				g.drawString("Crossroad", 1045, 150);
-				g.setFont(new Font("Timesnewroman", 1, 44));
+				g.setFont(new Font(GameFrame.fontString, 1, 44));
 				break;
 
 			case 5:
-				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.setFont(new Font(GameFrame.fontString, 1, 34));
 				g.drawString("Pass the", 1062, 150);
 				g.drawString("destination!", 1040, 190);
-				g.setFont(new Font("Timesnewroman", 1, 44));
+				g.setFont(new Font(GameFrame.fontString, 1, 44));
 				break;
 
 			case 6:
-				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.setFont(new Font(GameFrame.fontString, 1, 34));
 				g.drawString("Keep track!", 1040, 150);
-				g.setFont(new Font("Timesnewroman", 1, 44));
+				g.setFont(new Font(GameFrame.fontString, 1, 44));
 				break;
 
 			case 7:
-				g.setFont(new Font("Timesnewroman", 1, 34));
+				g.setFont(new Font(GameFrame.fontString, 1, 34));
 				g.drawString("A lack of", 1062, 150);
 				g.drawString("Tetros.", 1075, 190);
-				g.setFont(new Font("Timesnewroman", 1, 44));
+				g.setFont(new Font(GameFrame.fontString, 1, 44));
 				break;
 
 			default:
-				g.setFont(new Font("Timesnewroman", 1, 44));
+				g.setFont(new Font(GameFrame.fontString, 1, 44));
 				g.drawString("Level " + (Character.getNumericValue(frame.getNextLevel()) - 9), 1055, 150);
 				break;
 			}
 
 		} else {
 			g.setColor(Color.GRAY);
-			g.setFont(new Font("Timesnewroman", 1, 34));
+			g.setFont(new Font(GameFrame.fontString, 1, 34));
 			g.drawString("Kein Level", 1048, 150);
-			g.setFont(new Font("Timesnewroman", 1, 44));
-			g.drawString("Play", 1085, 360);
+			g.setFont(new Font(GameFrame.fontString, 1, 44));
+			//g.drawString("Play", 1085, 360);
 		}
-		g.drawString("Play", 1085, 360);
+		g.drawString("Start", 1085, 360); //TODO verschieben
 		g.setColor(Color.BLACK);
 		g.drawString("Load", 1075, 470);
 		g.drawString("Menu", 1070, 580);

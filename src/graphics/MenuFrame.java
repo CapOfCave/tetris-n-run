@@ -2,6 +2,8 @@ package graphics;
 
 import java.awt.CardLayout;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -77,6 +79,12 @@ public class MenuFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		gameLoop.start();
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+			}
+		});
 
 	}
 
@@ -155,4 +163,5 @@ public class MenuFrame extends JFrame {
 	public BufferedImage getImage(String path) {
 		return imageLoader.getImage(path);
 	}
+
 }

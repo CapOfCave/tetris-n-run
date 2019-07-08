@@ -31,7 +31,7 @@ public class TutorialPanel extends JPanel {
 		super.paintComponent(g);
 		g.drawImage(tutorial, 0, 0, null);
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("TimesNewRoman", 1, 55));
+		g.setFont(new Font(GameFrame.fontString, 1, 55));
 		g.drawString("Menu", 1035, 823);
 
 	}
