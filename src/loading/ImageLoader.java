@@ -74,8 +74,10 @@ public class ImageLoader {
 	private static BufferedImage loadImage(String path) {
 		try {
 			return ImageIO.read(Toolkit.getDefaultToolkit().getClass().getResource(path));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
+			
 			return new BufferedImage(10, 10, BufferedImage.TYPE_4BYTE_ABGR);
 		}
 	}

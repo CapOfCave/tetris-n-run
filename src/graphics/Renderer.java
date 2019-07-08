@@ -31,13 +31,31 @@ public class Renderer {
 
 	public void addDrawable(DrawAndSortable das) {
 		if (drawable1) {
-			drawables2.add(das);
-			toAdd1.add(das);
+			 addAfterPrioritization(drawables2, das);
+			 addAfterPrioritization(toAdd1, das);
+			//drawables2.add(das);
+			//toAdd1.add(das);
 
 		} else {
-			drawables1.add(das);
-			toAdd2.add(das);
+			addAfterPrioritization(drawables1, das);
+			 addAfterPrioritization(toAdd2, das);
+			//drawables1.add(das);
+			//toAdd2.add(das);
 		}
+	}
+	
+	public void addAfterPrioritization(ArrayList<DrawAndSortable> drawableList, DrawAndSortable das) {
+		if(drawableList.isEmpty()) {
+			drawableList.add(das);
+		}
+		
+	for(int i = 0; i < drawableList.size(); i++) {
+			if(-das.getPriorityInDrawQueue() > -drawableList.get(i).getPriorityInDrawQueue()) {
+				drawableList.add(i, das);
+				return;
+			}
+		}
+		drawableList.add(das);
 	}
 
 	public ArrayList<DrawAndSortable> cleanUpList(ArrayList<DrawAndSortable> passive_ArrayList) {
@@ -94,7 +112,8 @@ public class Renderer {
 				toRemove.remove(0);
 			}
 			if (toAdd.size() > 0) {
-				drawables.add(toAdd.get(0));
+				addAfterPrioritization(drawables,toAdd.get(0));
+				//drawables.add(toAdd.get(0));
 				toAdd.remove(0);
 			}
 		}

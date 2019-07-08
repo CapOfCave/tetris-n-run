@@ -17,4 +17,6 @@ public interface DrawAndSortable extends Comparable<DrawAndSortable> {
 	public double getX();
 
 	public double getY();
+	
+	public int getPriorityInDrawQueue();
 }

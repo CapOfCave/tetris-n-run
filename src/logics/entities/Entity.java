@@ -139,5 +139,9 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 	public int getTileY() {
 		return (int) ((y + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
 	}
+	@Override
+	public int getPriorityInDrawQueue() {
+		return 0;
+	}
 
 }
