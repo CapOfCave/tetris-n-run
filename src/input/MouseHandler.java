@@ -48,10 +48,8 @@ public class MouseHandler implements MouseInputListener {
 	public void mouseReleased(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 
-			try {
 				inHandHandler.placeInHand();
-			} catch (ArrayIndexOutOfBoundsException ex) {
-			}
+			
 		}
 	}
 

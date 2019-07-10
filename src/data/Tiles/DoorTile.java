@@ -20,10 +20,10 @@ public class DoorTile extends Tile {
 	private Color drawColor = Color.BLACK;
 	private BufferedImage image3d;
 	BufferedImage bottomImage;
-	private boolean isStandardOpened;
 
 	private String str_akt_anim;
 	private DrawAndSortable bottomPart;
+	private boolean standardOpened;
 	private boolean playerOnTile = false;
 	private int movingBlocksOnTile = 0;
 
@@ -34,8 +34,9 @@ public class DoorTile extends Tile {
 		needsBackGround = true;
 		this.rotation = rotation;
 		this.color = color;
-		
-		isStandardOpened = open;
+
+		this.standardOpened = open;
+
 
 		if (color == 0) {
 			drawColor = new Color(209, 17, 65);
@@ -155,7 +156,9 @@ public class DoorTile extends Tile {
 	}
 
 	public boolean isStandardOpened() {
-		return isStandardOpened;
+
+		return standardOpened;
+
 	}
 
 	@Override

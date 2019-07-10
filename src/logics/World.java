@@ -139,6 +139,7 @@ public class World {
 		}
 
 		for (int i = 0; i < toggleStates.length; i++) {
+			System.out.println(toggleStates[i]);
 			if (toggleStates[i] == true) {
 				updateDoors(i);
 			}
@@ -582,7 +583,6 @@ public class World {
 	private boolean isAllowed(Tetro tetro) {
 		int virX = tetro.getX();
 		int virY = tetro.getY();
-
 		for (int j = 0; j < tetro.getType().getHitbox().length; j++) {
 			for (int i = 0; i < tetro.getType().getHitbox()[j].length; i++) {
 				if (tetro.getType().getHitbox()[j][i]) {
@@ -624,15 +624,21 @@ public class World {
 					}
 				}
 			}
+
 		}
+
 		return true;
 	}
 
 	private boolean isTetroPlacableAt(int i, int j) {
-		if (tileWorld[j][i] != null)
-			return tileWorld[j][i].isTetroPlacable() && !tetroWorldHitbox[j][i];
-		else
-			return !tetroWorldHitbox[j][i];
+		try {
+			if (tileWorld[j][i] != null)
+				return tileWorld[j][i].isTetroPlacable() && !tetroWorldHitbox[j][i];
+			else
+				return !tetroWorldHitbox[j][i];
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			return false;
+		}
 	}
 
 	private void addTetroToHitbox(Tetro tetro, int x, int y, int rotation) {
@@ -801,9 +807,10 @@ public class World {
 	}
 
 	public void updateDoors(int color) {
-
+		System.out.println("Update " + color);
 		for (DoorTile dT : doors) {
 			if (dT.getColorAsInt() == color) {
+				System.out.print("a");
 				dT.changeState();
 			}
 		}
