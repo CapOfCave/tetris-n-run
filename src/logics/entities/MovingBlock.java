@@ -102,6 +102,7 @@ public class MovingBlock extends Entity {
 			standingTile = emptyTile;
 		} else { // akt_tile != null, besonderer Block
 			standingTile = akt_Tile;
+			System.out.println(akt_Tile);
 			akt_Tile.eventWhenMoveBlockEntering();
 		}
 	}

@@ -39,9 +39,7 @@ public class SavingLoadingHandler implements Runnable {
 				FileHandler.deleteAllSaveNLoadSaves();
 			} else if (levelsToLoadUrls.size() > 0) {
 				if (!imageLoader.isEverythingLoaded()) {
-					System.out.println("Now Loading: All Images");
 					imageLoader.loadAll();
-					System.out.println("Image Load completed");
 				}
 
 				loadedLevels.put(levelsToLoadUrls.get(0), LevelLoader.loadLevel(levelsToLoadUrls.get(0)));

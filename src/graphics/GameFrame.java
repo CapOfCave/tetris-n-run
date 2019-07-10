@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -77,6 +78,7 @@ public class GameFrame extends JFrame {
 		addKeyListener(keyHandler);
 		setResizable(false);
 		setDefaultCloseOperation(0);
+		setBackground(new Color(34, 34, 34));
 		pack();
 		setDefaultCloseOperation(3);
 		setLocationRelativeTo(null);
