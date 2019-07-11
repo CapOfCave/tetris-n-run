@@ -24,7 +24,7 @@ public class MenuPanel extends JPanel implements Playable {
 	private BufferedImage menu;
 	private int highlighted = -1;
 	int loadingx = 20;
-	private BufferedImage LoadingScreen;
+	private BufferedImage loadingScreen;
 	private Animation loadingAnim;
 	private AnimationLoader aLoader;
 	
@@ -39,9 +39,11 @@ public class MenuPanel extends JPanel implements Playable {
 		setBackground(Color.WHITE);
 		menu = frame.getImage("/res/Menu.png");
 		
-		aLoader = new AnimationLoader(new ImageLoader());
+		ImageLoader iLoader = new ImageLoader();
+		aLoader = new AnimationLoader(iLoader);
 		
-		loadingAnim = aLoader.loadAnimations("/res/anims/Loading.txt").get(0);
+		loadingAnim = aLoader.loadAnimations("/res/anims/loading.txt").get("loading");
+		loadingScreen = iLoader.getImage("/res/LoadingScreen.png");
 		
 
 		repaint();
@@ -52,9 +54,7 @@ public class MenuPanel extends JPanel implements Playable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (frame.isLoading()) {
-			g.setFont(new Font(GameFrame.fontString, 1, 70));
-			g.drawString("Loading. Screen fehlt noch. add pls. ", loadingx, 400);
-			g.drawString("kann man sogar animieren.", loadingx + 50, 500);
+			drawLoadingScreen(g);
 		} else {
 			g.drawImage(menu, 0, 0, null);
 			g.setColor(Color.BLACK);
@@ -89,7 +89,11 @@ public class MenuPanel extends JPanel implements Playable {
 	}
 	
 	public void drawLoadingScreen(Graphics g) {
-		
+		g.drawImage(loadingScreen, 0, 0, null);
+		g.drawImage(loadingAnim.getImage(), 450, 250, null);
+		loadingAnim.next();
+		if(loadingAnim.getImage() == null)
+			loadingAnim.next();
 	}
 
 	public void mousePressed(int x, int y) {
