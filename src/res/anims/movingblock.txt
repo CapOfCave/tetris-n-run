@@ -1,3 +1,7 @@
-pics500 wall = "/res/blocks/MoveBlock.png"
+//pics500 wall = "/res/blocks/MoveBlock.png"
+pics45 deac = "/res/blocks/movingblockdeak.png"
+pics45 ac = "/res/blocks/movingblockakt.png"
 
-anim normal = wall.0;0;-45
+
+anim2 passive = deac.0;0;-30
+anim active = ac.0;0;-30

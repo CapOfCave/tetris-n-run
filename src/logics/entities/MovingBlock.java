@@ -34,6 +34,11 @@ public class MovingBlock extends Entity {
 		setPosition(x, y);
 
 	}
+	@Override
+	public void setWorld(World world) {
+		super.setWorld(world);
+		akt_animation = anims.get("passive");
+	}
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
@@ -77,6 +82,7 @@ public class MovingBlock extends Entity {
 		offset = world.getPlayer().getMovingBlockOffset();
 		sticky = true;
 		direction = world.getPlayer().getDirection();
+		akt_animation = anims.get("active");
 	}
 
 	public void setPosition(double x, double y) {
@@ -102,13 +108,14 @@ public class MovingBlock extends Entity {
 			standingTile = emptyTile;
 		} else { // akt_tile != null, besonderer Block
 			standingTile = akt_Tile;
-			System.out.println(akt_Tile);
 			akt_Tile.eventWhenMoveBlockEntering();
 		}
 	}
 
 	public void unBind() {
 		sticky = false;
+		akt_animation = anims.get("passive");
+		
 	}
 
 	public int getDirection() {
@@ -129,4 +136,5 @@ public class MovingBlock extends Entity {
 
 	}
 
+	
 }
