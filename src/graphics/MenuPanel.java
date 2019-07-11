@@ -53,7 +53,7 @@ public class MenuPanel extends JPanel implements Playable {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (true) {
+		if (frame.isLoading()) {
 			drawLoadingScreen(g);
 		} else {
 			g.drawImage(menu, 0, 0, null);
