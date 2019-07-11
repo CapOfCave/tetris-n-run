@@ -45,7 +45,7 @@ public class GameFrame extends JFrame {
 	private char nextLevel; // feld auf dem man steht, sonst nichts
 	private int lastLevelSolved = 0;
 	private boolean inOverworld = true;
-	private ConsoleLine[] text;
+	private ConsoleLine[] text; 
 	private SoundPlayer soundPlayer;
 
 	private KeyHandler keyHandler;
