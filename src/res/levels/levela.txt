@@ -68,18 +68,18 @@ Tl;x=15;y=30;amount=3,1,0,1,1,1,1;tip=Manchmal ist es notwendig, ein bestimmtes 
 
 Td;x=9;y=15;xo=0;yo=0;name=ventilator
 
-Td;x=1;y=15;xo=0;yo=-34;name=block0b
+Td;x=1;y=15;xo=0;yo=-34;name=block0b;p=1;
 Td;x=0;y=15;xo=0;yo=-8;name=block0e
 Td;x=21;y=21;xo=-45;yo=-79;name=block0d
 Td;x=20;y=21;xo=45;yo=-8;name=block0w
 Td;x=21;y=11;xo=0;yo=-8;name=block0q
 Td;x=22;y=10;xo=0;yo=-8;name=block0r
-Td;x=23;y=11;xo=-45;yo=-34;name=block0a
+Td;x=23;y=11;xo=-45;yo=-34;name=block0a;p=1;
 Td;x=22;y=11;xo=0;yo=-8;name=block0p
 Td;x=20;y=27;xo=0;yo=-8;name=block0e
 Td;x=21;y=27;xo=45;yo=-8;name=block0e
-Td;x=22;y=27;xo=0;yo=-34;name=block0b
-Td;x=24;y=27;xo=0;yo=-34;name=block0b
+Td;x=22;y=27;xo=0;yo=-34;name=block0b;p=1;
+Td;x=24;y=27;xo=0;yo=-34;name=block0b;p=1;
 Td;x=21;y=15;xo=0;yo=-8;name=block0r
 Td;x=23;y=16;xo=0;yo=-8;name=block0z
 Td;x=23;y=24;xo=0;yo=-8;name=block0p
@@ -91,9 +91,9 @@ Td;x=23;y=18;xo=0;yo=-8;name=block0e
 Td;x=20;y=23;xo=0;yo=-8;name=block0q
 
 Td;x=0;y=30;xo=-45;yo=-8;name=block0p
-Td;x=2;y=30;xo=-45;yo=-34;name=block0a
+Td;x=2;y=30;xo=-45;yo=-34;name=block0a;p=1;
 Td;x=1;y=30;xo=0;yo=-8;name=block0p
-Td;x=4;y=30;xo=-45;yo=-34;name=block0a
+Td;x=4;y=30;xo=-45;yo=-34;name=block0a;p=1;
 Td;x=3;y=30;xo=0;yo=-8;name=block0p
 Td;x=3;y=28;xo=0;yo=-8;name=block0s
 Td;x=0;y=28;xo=-45;yo=-8;name=block0w

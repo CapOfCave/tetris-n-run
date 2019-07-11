@@ -218,3 +218,36 @@ Tl;x=15;y=33;amount=1,1,0,0,3,0,1;tip=Es gibt einen Tetro den du löschen kannst,
 Tl;x=10;y=33;amount=3,2,0,0,3,1,1;tip=Du solltest diesen Teil ohne Lücke, also ohne Löschen, lösen.
 Tl;x=15;y=12;amount=0,0,0,0,0,0,0;tip=Kannst du überhaupt zum grünen Schalter kommen?;tip2=Vielleicht solltest du eine zurückliegenden Schalter nutzen.
 Tl;x=23;y=11;amount=10,10,10,10,10,10,10;tip=Du musst den Schiebeblock nur von rechtsoben in den unteren Teil schieben,;tip2=also kannst du im ersten Teil Tetros sparen und wie immer gilt auch hier,;tip3=dass du vorrausdenken musst.
+
+Td;x=2;y=20;xo=0;yo=-55;name=DekoTurm3;
+Td;x=3;y=20;xo=0;yo=-55;name=DekoTurm3;
+Td;x=3;y=22;xo=-45;yo=-8;name=block0q;
+Td;x=2;y=24;xo=0;yo=-8;name=block0q;
+Td;x=3;y=26;xo=-45;yo=-8;name=block0q;
+Td;x=2;y=28;xo=0;yo=-8;name=block0q;
+Td;x=3;y=30;xo=-45;yo=-8;name=block0q;
+Td;x=2;y=22;xo=0;yo=-34;name=block0a;p=1;
+Td;x=3;y=24;xo=0;yo=-34;name=block0a;p=1;
+Td;x=2;y=26;xo=0;yo=-34;name=block0a;p=1;
+Td;x=3;y=28;xo=0;yo=-34;name=block0a;p=1;
+Td;x=2;y=30;xo=0;yo=-34;name=block0a;p=1;
+Td;x=2;y=32;xo=0;yo=-55;name=DekoTurm3;
+Td;x=3;y=32;xo=0;yo=-55;name=DekoTurm3;
+
+Td;x=2;y=1;xo=0;yo=-55;name=DekoTurm1;
+Td;x=4;y=1;xo=0;yo=-55;name=DekoTurm1;
+Td;x=6;y=1;xo=0;yo=-55;name=DekoTurm1;
+
+Td;x=43;y=31;xo=0;yo=-34;name=block0b;
+Td;x=44;y=32;xo=0;yo=-34;name=block0b;
+Td;x=43;y=33;xo=0;yo=-34;name=block0b;
+Td;x=44;y=34;xo=0;yo=-34;name=block0b;
+Td;x=43;y=35;xo=0;yo=-34;name=block0b;
+Td;x=44;y=36;xo=0;yo=-34;name=block0b;
+Td;x=43;y=37;xo=0;yo=-34;name=block0b;
+
+
+
+
+
+

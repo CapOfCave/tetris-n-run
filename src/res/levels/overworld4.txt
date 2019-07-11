@@ -41,15 +41,12 @@ Td;x=7;y=9;xo=0;yo=-34;name=block0a;
 Td;x=7;y=7;xo=0;yo=-8;name=block0s;
 Td;x=5;y=11;xo=0;yo=-34;name=block0b;
 Td;x=9;y=11;xo=0;yo=-34;name=block0b;
-Td;x=6;y=11;xo=0;yo=0;name=block0n;
-Td;x=7;y=11;xo=0;yo=0;name=block0n;
-Td;x=8;y=11;xo=0;yo=0;name=block0n;
+
 
 
 //l3
 Td;x=10;y=8;xo=0;yo=-8;name=block0e;
-Td;x=10;y=11;xo=0;yo=0;name=block0m;
-Td;x=11;y=11;xo=0;yo=0;name=block0m;
+
 
 //l4
 Td;x=13;y=11;xo=0;yo=-34;name=block0a;
