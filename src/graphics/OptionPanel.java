@@ -3,7 +3,9 @@ package graphics;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -67,7 +69,8 @@ public class OptionPanel extends JPanel {
 		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("GameFrame.fontString", 1, 80));
-		g.drawString("Options", 480, 130);
+		String headline = "Settings";
+		g.drawString(headline, 650 - (g.getFontMetrics().stringWidth(headline) / 2), 130);
 		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("GameFrame.fontString", 1, 55));

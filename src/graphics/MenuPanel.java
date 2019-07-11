@@ -9,7 +9,10 @@ import java.io.File;
 
 import javax.swing.JPanel;
 
+import data.Animation;
 import input.MenuMouseHandler;
+import loading.AnimationLoader;
+import loading.ImageLoader;
 import logics.Playable;
 import tools.Fonts;
 
@@ -21,6 +24,10 @@ public class MenuPanel extends JPanel implements Playable {
 	private BufferedImage menu;
 	private int highlighted = -1;
 	int loadingx = 20;
+	private BufferedImage LoadingScreen;
+	private Animation loadingAnim;
+	private AnimationLoader aLoader;
+	
 
 	public MenuPanel(MenuFrame frame) {
 
@@ -31,6 +38,11 @@ public class MenuPanel extends JPanel implements Playable {
 		addMouseMotionListener(mouseHandler);
 		setBackground(Color.WHITE);
 		menu = frame.getImage("/res/Menu.png");
+		
+		aLoader = new AnimationLoader(new ImageLoader());
+		
+		loadingAnim = aLoader.loadAnimations("/res/anims/Loading.txt").get(0);
+		
 
 		repaint();
 
@@ -74,6 +86,10 @@ public class MenuPanel extends JPanel implements Playable {
 			Fonts.drawCenteredString("Settings", 645, 571, 620, 204, g);
 
 		}
+	}
+	
+	public void drawLoadingScreen(Graphics g) {
+		
 	}
 
 	public void mousePressed(int x, int y) {
