@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import input.OptionButton;
 import input.OptionMouseHandler;
 import loading.SettingSaver;
 
@@ -17,7 +17,7 @@ public class OptionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private ArrayList<Integer> keyCodes;
-	private int keyCodeForChange = -1;
+	private ArrayList<OptionButton> optionButtons;
 
 	private MenuFrame frame;
 	private OptionMouseHandler mouseHandler;
@@ -25,6 +25,17 @@ public class OptionPanel extends JPanel {
 
 	public OptionPanel(MenuFrame frame) {
 		keyCodes = new ArrayList<Integer>();
+		optionButtons = new ArrayList<OptionButton>();
+		optionButtons.add(new OptionButton(100, 250, 165 ,"-Up", 0, this));
+		optionButtons.add(new OptionButton(100, 300, 175, "-Left", 1, this));
+		optionButtons.add(new OptionButton(100, 350, 200, "-Down", 2, this));
+		optionButtons.add(new OptionButton(100, 400, 195, "-Right", 3, this));
+		optionButtons.add(new OptionButton(100, 450, 260, "-Interaction", 4, this));
+		optionButtons.add(new OptionButton(100, 500, 210, "-Rotate", 5, this));
+		optionButtons.add(new OptionButton(100, 550, 235, "-Remove", 6, this));
+		optionButtons.add(new OptionButton(100, 600, 350, "-Move the camera", 7, this));
+		optionButtons.add(new OptionButton(100, 650, 475, "-Back to the last checkpoint", 8, this));
+		
 		keyCodes.add(0, 87);
 		keyCodes.add(1, 65);
 		keyCodes.add(2, 83);
@@ -53,78 +64,33 @@ public class OptionPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(option, 0, 0, null);
+		
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("GameFrame.fontString", 1, 80));
+		g.drawString("Options", 480, 130);
+		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("GameFrame.fontString", 1, 55));
 		g.drawString("Menu", 1035, 823);
 		g.setFont(new Font("GameFrame.fontString", 1, 24));
 		
-		if(keyCodeForChange == 0) 
-			g.setFont(new Font("GameFrame.fontString", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(0)), 152, 204);
-		g.setFont(new Font("GameFrame.fontString", 1, 24));
-		
-		if(keyCodeForChange == 1) 
-			g.setFont(new Font("GameFrame.fontString", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(1)), 160, 243);
-		g.setFont(new Font("GameFrame.fontString", 1, 24));
-		
-		if(keyCodeForChange == 2) 
-			g.setFont(new Font("GameFrame.fontString", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(2)), 188, 282);
-		g.setFont(new Font("GameFrame.fontString", 1, 24));
-		
-		if(keyCodeForChange == 3) 
-			g.setFont(new Font("GameFrame.fontString", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(3)), 175, 321);
-		g.setFont(new Font("GameFrame.fontString", 1, 24));
-		
-		if(keyCodeForChange == 4) 
-			g.setFont(new Font("GameFrame.fontString", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(4)), 250, 399);
-		g.setFont(new Font("GameFrame.fontString", 1, 24));
-		
-		if(keyCodeForChange == 5) 
-			g.setFont(new Font("GameFrame.fontString", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(5)), 195, 517);
-		g.setFont(new Font("GameFrame.fontString", 1, 24));
-		
-		if(keyCodeForChange == 6) 
-			g.setFont(new Font("GameFrame.fontString", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(6)), 213, 556);
-		g.setFont(new Font("GameFrame.fontString", 1, 24));
-		
-		if(keyCodeForChange == 7) 
-			g.setFont(new Font("GameFrame.fontString", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(7)), 335, 634);
-		g.setFont(new Font("GameFrame.fontString", 1, 24));
-		
-		if(keyCodeForChange == 8) 
-			g.setFont(new Font("GameFrame.fontString", 2, 26));
-		g.drawString(KeyEvent.getKeyText(frame.getKeyCodes().get(8)), 458, 712);
+		for(int i = 0; i < optionButtons.size(); i++) {
+			optionButtons.get(i).draw(g);
+		}
 		
 	}
 
 	public void mousePressed(int x, int y) {
 		
 		repaint();
-		if (x >= 190 && y >= 185 && x <= 290 && y <= 219)
-			keyCodeForChange = 0;
-		if (x >= 180 && y >= 220 && x <= 280 && y <= 250)
-			keyCodeForChange = 1;
-		if (x >= 190 && y >= 255 && x <= 290 && y <= 290)
-			keyCodeForChange = 2;
-		if (x >= 190 && y >= 295 && x <= 290 && y <= 330)
-			keyCodeForChange = 3;
-		if (x >= 265 && y >= 375 && x <= 365 && y <= 405)
-			keyCodeForChange = 4;
-		if (x >= 215 && y >= 490 && x <= 315 && y <= 520)
-			keyCodeForChange = 5;
-		if (x >= 240 && y >= 530 && x <= 340 && y <= 560)
-			keyCodeForChange = 6;
-		if (x >= 325 && y >= 610 && x <= 425 && y <= 640)
-			keyCodeForChange = 7;
-		if (x >= 427 && y >= 690 && x <= 527 && y <= 720)
-			keyCodeForChange = 8;
+		
+		for(int i = 0; i < optionButtons.size(); i++) {
+			optionButtons.get(i).deactivate();;
+		}
+		for(int i = 0; i < optionButtons.size(); i++) {
+			optionButtons.get(i).checkIfPressed(x, y);
+		}
+		
 		if (x >= 950 && y >= 745 && x <= 1250 && y <= 856) {
 			SettingSaver.saveSettings(getKeyCodes(), frame.getLevelSolved(), System.getenv("APPDATA") + "\\tetris-n-run", "settings.txt");
 			frame.startMenu();
@@ -135,20 +101,9 @@ public class OptionPanel extends JPanel {
 	}
 
 	public void changeKeyCode(int keyCode) {
-		if (keyCodeForChange >= 0) {
-			for (int i = 0; i < keyCodes.size(); i++) {
-				if (keyCodes.get(i) == keyCode) {
-					keyCodeForChange = -1;
-					frame.playSound("error", -5f);
-					repaint();
-					return;
-				}
-			}
-			frame.playSound("ButtonKlick", -5f);
-			frame.getKeyCodes().set(keyCodeForChange, keyCode);
-			repaint();
+		for(int i = 0; i < optionButtons.size(); i++) {
+			optionButtons.get(i).changeKeyCode(keyCode);
 		}
-		keyCodeForChange = -1;
 		repaint();
 	}
 
@@ -158,6 +113,10 @@ public class OptionPanel extends JPanel {
 
 	public void setKeyCodes(ArrayList<Integer> keyCodes) {
 		this.keyCodes = keyCodes;
+	}
+	
+	public void changeSingleKeyCode(int index, int newKeyCode) {
+		keyCodes.set(index, newKeyCode);
 	}
 
 }
