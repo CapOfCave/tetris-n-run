@@ -222,7 +222,6 @@ public class OverworldPanel extends Panel {
 	}
 
 	public boolean isClicked(int i) {
-		System.out.println(clicked);
 		return clicked == i;
 	}
 
