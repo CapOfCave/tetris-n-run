@@ -17,7 +17,6 @@ public class SettingSaver extends Saver{
 		StringBuilder keyCodeBuilder = new StringBuilder();
 		for(int i = 0; i < keyCodes.size(); i++) {
 			keyCodeBuilder.append(keyCodes.get(i) + ",");
-			System.out.println(KeyEvent.getKeyText(keyCodes.get(i)));
 		}
 		outpLines.add("k;" + keyCodeBuilder);
 		outpLines.add("l;" + levelSolved);

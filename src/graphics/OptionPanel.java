@@ -26,15 +26,15 @@ public class OptionPanel extends JPanel {
 	public OptionPanel(MenuFrame frame) {
 		keyCodes = new ArrayList<Integer>();
 		optionButtons = new ArrayList<OptionButton>();
-		optionButtons.add(new OptionButton(100, 250, 165 ,"-Up", 0, this));
-		optionButtons.add(new OptionButton(100, 300, 175, "-Left", 1, this));
-		optionButtons.add(new OptionButton(100, 350, 200, "-Down", 2, this));
-		optionButtons.add(new OptionButton(100, 400, 195, "-Right", 3, this));
-		optionButtons.add(new OptionButton(100, 450, 260, "-Interaction", 4, this));
-		optionButtons.add(new OptionButton(100, 500, 210, "-Rotate", 5, this));
-		optionButtons.add(new OptionButton(100, 550, 235, "-Remove", 6, this));
-		optionButtons.add(new OptionButton(100, 600, 350, "-Move the camera", 7, this));
-		optionButtons.add(new OptionButton(100, 650, 475, "-Back to the last checkpoint", 8, this));
+		optionButtons.add(new OptionButton(100, 250, 500 ,"-Up: ", 0, this));
+		optionButtons.add(new OptionButton(100, 300, 500, "-Left: ", 1, this));
+		optionButtons.add(new OptionButton(100, 350, 500, "-Down: ", 2, this));
+		optionButtons.add(new OptionButton(100, 400, 500, "-Right: ", 3, this));
+		optionButtons.add(new OptionButton(100, 450, 500, "-Interaction: ", 4, this));
+		optionButtons.add(new OptionButton(100, 500, 500, "-Rotate: ", 5, this));
+		optionButtons.add(new OptionButton(100, 550, 500, "-Remove: ", 6, this));
+		optionButtons.add(new OptionButton(100, 600, 500, "-Move the camera: ", 7, this));
+		optionButtons.add(new OptionButton(100, 650, 500, "-Back to the last checkpoint: ", 8, this));
 		
 		keyCodes.add(0, 87);
 		keyCodes.add(1, 65);
@@ -51,7 +51,7 @@ public class OptionPanel extends JPanel {
 		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
 
-		option =frame.getImage("/res/Optionen.png");
+		option = frame.getImage("/res/Optionen.png");
 
 	}
 
