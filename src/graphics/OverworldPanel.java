@@ -7,9 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import data.Animation;
 import data.Level;
 import data.TetroType;
 import input.OverworldMouseHandler;
+import loading.AnimationLoader;
+import loading.ImageLoader;
 import input.KeyHandler;
 import logics.World;
 import tools.Fonts;
@@ -27,6 +30,9 @@ public class OverworldPanel extends Panel {
 	private BufferedImage buttonImgPressed;
 	private int highlighted = -1;
 	private int clicked = -1;
+	private BufferedImage loadingScreen;
+	private Animation loadingAnim;
+	private AnimationLoader aLoader;
 
 	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrame frame, ArrayList<TetroType> tetroTypes) {
 		super(level, keyHandler, frame, tetroTypes);
@@ -38,6 +44,12 @@ public class OverworldPanel extends Panel {
 		overworldMouseHandler = new OverworldMouseHandler(frame, this, world);
 		addMouseListener(overworldMouseHandler);
 		addMouseMotionListener(overworldMouseHandler);
+		
+		ImageLoader iLoader = new ImageLoader();
+		aLoader = new AnimationLoader(iLoader);
+		
+		loadingAnim = aLoader.loadAnimations("/res/anims/loading.txt").get("loading");
+		loadingScreen = iLoader.getImage("/res/LoadingScreen.png");
 	}
 
 	@Override
@@ -70,17 +82,15 @@ public class OverworldPanel extends Panel {
 			drawDebug(gameGraphics);
 		}
 	}
-
-	private void drawLoadingScreen(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, gamePanel.width, gamePanel.height);
-		g.setColor(Color.WHITE);
-		g.drawRect((int) ((0.5 - loadingScreenProgression / 120.) * gamePanel.width),
-				(int) ((0.5 - loadingScreenProgression / 120.) * gamePanel.height),
-				(int) ((loadingScreenProgression / 60.) * gamePanel.width),
-				(int) ((loadingScreenProgression / 60.) * gamePanel.height));
-
+	
+	public void drawLoadingScreen(Graphics g) {
+		g.drawImage(loadingScreen, 0, 0, null);
+		g.drawImage(loadingAnim.getImage(), 254, 86, null);
+		loadingAnim.next();
+		if(loadingAnim.getImage() == null)
+			loadingAnim.next();
 	}
+
 
 	@Override
 	public void secondPassed() {
