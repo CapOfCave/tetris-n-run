@@ -30,20 +30,46 @@ public class OptionButton {
 	public void draw(Graphics g) {
 		g.setFont(new Font("GameFrame.fontString", 0, 30));
 		g.drawString(text, x, y);
-		if (activ) 
+		if (activ)
 			g.setFont(new Font("GameFrame.fontString", 2, 35));
-		
-		if(xOffset < 0) {
-			xOffset = g.getFontMetrics().stringWidth(KeyEvent.getKeyText(optionPanel.getKeyCodes().get(indexInArray))) / 2;
+
+		if (xOffset < 0) {
+			xOffset = g.getFontMetrics().stringWidth(getKeyText(optionPanel.getKeyCodes().get(indexInArray))) / 2;
 		}
-		
-		g.drawString(KeyEvent.getKeyText(optionPanel.getKeyCodes().get(indexInArray)), x + xBeginOfButtonRel - xOffset, y);
+		g.drawString(getKeyText(optionPanel.getKeyCodes().get(indexInArray)), x + xBeginOfButtonRel - xOffset, y);
 		// g.setFont(new Font("GameFrame.fontString", 1, 24));
+	}
+
+	public static String getKeyText(int keyCode) {
+		switch (keyCode) {
+		case 32:
+			return "SPACE";
+		case 17:
+			return "CTRL";
+		case 16:
+			return "SHIFT";
+		case 10:
+			return "ENTER";
+		case 37:
+			return "LEFT";
+		case 38:
+			return "UP";
+		case 39:
+			return "RIGHT";
+		case 40:
+			return "DOWN";
+		case 0:
+			return "??";
+
+		default:
+			return KeyEvent.getKeyText(keyCode);
+		}
 	}
 
 	public boolean checkIfPressed(int x, int y) {
 
-		if ((this.x + xBeginOfButtonRel - 10 - xOffset) < x && (this.x + xBeginOfButtonRel + 100 - xOffset) > x && this.y - 25 < y && this.y + 25 > y) {
+		if ((this.x + xBeginOfButtonRel - 10 - xOffset) < x && (this.x + xBeginOfButtonRel + 100 - xOffset) > x
+				&& this.y - 25 < y && this.y + 25 > y) {
 			wasKlicked();
 			return true;
 		}

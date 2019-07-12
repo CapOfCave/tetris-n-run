@@ -45,7 +45,7 @@ public class GameFrame extends JFrame {
 	private char nextLevel; // feld auf dem man steht, sonst nichts
 	private int lastLevelSolved = 0;
 	private boolean inOverworld = true;
-	private ConsoleLine[] text; 
+	private ConsoleLine[] text;
 	private SoundPlayer soundPlayer;
 
 	private KeyHandler keyHandler;
@@ -53,9 +53,10 @@ public class GameFrame extends JFrame {
 	private ImageLoader imageLoader;
 	private AnimationLoader animationLoader;
 
-	ArrayList<TetroType> tetroTypes;
+	private ArrayList<TetroType> tetroTypes;
 
 	private String loadingLevelUrl = null;
+	private boolean loadPossible;
 
 	public GameFrame(ArrayList<Integer> keyCodes, int levelSolved, MenuFrame menuFrame, Level level) {
 		this.menuFrame = menuFrame;
@@ -81,7 +82,7 @@ public class GameFrame extends JFrame {
 		setBackground(new Color(34, 34, 34));
 		pack();
 		setDefaultCloseOperation(3);
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(menuFrame);
 		gameLoop.start();
 		setVisible(true);
 
@@ -95,7 +96,7 @@ public class GameFrame extends JFrame {
 		});
 
 	}
-
+	
 	private void initConsole() {
 		text = new ConsoleLine[7];
 		text[0] = null;
@@ -121,9 +122,22 @@ public class GameFrame extends JFrame {
 		if (!overworldFile.exists()) {
 			loadLevel("/res/levels/overworld" + lastLevelSolved + ".txt");
 		}
+		checkIfLoadPossible();
 		show(oPanel, true);
 		inOverworld = true;
 
+	}
+	
+	public void checkIfLoadPossible() {
+		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
+		int folder_length = file.listFiles().length;
+		String path = null;
+		for (File f : file.listFiles()) {
+			if (f.getName().startsWith(folder_length + "saveNLoad")) {
+				path = f.getAbsolutePath();
+			}
+		}
+		loadPossible =  file.exists() && path != null;
 	}
 
 	public void startLevel() { // auf dem man steht
@@ -179,11 +193,7 @@ public class GameFrame extends JFrame {
 				path = f.getAbsolutePath();
 			}
 		}
-		if (path == null) {
-			System.err.println("Fehler. Pfad nicht gefunden.");
-			return;
-		}
-		if (file.exists()) {
+		if (file.exists() && path != null) {
 			loadLevel(path);
 
 		} else {
@@ -214,6 +224,7 @@ public class GameFrame extends JFrame {
 
 	public void backToMenu() {
 		oPanel.save();
+		menuFrame.setLocationRelativeTo(this);
 		menuFrame.setVisible(true);
 		this.dispose();
 
@@ -288,5 +299,9 @@ public class GameFrame extends JFrame {
 		return animationLoader.loadAnimations(url);
 
 	}
+
+	public boolean isLoadPossible() {
+		return loadPossible;
+	}
 	
-}
+} //TODO MenuFrame zentrierung

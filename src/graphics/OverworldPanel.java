@@ -44,12 +44,16 @@ public class OverworldPanel extends Panel {
 		overworldMouseHandler = new OverworldMouseHandler(frame, this, world);
 		addMouseListener(overworldMouseHandler);
 		addMouseMotionListener(overworldMouseHandler);
+
 		
 		ImageLoader iLoader = new ImageLoader();
 		aLoader = new AnimationLoader(iLoader);
 		
 		loadingAnim = aLoader.loadAnimations("/res/anims/loading.txt").get("loading");
 		loadingScreen = iLoader.getImage("/res/LoadingScreen.png");
+
+		frame.checkIfLoadPossible();
+
 	}
 
 	@Override
@@ -193,14 +197,21 @@ public class OverworldPanel extends Panel {
 			g.setFont(new Font(GameFrame.fontString, 1, size));
 		}
 		Fonts.drawCenteredString("Start", 1008, 296, 248, 100, g);
-		g.setColor(Color.BLACK);
-		if (highlighted == 1) {
+		
+		if (frame.isLoadPossible()) {
+			g.setColor(Color.BLACK);
+		} else {
+			g.setColor(Color.GRAY);
+		}
+		
+		if (highlighted == 1 && frame.isLoadPossible()) {
 			g.setFont(new Font(GameFrame.fontString, 1, sizeDif + size));
 		} else {
 			g.setFont(new Font(GameFrame.fontString, 1, size));
 		}
 		Fonts.drawCenteredString("Load", 1008, 406, 248, 100, g);
 
+		g.setColor(Color.BLACK);
 		if (highlighted == 2) {
 			g.setFont(new Font(GameFrame.fontString, 1, sizeDif + size));
 		} else {
@@ -223,7 +234,11 @@ public class OverworldPanel extends Panel {
 		if (i == 0 && !Character.isLowerCase(frame.getNextLevel())) {
 			frame.playSound("error", -5f);
 			return;
+		} else if (i == 1 && !frame.isLoadPossible()) {
+			frame.playSound("error", -5f);
+			return;
 		}
+		
 		this.clicked = i;
 		if (i == -1) {
 			return;

@@ -28,6 +28,7 @@ public class MenuPanel extends JPanel implements Playable {
 	private Animation loadingAnim;
 	private AnimationLoader aLoader;
 	
+	
 
 	public MenuPanel(MenuFrame frame) {
 
@@ -44,6 +45,7 @@ public class MenuPanel extends JPanel implements Playable {
 		
 		loadingAnim = aLoader.loadAnimations("/res/anims/loading.txt").get("loading");
 		loadingScreen = iLoader.getImage("/res/LoadingScreen.png");
+		
 		
 
 		repaint();
@@ -68,14 +70,14 @@ public class MenuPanel extends JPanel implements Playable {
 			} else {
 				g.setFont(new Font(GameFrame.fontString, 1, normSizePlay));
 			}
-			Fonts.drawCenteredString("Play", 35, 332, 1230, 204, g);
+			Fonts.drawCenteredString("Play", 45, 357, 1210, 184, g);
 
 			if (highlighted == 1) {
 				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest + sizeDifRest));
 			} else {
 				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest));
 			}
-			Fonts.drawCenteredString("Tutorial", 35, 571, 620, 204, g);
+			Fonts.drawCenteredString("Tutorial", 45, 596, 600, 184, g);
 
 			if (highlighted == 2) {
 				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest + sizeDifRest));
@@ -83,7 +85,7 @@ public class MenuPanel extends JPanel implements Playable {
 				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest));
 
 			}
-			Fonts.drawCenteredString("Settings", 645, 571, 620, 204, g);
+			Fonts.drawCenteredString("Settings", 655, 596, 600, 184, g);
 
 		}
 	}

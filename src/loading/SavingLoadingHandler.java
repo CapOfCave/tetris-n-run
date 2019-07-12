@@ -86,7 +86,7 @@ public class SavingLoadingHandler implements Runnable {
 
 	public void saveLevel(Level level, String url) {
 		levelsToSave.add(level);
-		levelsToSaveUrls.add(url); // TODO Bad Style
+		levelsToSaveUrls.add(url); //  Bad Style, no todo though
 	}
 
 	public boolean isLoaded(String levelUrl) {

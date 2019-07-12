@@ -62,18 +62,9 @@ public class SaveNLoadTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-//		if (fileExists) {
-//			g.drawImage(image3dSaved, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-//					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
-//		} else {
-//			g.drawImage(image3dUnSaved, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-//					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
-//		} TODO remove since not needed
-
 		g.drawImage(akt_animation.getImage(),
 				(int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
 				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), null);
-		// TODO Tile-Render-Reihenfolge
 	}
 
 	@Override

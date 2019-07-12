@@ -3,9 +3,7 @@ package graphics;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -36,7 +34,8 @@ public class OptionPanel extends JPanel {
 		optionButtons.add(new OptionButton(100, 500, 500, "Rotate:", 5, this));
 		optionButtons.add(new OptionButton(100, 550, 500, "Remove:", 6, this));
 		optionButtons.add(new OptionButton(100, 600, 500, "Move the camera:", 7, this));
-		optionButtons.add(new OptionButton(100, 650, 500, "Seppuku: ", 8, this));
+		optionButtons.add(new OptionButton(100, 650, 500, "Retry: ", 8, this));
+		optionButtons.add(new OptionButton(100, 700, 500, "Run: ", 9, this));
 		
 		keyCodes.add(0, 87);
 		keyCodes.add(1, 65);
@@ -47,6 +46,7 @@ public class OptionPanel extends JPanel {
 		keyCodes.add(6, 69);
 		keyCodes.add(7, 17);
 		keyCodes.add(8, 70);
+		keyCodes.add(9, 16);
 
 		this.frame = frame;
 		mouseHandler = new OptionMouseHandler(frame, this);
@@ -57,10 +57,10 @@ public class OptionPanel extends JPanel {
 
 	}
 
-	public OptionPanel(MenuFrame menuFrame, ArrayList<Integer> keyCodes) {
-		this(menuFrame);
-		this.keyCodes = keyCodes;
-	}
+//	public OptionPanel(MenuFrame menuFrame, ArrayList<Integer> keyCodes) {
+//		this(menuFrame);
+//		this.keyCodes = keyCodes;
+//	}
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -114,8 +114,13 @@ public class OptionPanel extends JPanel {
 		return keyCodes;
 	}
 
-	public void setKeyCodes(ArrayList<Integer> keyCodes) {
-		this.keyCodes = keyCodes;
+	public void setKeyCodes(ArrayList<Integer> keyCodes) throws IllegalArgumentException {
+		if (this.keyCodes.size() != keyCodes.size()) {
+			System.err.println("Keycode file Corrupted. Reloading defaults");
+		} else {
+			this.keyCodes = keyCodes;
+		}
+		
 	}
 	
 	public void changeSingleKeyCode(int index, int newKeyCode) {
