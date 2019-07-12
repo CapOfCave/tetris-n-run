@@ -48,7 +48,6 @@ public class PressurePlateTile extends Tile {
 	public void setWorld(World world) {
 		super.setWorld(world);
 		pictures = world.loadAnimations("/res/anims/pressurePlate.txt");
-		// TODO inefficient, aber autofixed later
 		image3d = GraphicalTools.setColor(world.getImage("/res/blocks/PressurePlate.png"), drawColor);
 	}
 

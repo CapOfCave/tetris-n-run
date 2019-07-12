@@ -37,8 +37,19 @@ public class OptionButton {
 			xOffset = g.getFontMetrics().stringWidth(KeyEvent.getKeyText(optionPanel.getKeyCodes().get(indexInArray))) / 2;
 		}
 		
-		g.drawString(KeyEvent.getKeyText(optionPanel.getKeyCodes().get(indexInArray)), x + xBeginOfButtonRel - xOffset, y);
+		g.drawString(getKeyText(optionPanel.getKeyCodes().get(indexInArray)), x + xBeginOfButtonRel - xOffset, y);
 		// g.setFont(new Font("GameFrame.fontString", 1, 24));
+	}
+	
+	public static String getKeyText(int keyCode) {
+		switch(keyCode) {
+		case 32:
+			return "SPACE";
+		case 17:
+			return "CTRL";
+		default:
+			return KeyEvent.getKeyText(keyCode);
+		}
 	}
 
 	public boolean checkIfPressed(int x, int y) {

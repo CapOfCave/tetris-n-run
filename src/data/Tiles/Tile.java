@@ -119,11 +119,6 @@ public abstract class Tile implements DrawAndSortable {
 		return walkable;
 	}
 
-	// TODO remove
-	public void setBlockingTetro(boolean isBlockingTetro) {
-		this.isBlockingTetro = isBlockingTetro;
-	}
-
 	public void setWorld(World world) {
 		this.world = world;
 		img = world.getImage("/res/blocks/block0.png");

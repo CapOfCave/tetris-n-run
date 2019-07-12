@@ -28,6 +28,7 @@ public class MenuPanel extends JPanel implements Playable {
 	private Animation loadingAnim;
 	private AnimationLoader aLoader;
 	
+	
 
 	public MenuPanel(MenuFrame frame) {
 
@@ -44,6 +45,7 @@ public class MenuPanel extends JPanel implements Playable {
 		
 		loadingAnim = aLoader.loadAnimations("/res/anims/loading.txt").get("loading");
 		loadingScreen = iLoader.getImage("/res/LoadingScreen.png");
+		
 		
 
 		repaint();
