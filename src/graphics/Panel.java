@@ -49,7 +49,6 @@ public abstract class Panel extends JPanel implements Playable {
 		tetroDrawPositions.add(new Point(1145, 290));
 		tetroDrawPositions.add(new Point(1025, 406));
 		tetroDrawPositions.add(new Point(1165, 406));
-
 	}
 
 	@Override

@@ -5,4 +5,4 @@ If you want to retry the current section, press <8> or walk to a specific checkp
 You can find different Objects to interact with by pressing <4>: Levers that switch the opening state of same-colored doors, or buttons that spawn a moveable wall when spawned.
 This wall can be grabbed with <4> and then pushed through the level, for example onto a pressure plate. Don't try to pull it though as it isn't grippy.
 If you need a better overview, you can hold <7> and move the camera. You cannot place Tetros in camera mode though.
-That should be enough from our side - you need to figure out the rest by yourself in order to solve the puzzles and to reach the exit.
+That should be enough from our side - you need to figure out the rest by yourself in order to solve the puzzles and to reach the exit. If you need help at any time, feel free to press <10> for a hint.
