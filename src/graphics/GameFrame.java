@@ -82,7 +82,7 @@ public class GameFrame extends JFrame {
 		setBackground(new Color(34, 34, 34));
 		pack();
 		setDefaultCloseOperation(3);
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(menuFrame);
 		gameLoop.start();
 		setVisible(true);
 
@@ -224,6 +224,7 @@ public class GameFrame extends JFrame {
 
 	public void backToMenu() {
 		oPanel.save();
+		menuFrame.setLocationRelativeTo(this);
 		menuFrame.setVisible(true);
 		this.dispose();
 
