@@ -1,9 +1,16 @@
 package loading;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.JarURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.jar.JarEntry;
 
+import data.Animation;
 import data.Level;
 
 public class SavingLoadingHandler implements Runnable {
@@ -12,6 +19,7 @@ public class SavingLoadingHandler implements Runnable {
 	private Thread th;
 	private LevelSaver levelSaver;
 	private ImageLoader imageLoader;
+	private AnimationLoader animationLoader;
 
 	private ArrayList<Level> levelsToSave;
 	private ArrayList<String> levelsToSaveUrls;
@@ -19,8 +27,11 @@ public class SavingLoadingHandler implements Runnable {
 	private ArrayList<String> levelsToLoadUrls;
 	private HashMap<String, Level> loadedLevels;
 	private boolean deleteAllSaveNLoads = false;
+	private boolean everythingLoaded = false;
+	
 
 	private void init(ImageLoader imageLoader) {
+		animationLoader = new AnimationLoader(imageLoader);
 		levelSaver = new LevelSaver();
 		this.imageLoader = imageLoader;
 
@@ -38,8 +49,8 @@ public class SavingLoadingHandler implements Runnable {
 				deleteAllSaveNLoads = false;
 				FileHandler.deleteAllSaveNLoadSaves();
 			} else if (levelsToLoadUrls.size() > 0) {
-				if (!imageLoader.isEverythingLoaded()) {
-					imageLoader.loadAll();
+				if (!everythingLoaded) {
+					loadAll();
 				}
 
 				loadedLevels.put(levelsToLoadUrls.get(0), LevelLoader.loadLevel(levelsToLoadUrls.get(0)));
@@ -111,4 +122,49 @@ public class SavingLoadingHandler implements Runnable {
 				}
 			}
 	}
+	
+	public void loadAll() {
+		everythingLoaded = true;
+		Enumeration<URL> en;
+		try {
+			en = getClass().getClassLoader().getResources("res");
+			if (en.hasMoreElements()) {
+				try {
+					// Thx to
+					// https://stackoverflow.com/questions/5193786/how-to-use-classloader-getresources-correctly/5194002#5194002
+					JarURLConnection metaInf = (JarURLConnection) en.nextElement().openConnection();
+					Enumeration<JarEntry> enumer = metaInf.getJarFile().entries();
+					while (enumer.hasMoreElements()) {
+						String element = enumer.nextElement().getName();
+						if (element.endsWith(".png")) { // additional constraints?
+							imageLoader.loadAndSave("/" + element); // TODO welche?
+						} else if (element.startsWith("res/anims") && element.endsWith(".txt")){
+							animationLoader.loadAndSave("/" + element);
+						}
+					}
+
+				} catch (ClassCastException e) {
+					System.err.println("Dieses Feature funktioniert z.Z. nur beim Exportieren, nicht in Eclipse.");
+					setEclipseVersion(true);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void setEclipseVersion(boolean b) {
+		imageLoader.setEclipseVersion(b);
+		animationLoader.setEclipseVersion(b);
+	}
+	
+	public HashMap<String, Animation> getAnimations(String path) {
+		return animationLoader.getAnimations(path);
+	}
+	
+	public BufferedImage getImage(String path) {
+		return imageLoader.getImage(path);
+	}
+	
 }

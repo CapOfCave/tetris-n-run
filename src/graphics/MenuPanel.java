@@ -11,8 +11,6 @@ import javax.swing.JPanel;
 
 import data.Animation;
 import input.MenuMouseHandler;
-import loading.AnimationLoader;
-import loading.ImageLoader;
 import logics.Playable;
 import tools.Fonts;
 
@@ -24,9 +22,8 @@ public class MenuPanel extends JPanel implements Playable {
 	private BufferedImage menu;
 	private int highlighted = -1;
 	int loadingx = 20;
-	private BufferedImage loadingScreen;
+	private BufferedImage openingScreen;
 	private Animation loadingAnim;
-	private AnimationLoader aLoader;
 	
 	
 
@@ -40,11 +37,8 @@ public class MenuPanel extends JPanel implements Playable {
 		setBackground(Color.WHITE);
 		menu = frame.getImage("/res/Menu.png");
 		
-		ImageLoader iLoader = new ImageLoader();
-		aLoader = new AnimationLoader(iLoader);
-		
-		loadingAnim = aLoader.loadAnimations("/res/anims/loading.txt").get("loading");
-		loadingScreen = iLoader.getImage("/res/LoadingScreen.png");
+		loadingAnim = frame.getAnimations("/res/anims/loading.txt").get("loading");
+		openingScreen = frame.getImage("/res/LoadingScreen.png");
 		
 		
 
@@ -91,7 +85,7 @@ public class MenuPanel extends JPanel implements Playable {
 	}
 	
 	public void drawLoadingScreen(Graphics g) {
-		g.drawImage(loadingScreen, 0, 0, null);
+		g.drawImage(openingScreen, 0, 0, null);
 		g.drawImage(loadingAnim.getImage(), 450, 250, null);
 		loadingAnim.next();
 		if(loadingAnim.getImage() == null)
@@ -152,6 +146,7 @@ public class MenuPanel extends JPanel implements Playable {
 		frame.checkIfLoading();
 		if (frame.isLoading()) {
 			loadingx = (loadingx + 3290) % 2300 - 1000;
+			frame.increaseLoadingTicks();
 		}
 
 	}

@@ -1057,7 +1057,7 @@ public class World {
 	}
 
 	public HashMap<String, Animation> loadAnimations(String url) {
-		return frame.loadAnimation(url);
+		return frame.getAnimations(url);
 	}
 
 }

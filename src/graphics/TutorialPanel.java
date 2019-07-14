@@ -26,9 +26,13 @@ public class TutorialPanel extends JPanel {
 		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
 
-		tutorial = frame.getImage("/res/Tutorial.png");
+		
 		tutorialText = new TutorialText();
 		tutorialText.loadFromFile("/res/tutorial.txt");
+	}
+	
+	public void initImages() {
+		tutorial = frame.getImage("/res/tutorial.png");
 	}
 
 	@Override

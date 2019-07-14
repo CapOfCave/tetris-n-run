@@ -7,9 +7,11 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 
+import data.Animation;
 import data.Level;
 import input.MenuKeyHandler;
 import loading.ImageLoader;
@@ -20,6 +22,8 @@ import sound.SoundPlayer;
 
 public class MenuFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
+
+	private static final int MIN_LOADING_TICKS = 20;
 
 	private SavingLoadingHandler savingLoadingHandler;
 	private SoundPlayer soundPlayer;
@@ -33,6 +37,8 @@ public class MenuFrame extends JFrame {
 	private String loadingLevelUrl;
 
 	private ImageLoader imageLoader;
+
+	private int loadingTicks = MIN_LOADING_TICKS;
 
 	public static void main(String[] args) {
 		SettingsLoader loader = new SettingsLoader(System.getenv("APPDATA") + "\\tetris-n-run\\settings.txt");
@@ -100,6 +106,7 @@ public class MenuFrame extends JFrame {
 	}
 
 	public void startTutorial() {
+		tPanel.initImages();
 		add(tPanel);
 		remove(mPanel);
 		remove(oPanel);
@@ -117,6 +124,7 @@ public class MenuFrame extends JFrame {
 	}
 
 	public void startOption() {
+		oPanel.initImages();
 		add(oPanel);
 		remove(mPanel);
 		remove(tPanel);
@@ -134,11 +142,13 @@ public class MenuFrame extends JFrame {
 	public void loadLevel(String url) {
 		loadingLevelUrl = url;
 		savingLoadingHandler.loadLevel(url);
+		loadingTicks = 0;
+		
 	}
 
 	public void checkIfLoading() {
 		if (loadingLevelUrl != null) {
-			if (savingLoadingHandler.isLoaded(loadingLevelUrl)) {
+			if (savingLoadingHandler.isLoaded(loadingLevelUrl) && loadingTicks >= MIN_LOADING_TICKS) {
 				// Load is ready
 				Level loadedLevel = savingLoadingHandler.getLoadedLevel(loadingLevelUrl);
 
@@ -152,7 +162,7 @@ public class MenuFrame extends JFrame {
 	}
 
 	public boolean isLoading() {
-		return loadingLevelUrl != null;
+		return loadingLevelUrl != null || loadingTicks < MIN_LOADING_TICKS;
 	}
 
 	public ImageLoader getImageLoader() {
@@ -161,6 +171,14 @@ public class MenuFrame extends JFrame {
 
 	public BufferedImage getImage(String path) {
 		return imageLoader.getImage(path);
+	}
+
+	public void increaseLoadingTicks() {
+		loadingTicks++;
+	}
+
+	public HashMap<String, Animation> getAnimations(String url) {
+		return savingLoadingHandler.getAnimations(url);
 	}
 
 }

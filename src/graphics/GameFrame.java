@@ -18,7 +18,6 @@ import data.Level;
 import data.TetroType;
 import data.Tiles.SaveNLoadTile;
 import input.KeyHandler;
-import loading.AnimationLoader;
 import loading.ImageLoader;
 import loading.SavingLoadingHandler;
 import loading.TetroLoader;
@@ -51,7 +50,6 @@ public class GameFrame extends JFrame {
 	private KeyHandler keyHandler;
 	private SavingLoadingHandler savingLoadingHandler;
 	private ImageLoader imageLoader;
-	private AnimationLoader animationLoader;
 
 	private ArrayList<TetroType> tetroTypes;
 
@@ -62,7 +60,6 @@ public class GameFrame extends JFrame {
 		this.menuFrame = menuFrame;
 		imageLoader = menuFrame.getImageLoader();
 		savingLoadingHandler = menuFrame.getSavingLoadingHandler();
-		animationLoader = new AnimationLoader(imageLoader);
 		tetroTypes = new TetroLoader(imageLoader).loadTetros("/res/tetros.txt");
 
 		keyHandler = new KeyHandler(keyCodes);
@@ -295,8 +292,8 @@ public class GameFrame extends JFrame {
 		return tetroTypes;
 	}
 
-	public HashMap<String, Animation> loadAnimation(String url) {
-		return animationLoader.loadAnimations(url);
+	public HashMap<String, Animation> getAnimations(String url) {
+		return menuFrame.getAnimations(url);
 
 	}
 
@@ -304,4 +301,4 @@ public class GameFrame extends JFrame {
 		return loadPossible;
 	}
 	
-} //TODO MenuFrame zentrierung
+}

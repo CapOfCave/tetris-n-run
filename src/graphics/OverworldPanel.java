@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import data.Animation;
 import data.Level;
 import data.TetroType;
-import input.OverworldMouseHandler;
-import loading.AnimationLoader;
-import loading.ImageLoader;
 import input.KeyHandler;
+import input.OverworldMouseHandler;
 import logics.World;
 import tools.Fonts;
 
@@ -32,7 +30,6 @@ public class OverworldPanel extends Panel {
 	private int clicked = -1;
 	private BufferedImage loadingScreen;
 	private Animation loadingAnim;
-	private AnimationLoader aLoader;
 
 	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrame frame, ArrayList<TetroType> tetroTypes) {
 		super(level, keyHandler, frame, tetroTypes);
@@ -45,12 +42,8 @@ public class OverworldPanel extends Panel {
 		addMouseListener(overworldMouseHandler);
 		addMouseMotionListener(overworldMouseHandler);
 
-		
-		ImageLoader iLoader = new ImageLoader();
-		aLoader = new AnimationLoader(iLoader);
-		
-		loadingAnim = aLoader.loadAnimations("/res/anims/loading.txt").get("loading");
-		loadingScreen = iLoader.getImage("/res/LoadingScreen.png");
+		loadingAnim = frame.getAnimations("/res/anims/loading.txt").get("loading");
+		loadingScreen = frame.getImage("/res/LoadingScreen.png");
 
 		frame.checkIfLoadPossible();
 

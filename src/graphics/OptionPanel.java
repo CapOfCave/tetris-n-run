@@ -55,14 +55,11 @@ public class OptionPanel extends JPanel {
 		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
 
-		option = frame.getImage("/res/Optionen.png");
-
 	}
-
-//	public OptionPanel(MenuFrame menuFrame, ArrayList<Integer> keyCodes) {
-//		this(menuFrame);
-//		this.keyCodes = keyCodes;
-//	}
+	
+	public void initImages() {
+		option = frame.getImage("/res/options.png");
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {

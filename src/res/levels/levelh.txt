@@ -286,9 +286,9 @@ Tl;x=40;y=30;amount=2,3,3,2,0,3,2;
 Tl;x=24;y=24;amount=0,0,0,2,7,0,0;
 Tl;x=24;y=44;amount=5,5,5,3,3,7,3;
 
-Td;x=45;y=3;xo=0;yo=-55;name=DekoTurm1;
-Td;x=45;y=7;xo=0;yo=-55;name=DekoTurm1;
-Td;x=45;y=11;xo=0;yo=-55;name=DekoTurm1;
+Td;x=45;y=3;xo=0;yo=-55;name=dekoTurm1;
+Td;x=45;y=7;xo=0;yo=-55;name=dekoTurm1;
+Td;x=45;y=11;xo=0;yo=-55;name=dekoTurm1;
 
 Td;x=44;y=2;xo=0;yo=-8;name=block0v;
 Td;x=46;y=2;xo=0;yo=-8;name=block0v;
@@ -303,9 +303,9 @@ Td;x=44;y=15;xo=0;yo=-8;name=block0w;
 Td;x=2;y=2;xo=0;yo=-8;name=block0e;
 Td;x=2;y=3;xo=0;yo=-8;name=block0e;
 
-Td;x=3;y=6;xo=0;yo=-55;name=DekoTurm2;
-Td;x=3;y=10;xo=0;yo=-55;name=DekoTurm2;
-Td;x=3;y=14;xo=0;yo=-55;name=DekoTurm2;
+Td;x=3;y=6;xo=0;yo=-55;name=dekoTurm2;
+Td;x=3;y=10;xo=0;yo=-55;name=dekoTurm2;
+Td;x=3;y=14;xo=0;yo=-55;name=dekoTurm2;
 
 Td;x=2;y=5;xo=0;yo=-8;name=block0z;
 Td;x=4;y=5;xo=0;yo=-8;name=block0z;

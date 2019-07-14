@@ -17,12 +17,33 @@ public class AnimationLoader {
 
 	
 	private ImageLoader imageLoader;
+	private HashMap<String, HashMap<String, Animation>> animations;
+	private boolean eclipseVersion = false;
+	
 
 	public AnimationLoader(ImageLoader imageLoader) {
 		this.imageLoader = imageLoader;
+		animations = new HashMap<>();
 	}
 	
-	public HashMap<String, Animation> loadAnimations(String url) {
+	public void loadAndSave(String path) {
+		animations.put(path, loadAnimations(path));
+		
+	}
+	public HashMap<String, Animation> getAnimations(String path) {
+		if (animations.get(path) == null) {
+			loadAndSave(path);
+			if (!eclipseVersion) {
+				System.err.println("Had to load Animation at " + path);
+			}
+		}
+		return animations.get(path);
+	}
+
+
+	
+	private HashMap<String, Animation> loadAnimations(String url) {
+		
 		Scanner sc = null;
 		try {
 		if (!LevelLoader.isAbsolute(url)) {
@@ -86,5 +107,10 @@ public class AnimationLoader {
 		}
 		return anims;
 	}
+	
+	public void setEclipseVersion(boolean b) {
+		this.eclipseVersion  = b;
+	}
 
+	
 }
