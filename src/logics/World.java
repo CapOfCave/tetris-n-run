@@ -139,8 +139,8 @@ public class World {
 		}
 
 		for (int i = 0; i < toggleStates.length; i++) {
-			if (toggleStates[i] == true) {
-				updateDoors(i);
+			if (toggleStates[i]) {
+				switchDoorsTogglestateStays(i);
 			}
 		}
 
@@ -805,7 +805,7 @@ public class World {
 		return tileWorld.length;
 	}
 
-	public void updateDoors(int color) {
+	public void switchDoorsTogglestateStays(int color) {
 		for (DoorTile dT : doors) {
 			if (dT.getColorAsInt() == color) {
 				dT.changeState();
@@ -815,7 +815,7 @@ public class World {
 
 	public void switchDoors(int color) {
 		toggleStates[color] = !toggleStates[color];
-		updateDoors(color);
+		switchDoorsTogglestateStays(color);
 	}
 
 	public int getGameBoundsX() {

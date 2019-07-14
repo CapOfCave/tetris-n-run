@@ -78,6 +78,7 @@ public class LevelLoader {
 			} else if (nextLine.startsWith("o")) {
 				String[] attribs = nextLine.split(";");
 				for (int i = 1; i < attribs.length; i++) {
+					toggleStates[i - 1] = Boolean.parseBoolean(attribs[i]);
 				}
 			} else if (nextLine.startsWith("t")) {
 				int x = -100;
@@ -350,7 +351,7 @@ public class LevelLoader {
 		if (error) {
 			System.exit(1);
 		}
-
+		
 		return new Level(rawTetros, arrWorld, doors, entities, tetroAmounts, toggleStates,
 				playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
 	}
