@@ -67,14 +67,6 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 		return x;
 	}
 
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
 	public void setWorld(World world) {
 		this.world = world;
 		if (animPath != null) {

@@ -30,7 +30,7 @@ public class MenuPanel extends JPanel implements Playable {
 	public MenuPanel(MenuFrame frame) {
 
 		this.frame = frame;
-		mouseHandler = new MenuMouseHandler(frame, this);
+		mouseHandler = new MenuMouseHandler(this);
 		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
@@ -92,12 +92,10 @@ public class MenuPanel extends JPanel implements Playable {
 			loadingAnim.next();
 	}
 
-	public void mousePressed(int x, int y) {
+	public void mouseReleased(int x, int y) {
 
 		if (!frame.isLoading()) {
 			if (playContains(x, y)) {
-				frame.playSound("ButtonKlick", -5f);
-
 				File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
 				if (akt_Overworld.exists()) {
 					frame.loadLevel(akt_Overworld.getPath());
@@ -106,14 +104,27 @@ public class MenuPanel extends JPanel implements Playable {
 				}
 
 			} else if (tutorialContains(x, y)) {
-				frame.playSound("ButtonKlick", -5f);
 				frame.startTutorial();
 			} else if (optionsContains(x, y)) {
-				frame.playSound("ButtonKlick", -5f);
 				frame.startOption();
 			}
 		}
 	}
+	
+	public void mousePressed(int x, int y) {
+
+		if (!frame.isLoading()) {
+			if (playContains(x, y)) {
+				frame.playSound("ButtonKlick", -5f);
+			} else if (tutorialContains(x, y)) {
+				frame.playSound("ButtonKlick", -5f);
+			} else if (optionsContains(x, y)) {
+				frame.playSound("ButtonKlick", -5f);
+			}
+		}
+	}
+	
+	
 
 	public void mouseMoved(int x, int y) {
 		if (playContains(x, y)) {

@@ -16,7 +16,7 @@ public class TutorialText {
 	private ArrayList<String[]> finishedContent;
 	private ArrayList<String> unsplitContent;
 
-	private Font font = new Font(GameFrame.fontString, 0, 22);
+	private Font font = new Font(GameFrame.fontString, 0, 19);
 	private boolean createdLines = false;
 
 	public void loadFromFile(String path) {

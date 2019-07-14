@@ -30,6 +30,7 @@ public class SoundPlayer {
 		sounds.put("save", this.getClass().getResource("/res/sounds/save.wav"));
 		sounds.put("glassbreak", this.getClass().getResource("/res/sounds/glassbreak.wav"));
 		sounds.put("menuHover", this.getClass().getResource("/res/sounds/menuHoverSound.wav"));
+		sounds.put("victory", this.getClass().getResource("/res/sounds/victory.wav"));
 
 	}
 
@@ -47,7 +48,7 @@ public class SoundPlayer {
 				float normalisedVolume = (volume - min) / (max - min);
 				float normalisedProduct = normalisedVolume * generalVolume;
 				float product = normalisedProduct * (max - min) + min;
-				gainControl.setValue(Math.min(product, 2.0206f));
+				gainControl.setValue(Math.min(product, 6.0206f));
 				clip.start();
 			} catch (Exception e) {
 				System.err.println("Mal wieder ein Fehler im Sound-System");

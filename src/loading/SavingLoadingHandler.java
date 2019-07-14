@@ -28,6 +28,7 @@ public class SavingLoadingHandler implements Runnable {
 	private HashMap<String, Level> loadedLevels;
 	private boolean deleteAllSaveNLoads = false;
 	private boolean everythingLoaded = false;
+	private ArrayList<String> imagesToLoad;
 	
 
 	private void init(ImageLoader imageLoader) {
@@ -40,6 +41,8 @@ public class SavingLoadingHandler implements Runnable {
 
 		loadedLevels = new HashMap<>();
 		levelsToLoadUrls = new ArrayList<>();
+		
+		imagesToLoad = new ArrayList<>();
 	}
 
 	@Override
@@ -48,6 +51,8 @@ public class SavingLoadingHandler implements Runnable {
 			if (deleteAllSaveNLoads) {
 				deleteAllSaveNLoads = false;
 				FileHandler.deleteAllSaveNLoadSaves();
+			} else if (imagesToLoad.size() > 0) {
+				imageLoader.loadAndSave(imagesToLoad.remove(0));
 			} else if (levelsToLoadUrls.size() > 0) {
 				if (!everythingLoaded) {
 					loadAll();
@@ -98,6 +103,10 @@ public class SavingLoadingHandler implements Runnable {
 	public void saveLevel(Level level, String url) {
 		levelsToSave.add(level);
 		levelsToSaveUrls.add(url); //  Bad Style, no todo though
+	}
+	
+	public void loadImage(String url) {
+		imagesToLoad.add(url);
 	}
 
 	public boolean isLoaded(String levelUrl) {
@@ -151,7 +160,7 @@ public class SavingLoadingHandler implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println("Finished Loading");
 	}
 
 	private void setEclipseVersion(boolean b) {
