@@ -137,6 +137,7 @@ t;x=21;y=45;r=0;t=6
 t;x=35;y=47;r=0;t=5
 t;x=35;y=45;r=0;t=5
 t;x=21;y=37;r=3;t=2
+t;x=8;y=29;r=0;t=0
 
 d;x=5;y=7;r=1;c=0;o=true
 d;x=13;y=7;r=1;c=0;o=false
@@ -190,7 +191,7 @@ e;x=7;y=11;type=switch;url=/res/anims/switch.txt;color=3
 e;x=19;y=3;type=switch;url=/res/anims/switch.txt;color=4
 
 e;x=2;y=14;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=6;cy=16;curl=/res/anims/movingblock.txt;
-e;x=13;y=35;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=9;cy=29;curl=/res/anims/movingblock.txt;
+e;x=13;y=35;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=8;cy=29;curl=/res/anims/movingblock.txt;
 e;x=19;y=35;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=23;cy=29;curl=/res/anims/movingblock.txt;
 
 w;0000000000000000000000000000000000000000000
