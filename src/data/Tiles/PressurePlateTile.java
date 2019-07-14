@@ -78,7 +78,7 @@ public class PressurePlateTile extends Tile {
 		world.playSound("ButtonSound", -15f);
 		moveBlocksOnTile--;
 		if (!pressedByPlayer && moveBlocksOnTile == 0) {
-			world.switchDoors(color);
+			world.switchDoorsTogglestateStays(color);
 			pressedByPlayer = false;
 			image3d = GraphicalTools.setColor(
 					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
@@ -89,7 +89,7 @@ public class PressurePlateTile extends Tile {
 	public void eventWhenLeaving() {
 		world.playSound("ButtonSound", -15f);
 		if (moveBlocksOnTile == 0) {
-			world.switchDoors(color);
+			world.switchDoorsTogglestateStays(color);
 			pressedByPlayer = false;
 			image3d = GraphicalTools.setColor(pictures.get(pressedByPlayer ? "state0" : "state1").getImage(),
 					drawColor);
