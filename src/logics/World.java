@@ -34,6 +34,8 @@ public class World {
 	private static final double min_interaction_distance = 20;
 	private static final double min_interaction_looking_distance = 50;
 	private static final int render_image_offset = 115;
+	private static final int STILL_TICKS_BEFORE_EXIT = 100;
+	private static final double EXITING_SPEED = 5;
 
 	// Variablen
 	protected Rectangle graphicClip;
@@ -81,6 +83,8 @@ public class World {
 	private SaveNLoadTile lastCrossedSALTile = null;
 	private Entity lastTouched = null;
 	private boolean tookBackTetro = false;
+	private Tile exitingTile = null;
+	private int exitTicks = 0;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrame frame) {
 		// Initialisierungen
@@ -139,8 +143,8 @@ public class World {
 		}
 
 		for (int i = 0; i < toggleStates.length; i++) {
-			if (toggleStates[i] == true) {
-				updateDoors(i);
+			if (toggleStates[i]) {
+				switchDoorsTogglestateStays(i);
 			}
 		}
 
@@ -461,11 +465,39 @@ public class World {
 			allEntities.get(i).tick();
 		}
 
+		if (exitingTile != null) {
+			exitingTick();
+		}
+
 		prepareRender();
 
 		// 3D objects
 		renderer.tick();
 
+	}
+
+	private void exitingTick() {
+		
+		
+		if (exitingTile.getX() == player.getX() && exitingTile.getY() == player.getY()) {
+			if (exitTicks == 0) {
+				player.resetSpeed();
+				playSound("victory", 0f);
+			}
+			
+			exitTicks++;
+			if (exitTicks >= STILL_TICKS_BEFORE_EXIT) {
+				frame.changeToOverworld(false);
+				player.resetActionPressed();
+			}
+			
+		} else {
+			player.increaseX(Math.copySign(Math.min(EXITING_SPEED, Math.abs(exitingTile.getX() - player.getX())),
+					exitingTile.getX() - player.getX()));
+			player.increaseY(Math.copySign(Math.min(EXITING_SPEED, Math.abs(exitingTile.getY() - player.getY())),
+					exitingTile.getY() - player.getY()));
+		
+		}
 	}
 
 	private void prepareRender() {
@@ -805,7 +837,7 @@ public class World {
 		return tileWorld.length;
 	}
 
-	public void updateDoors(int color) {
+	public void switchDoorsTogglestateStays(int color) {
 		for (DoorTile dT : doors) {
 			if (dT.getColorAsInt() == color) {
 				dT.changeState();
@@ -815,7 +847,7 @@ public class World {
 
 	public void switchDoors(int color) {
 		toggleStates[color] = !toggleStates[color];
-		updateDoors(color);
+		switchDoorsTogglestateStays(color);
 	}
 
 	public int getGameBoundsX() {
@@ -1058,6 +1090,11 @@ public class World {
 
 	public HashMap<String, Animation> loadAnimations(String url) {
 		return frame.getAnimations(url);
+	}
+
+	public void startExitingSequence(Tile tile) {
+		exitingTile = tile;
+		player.freeze();
 	}
 
 }

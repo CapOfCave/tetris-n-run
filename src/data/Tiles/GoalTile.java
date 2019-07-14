@@ -24,8 +24,12 @@ public class GoalTile extends Tile {
 
 	@Override
 	public void interact() {
-		frame.changeToOverworld(false);
-		world.getPlayer().resetActionPressed();
+		
+	}
+	
+	@Override
+	public void eventWhenEntering() {
+		world.startExitingSequence(this);
 	}
 
 	@Override

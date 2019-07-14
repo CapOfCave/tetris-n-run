@@ -24,18 +24,17 @@ public class Player extends Entity {
 	private Point movingBlockOffset;
 	private int ticksSinceFootstepNoice = 0;
 
-	
 	private final double acc = 0.8;
 	private final double brake = 4.0;
 	private final double maxSpeed = 9.0;
-	
+
 	private final double moveblockacc = 0.2;
 	private final double moveblockmaxSpeed = 4.0;
 	private final double sprintngmaxSpeed = 14.4;
 
 	protected double lastX, lastY;
-	protected double hSpeed;
-	protected double vSpeed;
+	private double hSpeed;
+	private double vSpeed;
 	protected boolean noClip = false;
 
 	protected boolean wantsToGoUp = false;
@@ -46,6 +45,8 @@ public class Player extends Entity {
 	protected double edgeTolerancePercentage = 25;
 
 	private double speedloss = 0;
+
+	private boolean controllable = true;
 //	double relCheckX, relCheckY;
 
 	public Player(World world) {
@@ -55,8 +56,6 @@ public class Player extends Entity {
 		type = "player";
 
 	}
-	
-	
 
 	public Player(World world, int playerX, int playerY) {
 		this(world);
@@ -105,9 +104,17 @@ public class Player extends Entity {
 		lastX = x;
 		lastY = y;
 		akt_animation.next();
-		checkInput();
-		checkActionPressEvent();
-		move();
+		if (controllable) {
+			checkInput();
+			checkActionPressEvent();
+			move();
+
+			if (world.getKeyHandler().getKillPlayer()) {
+				world.getKeyHandler().resetKillPlayer();
+				world.interactWithLastUsedSALTile();
+				return;
+			}
+		}
 		// footstep sound
 		if (hSpeed != 0 || vSpeed != 0) {
 			if (ticksSinceFootstepNoice > 12) {
@@ -122,15 +129,11 @@ public class Player extends Entity {
 		} else {
 			ticksSinceFootstepNoice = 0;
 		}
+
 		checkTile();
 		if (movingBlockInHand != null)
 			movingBlockInHand.setPosition(x, y);
-		
-		if (world.getKeyHandler().getKillPlayer()) {
-			world.getKeyHandler().resetKillPlayer();
-			world.interactWithLastUsedSALTile();
-			
-		}
+
 	}
 
 	private void checkActionPressEvent() {
@@ -145,13 +148,14 @@ public class Player extends Entity {
 
 	private void checkInput() {
 
-		if (world.getKeyHandler().getShift()) {
-			sprinting = true;
-		} else {
-			sprinting = false;
-		}
+		if (isControllable()) {
 
-		if (!world.getKeyHandler().getKameraKey()) {
+			if (world.getKeyHandler().getShift()) {
+				sprinting = true;
+			} else {
+				sprinting = false;
+			}
+
 			wantsToGoUp = world.getKeyHandler().getUpKey();
 			wantsToGoLeft = world.getKeyHandler().getLeftKey();
 			wantsToGoDown = world.getKeyHandler().getDownKey();
@@ -211,19 +215,19 @@ public class Player extends Entity {
 
 	protected double getExtremePosition(int direction) {
 //		if (movingBlockInHand == null) {
-			switch (direction % 4) {
-			case 0:
-				return -GameFrame.BLOCKSIZE / 2 + vSpeed;
-			case 1:
-				return GameFrame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den rechts-links-bug
-			case 2:
-				return GameFrame.BLOCKSIZE / 2 + 1 + vSpeed;
-			case 3:
-				return -GameFrame.BLOCKSIZE / 2 + hSpeed;
-			default:
-				System.err.println("Fehler @LivingEntity#getExtremePosition bei " + this);
-				return 0;
-			}
+		switch (direction % 4) {
+		case 0:
+			return -GameFrame.BLOCKSIZE / 2 + vSpeed;
+		case 1:
+			return GameFrame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den rechts-links-bug
+		case 2:
+			return GameFrame.BLOCKSIZE / 2 + 1 + vSpeed;
+		case 3:
+			return -GameFrame.BLOCKSIZE / 2 + hSpeed;
+		default:
+			System.err.println("Fehler @LivingEntity#getExtremePosition bei " + this);
+			return 0;
+		}
 //		} else {
 //			switch (direction % 4) {
 //			case 0:
@@ -303,7 +307,7 @@ public class Player extends Entity {
 				} else {
 					minDist = movingBlockInHand.getY() - movingBlockInHand.getTileY() * GameFrame.BLOCKSIZE;
 				}
-				
+
 			}
 
 			break;
@@ -374,7 +378,7 @@ public class Player extends Entity {
 
 	private boolean isRelAccessible(boolean wallsOnly, double dy, double dx) {
 
-		//dx, dy: Äußerer Hitbox - rand
+		// dx, dy: Äußerer Hitbox - rand
 		double x = this.x;
 		double y = this.y;
 		if (movingBlockInHand != null) {
@@ -394,18 +398,18 @@ public class Player extends Entity {
 		}
 		// Empty Tile
 		if (movingBlockInHand != null) {
-			//Empty Tile?
-			if (world.getTileAt(movingBlockInHand.getTileY(dy), movingBlockInHand.getTileX(dx)) == null) { 
+			// Empty Tile?
+			if (world.getTileAt(movingBlockInHand.getTileY(dy), movingBlockInHand.getTileX(dx)) == null) {
 				// Gucke ob Tetro drauf
-				return (world.isTetroAt(movingBlockInHand.getTileY(dy), movingBlockInHand.getTileX(dx))); 
+				return (world.isTetroAt(movingBlockInHand.getTileY(dy), movingBlockInHand.getTileX(dx)));
 			}
-			
-			return (world.isTetroAt(movingBlockInHand.getTileY(dy), movingBlockInHand.getTileX(dx))
-					&& world.getTileAt(movingBlockInHand.getTileY(dy), movingBlockInHand.getTileX(dx)).isWalkableWithTetro())
+
+			return (world.isTetroAt(movingBlockInHand.getTileY(dy), movingBlockInHand.getTileX(dx)) && world
+					.getTileAt(movingBlockInHand.getTileY(dy), movingBlockInHand.getTileX(dx)).isWalkableWithTetro())
 					|| world.getTileAt(movingBlockInHand.getTileY(dy), movingBlockInHand.getTileX(dx)).isWalkable();
-			
+
 		} else {
-			if (world.getTileAt(getTileY(dy), getTileX(dx)) == null) { //Empty Tile?
+			if (world.getTileAt(getTileY(dy), getTileX(dx)) == null) { // Empty Tile?
 				return (world.isTetroAt(getTileY(dy), getTileX(dx))); // Gucke ob Tetro drauf
 			}
 			// tetro or walkable tile?
@@ -413,9 +417,7 @@ public class Player extends Entity {
 					&& world.getTileAt(getTileY(dy), getTileX(dx)).isWalkableWithTetro())
 					|| world.getTileAt(getTileY(dy), getTileX(dx)).isWalkable();
 		}
-		
 
-		
 	}
 
 	public double getAcc() {
@@ -552,7 +554,7 @@ public class Player extends Entity {
 
 	private void updateRotation() {
 
-		// Wenn Gegensätze gedrückt werden
+		// Wenn Gegensätze (oder nichts) gedrückt werden
 		if (Math.abs(hSpeed) > Math.abs(vSpeed)) {
 			rotation = -90 * ((int) Math.copySign(1, hSpeed) - 2);
 		} else if (Math.abs(hSpeed) < Math.abs(vSpeed)) {
@@ -720,6 +722,33 @@ public class Player extends Entity {
 
 	private boolean isRelAccessible(double dy, double dx) {
 		return isRelAccessible(false, dy, dx);
+	}
+
+	private boolean isControllable() {
+		return controllable && !world.getKeyHandler().getKameraKey();
+	}
+
+	public void freeze() {
+		controllable = false;
+
+	}
+
+	public void increaseX(double d) {
+		this.x += d;
+	}
+
+	public void increaseY(double dy) {
+		this.y += dy;
+	}
+
+	public void resetSpeed() {
+		animation_key = "stand2";
+		if (anims.get(animation_key) != akt_animation) {
+			akt_animation = anims.get(animation_key);
+			akt_animation.reset();
+		}
+		hSpeed = 0;
+		vSpeed = 0;
 	}
 
 }
