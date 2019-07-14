@@ -1,8 +1,8 @@
-You are trying to escape the building you happen to be trapped inside of. Your problem: You may not touch the floor and can only walk over so-called Tetros from which you need to build your path to the exit.
-You can place Tetros by dragging them from the right into the game window. Rotate them by pressing the right mouse button or <5> on your keyboard while holding if needed. The last Tetro placed may be removed by pressing <6>.
-When crossing a new checkpoint, you get new Tetros to place in the following part. Plus, your progress is saved, even after exiting the level or the game and can be loaded in the overworld.
-If you want to retry the current section, press <8> or walk to a specific checkpoint and interact to load a former game state.
-You can find different Objects to interact with by pressing <4>: Levers that switch the opening state of same-colored doors, or buttons that spawn a moveable wall when spawned. You can interact with them from the adjacent tile when looking in their direction.
-This wall can be grabbed with <4> and then pushed through the level, for example onto a pressure plate. Don't try to pull it though as it isn't grippy.
+You are trying to escape the building you happen to be trapped inside of. There is only one problem: You cannot touch the floor and are only able move by using so-called Tetros with which you need to build your path to exit.
+You can place Tetros by dragging them out of your inventory into the level. Rotate Tetros by pressing the right mouse button or <5> on your keyboard. The last Tetro placed can be removed by pressing <6>.
+When reaching a new checkpoint, you obtain new Tetros to use in the following part. Your progress is saved, even after exiting the level or the game and can be loaded in the overworld.
+If you want to retry the current passage, press <8> or walk to a specific checkpoint and interact with it to load the previous progress.
+You can find different Objects to use by pressing <4>: Levers that either close or open doors of the same color, or buttons that spawn a movable block. You can interact with a block from an adjacent tile when looking in its direction.
+This block can be grabbed with <4> and then pushed through the level, for example onto a pressure plate. However, you can only push and never pull it.
 If you need a better overview, you can hold <7> and move the camera. You cannot place Tetros in camera mode though.
 That should be enough from our side - you need to figure out the rest by yourself in order to solve the puzzles and to reach the exit. If you need help at any time, feel free to press <10> for a hint.

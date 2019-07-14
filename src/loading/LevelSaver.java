@@ -29,6 +29,7 @@ public class LevelSaver extends Saver {
 
 		// Toggle states
 		boolean[] toggleStates = level.getToggleStates();
+		sout(toggleStates);
 		outpLines.add("o;" + toggleStates[0] + ";" + toggleStates[1] + ";" + toggleStates[2] + ";" + toggleStates[3]
 				+ ";" + toggleStates[4] + ";" + toggleStates[5]);
 		int[] tetroAmounts = level.getTetroAmounts();
@@ -139,6 +140,12 @@ public class LevelSaver extends Saver {
 		}
 
 		return outpLines;
+	}
+
+	public static void sout(boolean[] toggleStates) {
+		for(int i = 0; i < toggleStates.length;i++) {
+			System.out.println(i + ": " + toggleStates[i]);
+		}
 	}
 
 }
