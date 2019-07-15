@@ -127,6 +127,10 @@ public class GameFrame extends JFrame {
 	
 	public void checkIfLoadPossible() {
 		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
+		if (!file.exists()) {
+			loadPossible = false;
+			return;
+		}
 		int folder_length = file.listFiles().length;
 		String path = null;
 		for (File f : file.listFiles()) {

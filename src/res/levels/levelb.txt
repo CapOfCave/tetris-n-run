@@ -81,6 +81,10 @@ t;x=57;y=10;r=0;t=0
 t;x=61;y=9;r=0;t=2
 t;x=43;y=9;r=2;t=2
 
+t;x=41;y=5;r=2;t=1
+t;x=42;y=6;r=0;t=4
+t;x=39;y=7;r=0;t=0
+
 d;x=7;y=7;r=1;c=0;o=false
 d;x=15;y=6;r=1;c=0;o=false
 d;x=18;y=12;r=1;c=0;o=false
@@ -125,7 +129,7 @@ e;x=29;y=11;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=28;cy
 e;x=32;y=12;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=32;cy=13;curl=/res/anims/movingblock.txt;
 e;x=31;y=10;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=30;cy=6;curl=/res/anims/movingblock.txt;
 e;x=44;y=7;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=43;cy=6;curl=/res/anims/movingblock.txt;
-e;x=42;y=14;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=57;cy=6;curl=/res/anims/movingblock.txt;
+e;x=44;y=14;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=57;cy=6;curl=/res/anims/movingblock.txt;
 
 e;rx=135;ry=360;type=switch;url=/res/anims/switch.txt;color=0
 e;rx=810;ry=405;type=switch;url=/res/anims/switch.txt;color=0
@@ -166,7 +170,6 @@ Tl;x=5;y=8;amount=0,0,0,0,0,0,0;tip=Mit den Schaltern kannst du alle Türen der e
 Tl;x=14;y=11;amount=0,0,0,0,0,0,0;tip=Stelle dir die Fragen: "Welche Tür, durch die ich gehen muss,;tip2=ist verschlossen? Wie kann ich sie öffnen?"
 Tl;x=19;y=12;amount=3,3,3,3,3,3,1;tip=Du musst nicht direkt auf den Schaltern stehen, um sie zu;tip2=betätigen - es reicht, auf einem benachbarten Feld zu stehen;tip3=und sich in ihre Richtung zu wenden.
 Tl;x=28;y=10;amount=0,0,0,0,0,0,0;tip=Bei Interaktion mit einem Button wird ein Schiebeblock gespawnt. Steuerung;tip2=für Schiebeblöcke: Leertaste kurz drücken zum Aufnehmen, dann in Richtung;tip3=des Blockes laufen um ihn zu schieben, zum Loslassen erneut Leertaste;tip4=drücken oder in die entgegengesetzte Richtung laufen.
-Tl;x=42;y=7;amount=0,0,0,0,0,0,0;a=true;tip=Du kannst auch mit dem vorletzen Speicherpunkt interagieren, ;tip2=um einen weiter zurückliegenden Spielstand zu laden.
 Tl;x=34;y=16;amount=10,10,10,10,10,10,10;tip=In Schieberätseln ist es meist klüger, etwas "verschwenderischer" mit den;tip2=Tetros umzugehen.;tip3=Überlege dir vorher, wie Block und Spieler sich bewegen müssen und setze;tip4=die Tetros entsprechend.
 Tl;x=46;y=9;amount=0,0,0,0,0,0,0;tip=Überlege dir vorher, welchen Weg du wählen willst.;tip2=Pass auf - nicht alle Wege sind mit Schiebeblock passierbar!
 Tl;x=60;y=10;amount=1,3,2,1,2,2,0;tip=In Legerätseln ist eine möglichst effektive Verwendung jedes Tetros;tip2=gefordert.
