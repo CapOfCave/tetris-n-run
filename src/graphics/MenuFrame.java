@@ -75,7 +75,7 @@ public class MenuFrame extends JFrame {
 
 		setLayout(new CardLayout());
 		add(mPanel);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/res/gegner.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/res/icon.png")));
 		addKeyListener(keyHandler);
 		setResizable(false);
 		setDefaultCloseOperation(0);

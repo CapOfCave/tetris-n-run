@@ -71,7 +71,7 @@ public class GameFrame extends JFrame {
 		this.lastLevelSolved = levelSolved;
 		setLayout(new CardLayout());
 		add(oPanel);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/res/gegner.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/res/icon.png")));
 		gameLoop = new GameLoop(oPanel);
 		addKeyListener(keyHandler);
 		setResizable(false);
