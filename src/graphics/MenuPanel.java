@@ -17,7 +17,7 @@ import tools.Fonts;
 public class MenuPanel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
 
-	private MenuFrame frame;
+	private MenuFrameHandler frame;
 	private MenuMouseHandler mouseHandler;
 	private BufferedImage menu;
 	private int highlighted = -1;
@@ -27,11 +27,11 @@ public class MenuPanel extends JPanel implements Playable {
 	
 	
 
-	public MenuPanel(MenuFrame frame) {
+	public MenuPanel(MenuFrameHandler frame) {
 
 		this.frame = frame;
 		mouseHandler = new MenuMouseHandler(this);
-		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
+		setPreferredSize(new Dimension(GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
 		setBackground(Color.WHITE);
@@ -60,23 +60,23 @@ public class MenuPanel extends JPanel implements Playable {
 			int normSizeRest = 100;
 
 			if (highlighted == 0) {
-				g.setFont(new Font(GameFrame.fontString, 1, sizeDifPlay + normSizePlay));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, sizeDifPlay + normSizePlay));
 			} else {
-				g.setFont(new Font(GameFrame.fontString, 1, normSizePlay));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizePlay));
 			}
 			Fonts.drawCenteredString("Play", 45, 357, 1210, 184, g);
 
 			if (highlighted == 1) {
-				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest + sizeDifRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
 			} else {
-				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
 			}
 			Fonts.drawCenteredString("Tutorial", 45, 596, 600, 184, g);
 
 			if (highlighted == 2) {
-				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest + sizeDifRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
 			} else {
-				g.setFont(new Font(GameFrame.fontString, 1, normSizeRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
 
 			}
 			Fonts.drawCenteredString("Settings", 655, 596, 600, 184, g);

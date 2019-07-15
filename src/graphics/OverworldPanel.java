@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 import data.Animation;
@@ -30,9 +31,16 @@ public class OverworldPanel extends Panel {
 	private int clicked = -1;
 	private BufferedImage loadingScreen;
 	private Animation loadingAnim;
+	// feld auf dem man steht, sonst nichts
+	private char nextLevel;
+	private int lastLevelSolved = 0;
 
-	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrame frame, ArrayList<TetroType> tetroTypes) {
+	private boolean loadPossible;
+
+	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrameHandler frame, ArrayList<TetroType> tetroTypes,
+			int lastLevelSolved) {
 		super(level, keyHandler, frame, tetroTypes);
+		this.lastLevelSolved = lastLevelSolved;
 		backOverworld = frame.getImage("/res/imgs/backOverworld.png");
 		buttonImg = frame.getImage("/res/imgs/overworldButton.png");
 		buttonImgPressed = frame.getImage("/res/imgs/overworldButtonPressed.png");
@@ -45,8 +53,32 @@ public class OverworldPanel extends Panel {
 		loadingAnim = frame.getAnimations("/res/anims/loading.txt").get("loading");
 		loadingScreen = frame.getImage("/res/LoadingScreen.png");
 
-		frame.checkIfLoadPossible();
+		checkIfLoadPossible();
 
+	}
+
+	public void checkIfLoadPossible() {
+		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
+		if (!file.exists()) {
+			loadPossible = false;
+			return;
+		}
+		int folder_length = file.listFiles().length;
+		String path = null;
+		for (File f : file.listFiles()) {
+			if (f.getName().startsWith(folder_length + "saveNLoad")) {
+				path = f.getAbsolutePath();
+			}
+		}
+		loadPossible = file.exists() && path != null;
+	}
+
+	public void startLevel() { // auf dem man steht
+		if (nextLevelExists()) {
+			save();
+			frame.initiateDeleteAllSALSaves();
+			frame.loadLevel("/res/levels/level" + nextLevel + ".txt");
+		}
 	}
 
 	@Override
@@ -79,15 +111,14 @@ public class OverworldPanel extends Panel {
 			drawDebug(gameGraphics);
 		}
 	}
-	
+
 	public void drawLoadingScreen(Graphics g) {
 		g.drawImage(loadingScreen, 0, 0, null);
 		g.drawImage(loadingAnim.getImage(), 254, 86, null);
 		loadingAnim.next();
-		if(loadingAnim.getImage() == null)
+		if (loadingAnim.getImage() == null)
 			loadingAnim.next();
 	}
-
 
 	@Override
 	public void secondPassed() {
@@ -98,59 +129,59 @@ public class OverworldPanel extends Panel {
 	}
 
 	public void drawLevelCaption(Graphics g) {
-		if (Character.isLowerCase(frame.getNextLevel())) {
+		if (nextLevelExists()) {
 			g.setColor(Color.BLACK);
 
-			switch ((Character.getNumericValue(frame.getNextLevel()) - 9)) {
+			switch (getNextLevelAsInt()) {
 			case 1:
-				g.setFont(new Font(GameFrame.fontString, 1, 34));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
 				g.drawString("A new", 1070, 150);
 				g.drawString("beginning", 1050, 190);
-				g.setFont(new Font(GameFrame.fontString, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
 				break;
 
 			case 2:
-				g.setFont(new Font(GameFrame.fontString, 1, 34));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
 				g.drawString("Doors and", 1048, 150);
 				g.drawString("Switches", 1060, 190);
-				g.setFont(new Font(GameFrame.fontString, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
 				break;
 
 			case 4:
-				g.setFont(new Font(GameFrame.fontString, 1, 34));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
 				g.drawString("Crossroad", 1045, 150);
-				g.setFont(new Font(GameFrame.fontString, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
 				break;
 
 			case 5:
-				g.setFont(new Font(GameFrame.fontString, 1, 34));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
 				g.drawString("Pass the", 1062, 150);
 				g.drawString("destination!", 1040, 190);
-				g.setFont(new Font(GameFrame.fontString, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
 				break;
 
 			case 6:
-				g.setFont(new Font(GameFrame.fontString, 1, 34));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
 				g.drawString("Keep track!", 1040, 150);
-				g.setFont(new Font(GameFrame.fontString, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
 				break;
 
 			case 7:
-				g.setFont(new Font(GameFrame.fontString, 1, 34));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
 				g.drawString("A lack of", 1062, 150);
 				g.drawString("Tetros.", 1075, 190);
-				g.setFont(new Font(GameFrame.fontString, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
 				break;
 
 			default:
-				g.setFont(new Font(GameFrame.fontString, 1, 44));
-				g.drawString("Level " + (Character.getNumericValue(frame.getNextLevel()) - 9), 1055, 150);
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
+				g.drawString("Level " + getNextLevelAsInt(), 1055, 150);
 				break;
 			}
 
 		} else {
 			g.setColor(Color.GRAY);
-			g.setFont(new Font(GameFrame.fontString, 1, 34));
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
 			g.drawString("Kein Level", 1048, 150);
 
 			// g.drawString("Play", 1085, 360);
@@ -184,31 +215,31 @@ public class OverworldPanel extends Panel {
 
 		// Color stays gray if needed
 
-		if (highlighted == 0 && Character.isLowerCase(frame.getNextLevel())) {
-			g.setFont(new Font(GameFrame.fontString, 1, sizeDif + size));
+		if (highlighted == 0 && nextLevelExists()) {
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, sizeDif + size));
 		} else {
-			g.setFont(new Font(GameFrame.fontString, 1, size));
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, size));
 		}
 		Fonts.drawCenteredString("Start", 1008, 296, 248, 100, g);
-		
-		if (frame.isLoadPossible()) {
+
+		if (loadPossible) {
 			g.setColor(Color.BLACK);
 		} else {
 			g.setColor(Color.GRAY);
 		}
-		
-		if (highlighted == 1 && frame.isLoadPossible()) {
-			g.setFont(new Font(GameFrame.fontString, 1, sizeDif + size));
+
+		if (highlighted == 1 && loadPossible) {
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, sizeDif + size));
 		} else {
-			g.setFont(new Font(GameFrame.fontString, 1, size));
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, size));
 		}
 		Fonts.drawCenteredString("Load", 1008, 406, 248, 100, g);
 
 		g.setColor(Color.BLACK);
 		if (highlighted == 2) {
-			g.setFont(new Font(GameFrame.fontString, 1, sizeDif + size));
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, sizeDif + size));
 		} else {
-			g.setFont(new Font(GameFrame.fontString, 1, size));
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, size));
 
 		}
 
@@ -224,14 +255,14 @@ public class OverworldPanel extends Panel {
 	}
 
 	public void click(int i) {
-		if (i == 0 && !Character.isLowerCase(frame.getNextLevel())) {
+		if (i == 0 && !nextLevelExists()) {
 			frame.playSound("error", -5f);
 			return;
-		} else if (i == 1 && !frame.isLoadPossible()) {
+		} else if (i == 1 && !loadPossible) {
 			frame.playSound("error", -5f);
 			return;
 		}
-		
+
 		this.clicked = i;
 		if (i == -1) {
 			return;
@@ -243,5 +274,29 @@ public class OverworldPanel extends Panel {
 		return clicked == i;
 	}
 
+	public int getNextLevelAsInt() {
+		return (int) nextLevel - 96;
+	}
+
+	public boolean nextLevelExists() {
+		return Character.isLowerCase(nextLevel);
+	}
+
+	public void setNextLevel(char nextLevel) {
+		this.nextLevel = nextLevel;
+	}
+
+	public boolean updateLastLevelSolved() {
+		if (getNextLevelAsInt() > lastLevelSolved) {
+			lastLevelSolved = getNextLevelAsInt();
+			return true;
+
+		}
+		return false;
+	}
+
+	public int getLastLevelSolved() {
+		return lastLevelSolved;
+	}
 
 }

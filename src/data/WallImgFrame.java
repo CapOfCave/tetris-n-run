@@ -3,7 +3,7 @@ package data;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import graphics.Renderer;
 import logics.World;
 
@@ -43,9 +43,9 @@ public class WallImgFrame implements DrawAndSortable {
 	@Override
 	public double getHeight() {
 		if ((imageId % 2) == 1 || (((int) (imageId / 2)) % 2) == 1) { // Luft unten
-			return (posY - 0.5) * GameFrame.BLOCKSIZE;
+			return (posY - 0.5) * GameFrameHandler.BLOCKSIZE;
 		} else {
-			return (posY + 1) * GameFrame.BLOCKSIZE; // Beide Wand, also wahrscheinlich oben
+			return (posY + 1) * GameFrameHandler.BLOCKSIZE; // Beide Wand, also wahrscheinlich oben
 			
 			//negativ: tief, verdeckt
 		}
@@ -64,8 +64,8 @@ public class WallImgFrame implements DrawAndSortable {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(images[imageId], (int) ((posX - .5) * GameFrame.BLOCKSIZE - world.cameraX()),
-				(int) ((posY - 1.5) * GameFrame.BLOCKSIZE - world.cameraY()), null); // -1.5 weil um 1 nach oben
+		g.drawImage(images[imageId], (int) ((posX - .5) * GameFrameHandler.BLOCKSIZE - world.cameraX()),
+				(int) ((posY - 1.5) * GameFrameHandler.BLOCKSIZE - world.cameraY()), null); // -1.5 weil um 1 nach oben
 																						// angehoben (Mauerfront)
 //		g.drawImage(images[imageId], 45, 45, null);
 //		g.setColor(Color.BLACK);
@@ -89,12 +89,12 @@ public class WallImgFrame implements DrawAndSortable {
 
 	@Override
 	public double getX() {
-		return posX * GameFrame.BLOCKSIZE;
+		return posX * GameFrameHandler.BLOCKSIZE;
 	}
 
 	@Override
 	public double getY() {
-		return posY * GameFrame.BLOCKSIZE;
+		return posY * GameFrameHandler.BLOCKSIZE;
 	}
 	
 	@Override

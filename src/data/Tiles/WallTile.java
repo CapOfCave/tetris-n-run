@@ -2,7 +2,7 @@ package data.Tiles;
 
 import java.awt.Graphics;
 
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import logics.World;
 
 /**
@@ -31,7 +31,7 @@ public class WallTile extends Tile {
 
 	@Override
 	public void drawBackground(Graphics g, float interpolation) {
-		g.drawImage(img, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
+		g.drawImage(img, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
+				(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY()), null);
 	}
 }

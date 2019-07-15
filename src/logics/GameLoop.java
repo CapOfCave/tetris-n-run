@@ -90,7 +90,6 @@ public class GameLoop implements Runnable {
 			running = false;
 			try {
 				th.join(1000);
-				System.out.println("Stopped succesfully");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

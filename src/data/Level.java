@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import data.Tiles.DoorTile;
 import data.Tiles.Tile;
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import logics.entities.Entity;
 
 /**
@@ -33,7 +33,7 @@ public class Level {
 		this.toggleStates = toggleStates;
 	}
 
-	public void init(GameFrame frame) {
+	public void init(GameFrameHandler frame) {
 		for (Tile[] row : arrWorld) {
 			for (Tile tile : row) {
 				if (tile != null)

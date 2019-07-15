@@ -13,10 +13,8 @@ public class Pics {
 	int width;
 	int amount;
 
-	public Pics(String url, int width, ImageLoader imageLoader) {
-
-		this(imageLoader.getImage(url), width);
-
+	public Pics(String url, int width, ImageLoader imageLoader, boolean loadingThread) {
+		this(imageLoader.getImage(url, loadingThread), width);
 	}
 
 	public Pics(BufferedImage img, int width) {

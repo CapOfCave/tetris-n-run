@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 
 import data.Tiles.EmptyTile;
 import data.Tiles.Tile;
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import logics.World;
 
 public class MovingBlock extends Entity {
@@ -22,7 +22,7 @@ public class MovingBlock extends Entity {
 	private static Tile emptyTile = new EmptyTile('0', 0, 0);
 
 	public MovingBlock(World world, double x, double y) {
-		super(world, x, y, animPath, new Rectangle(0, 0, GameFrame.BLOCKSIZE, GameFrame.BLOCKSIZE));
+		super(world, x, y, animPath, new Rectangle(0, 0, GameFrameHandler.BLOCKSIZE, GameFrameHandler.BLOCKSIZE));
 		lastX = x;
 		lastY = y;
 

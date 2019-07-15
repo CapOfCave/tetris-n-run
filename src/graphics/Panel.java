@@ -29,17 +29,18 @@ public abstract class Panel extends JPanel implements Playable {
 	protected float interpolation;
 	protected int ups;
 	protected int fps;
-	protected GameFrame frame;
+	protected GameFrameHandler frame;
 	protected World world;
 	protected boolean loading = false;
 	int loadingScreenProgression = 0;
 
-	public Panel(Level level, KeyHandler keyHandler, GameFrame frame, ArrayList<TetroType> tetroTypes) {
+	public Panel(Level level, KeyHandler keyHandler, GameFrameHandler frame, ArrayList<TetroType> tetroTypes) {
 		this.keyHandler = keyHandler;
-		this.frame = frame;
-		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
-		level.init(frame);
 		this.tetroTypes = tetroTypes;
+		this.frame = frame;
+		setPreferredSize(new Dimension(GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT));
+		
+		
 		tetroDrawPositions = new ArrayList<>();
 
 		tetroDrawPositions.add(new Point(1070, 72));
@@ -135,9 +136,9 @@ public abstract class Panel extends JPanel implements Playable {
 		if (text.length > 0) {
 			for (int i = 0; i < text.length; i++) {
 				if (text[i] != null) {
-					g.setFont(new Font(GameFrame.fontString, Font.PLAIN, text[i].getFontSize())); // 18 / 20
+					g.setFont(new Font(GameFrameHandler.FONTSTRING, Font.PLAIN, text[i].getFontSize())); // 18 / 20
 					g.setColor(new Color(0, 0, 0, text[i].getOpacity()));
-					g.drawString(text[i].getContent(), 185, 705 + (i * GameFrame.CONSOLETEXTMARGINY) - text[i].getOffset());
+					g.drawString(text[i].getContent(), 185, 705 + (i * GameFrameHandler.CONSOLETEXTMARGINY) - text[i].getOffset());
 				}
 			}
 		}

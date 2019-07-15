@@ -3,7 +3,7 @@ package data.Tiles;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import logics.World;
 
 public class GoalTile extends Tile {
@@ -34,8 +34,8 @@ public class GoalTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
+		g.drawImage(image3d, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
+				(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY()), null);
 	}
 
 	@Override

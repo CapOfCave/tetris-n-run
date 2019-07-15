@@ -27,7 +27,7 @@ public class AnimationLoader {
 	}
 	
 	public void loadAndSave(String path) {
-		animations.put(path, loadAnimations(path));
+		animations.put(path, loadAnimations(path, true));
 		
 	}
 	public HashMap<String, Animation> getAnimations(String path) {
@@ -42,7 +42,7 @@ public class AnimationLoader {
 
 
 	
-	private HashMap<String, Animation> loadAnimations(String url) {
+	private HashMap<String, Animation> loadAnimations(String url, boolean loadingThread) {
 		
 		Scanner sc = null;
 		try {
@@ -71,7 +71,7 @@ public class AnimationLoader {
 				String name = nextLine.substring(nextLine.indexOf(" "), nextLine.indexOf("=")).trim();
 				try {
 					pics.put(name, new Pics(nextLine.substring(nextLine.indexOf("\"") + 1, nextLine.length() - 1),
-							Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" "))), imageLoader));
+							Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" "))), imageLoader, loadingThread));
 				} catch (IllegalArgumentException e) {
 					System.err.println("Fehler mit dem Dateiformat von " + url);
 					e.printStackTrace();

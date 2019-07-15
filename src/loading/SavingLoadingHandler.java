@@ -12,6 +12,7 @@ import java.util.jar.JarEntry;
 
 import data.Animation;
 import data.Level;
+import data.TetroType;
 
 public class SavingLoadingHandler implements Runnable {
 
@@ -160,7 +161,6 @@ public class SavingLoadingHandler implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Finished Loading");
 	}
 
 	private void setEclipseVersion(boolean b) {
@@ -172,8 +172,12 @@ public class SavingLoadingHandler implements Runnable {
 		return animationLoader.getAnimations(path);
 	}
 	
-	public BufferedImage getImage(String path) {
+	public BufferedImage getImage(String path) { //TODO unused
 		return imageLoader.getImage(path);
+	}
+
+	public ArrayList<TetroType> getTetros(String string) {
+		return new TetroLoader(imageLoader).loadTetros("/res/tetros.txt");
 	}
 	
 }

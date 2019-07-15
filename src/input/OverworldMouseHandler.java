@@ -5,18 +5,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import graphics.OverworldPanel;
 import logics.World;
 
 public class OverworldMouseHandler implements MouseListener, MouseMotionListener {
 
 	OverworldPanel panel;
-	GameFrame frame;
+	GameFrameHandler frame;
 	World overworld;
 	PointerInfo a;
 
-	public OverworldMouseHandler(GameFrame frame, OverworldPanel panel, World world) {
+	public OverworldMouseHandler(GameFrameHandler frame, OverworldPanel panel, World world) {
 		this.frame = frame;
 		this.overworld = world;
 		this.panel = panel;
@@ -61,7 +61,7 @@ public class OverworldMouseHandler implements MouseListener, MouseMotionListener
 		
 		if (!frame.isLoading()) {
 			if (startContains(x, y) && panel.isClicked(0)) {
-				frame.startLevel();
+				panel.startLevel();
 			}
 
 			if (loadContains(x, y)&& panel.isClicked(1)) {

@@ -15,26 +15,26 @@ public class ImageLoader {
 	private HashMap<String, BufferedImage> images;
 	private boolean eclipseVersion = false;
 
-	
-
 	public ImageLoader() {
 		images = new HashMap<>();
 	}
-
-	
 
 	public void loadAndSave(String path) {
 		images.put(path, loadImage(path));
 	}
 
-	public BufferedImage getImage(String path) {
+	public BufferedImage getImage(String path, boolean loadingThread) {
 		if (images.get(path) == null) {
 			loadAndSave(path);
-			if (!eclipseVersion) {
+			if (!eclipseVersion && !loadingThread) {
 				System.err.println("Had to load Image at " + path);
 			}
 		}
 		return images.get(path);
+	}
+
+	public BufferedImage getImage(String path) {
+		return getImage(path, false);
 	}
 
 	private static BufferedImage loadImage(String path) {
@@ -49,6 +49,6 @@ public class ImageLoader {
 	}
 
 	public void setEclipseVersion(boolean b) {
-		this.eclipseVersion  = b;
+		this.eclipseVersion = b;
 	}
 }

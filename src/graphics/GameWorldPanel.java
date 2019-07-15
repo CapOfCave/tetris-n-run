@@ -39,7 +39,7 @@ public class GameWorldPanel extends Panel {
 	private int currentFocusTicks = 0;
 	private int focusedTetroType = -1;
 
-	public GameWorldPanel(Level level, KeyHandler keyHandler, GameFrame frame, ArrayList<TetroType> tetroTypes) {
+	public GameWorldPanel(Level level, KeyHandler keyHandler, GameFrameHandler frame, ArrayList<TetroType> tetroTypes) {
 		super(level, keyHandler, frame, tetroTypes);
 
 		world = new World(gamePanel, level, keyHandler, frame);
@@ -59,8 +59,8 @@ public class GameWorldPanel extends Panel {
 		super.paintComponent(g);
 
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT);
-		g.setFont(new Font(GameFrame.fontString, 1, 44));
+		g.fillRect(0, 0, GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT);
+		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
 		g.setColor(Color.BLACK);
 
 		Graphics2D previewGraphics = (Graphics2D) g.create(54, 680, 1000, 1000);
@@ -77,7 +77,7 @@ public class GameWorldPanel extends Panel {
 		g.drawImage(backLevel, 0, 0, 1300, 900, null);
 
 		g.setColor(Color.BLACK);
-		g.setFont(new Font(GameFrame.fontString, 1, 44));
+		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
 		g.drawString("Overworld", 1020, 585);
 
 		drawConsole(g);
@@ -153,7 +153,7 @@ public class GameWorldPanel extends Panel {
 						0, img);
 			}
 
-			g.setFont(new Font(GameFrame.fontString, 1, 25));
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 25));
 			if (i % 2 == 0 && world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
 				g.drawString("" + world.getTetroAmount()[i], 1212, 153 + 58 * i + i / 2);
 			} else if (world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {

@@ -1,16 +1,9 @@
 package graphics;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.swing.JFrame;
 
 import data.Animation;
 import data.ConsoleLine;
@@ -18,82 +11,51 @@ import data.Level;
 import data.TetroType;
 import data.Tiles.SaveNLoadTile;
 import input.KeyHandler;
-import loading.ImageLoader;
-import loading.SavingLoadingHandler;
-import loading.TetroLoader;
-import logics.GameLoop;
-import sound.SoundPlayer;
 
 /**
  * @author Lars Created on 05.08.2018
  * 
  *         Der Rahmen, der alles hält.
  */
-public class GameFrame extends JFrame {
+public class GameFrameHandler {
 
-	private static final long serialVersionUID = 1L;
 	public static final int PANEL_WIDTH = 1300, PANEL_HEIGHT = 900;
 	public static final int BLOCKSIZE = 45;
 	public static final int CONSOLETEXTMARGINY = 21;
-	public static final String fontString = "Times New Roman";
+	public static final String FONTSTRING = "Times New Roman";
 
-	private MenuFrame menuFrame;
+	private Frame frame;
+
 	private OverworldPanel oPanel;
 	private GameWorldPanel lPanel;
-	private GameLoop gameLoop;
-	private char nextLevel; // feld auf dem man steht, sonst nichts
-	private int lastLevelSolved = 0;
+
+	
 	private boolean inOverworld = true;
 	private ConsoleLine[] text;
-	private SoundPlayer soundPlayer;
 
 	private KeyHandler keyHandler;
-	private SavingLoadingHandler savingLoadingHandler;
-	private ImageLoader imageLoader;
 
 	private ArrayList<TetroType> tetroTypes;
 
 	private String loadingLevelUrl = null;
-	private boolean loadPossible;
 
-	public GameFrame(ArrayList<Integer> keyCodes, int levelSolved, MenuFrame menuFrame, Level level) {
-		this.menuFrame = menuFrame;
-		imageLoader = menuFrame.getImageLoader();
-		savingLoadingHandler = menuFrame.getSavingLoadingHandler();
-		tetroTypes = new TetroLoader(imageLoader).loadTetros("/res/tetros.txt");
+	public GameFrameHandler(Frame frame, ArrayList<Integer> keyCodes, int levelSolved,
+			Level level) {
+		this.frame = frame;
+		tetroTypes = frame.getTetros("/res/tetros.txt");
 
 		keyHandler = new KeyHandler(keyCodes);
-		oPanel = new OverworldPanel(level, keyHandler, this, tetroTypes);
+
+		oPanel = new OverworldPanel(level, keyHandler, this, tetroTypes, levelSolved);
+		level.init(this);
 
 		initConsole();
 
-		soundPlayer = new SoundPlayer();
-		this.lastLevelSolved = levelSolved;
-		setLayout(new CardLayout());
-		add(oPanel);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/res/icon.png")));
-		gameLoop = new GameLoop(oPanel);
-		addKeyListener(keyHandler);
-		setResizable(false);
-		setDefaultCloseOperation(0);
-		setBackground(new Color(34, 34, 34));
-		pack();
-		setDefaultCloseOperation(3);
-		setLocationRelativeTo(menuFrame);
-		gameLoop.start();
-		setVisible(true);
-
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				if (inOverworld) {
-					oPanel.save();
-				}
-			}
-		});
+		frame.add(oPanel);
+		frame.addKeyListener(keyHandler);
 
 	}
-	
+
 	private void initConsole() {
 		text = new ConsoleLine[7];
 		text[0] = null;
@@ -110,61 +72,32 @@ public class GameFrame extends JFrame {
 		File overworldFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
 		if (!died) {// Finished the level
 			initiateDeleteAllSALSaves();
-			if (((int) nextLevel - 96) > lastLevelSolved) {
-				lastLevelSolved = ((int) nextLevel - 96);
+			if (oPanel.updateLastLevelSolved()) {
 				overworldFile.delete();
 			}
+			
 		}
 
 		if (!overworldFile.exists()) {
-			loadLevel("/res/levels/overworld" + lastLevelSolved + ".txt");
+			loadLevel("/res/levels/overworld" + oPanel.getLastLevelSolved() + ".txt");
 		}
-		checkIfLoadPossible();
+		oPanel.checkIfLoadPossible();
 		show(oPanel, true);
 		inOverworld = true;
 
 	}
-	
-	public void checkIfLoadPossible() {
-		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
-		if (!file.exists()) {
-			loadPossible = false;
-			return;
-		}
-		int folder_length = file.listFiles().length;
-		String path = null;
-		for (File f : file.listFiles()) {
-			if (f.getName().startsWith(folder_length + "saveNLoad")) {
-				path = f.getAbsolutePath();
-			}
-		}
-		loadPossible =  file.exists() && path != null;
-	}
-
-	public void startLevel() { // auf dem man steht
-		if (Character.isLowerCase(nextLevel)) {
-			oPanel.save();
-			initiateDeleteAllSALSaves();
-			loadLevel("/res/levels/level" + nextLevel + ".txt");
-		}
-	}
-
-	public void loadLevel(String url) {
-		// clearText(); //TODO nach geschmack einfügen
-		loadingLevelUrl = url; // Aufpassen auf 2 Sachen laden!
-		savingLoadingHandler.loadLevel(url);
-	}
 
 	public void checkIfLoadingHasFinished() {
 		if (loadingLevelUrl != null) {
-			if (savingLoadingHandler.isLoaded(loadingLevelUrl)) {
+			if (frame.isLoaded(loadingLevelUrl)) {
 
-				Level loadedLevel = savingLoadingHandler.getLoadedLevel(loadingLevelUrl);
+				Level loadedLevel = frame.getLoadedLevel(loadingLevelUrl);
 				if (isOverworld(loadingLevelUrl)) {
-					show(new OverworldPanel(loadedLevel, keyHandler, this, tetroTypes), true);
+					show(new OverworldPanel(loadedLevel, keyHandler, this, tetroTypes, oPanel.getLastLevelSolved()), true);
 				} else {
 					show(new GameWorldPanel(loadedLevel, keyHandler, this, tetroTypes), false);
 				}
+				loadedLevel.init(this);
 				loadingLevelUrl = null;
 
 			}
@@ -175,9 +108,15 @@ public class GameFrame extends JFrame {
 		return loadingLevelUrl.contains("overworld");
 	}
 
-	private void initiateDeleteAllSALSaves() {
-		savingLoadingHandler.deleteAllSaveNLoads();
-		savingLoadingHandler.abortLoadingSAL();
+	protected void initiateDeleteAllSALSaves() {
+		frame.initiateDeleteAllSALSaves();
+
+	}
+
+	public void loadLevel(String url) {
+		// clearText(); //TODO nach geschmack einfügen
+		loadingLevelUrl = url; // Aufpassen auf 2 Sachen laden!
+		frame.loadLevel(url);
 	}
 
 	// Level to level
@@ -185,7 +124,7 @@ public class GameFrame extends JFrame {
 		loadLevel(path); // TODO was soll das Tile ? Siehe commit vom ca. 26.06.2019
 	}
 
-	public void loadLegacyLevel() { // From saveNLoad
+	public void loadLegacyLevel() { // After pressing Load in overworld
 		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
 		int folder_length = file.listFiles().length;
 		String path = null;
@@ -225,22 +164,12 @@ public class GameFrame extends JFrame {
 
 	public void backToMenu() {
 		oPanel.save();
-		menuFrame.setLocationRelativeTo(this);
-		menuFrame.setVisible(true);
-		this.dispose();
+		frame.changeToMenuFrame();
 
 	}
 
 	public void playSound(String sound, float volume) {
-		soundPlayer.playSound(sound, volume);
-	}
-
-	public char getNextLevel() {
-		return nextLevel;
-	}
-
-	public void setNextLevel(char nextLevel) {
-		this.nextLevel = nextLevel;
+		frame.playSound(sound, volume);
 	}
 
 	public ConsoleLine[] getText() {
@@ -264,16 +193,16 @@ public class GameFrame extends JFrame {
 	}
 
 	public void save(Level level, String url) {
-		savingLoadingHandler.saveLevel(level, url);
+		frame.saveLevel(level, url);
 	}
 
 	private void show(Panel panel, boolean isOverworld) {
-		add(panel);
+		frame.add(panel);
 		if (panel != oPanel && oPanel != null) {
-			remove(oPanel);
+			frame.remove(oPanel);
 		}
 		if (panel != lPanel && lPanel != null) {
-			remove(lPanel);
+			frame.remove(lPanel);
 		}
 		if (isOverworld) {
 			oPanel = (OverworldPanel) panel;
@@ -281,15 +210,17 @@ public class GameFrame extends JFrame {
 			lPanel = (GameWorldPanel) panel;
 		}
 
-		gameLoop.changePlayable(panel);
+		frame.changePlayable(panel);
 	}
 
 	public boolean isLoading() {
 		return loadingLevelUrl != null;
 	}
 
+	
+	
 	public BufferedImage getImage(String url) {
-		return imageLoader.getImage(url);
+		return frame.getImage(url);
 	}
 
 	public ArrayList<TetroType> getTetroTypes() {
@@ -297,12 +228,24 @@ public class GameFrame extends JFrame {
 	}
 
 	public HashMap<String, Animation> getAnimations(String url) {
-		return menuFrame.getAnimations(url);
+		return frame.getAnimations(url);
 
 	}
 
-	public boolean isLoadPossible() {
-		return loadPossible;
+	public void windowClosing() {
+		if (inOverworld) {
+			oPanel.save();
+		}
 	}
-	
+
+	public void cleanUp() {
+		frame.remove(oPanel);
+		frame.removeKeyListener(keyHandler);
+
+	}
+
+	public OverworldPanel getOPanel() {
+		return oPanel;
+	}
+
 }

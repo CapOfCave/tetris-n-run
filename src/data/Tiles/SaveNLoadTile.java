@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import data.Animation;
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import logics.World;
 
 public class SaveNLoadTile extends Tile {
@@ -63,8 +63,8 @@ public class SaveNLoadTile extends Tile {
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		g.drawImage(akt_animation.getImage(),
-				(int) (posX * GameFrame.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
-				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), null);
+				(int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX() + akt_animation.getOffsetX()),
+				(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY() + akt_animation.getOffsetY()), null);
 	}
 
 	@Override

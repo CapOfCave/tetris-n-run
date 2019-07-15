@@ -18,7 +18,7 @@ import data.Tiles.PressurePlateTile;
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import logics.entities.Entity;
 import logics.entities.MovingBlock;
 import logics.entities.MovingBlockSpawner;
@@ -151,12 +151,12 @@ public class LevelLoader {
 				}
 
 				if (rcx == -1 || rcy == -1) {
-					rcx = cx * GameFrame.BLOCKSIZE;
-					rcy = cy * GameFrame.BLOCKSIZE;
+					rcx = cx * GameFrameHandler.BLOCKSIZE;
+					rcy = cy * GameFrameHandler.BLOCKSIZE;
 				}
 				if (rx == -1 || ry == -1) {
-					rx = x * GameFrame.BLOCKSIZE;
-					ry = y * GameFrame.BLOCKSIZE;
+					rx = x * GameFrameHandler.BLOCKSIZE;
+					ry = y * GameFrameHandler.BLOCKSIZE;
 				}
 				if (type != null && rx >= 0 && ry >= 0) {
 					if (type.equals("switch")) {
@@ -353,7 +353,7 @@ public class LevelLoader {
 		}
 		
 		return new Level(rawTetros, arrWorld, doors, entities, tetroAmounts, toggleStates,
-				playerX * GameFrame.BLOCKSIZE, playerY * GameFrame.BLOCKSIZE);
+				playerX * GameFrameHandler.BLOCKSIZE, playerY * GameFrameHandler.BLOCKSIZE);
 	}
 
 	// private static void initWallTiles(Tile[][] arrWorld) {

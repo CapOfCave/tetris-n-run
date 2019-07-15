@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import data.Animation;
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import logics.World;
 import tools.GraphicalTools;
 
@@ -48,7 +48,7 @@ public class PressurePlateTile extends Tile {
 	public void setWorld(World world) {
 		super.setWorld(world);
 		pictures = world.loadAnimations("/res/anims/pressurePlate.txt");
-		image3d = GraphicalTools.setColor(world.getImage("/res/blocks/PressurePlate.png"), drawColor);
+		image3d = GraphicalTools.setColor(world.getImage("/res/blocks/pressurePlate.png"), drawColor);
 	}
 
 	@Override
@@ -98,8 +98,8 @@ public class PressurePlateTile extends Tile {
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-				(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
+		g.drawImage(image3d, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
+				(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY()), null);
 	}
 
 	@Override

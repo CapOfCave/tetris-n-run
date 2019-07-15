@@ -3,7 +3,7 @@ package data;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import loading.ImageLoader;
 
 /**
@@ -55,7 +55,7 @@ public class TetroType {
 		for (int j = 0; j < hitbox.length; j++) {
 			for (int i = 0; i < hitbox[j].length; i++) {
 				if (hitbox[j][i]) {
-					drawBlock(g, i, j, x, y, rotation, GameFrame.BLOCKSIZE, img);
+					drawBlock(g, i, j, x, y, rotation, GameFrameHandler.BLOCKSIZE, img);
 				}
 			}
 		}
@@ -109,7 +109,7 @@ public class TetroType {
 
 	public Pics getSliced() {
 		if (sliced == null) {
-			sliced = new Pics("/res/slicedTetros/slicedPane" + colorInt + ".png", GameFrame.BLOCKSIZE, imageLoader);
+			sliced = new Pics("/res/slicedTetros/slicedPane" + colorInt + ".png", GameFrameHandler.BLOCKSIZE, imageLoader, false);
 		}
 		return sliced;
 	}

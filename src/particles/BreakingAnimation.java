@@ -1,7 +1,7 @@
 package particles;
 
 import data.Pics;
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import logics.World;
 
 public class BreakingAnimation extends ParticleAnimation {
@@ -15,7 +15,7 @@ public class BreakingAnimation extends ParticleAnimation {
 		super(world);
 		imgs = pics;
 		for (int i = 0; i < imgs.getAmount(); i++) {
-			particles.add(new Particle(world, x * GameFrame.BLOCKSIZE, y * GameFrame.BLOCKSIZE,
+			particles.add(new Particle(world, x * GameFrameHandler.BLOCKSIZE, y * GameFrameHandler.BLOCKSIZE,
 					Math.random() * 2 * maxSpeed - maxSpeed, Math.random() * 2 * maxSpeed - maxSpeed, null, lifeSpan,
 					imgs.get(i)));
 		}

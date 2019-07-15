@@ -1,5 +1,5 @@
-pics55 pcs0 = "/res/blocks/PressurePlate.png"
-pics55 pcs1 = "/res/blocks/PressurePlate2.png"
+pics55 pcs0 = "/res/blocks/pressurePlate.png"
+pics55 pcs1 = "/res/blocks/pressurePlate2.png"
 
 anim state1 = pcs0.0
 anim state0 = pcs1.0

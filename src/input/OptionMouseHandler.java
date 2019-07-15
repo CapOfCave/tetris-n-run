@@ -3,15 +3,15 @@ package input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import graphics.MenuFrame;
+import graphics.MenuFrameHandler;
 import graphics.OptionPanel;
 
 public class OptionMouseHandler implements MouseListener {
 
-	MenuFrame frame;
+	MenuFrameHandler frame;
 	OptionPanel panel;
 
-	public OptionMouseHandler(MenuFrame frame, OptionPanel panel) {
+	public OptionMouseHandler(MenuFrameHandler frame, OptionPanel panel) {
 		this.frame = frame;
 		this.panel = panel;
 	}

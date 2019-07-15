@@ -19,11 +19,11 @@ public class OptionPanel extends JPanel {
 	private ArrayList<Integer> keyCodes;
 	private ArrayList<OptionButton> optionButtons;
 
-	private MenuFrame frame;
+	private MenuFrameHandler frame;
 	private OptionMouseHandler mouseHandler;
 	private BufferedImage option;
 
-	public OptionPanel(MenuFrame frame) {
+	public OptionPanel(MenuFrameHandler frame) {
 		keyCodes = new ArrayList<Integer>();
 		optionButtons = new ArrayList<OptionButton>();
 		optionButtons.add(new OptionButton(100, 250, 500 ,"Up:", 0, this));
@@ -52,7 +52,7 @@ public class OptionPanel extends JPanel {
 
 		this.frame = frame;
 		mouseHandler = new OptionMouseHandler(frame, this);
-		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
+		setPreferredSize(new Dimension(GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
 
 	}
@@ -83,7 +83,6 @@ public class OptionPanel extends JPanel {
 	}
 
 	public void mousePressed(int x, int y) {
-		
 		repaint();
 		
 		for(int i = 0; i < optionButtons.size(); i++) {

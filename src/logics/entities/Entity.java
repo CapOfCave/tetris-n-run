@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import data.Animation;
 import data.DrawAndSortable;
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import graphics.Renderer;
 import logics.World;
 
@@ -117,19 +117,19 @@ public abstract class Entity implements Serializable, DrawAndSortable {
 	}
 	
 	protected int getTileX(double dx) { //dx vom Zentrum aus
-		return (int) ((x + dx + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
+		return (int) ((x + dx + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE);
 	}
 
 	protected int getTileY(double dy) {
-		return (int) ((y + dy + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
+		return (int) ((y + dy + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE);
 	}
 
 	public int getTileX() {
-		return (int) ((x + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
+		return (int) ((x + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE);
 	}
 	
 	public int getTileY() {
-		return (int) ((y + GameFrame.BLOCKSIZE / 2) / GameFrame.BLOCKSIZE);
+		return (int) ((y + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE);
 	}
 	@Override
 	public int getPriorityInDrawQueue() {

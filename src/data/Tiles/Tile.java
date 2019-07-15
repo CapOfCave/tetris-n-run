@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import data.DrawAndSortable;
-import graphics.GameFrame;
+import graphics.GameFrameHandler;
 import graphics.Renderer;
 import logics.World;
 
@@ -18,7 +18,7 @@ public abstract class Tile implements DrawAndSortable {
 
 	protected char key;
 	protected int posX, posY;
-	protected GameFrame frame;
+	protected GameFrameHandler frame;
 	protected boolean walkable;
 	protected boolean walkableWithTetro;
 	protected boolean tetroPlacable;
@@ -48,11 +48,11 @@ public abstract class Tile implements DrawAndSortable {
 	}
 
 	public double getX() {
-		return posX * GameFrame.BLOCKSIZE;
+		return posX * GameFrameHandler.BLOCKSIZE;
 	}
 
 	public double getY() {
-		return posY * GameFrame.BLOCKSIZE;
+		return posY * GameFrameHandler.BLOCKSIZE;
 	}
 
 	public BufferedImage getImg() {
@@ -139,7 +139,7 @@ public abstract class Tile implements DrawAndSortable {
 
 	@Override
 	public double getHeight() {
-		return posY * GameFrame.BLOCKSIZE;
+		return posY * GameFrameHandler.BLOCKSIZE;
 	}
 
 	@Override
@@ -155,8 +155,8 @@ public abstract class Tile implements DrawAndSortable {
 
 	public void drawBackground(Graphics g, float interpolation) {
 		if (needsBackGround) {
-			g.drawImage(img, (int) (posX * GameFrame.BLOCKSIZE - world.cameraX()),
-					(int) (posY * GameFrame.BLOCKSIZE - world.cameraY()), null);
+			g.drawImage(img, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
+					(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY()), null);
 		}
 	}
 
@@ -177,7 +177,7 @@ public abstract class Tile implements DrawAndSortable {
 		// do nothing
 	}
 
-	public void setFrame(GameFrame frame) {
+	public void setFrame(GameFrameHandler frame) {
 		this.frame = frame;
 	}
 	

@@ -14,16 +14,16 @@ import input.TutorialMouseHandler;
 public class TutorialPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private MenuFrame frame;
+	private MenuFrameHandler frame;
 	private TutorialMouseHandler mouseHandler;
 	private BufferedImage tutorial;
 	private TutorialText tutorialText;
 	private final int textWidth = 265;
 
-	public TutorialPanel(MenuFrame frame) {
+	public TutorialPanel(MenuFrameHandler frame) {
 		this.frame = frame;
 		mouseHandler = new TutorialMouseHandler(frame, this);
-		setPreferredSize(new Dimension(GameFrame.PANEL_WIDTH, GameFrame.PANEL_HEIGHT));
+		setPreferredSize(new Dimension(GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT));
 		addMouseListener(mouseHandler);
 
 		
@@ -40,10 +40,10 @@ public class TutorialPanel extends JPanel {
 		super.paintComponent(g);
 		g.drawImage(tutorial, 0, 0, null);
 		g.setColor(Color.BLACK);
-		g.setFont(new Font(GameFrame.fontString, 1, 55));
+		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 55));
 		g.drawString("Menu", 1035, 823);
 		
-		g.setFont(new Font(GameFrame.fontString, 1, 28));
+		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 28));
 		g.drawString("Tutorial1:", 60, 80);
 		g.drawString("Tutorial2:", 365, 80);
 		g.drawString("Tutorial3:", 670, 80);
