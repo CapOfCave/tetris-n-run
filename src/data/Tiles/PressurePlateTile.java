@@ -17,7 +17,8 @@ public class PressurePlateTile extends Tile {
 	boolean pressedByPlayer = false;
 	int moveBlocksOnTile = 0;
 	Color drawColor = Color.BLACK;
-	private BufferedImage image3d;
+	private BufferedImage image3dBase;
+	private BufferedImage image3dRing;
 
 	public PressurePlateTile(char key, int posX, int posY) {
 		super(key, posX, posY, false, true, true);
@@ -48,7 +49,8 @@ public class PressurePlateTile extends Tile {
 	public void setWorld(World world) {
 		super.setWorld(world);
 		pictures = world.loadAnimations("/res/anims/pressurePlate.txt");
-		image3d = GraphicalTools.setColor(world.getImage("/res/blocks/pressurePlate.png"), drawColor);
+		image3dBase = pictures.get("preview").getImage();
+		image3dRing = GraphicalTools.setColor(pictures.get("previewR").getImage(), drawColor);
 	}
 
 	@Override
@@ -57,8 +59,9 @@ public class PressurePlateTile extends Tile {
 		pressedByPlayer = true;
 		if (moveBlocksOnTile == 0) {
 			world.switchDoorsTogglestateStays(color);
-			image3d = GraphicalTools.setColor(
-					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
+			image3dRing = GraphicalTools.setColor(
+					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "stateR0" : "stateR1").getImage(), drawColor);
+			image3dBase = pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage();
 		}
 	}
 
@@ -68,8 +71,9 @@ public class PressurePlateTile extends Tile {
 		moveBlocksOnTile++;
 		if (!pressedByPlayer && moveBlocksOnTile == 1) {
 			world.switchDoorsTogglestateStays(color);
-			image3d = GraphicalTools.setColor(
-					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
+			image3dRing = GraphicalTools.setColor(
+					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "stateR0" : "stateR1").getImage(), drawColor);
+			image3dBase = pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage();
 		}
 	}
 
@@ -80,8 +84,9 @@ public class PressurePlateTile extends Tile {
 		if (!pressedByPlayer && moveBlocksOnTile == 0) {
 			world.switchDoorsTogglestateStays(color);
 			pressedByPlayer = false;
-			image3d = GraphicalTools.setColor(
-					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage(), drawColor);
+			image3dRing = GraphicalTools.setColor(
+					pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "stateR0" : "stateR1").getImage(), drawColor);
+			image3dBase = pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage();
 		}
 	}
 
@@ -91,15 +96,18 @@ public class PressurePlateTile extends Tile {
 		if (moveBlocksOnTile == 0) {
 			world.switchDoorsTogglestateStays(color);
 			pressedByPlayer = false;
-			image3d = GraphicalTools.setColor(pictures.get(pressedByPlayer ? "state0" : "state1").getImage(),
+			image3dRing = GraphicalTools.setColor(pictures.get(pressedByPlayer ? "stateR0" : "stateR1").getImage(),
 					drawColor);
+			image3dBase = pictures.get(pressedByPlayer || moveBlocksOnTile > 0 ? "state0" : "state1").getImage();
 		}
 	}
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
-		g.drawImage(image3d, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
-				(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY()), null);
+		g.drawImage(image3dBase, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
+				(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY())-2, null);
+		g.drawImage(image3dRing, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
+				(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY())-2, null);
 	}
 
 	@Override
