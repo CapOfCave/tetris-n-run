@@ -56,9 +56,6 @@ w;000000000100000011000001000
 w;000000000111111111111111000
 w;000000000000000000000000000
 
-//0123456789012345678901234
-//0000000000111111111122222
-
 ###
 Tl;x=4;y=8;amount=1,1,1,1,1,0,1;tip=Baue einen Weg aus den Tetros zum nächsten Checkpoint.;tip2=Dort, wo du ein Tetro platziert hast, kann sich der Spieler bewegen.
 Tl;x=15;y=4;amount=3,0,0,0,0,0,0;tip=Du bekommst an jedem Checkpoint neue, für den folgenden Bereich;tip2=benötigte Tetros. Setze die passenden Tetros in die Lücken.
@@ -70,7 +67,7 @@ Tl;x=16;y=31;amount=3,1,0,1,1,1,1;tip=Manchmal ist es notwendig, ein bestimmtes 
 
 Td;x=10;y=16;xo=0;yo=0;name=ventilator
 
-Td;x=2;y=16;xo=0;yo=-34;name=block0b;p=1;
+Td;x=2;y=16;xo=0;yo=-34;name=block0b;p=2;
 Td;x=1;y=16;xo=0;yo=-8;name=block0e
 Td;x=22;y=22;xo=-45;yo=-79;name=block0d
 Td;x=21;y=22;xo=45;yo=-8;name=block0w
@@ -99,3 +96,4 @@ Td;x=5;y=31;xo=-45;yo=-34;name=block0a;p=1;
 Td;x=4;y=31;xo=0;yo=-8;name=block0p
 Td;x=4;y=29;xo=0;yo=-8;name=block0s
 Td;x=1;y=29;xo=-45;yo=-8;name=block0w
+c;96209

@@ -214,7 +214,6 @@ public class Player extends Entity {
 	}
 
 	protected double getExtremePosition(int direction) {
-//		if (movingBlockInHand == null) {
 		switch (direction % 4) {
 		case 0:
 			return -GameFrameHandler.BLOCKSIZE / 2 + vSpeed;
@@ -228,22 +227,6 @@ public class Player extends Entity {
 			System.err.println("Fehler @LivingEntity#getExtremePosition bei " + this);
 			return 0;
 		}
-//		} else {
-//			switch (direction % 4) {
-//			case 0:
-//				return movingBlockInHand.getY() - y - GameFrame.BLOCKSIZE / 2 + vSpeed;
-//			case 1:
-//				return movingBlockInHand.getX() - x + GameFrame.BLOCKSIZE / 2 + 1 + hSpeed; // +1: Verhindert den
-//			// rechts-links-bug
-//			case 2:
-//				return movingBlockInHand.getY() - y + GameFrame.BLOCKSIZE / 2 + 1 + vSpeed;
-//			case 3:
-//				return movingBlockInHand.getX() - x - GameFrame.BLOCKSIZE / 2 + hSpeed;
-//			default:
-//				System.err.println("Fehler @LivingEntity#getExtremePosition bei " + this);
-//				return 0;
-//			}
-//		}
 	}
 
 	private void checkTile() {
@@ -269,6 +252,11 @@ public class Player extends Entity {
 
 	public void setMovingBlock(MovingBlock movingBlock) {
 		this.movingBlockInHand = movingBlock;
+
+		// set position values
+		x = movingBlock.getX() + (getDirection() % 2) * (getDirection() - 2) * GameFrameHandler.BLOCKSIZE;
+		y = movingBlock.getY() - ((getDirection() + 1) % 2) * (getDirection() - 1) * GameFrameHandler.BLOCKSIZE;
+
 		this.movingBlockOffset = new Point((int) (movingBlock.getX() - x), (int) (movingBlock.getY() - y));
 	}
 
@@ -289,7 +277,7 @@ public class Player extends Entity {
 	}
 
 	protected void bump(double speedloss) {
-		world.playSound("metal" + (int) (Math.random() * 4), -40f + 3.6f * (float) speedloss);
+		world.playSound("metal" + (int) (Math.random() * 4), Math.min(-40f + 3.6f * (float) speedloss, -3f));
 	}
 
 	private void move_contact_solid(int rotation, boolean inv) {
@@ -389,11 +377,12 @@ public class Player extends Entity {
 		// + BlockSize / 2, da dy, dx vom Zentrum aus gemessen werden
 		// world bounds
 		if ((x + GameFrameHandler.BLOCKSIZE / 2 + dx) >= world.getMaxX()
-				|| (y + GameFrameHandler.BLOCKSIZE / 2 + dy) >= world.getMaxY() || (x + GameFrameHandler.BLOCKSIZE / 2 + dx) < 0
-				|| (y + GameFrameHandler.BLOCKSIZE / 2 + dy) < 0) {
+				|| (y + GameFrameHandler.BLOCKSIZE / 2 + dy) >= world.getMaxY()
+				|| (x + GameFrameHandler.BLOCKSIZE / 2 + dx) < 0 || (y + GameFrameHandler.BLOCKSIZE / 2 + dy) < 0) {
 			return false;
 		}
-		if (!wallsOnly && world.isEntityAt(this, y + GameFrameHandler.BLOCKSIZE / 2 + dy, x + GameFrameHandler.BLOCKSIZE / 2 + dx)) {
+		if (!wallsOnly && world.isEntityAt(this, y + GameFrameHandler.BLOCKSIZE / 2 + dy,
+				x + GameFrameHandler.BLOCKSIZE / 2 + dx)) {
 			return false;
 		}
 		// Empty Tile
@@ -663,7 +652,8 @@ public class Player extends Entity {
 		// nach links-movement (TL-BL)
 		if (hSpeed < 0) {
 			if (!isRelAccessible(-GameFrameHandler.BLOCKSIZE / 2, getExtremePosition(3))) {
-				if (isRelAccessible(-GameFrameHandler.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
+				if (isRelAccessible(
+						-GameFrameHandler.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
 						getExtremePosition(3)) && !wantsToGoUp) {
 					move_contact_solid(0, true);
 //					move_contact_solid(3);
@@ -675,7 +665,8 @@ public class Player extends Entity {
 				}
 			}
 			if (!isRelAccessible(GameFrameHandler.BLOCKSIZE / 2 - 1, getExtremePosition(3))) {
-				if (isRelAccessible(GameFrameHandler.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
+				if (isRelAccessible(
+						GameFrameHandler.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
 						getExtremePosition(3)) && !wantsToGoDown) {
 					move_contact_solid(2, true);
 //					move_contact_solid(3);
@@ -693,7 +684,8 @@ public class Player extends Entity {
 		// nach rechts-movement (TR-BR)
 		if (hSpeed > 0) {
 			if (!isRelAccessible(-GameFrameHandler.BLOCKSIZE / 2, getExtremePosition(1))) {
-				if (isRelAccessible(-GameFrameHandler.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
+				if (isRelAccessible(
+						-GameFrameHandler.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
 						getExtremePosition(1)) && !wantsToGoUp) {
 					move_contact_solid(0, true);
 //					move_contact_solid(1);
@@ -705,7 +697,8 @@ public class Player extends Entity {
 				}
 			}
 			if (!isRelAccessible(GameFrameHandler.BLOCKSIZE / 2 - 1, getExtremePosition(1))) {
-				if (isRelAccessible(GameFrameHandler.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
+				if (isRelAccessible(
+						GameFrameHandler.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
 						getExtremePosition(1)) && !wantsToGoDown) {
 					move_contact_solid(2, true);
 //					move_contact_solid(1);

@@ -60,6 +60,8 @@ public class OptionButton {
 			return "DOWN";
 		case 0:
 			return "??";
+		case 8:
+			return "BACKSPACE";
 
 		default:
 			return KeyEvent.getKeyText(keyCode);

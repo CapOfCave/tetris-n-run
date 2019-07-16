@@ -70,11 +70,11 @@ public class SaveNLoadTile extends Tile {
 	@Override
 	public void eventWhenEntering() {
 		world.setLastCrossedSALTile(this);
-		new File(folderName).mkdirs();
-		int prefix = (new File(folderName).listFiles().length + 1);
 
 		if (!fileExists && !isCreating) {
-			world.initiateSaving(folderName + prefix + "saveNLoadTile_" + posX + "_" + posY + ".txt");
+			new File(folderName).mkdirs();
+			int prefix = (new File(folderName).listFiles().length + 1);
+			world.initiateSaving(folderName + prefix + "saveNLoadTile_" + posX + "_" + posY + "_.txt");
 			isCreating = true;
 			frame.addLineToText("Spielstand wurde gespeichert.");
 			world.playSound("save", 0);
@@ -110,7 +110,6 @@ public class SaveNLoadTile extends Tile {
 			if (fileExists) {
 				interact();
 			} else {
-				frame.addLineToText("Wenns n bug war sry"); // TODO remove :D
 				frame.addLineToText("Bitte warte einige Sekunden, bevor du den Spielstand laden kannst.");
 			}
 		}
@@ -128,9 +127,13 @@ public class SaveNLoadTile extends Tile {
 
 		if (new File(folderName).exists()) {
 			for (File f : new File(folderName).listFiles()) {
-				if (f.getName().endsWith("saveNLoadTile_" + posX + "_" + posY + ".txt")) {
+				if (f.getName().endsWith("saveNLoadTile_" + posX + "_" + posY + "_.txt")) {
 					fileExists = true;
 					loadFile = f;
+					isCreating = false;
+				} else if (f.getName().endsWith("saveNLoadTile_" + posX + "_" + posY + "_.txtxt.txt")) {
+					fileExists = false;
+					isCreating = false;
 				}
 			}
 		} else {
@@ -158,4 +161,5 @@ public class SaveNLoadTile extends Tile {
 	public String getTip4() {
 		return tip4;
 	}
+
 }

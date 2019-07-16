@@ -17,6 +17,7 @@ import data.Tetro;
 import data.TetroType;
 import data.WallImgFrame;
 import data.Tiles.DoorTile;
+import data.Tiles.InvalidSaveNLoadTile;
 import data.Tiles.PressurePlateTile;
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
@@ -1095,6 +1096,15 @@ public class World {
 	public void startExitingSequence(Tile tile) {
 		exitingTile = tile;
 		player.freeze();
+	}
+
+	public void makeSALTInvalid(int y, int x) {
+		if (lastCrossedSALTile == tileWorld[y][x]) {
+			lastCrossedSALTile = null;
+		}
+		renderer.removeDrawable(tileWorld[y][x]);
+		tileWorld[y][x] = new InvalidSaveNLoadTile(x, y, this, frame);
+		renderer.addDrawable(tileWorld[y][x]);
 	}
 
 }

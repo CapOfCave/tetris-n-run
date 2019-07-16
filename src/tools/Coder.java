@@ -1,4 +1,4 @@
-package loading;
+package tools;
 
 import java.awt.Toolkit;
 import java.io.File;
@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import data.Level;
 import data.RawTetro;
 import data.Tiles.DekoTile;
 import data.Tiles.DoorTile;
@@ -20,26 +19,105 @@ import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import data.Tiles.WallTile;
 import graphics.GameFrameHandler;
+import loading.LevelLoader;
 import logics.entities.Entity;
 import logics.entities.MovingBlockSpawner;
 import logics.entities.Switch;
-import tools.Coder;
 
-/**
- * @author Lars Created on 13.08.2018
- */
-public class LevelLoader {
+public class Coder {
 
-	private static final int tetrotype_amount = 7;
-	private static boolean allowCorruptedFiles = false; // TODO
+	public static final int MODULO_SAVED = 100000;
+	private ArrayList<Integer> primes;
+	private final String url = "/res/primes.txt";
+	private boolean showErrors;
+	private static boolean completeSouts = false;
 
-	private Coder coder;
-
-	public LevelLoader(Coder coder) {
-		this.coder = coder;
+	public Coder(boolean b) {
+		this.showErrors = b;
 	}
 
-	public Level loadLevel(String url) {
+	public Coder() {
+		this(true);
+	}
+
+	public void loadPrimes() {
+		primes = new ArrayList<>();
+
+		Scanner sc = null;
+		if (!LevelLoader.isAbsolute(url)) {
+			sc = new Scanner(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(url));
+		} else {
+			try {
+				sc = new Scanner(new File(url));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+		while (sc.hasNext()) {
+			primes.add(Integer.parseInt(sc.nextLine()));
+		}
+	}
+
+	public Integer getPrime(int index) {
+		if (primes == null) {
+			if (showErrors) {
+				System.err.println("Primes unnecessarily loaded");
+			}
+			loadPrimes();
+		}
+		return primes.get(index);
+	}
+
+	public int increaseCheckForSALT(int check, int currentLine, int posX, int posY, int[] tetroAmount) {
+		int toAdd = 0;
+		toAdd += getPrime(0) * getPrime(currentLine) * posX;
+		toAdd %= Coder.MODULO_SAVED;
+
+		toAdd += getPrime(1) * getPrime(currentLine) * posY;
+		toAdd %= Coder.MODULO_SAVED;
+
+		for (int i = 0; i < tetroAmount.length; i++) {
+			toAdd += getPrime(i + 2) * getPrime(currentLine) * tetroAmount[i];
+		}
+		toAdd += check;
+		toAdd %= Coder.MODULO_SAVED;
+
+		if (completeSouts) {
+			System.out.println(currentLine + ": " + toAdd);
+		}
+		return toAdd;
+	}
+
+	public int addWorldLineToChecker(int check, int currentLine, String row) {
+		int toAdd = 0;
+		for (int i = 0; i < row.length(); i++) {
+			toAdd += getPrime(i) * getPrime(currentLine) * row.charAt(i);
+		}
+		toAdd += check;
+		toAdd %= Coder.MODULO_SAVED;
+		if (completeSouts) {
+			System.out.println(currentLine + ": " + toAdd);
+		}
+		return toAdd;
+	}
+
+	public int increaseCheck(int check, int currentLine, int... args) {
+		int toAdd = 0;
+		for (int i = 0; i < args.length; i++) {
+			toAdd += getPrime(i) * getPrime(currentLine) * args[i];
+		}
+		toAdd += check;
+		toAdd %= Coder.MODULO_SAVED;
+		if (completeSouts) {
+			System.out.println(currentLine + ": " + toAdd);
+		}
+		return toAdd;
+	}
+
+	
+	public static int getValidationNumber(String url) {
+		Coder coder = new Coder(false);
 		int check = 0;
 		int currentLine = 1;
 		boolean error = false;
@@ -49,7 +127,6 @@ public class LevelLoader {
 		ArrayList<DoorTile> doorsToAdd = new ArrayList<>();
 		ArrayList<Entity> entities = new ArrayList<>();
 		Tile[][] arrWorld = null;
-		int checkRead = -1;
 
 		HashMap<Integer, Integer> rawMaxTetroAmounts = new HashMap<>();
 		boolean[] toggleStates = new boolean[6];
@@ -62,7 +139,7 @@ public class LevelLoader {
 		int playerY = 0;
 
 		Scanner sc = null;
-		if (!isAbsolute(url)) {
+		if (!LevelLoader.isAbsolute(url)) {
 			sc = new Scanner(Toolkit.getDefaultToolkit().getClass().getResourceAsStream(url));
 		} else {
 			try {
@@ -323,8 +400,6 @@ public class LevelLoader {
 
 				}
 				arrWorld[y][x] = new DekoTile('X', x, y, xo, yo, name, pidq);
-			} else if (nextLine.startsWith("c;")) {
-				checkRead = Integer.parseInt(nextLine.split(";")[1]);
 			}
 			
 		}
@@ -387,7 +462,7 @@ public class LevelLoader {
 			error = true;
 		}
 
-		int[] tetroAmounts = new int[tetrotype_amount];
+		int[] tetroAmounts = new int[7];
 		for (int i = 0; i < tetroAmounts.length; i++) {
 			if (rawMaxTetroAmounts.get(i) != null) {
 				tetroAmounts[i] = rawMaxTetroAmounts.get(i);
@@ -400,19 +475,7 @@ public class LevelLoader {
 			System.exit(1);
 		}
 
-		if (check != checkRead) {
-			System.err.println("Level file corrupted: check=" + check + "!=" + checkRead + "=checkRead");
-			if (!allowCorruptedFiles) {
-				return new Level(null, null, null, null, null, null, -1000, -1000);
-			}
-		}
-		return new Level(rawTetros, arrWorld, doors, entities, tetroAmounts, toggleStates,
-				playerX * GameFrameHandler.BLOCKSIZE, playerY * GameFrameHandler.BLOCKSIZE);
+		return check;
 
 	}
-
-	public static boolean isAbsolute(String url) {
-		return !url.startsWith("/") && !url.startsWith("\\") && !url.startsWith(File.separator);
-	}
-
 }

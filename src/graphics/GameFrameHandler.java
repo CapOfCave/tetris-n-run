@@ -19,7 +19,7 @@ import input.KeyHandler;
  */
 public class GameFrameHandler {
 
-	public static final int PANEL_WIDTH = 1300, PANEL_HEIGHT = 900;
+	public static final int PANEL_WIDTH = 1300, PANEL_HEIGHT = 900; // 1300 x 900
 	public static final int BLOCKSIZE = 45;
 	public static final int CONSOLETEXTMARGINY = 21;
 	public static final String FONTSTRING = "Times New Roman";
@@ -90,8 +90,12 @@ public class GameFrameHandler {
 	public void checkIfLoadingHasFinished() {
 		if (loadingLevelUrl != null) {
 			if (frame.isLoaded(loadingLevelUrl)) {
-
 				Level loadedLevel = frame.getLoadedLevel(loadingLevelUrl);
+				if (loadedLevel.getPlayerX() == -1000) {
+					loadingLevelUrl = null;
+					System.err.println("Loading failed. Level file corrupted");
+					return;
+				}
 				if (isOverworld(loadingLevelUrl)) {
 					show(new OverworldPanel(loadedLevel, keyHandler, this, tetroTypes, oPanel.getLastLevelSolved()), true);
 				} else {
@@ -176,9 +180,9 @@ public class GameFrameHandler {
 		return text;
 	}
 
-	public void setLevelSolved(int levelSolved) {
-
-	}
+//	public void setLevelSolved(int levelSolved) {
+//TODO unused
+//	}
 
 	public void updateConsole() {
 		for (ConsoleLine cl : text) {
@@ -246,6 +250,11 @@ public class GameFrameHandler {
 
 	public OverworldPanel getOPanel() {
 		return oPanel;
+	}
+
+	public void deleteLastSALT() {
+		
+		
 	}
 
 }

@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,8 +89,8 @@ public class MenuFrameHandler {
 		if (loadingLevelUrl != null) {
 			if (frame.isLoaded(loadingLevelUrl) && loadingTicks >= MIN_LOADING_TICKS) {
 				// Load is ready
+				
 				frame.changeToGameFrame();
-				loadingLevelUrl = null;
 
 			}
 		}
@@ -123,6 +124,14 @@ public class MenuFrameHandler {
 
 	public String getLoadingLevelUrl() {
 		return loadingLevelUrl;
+	}
+
+	public KeyListener getKeyHandler() {
+		return keyHandler;
+	}
+
+	public void resetLoadingLevelUrl() {
+		loadingLevelUrl = null;
 	}
 
 }

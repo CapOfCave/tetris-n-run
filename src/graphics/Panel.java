@@ -13,7 +13,9 @@ import javax.swing.JPanel;
 import data.ConsoleLine;
 import data.Level;
 import data.TetroType;
+import data.Tiles.SaveNLoadTile;
 import input.KeyHandler;
+import loading.FileHandler;
 import logics.Playable;
 import logics.World;
 
@@ -39,8 +41,7 @@ public abstract class Panel extends JPanel implements Playable {
 		this.tetroTypes = tetroTypes;
 		this.frame = frame;
 		setPreferredSize(new Dimension(GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT));
-		
-		
+
 		tetroDrawPositions = new ArrayList<>();
 
 		tetroDrawPositions.add(new Point(1070, 72));
@@ -90,6 +91,25 @@ public abstract class Panel extends JPanel implements Playable {
 			showTip();
 		}
 
+		if (keyHandler.isDeletePressed()) {
+			deleteLastSALT();
+		}
+
+	}
+
+	private void deleteLastSALT() {
+		keyHandler.resetDeletePressed();
+		Point deletedFile = FileHandler.deleteNewestSaveNLoadSave();
+		if (deletedFile == null) {
+			return;
+		}
+		world.makeSALTInvalid(deletedFile.y, deletedFile.x);
+		Point newestFile = FileHandler.getNewestSaveNLoadSave();
+		if (newestFile == null) {
+			return;
+		}
+		world.setLastUsedSALTile(((SaveNLoadTile) world.getTileAt(newestFile.y, newestFile.x)));
+
 	}
 
 	private void showTip() {
@@ -120,7 +140,7 @@ public abstract class Panel extends JPanel implements Playable {
 	}
 
 	protected void drawDebug(Graphics g) {
-		
+
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 200, 60);
 		g.setColor(Color.BLACK);
@@ -138,7 +158,8 @@ public abstract class Panel extends JPanel implements Playable {
 				if (text[i] != null) {
 					g.setFont(new Font(GameFrameHandler.FONTSTRING, Font.PLAIN, text[i].getFontSize())); // 18 / 20
 					g.setColor(new Color(0, 0, 0, text[i].getOpacity()));
-					g.drawString(text[i].getContent(), 185, 705 + (i * GameFrameHandler.CONSOLETEXTMARGINY) - text[i].getOffset());
+					g.drawString(text[i].getContent(), 185,
+							705 + (i * GameFrameHandler.CONSOLETEXTMARGINY) - text[i].getOffset());
 				}
 			}
 		}

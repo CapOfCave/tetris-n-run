@@ -57,22 +57,25 @@ public class Frame extends JFrame {
 	public void changeToGameFrame() {
 
 		Level loadedLevel = savingLoadingHandler.getLoadedLevel(menuFrameHandler.getLoadingLevelUrl());
+		if (loadedLevel.getPlayerX() == -1000) {
+			System.err.println("Level file corrupted. Loading standard Overworld and deleting everything. Sorry.");
+			File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
+			akt_Overworld.delete();
+			menuFrameHandler.loadLevel("/res/levels/overworld0.txt");
+			return;
+		}
 		gameFrameHandler = new GameFrameHandler(this, menuFrameHandler.getKeyCodes(), menuFrameHandler.getLevelSolved(),
 				loadedLevel);
 		gameLoop.changePlayable(gameFrameHandler.getOPanel());
 		menuFrameHandler.cleanUp();
+		menuFrameHandler.resetLoadingLevelUrl();
 	}
 
 	public void changeToMenuFrame() {
 		gameFrameHandler.cleanUp();
 		gameLoop.changePlayable(menuFrameHandler.getmPanel());
 		add(menuFrameHandler.getmPanel());
-	}
-
-	private void postInitJFrame() {
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
+		addKeyListener(menuFrameHandler.getKeyHandler());
 	}
 
 	private void initJFrame() {
@@ -80,6 +83,10 @@ public class Frame extends JFrame {
 		setLayout(new CardLayout());
 		setResizable(false);
 		setDefaultCloseOperation(0);
+		
+		//TODO fullscreen
+//		setExtendedState(MAXIMIZED_BOTH);
+//		setUndecorated(true);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -92,6 +99,13 @@ public class Frame extends JFrame {
 			}
 		});
 	}
+	private void postInitJFrame() {
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+
+	
 
 	private void loadMenuFrameHandler() {
 		SettingsLoader settingsLoader = new SettingsLoader(System.getenv("APPDATA") + "\\tetris-n-run\\settings.txt");

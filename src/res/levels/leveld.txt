@@ -274,4 +274,4 @@ Td;x=32;y=19;xo=0;yo=0;name=dekob3.10;
 Td;x=32;y=21;xo=0;yo=0;name=dekob3.11;
 Td;x=32;y=23;xo=0;yo=0;name=dekob3.12;
 
-
+c;63172

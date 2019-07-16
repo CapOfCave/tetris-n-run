@@ -19,7 +19,8 @@ public class KeyHandler implements KeyListener {
 	private boolean shift = false;
 	private boolean kameraKey = false;
 	private boolean killPlayer = false;
-	private boolean tip = false; // einfügen in die änderbaren Keys
+	private boolean tip = false;
+	private boolean deleteCheckpoint = false;
 
 	private boolean actionPressed = false;
 	private boolean f3Pressed = false;
@@ -50,9 +51,7 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(6)) {
 			removeKey = true;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
-			shift = true;
-		}
+		
 		if (ev.getKeyCode() == keyCodes.get(7)) {
 			kameraKey = true;
 		}
@@ -71,8 +70,14 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(8)) {
 			killPlayer = true;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_T) {
+		if (ev.getKeyCode() == keyCodes.get(9)) {
+			shift = true;
+		}
+		if (ev.getKeyCode() == keyCodes.get(10)) {
 			tip = true;
+		}
+		if (ev.getKeyCode() == keyCodes.get(11)) {
+			deleteCheckpoint = true;
 		}
 
 	}
@@ -97,17 +102,21 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(6)) {
 			removeKey = false;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_SHIFT) {
-			shift = false;
-		}
+		
 		if (ev.getKeyCode() == keyCodes.get(7)) {
 			kameraKey = false;
 		}
 		if (ev.getKeyCode() == keyCodes.get(8)) {
 			killPlayer = false;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_T) {
+		if (ev.getKeyCode() == keyCodes.get(9)) {
+			shift = false;
+		}
+		if (ev.getKeyCode() == keyCodes.get(10)) {
 			tip = false;
+		}
+		if (ev.getKeyCode() == keyCodes.get(11)) {
+			deleteCheckpoint = false;
 		}
 
 	}
@@ -178,6 +187,14 @@ public class KeyHandler implements KeyListener {
 
 	public void resetTipPressed() {
 		tip = false;
+	}
+	
+	public boolean isDeletePressed() {
+		return deleteCheckpoint;
+	}
+
+	public void resetDeletePressed() {
+		deleteCheckpoint = false;
 	}
 
 	public void resetF3pressed() {

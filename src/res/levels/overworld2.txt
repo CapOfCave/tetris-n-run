@@ -37,7 +37,4 @@ Td;x=7;y=9;xo=0;yo=-34;name=block0a;
 Td;x=7;y=7;xo=0;yo=-8;name=block0s;
 Td;x=5;y=11;xo=0;yo=-34;name=block0b;
 Td;x=9;y=11;xo=0;yo=-34;name=block0b;
-
-
-
-
+c;32500

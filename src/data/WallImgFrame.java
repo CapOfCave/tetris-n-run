@@ -9,6 +9,7 @@ import logics.World;
 
 public class WallImgFrame implements DrawAndSortable {
 
+	private static final double VERTICAL_IMAGE_OFFSET = 5;
 	private int posX, posY;
 	private int imageId;
 	private static BufferedImage[] images;
@@ -65,7 +66,7 @@ public class WallImgFrame implements DrawAndSortable {
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		g.drawImage(images[imageId], (int) ((posX - .5) * GameFrameHandler.BLOCKSIZE - world.cameraX()),
-				(int) ((posY - 1.5) * GameFrameHandler.BLOCKSIZE - world.cameraY()), null); // -1.5 weil um 1 nach oben
+				(int) ((posY - 1.5) * GameFrameHandler.BLOCKSIZE + VERTICAL_IMAGE_OFFSET - world.cameraY()), null); // -1.5 weil um 1 nach oben
 																						// angehoben (Mauerfront)
 //		g.drawImage(images[imageId], 45, 45, null);
 //		g.setColor(Color.BLACK);

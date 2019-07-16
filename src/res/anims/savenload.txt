@@ -1,5 +1,7 @@
 pics45 deac="/res/blocks/saveNLoad1.png"
 pics45 ac="/res/blocks/saveNLoad2.png"
+pics45 broken="/res/blocks/saveNLoadBroken.png"
 
 anim deac = deac.0
-anim8 ac = ac.0
+anim ac = ac.0
+anim broken = broken.0

@@ -198,3 +198,4 @@ Td;x=21;y=15;xo=0;yo=-45;name=dekob1.8;
 Td;x=23;y=15;xo=0;yo=-34;name=block0b;
 Td;x=23;y=17;xo=0;yo=-34;name=block0b;
 
+c;26454

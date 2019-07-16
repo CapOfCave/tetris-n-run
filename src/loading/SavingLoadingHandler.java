@@ -13,12 +13,14 @@ import java.util.jar.JarEntry;
 import data.Animation;
 import data.Level;
 import data.TetroType;
+import tools.Coder;
 
 public class SavingLoadingHandler implements Runnable {
 
 	private boolean running = false;
 	private Thread th;
 	private LevelSaver levelSaver;
+	private LevelLoader levelLoader;
 	private ImageLoader imageLoader;
 	private AnimationLoader animationLoader;
 
@@ -30,12 +32,16 @@ public class SavingLoadingHandler implements Runnable {
 	private boolean deleteAllSaveNLoads = false;
 	private boolean everythingLoaded = false;
 	private ArrayList<String> imagesToLoad;
+	private Coder coder;
 	
+		
 
 	private void init(ImageLoader imageLoader) {
-		animationLoader = new AnimationLoader(imageLoader);
-		levelSaver = new LevelSaver();
 		this.imageLoader = imageLoader;
+		animationLoader = new AnimationLoader(imageLoader);
+		coder = new Coder();
+		levelSaver = new LevelSaver(coder);
+		levelLoader = new LevelLoader(coder);
 
 		levelsToSave = new ArrayList<>();
 		levelsToSaveUrls = new ArrayList<>();
@@ -59,7 +65,7 @@ public class SavingLoadingHandler implements Runnable {
 					loadAll();
 				}
 
-				loadedLevels.put(levelsToLoadUrls.get(0), LevelLoader.loadLevel(levelsToLoadUrls.get(0)));
+				loadedLevels.put(levelsToLoadUrls.get(0), levelLoader.loadLevel(levelsToLoadUrls.get(0)));
 				levelsToLoadUrls.remove(0);
 
 			} else if (levelsToSave.size() > 0) {
@@ -135,6 +141,7 @@ public class SavingLoadingHandler implements Runnable {
 	
 	public void loadAll() {
 		everythingLoaded = true;
+		coder.loadPrimes();
 		Enumeration<URL> en;
 		try {
 			en = getClass().getClassLoader().getResources("res");

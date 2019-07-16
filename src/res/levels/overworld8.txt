@@ -77,5 +77,5 @@ Td;x=9;y=3;xo=22;yo=-55;name=dekoTurm3;
 
 //l8
 
-
+c;85505
 

@@ -37,6 +37,7 @@ public class OptionPanel extends JPanel {
 		optionButtons.add(new OptionButton(100, 650, 500, "Retry: ", 8, this));
 		optionButtons.add(new OptionButton(100, 700, 500, "Run: ", 9, this));
 		optionButtons.add(new OptionButton(100, 750, 500, "Hint: ", 10, this));
+		optionButtons.add(new OptionButton(100, 800, 500, "Delete last checkpoint: ", 11, this));
 		
 		keyCodes.add(0, 87);
 		keyCodes.add(1, 65);
@@ -49,6 +50,7 @@ public class OptionPanel extends JPanel {
 		keyCodes.add(8, 70);
 		keyCodes.add(9, 16);
 		keyCodes.add(10, 84);
+		keyCodes.add(11, 8);
 
 		this.frame = frame;
 		mouseHandler = new OptionMouseHandler(frame, this);

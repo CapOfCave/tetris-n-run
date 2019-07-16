@@ -76,5 +76,5 @@ Td;x=6;y=4;xo=0;yo=0;name=ventilator;
 Td;x=7;y=5;xo=0;yo=0;name=ventilator;
 Td;x=9;y=3;xo=22;yo=-55;name=dekoTurm3;
 
-
+c;85538
 

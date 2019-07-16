@@ -169,7 +169,7 @@ e;x=36;y=20;type=switch;url=/res/anims/switch.txt;color=0
 e;x=4;y=36;type=switch;url=/res/anims/switch.txt;color=1
 e;x=20;y=18;type=switch;url=/res/anims/switch.txt;color=2
 e;x=13;y=13;type=switch;url=/res/anims/switch.txt;color=3
-e;x=2;y=2;type=switch;url=/res/anims/switch.txt;color=4
+e;x=4;y=4;type=switch;url=/res/anims/switch.txt;color=4
 e;x=48;y=19;type=switch;url=/res/anims/switch.txt;color=4
 
 w;000000000000000000000000000000000000000000000000000
@@ -235,3 +235,4 @@ Td;x=40;y=19;xo=-45;yo=20;name=dekob2.8;
 Td;x=40;y=21;xo=-45;yo=20;name=dekob2.9;
 Td;x=40;y=23;xo=-45;yo=20;name=dekob2.10;
 
+c;20833
