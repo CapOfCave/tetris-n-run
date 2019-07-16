@@ -5,7 +5,7 @@ import java.io.File;
 
 public final class FileHandler {
 	public static void deleteAllSaveNLoadSaves() {
-		File tmpSaveFolder = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
+		File tmpSaveFolder = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\tmpSaves");
 		if (tmpSaveFolder.exists())
 			for (File f : tmpSaveFolder.listFiles()) {
 				f.delete();
@@ -13,7 +13,7 @@ public final class FileHandler {
 	}
 	
 	public static Point deleteNewestSaveNLoadSave() {
-		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
+		File file = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\tmpSaves");
 		int folder_length = file.listFiles().length;
 		if (folder_length <= 1) {
 			return null;
@@ -33,7 +33,7 @@ public final class FileHandler {
 	}
 	
 	public static Point getNewestSaveNLoadSave() {
-		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
+		File file = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\tmpSaves");
 		int folder_length = file.listFiles().length;
 		File newest = null;
 		for (File f : file.listFiles()) {

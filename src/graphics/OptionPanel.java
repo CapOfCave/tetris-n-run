@@ -95,7 +95,7 @@ public class OptionPanel extends JPanel {
 		}
 		
 		if (x >= 950 && y >= 745 && x <= 1250 && y <= 856) {
-			SettingSaver.saveSettings(getKeyCodes(), frame.getLevelSolved(), System.getenv("APPDATA") + "\\tetris-n-run", "settings.txt");
+			SettingSaver.saveSettings(getKeyCodes(), frame.getLevelSolved(), System.getenv("APPDATA") + "\\tetro-maze", "settings.txt");
 			frame.startMenu();
 			frame.playSound("ButtonKlick", -5f);
 		}

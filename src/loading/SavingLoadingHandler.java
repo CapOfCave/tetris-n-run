@@ -1,6 +1,5 @@
 package loading;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.JarURLConnection;
@@ -130,7 +129,7 @@ public class SavingLoadingHandler implements Runnable {
 	}
 
 	public void abortLoadingSAL() {
-		File tmpSaveFolder = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
+		File tmpSaveFolder = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\tmpSaves");
 		if (tmpSaveFolder.exists())
 			for (File f : tmpSaveFolder.listFiles()) {
 				if (levelsToLoadUrls.remove(f.getPath())) {
@@ -179,10 +178,6 @@ public class SavingLoadingHandler implements Runnable {
 		return animationLoader.getAnimations(path);
 	}
 	
-	public BufferedImage getImage(String path) { //TODO unused
-		return imageLoader.getImage(path);
-	}
-
 	public ArrayList<TetroType> getTetros(String string) {
 		return new TetroLoader(imageLoader).loadTetros("/res/tetros.txt");
 	}

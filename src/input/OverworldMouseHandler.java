@@ -66,12 +66,12 @@ public class OverworldMouseHandler implements MouseListener, MouseMotionListener
 
 			if (loadContains(x, y)&& panel.isClicked(1)) {
 				frame.loadLegacyLevel();
-				overworld.initiateSaving(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
+				overworld.initiateSaving(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 			}
 
 			if (backToMenuContains(x, y)&& panel.isClicked(2)) {
 				frame.backToMenu();
-				overworld.initiateSaving(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
+				overworld.initiateSaving(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 			}
 		}
 		panel.click(-1);

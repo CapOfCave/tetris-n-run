@@ -34,6 +34,7 @@ public class AnimationLoader {
 		if (animations.get(path) == null) {
 			loadAndSave(path);
 			if (!eclipseVersion) {
+				//TODO removeSout
 				System.err.println("Had to load Animation at " + path);
 			}
 		}

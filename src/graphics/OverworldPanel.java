@@ -58,7 +58,7 @@ public class OverworldPanel extends Panel {
 	}
 
 	public void checkIfLoadPossible() {
-		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
+		File file = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\tmpSaves");
 		if (!file.exists()) {
 			loadPossible = false;
 			return;
@@ -125,7 +125,7 @@ public class OverworldPanel extends Panel {
 	}
 
 	public void save() {
-		world.initiateSaving(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
+		world.initiateSaving(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 	}
 
 	public void drawLevelCaption(Graphics g) {

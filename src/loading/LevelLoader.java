@@ -31,7 +31,7 @@ import tools.Coder;
 public class LevelLoader {
 
 	private static final int tetrotype_amount = 7;
-	private static boolean allowCorruptedFiles = false; // TODO
+	private static boolean allowCorruptedFiles = false; // TODO Allow corrupted files?!
 
 	private Coder coder;
 

@@ -9,7 +9,6 @@ import data.Animation;
 import data.ConsoleLine;
 import data.Level;
 import data.TetroType;
-import data.Tiles.SaveNLoadTile;
 import input.KeyHandler;
 
 /**
@@ -69,7 +68,7 @@ public class GameFrameHandler {
 	}
 
 	public void changeToOverworld(boolean died) {
-		File overworldFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
+		File overworldFile = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 		if (!died) {// Finished the level
 			initiateDeleteAllSALSaves();
 			if (oPanel.updateLastLevelSolved()) {
@@ -124,12 +123,12 @@ public class GameFrameHandler {
 	}
 
 	// Level to level
-	public void switchLevel(String path, SaveNLoadTile tile) {
+	public void switchLevel(String path) {
 		loadLevel(path); // TODO was soll das Tile ? Siehe commit vom ca. 26.06.2019
 	}
 
 	public void loadLegacyLevel() { // After pressing Load in overworld
-		File file = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves");
+		File file = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\tmpSaves");
 		int folder_length = file.listFiles().length;
 		String path = null;
 		for (File f : file.listFiles()) {
@@ -179,10 +178,6 @@ public class GameFrameHandler {
 	public ConsoleLine[] getText() {
 		return text;
 	}
-
-//	public void setLevelSolved(int levelSolved) {
-//TODO unused
-//	}
 
 	public void updateConsole() {
 		for (ConsoleLine cl : text) {

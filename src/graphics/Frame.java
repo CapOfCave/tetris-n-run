@@ -59,7 +59,7 @@ public class Frame extends JFrame {
 		Level loadedLevel = savingLoadingHandler.getLoadedLevel(menuFrameHandler.getLoadingLevelUrl());
 		if (loadedLevel.getPlayerX() == -1000) {
 			System.err.println("Level file corrupted. Loading standard Overworld and deleting everything. Sorry.");
-			File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
+			File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 			akt_Overworld.delete();
 			menuFrameHandler.loadLevel("/res/levels/overworld0.txt");
 			return;
@@ -108,14 +108,14 @@ public class Frame extends JFrame {
 	
 
 	private void loadMenuFrameHandler() {
-		SettingsLoader settingsLoader = new SettingsLoader(System.getenv("APPDATA") + "\\tetris-n-run\\settings.txt");
-		File savesFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves");
+		SettingsLoader settingsLoader = new SettingsLoader(System.getenv("APPDATA") + "\\tetro-maze\\settings.txt");
+		File savesFile = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves");
 
 		if (!savesFile.exists()) {
 			savesFile.mkdirs();
 		}
 
-		File settingsFile = new File(System.getenv("APPDATA") + "\\tetris-n-run\\settings.txt");
+		File settingsFile = new File(System.getenv("APPDATA") + "\\tetro-maze\\settings.txt");
 
 		if (!settingsFile.exists()) {
 			menuFrameHandler = new MenuFrameHandler(this, 0);

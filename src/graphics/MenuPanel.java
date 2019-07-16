@@ -96,7 +96,7 @@ public class MenuPanel extends JPanel implements Playable {
 
 		if (!frame.isLoading()) {
 			if (playContains(x, y)) {
-				File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetris-n-run\\saves\\overworldSave.txt");
+				File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 				if (akt_Overworld.exists()) {
 					frame.loadLevel(akt_Overworld.getPath());
 				} else {

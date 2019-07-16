@@ -134,15 +134,15 @@ public class Renderer {
 				}
 			}
 		} catch (ConcurrentModificationException ex) {
-			System.err.println("Fehler beim Rendern"); // TODO remove
+		//do nothing
 		}
+		
 
 	}
 
-	public boolean isDAScontained(DrawAndSortable entity) { // TODO efficiency
+	public boolean isDAScontained(DrawAndSortable entity) {
 		return (drawables1.contains(entity) || toAdd1.contains(entity))
 				&& (drawables2.contains(entity) || toAdd2.contains(entity));
-		// return drawables1.contains(entity) || drawables2.contains(entity);
 	}
 
 	public void reset() {

@@ -99,6 +99,9 @@ public class LevelSaver extends Saver {
 				check = coder.increaseCheck(check, currentLine++, (int) entity.getX() / GameFrameHandler.BLOCKSIZE,(int) entity.getY() / GameFrameHandler.BLOCKSIZE,
 						entitySwitch.getColorAsInt());
 				break;
+			case "moveblock":
+				//do nothing, but no err msg
+				break;
 			default:
 				System.err.println("Requested Entity (\"" + entity.getType() + "\") undefind in saving process");
 			}

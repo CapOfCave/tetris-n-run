@@ -1,1 +1,1 @@
-# tetris-n-run
+# tetro-maze

@@ -25,7 +25,7 @@ public class SaveNLoadTile extends Tile {
 	private String tip3;
 	private String tip4;
 
-	private static final String folderName = System.getenv("APPDATA") + "\\tetris-n-run\\saves\\tmpSaves\\";
+	private static final String folderName = System.getenv("APPDATA") + "\\tetro-maze\\saves\\tmpSaves\\";
 
 	public SaveNLoadTile(char key, int posX, int posY, int[] tetroAmount, boolean addingTetros, String tip, String tip2,
 			String tip3, String tip4) {
@@ -103,7 +103,7 @@ public class SaveNLoadTile extends Tile {
 					f.delete();
 				}
 			}
-			frame.switchLevel(loadFile.getAbsolutePath(), this);
+			frame.switchLevel(loadFile.getAbsolutePath());
 
 		} else if (isCreating) {
 			checkIfExists();
