@@ -69,7 +69,7 @@ public class GameWorldPanel extends Panel {
 		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
 		Graphics2D mapGraphics = (Graphics2D) g.create(870, 670, 384, 184);
 
-		world.draw(gameGraphics, interpolation, debugMode);
+		world.draw(gameGraphics, interpolation, keyHandler.inDebugMode());
 		world.drawMap(mapGraphics);
 
 		drawTetroPreview(g);
@@ -82,9 +82,9 @@ public class GameWorldPanel extends Panel {
 
 		drawConsole(g);
 
-		inHandHandler.drawPreview(g, debugMode);
+		inHandHandler.drawPreview(g, keyHandler.inDebugMode());
 
-		if (debugMode) {
+		if (keyHandler.inDebugMode()) {
 			drawDebug(gameGraphics);
 		}
 

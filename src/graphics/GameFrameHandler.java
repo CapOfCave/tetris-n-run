@@ -43,7 +43,7 @@ public class GameFrameHandler {
 		this.frame = frame;
 		tetroTypes = frame.getTetros("/res/tetros.txt");
 
-		keyHandler = new KeyHandler(keyCodes);
+		keyHandler = new KeyHandler(keyCodes, this);
 
 		oPanel = new OverworldPanel(level, keyHandler, this, tetroTypes, levelSolved);
 		level.init(this);

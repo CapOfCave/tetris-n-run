@@ -35,7 +35,6 @@ public class Player extends Entity {
 	protected double lastX, lastY;
 	private double hSpeed;
 	private double vSpeed;
-	protected boolean noClip = false;
 
 	protected boolean wantsToGoUp = false;
 	protected boolean wantsToGoDown = false;
@@ -272,10 +271,6 @@ public class Player extends Entity {
 		return rotation / 90;
 	}
 
-	public void switchNoClip() {
-		noClip = !noClip;
-	}
-
 	protected void bump(double speedloss) {
 		world.playSound("metal" + (int) (Math.random() * 4), Math.min(-40f + 3.6f * (float) speedloss, -3f));
 	}
@@ -457,7 +452,7 @@ public class Player extends Entity {
 	protected void move() {
 		accelerate();
 
-		if (!noClip) {
+		if (!world.noClip()) {
 			speedloss = 0; // for sounds
 			checkCollisions();
 			if (speedloss > getAcc()) {
@@ -467,7 +462,7 @@ public class Player extends Entity {
 		checkMaxSpeed();
 
 		updateRotation();
-		if (!noClip) {
+		if (!world.noClip()) {
 			x += hSpeed;
 			y += vSpeed;
 		} else {
@@ -481,9 +476,6 @@ public class Player extends Entity {
 		return brake;
 	}
 
-	public boolean getNoClip() {
-		return noClip;
-	}
 
 	private void accelerate() {
 		double abs_hSpeed = Math.abs(hSpeed);

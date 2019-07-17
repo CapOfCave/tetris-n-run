@@ -23,7 +23,6 @@ public abstract class Panel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
 	public static final Rectangle gamePanel = new Rectangle(35, 35, 921, 621);
 	protected final Rectangle inventoryPanel = new Rectangle(180, 671, 879, 854);
-	protected boolean debugMode = false;
 
 	protected KeyHandler keyHandler;
 	protected ArrayList<TetroType> tetroTypes;
@@ -70,16 +69,6 @@ public abstract class Panel extends JPanel implements Playable {
 		}
 		world.tick();
 		frame.updateConsole();
-		if (keyHandler.isF3pressed()) {
-			debugMode = !debugMode;
-			keyHandler.resetF3pressed();
-			frame.addLineToText("debugMode " + (debugMode ? "enabled" : "disabled"));
-		}
-		if (keyHandler.isF4pressed()) {
-			world.switchNoClip();
-			keyHandler.resetF4pressed();
-			frame.addLineToText("noClip " + (world.getPlayer().getNoClip() ? "enabled" : "disabled"));
-		}
 		if (keyHandler.isF5pressed()) {
 			frame.addLineToText("Graphic Reload initiated.");
 			world.resetRenderer();

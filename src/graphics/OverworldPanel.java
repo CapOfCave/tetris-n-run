@@ -106,8 +106,8 @@ public class OverworldPanel extends Panel {
 
 	private void drawOverworldScreen(Graphics gameGraphics) {
 
-		world.draw(gameGraphics, interpolation, debugMode);
-		if (debugMode) {
+		world.draw(gameGraphics, interpolation, keyHandler.inDebugMode());
+		if (keyHandler.inDebugMode()) {
 			drawDebug(gameGraphics);
 		}
 	}

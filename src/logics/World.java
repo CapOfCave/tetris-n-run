@@ -80,7 +80,6 @@ public class World {
 	protected int[][] worldDeco;
 	protected InHandHandler inHandHandler;
 	private ArrayList<Tetro> newestTetros;
-	private boolean noClip = false;
 	private SaveNLoadTile lastCrossedSALTile = null;
 	private Entity lastTouched = null;
 	private boolean tookBackTetro = false;
@@ -545,9 +544,9 @@ public class World {
 	}
 
 	public void addTetro(TetroType tetroType, int x, int y, int mouse_x, int mouse_y, int rotation) {
-		if (!keyHandler.getKameraKey() || noClip) {
+		if (!keyHandler.getKameraKey() || noClip()) {
 
-			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0 || noClip) {
+			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0 || noClip()) {
 				int placeX;
 				int placeY;
 
@@ -586,12 +585,12 @@ public class World {
 	}
 
 	public void removeLastTetro() {
-		if (!tookBackTetro || noClip) {
+		if (!tookBackTetro || noClip()) {
 			if (newestTetros.size() == 0) {
 				frame.addLineToText("Du hast seit dem letzten Speichervorgang noch kein Tetro platziert.");
 			} else {
 				Tetro newestTetro = newestTetros.get(0);
-				if (!isPlayeronTetro(newestTetro) || noClip) {
+				if (!isPlayeronTetro(newestTetro) || noClip()) {
 					// success
 					removeTetroFromHitbox(newestTetro, newestTetro.getX(), newestTetro.getY(),
 							newestTetro.getRotation());
@@ -1053,12 +1052,6 @@ public class World {
 		return minDist;
 	}
 
-	public void switchNoClip() {
-		noClip = !noClip;
-		player.switchNoClip();
-
-	}
-
 	public MovingBlock getLastTouchedMovingBlock() {
 		if (lastTouched instanceof MovingBlock)
 			return (MovingBlock) lastTouched;
@@ -1071,7 +1064,7 @@ public class World {
 	}
 
 	public boolean noClip() {
-		return noClip;
+		return keyHandler.inNoclipMode();
 	}
 
 	public void interactWithLastUsedSALTile() {
