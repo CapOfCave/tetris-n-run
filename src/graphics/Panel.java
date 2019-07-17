@@ -21,35 +21,26 @@ import logics.World;
 
 public abstract class Panel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
-	public static final Rectangle gamePanel = new Rectangle(35, 35, 921, 621);
 	protected final Rectangle inventoryPanel = new Rectangle(180, 671, 879, 854);
 
 	protected KeyHandler keyHandler;
 	protected ArrayList<TetroType> tetroTypes;
-	protected ArrayList<Point> tetroDrawPositions;
+
 	protected float interpolation;
 	protected int ups;
 	protected int fps;
-	protected GameFrameHandler frame;
+	protected GameFrameHandler gameFrame;
 	protected World world;
 	protected boolean loading = false;
 	int loadingScreenProgression = 0;
 
-	public Panel(Level level, KeyHandler keyHandler, GameFrameHandler frame, ArrayList<TetroType> tetroTypes) {
+	public Panel(Level level, KeyHandler keyHandler, GameFrameHandler gameFrame, ArrayList<TetroType> tetroTypes) {
 		this.keyHandler = keyHandler;
 		this.tetroTypes = tetroTypes;
-		this.frame = frame;
-		setPreferredSize(new Dimension(GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT));
+		this.gameFrame = gameFrame;
+		setPreferredSize(new Dimension(gameFrame.getScreenSize()));
+		setBackground(Color.BLACK);
 
-		tetroDrawPositions = new ArrayList<>();
-
-		tetroDrawPositions.add(new Point(1070, 72));
-		tetroDrawPositions.add(new Point(1025, 175));
-		tetroDrawPositions.add(new Point(1145, 175));
-		tetroDrawPositions.add(new Point(1025, 290));
-		tetroDrawPositions.add(new Point(1145, 290));
-		tetroDrawPositions.add(new Point(1025, 406));
-		tetroDrawPositions.add(new Point(1165, 406));
 	}
 
 	@Override
@@ -62,15 +53,15 @@ public abstract class Panel extends JPanel implements Playable {
 
 	@Override
 	public void tick() {
-		frame.checkIfLoadingHasFinished();
-		if (frame.isLoading()) {
+		gameFrame.checkIfLoadingHasFinished();
+		if (gameFrame.isLoading()) {
 			loadingScreenProgression = (loadingScreenProgression + 1) % 60;
 			return;
 		}
 		world.tick();
-		frame.updateConsole();
+		gameFrame.updateConsole();
 		if (keyHandler.isF5pressed()) {
-			frame.addLineToText("Graphic Reload initiated.");
+			gameFrame.addLineToText("Graphic Reload initiated.");
 			world.resetRenderer();
 			keyHandler.resetF5pressed();
 
@@ -111,13 +102,13 @@ public abstract class Panel extends JPanel implements Playable {
 					show_duration = 3;
 					if (world.getLastCrossedSALTile().getTip4() != null) {
 						show_duration = 4;
-						frame.addLineToText(world.getLastCrossedSALTile().getTip4(), show_duration);
+						gameFrame.addLineToText(world.getLastCrossedSALTile().getTip4(), show_duration);
 					}
-					frame.addLineToText(world.getLastCrossedSALTile().getTip3(), show_duration);
+					gameFrame.addLineToText(world.getLastCrossedSALTile().getTip3(), show_duration);
 				}
-				frame.addLineToText(world.getLastCrossedSALTile().getTip2(), show_duration);
+				gameFrame.addLineToText(world.getLastCrossedSALTile().getTip2(), show_duration);
 			}
-			frame.addLineToText(world.getLastCrossedSALTile().getTip(), show_duration);
+			gameFrame.addLineToText(world.getLastCrossedSALTile().getTip(), show_duration);
 		}
 
 	}
@@ -125,6 +116,7 @@ public abstract class Panel extends JPanel implements Playable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		g.translate(gameFrame.getPanelOffsetX(), gameFrame.getPanelOffsetY());
 
 	}
 
@@ -140,18 +132,29 @@ public abstract class Panel extends JPanel implements Playable {
 	}
 
 	protected void drawConsole(Graphics g) {
-		ConsoleLine[] text = frame.getText();
+		ConsoleLine[] text = gameFrame.getText();
 
 		if (text.length > 0) {
 			for (int i = 0; i < text.length; i++) {
 				if (text[i] != null) {
 					g.setFont(new Font(GameFrameHandler.FONTSTRING, Font.PLAIN, text[i].getFontSize())); // 18 / 20
 					g.setColor(new Color(0, 0, 0, text[i].getOpacity()));
-					g.drawString(text[i].getContent(), 185,
-							705 + (i * GameFrameHandler.CONSOLETEXTMARGINY) - text[i].getOffset());
-				}
+					g.drawString(text[i].getContent(), 280 * gameFrame.getPanelWidth() / 1920,
+							795 * gameFrame.getPanelHeight() / 1080 + (i + 1) * GameFrameHandler.CONSOLETEXTMARGINY
+									- text[i].getOffset());
+				} //TODO GameFrameHandler.FONTSTRING
+				//TODO GameFrameHandler.CONSOLETEXTMARGINY
 			}
 		}
+	}
+
+	protected Rectangle getGamePanelBounds() {
+		return gameFrame.getGamePanelBounds();
+	}
+
+	protected Rectangle getPreviewRect() {
+		return new Rectangle(65 * gameFrame.getPanelWidth() / 1920, 795 * gameFrame.getPanelHeight() / 1080,
+				185 * gameFrame.getPanelWidth() / 1920, 220 * gameFrame.getPanelHeight() / 1080);
 	}
 
 }

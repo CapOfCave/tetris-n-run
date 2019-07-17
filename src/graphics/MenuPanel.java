@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -17,30 +18,25 @@ import tools.Fonts;
 public class MenuPanel extends JPanel implements Playable {
 	private static final long serialVersionUID = 1L;
 
-	private MenuFrameHandler frame;
+	private MenuFrameHandler menuFrame;
 	private MenuMouseHandler mouseHandler;
 	private BufferedImage menu;
 	private int highlighted = -1;
 	int loadingx = 20;
 	private BufferedImage openingScreen;
 	private Animation loadingAnim;
-	
-	
 
 	public MenuPanel(MenuFrameHandler frame) {
-
-		this.frame = frame;
+		this.menuFrame = frame;
 		mouseHandler = new MenuMouseHandler(this);
-		setPreferredSize(new Dimension(GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT));
+		setPreferredSize(new Dimension(menuFrame.getScreenSize()));
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
-		setBackground(Color.WHITE);
+		setBackground(Color.BLACK);
 		menu = frame.getImage("/res/Menu.png");
-		
+
 		loadingAnim = frame.getAnimations("/res/anims/loading.txt").get("loading");
 		openingScreen = frame.getImage("/res/LoadingScreen.png");
-		
-		
 
 		repaint();
 
@@ -49,10 +45,11 @@ public class MenuPanel extends JPanel implements Playable {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (frame.isLoading()) {
+		g.translate(menuFrame.getPanelOffsetX(), menuFrame.getPanelOffsetY());
+		if (menuFrame.isLoading()) {
 			drawLoadingScreen(g);
 		} else {
-			g.drawImage(menu, 0, 0, null);
+			g.drawImage(menu, 0, 0, menuFrame.getPanelWidth(), menuFrame.getPanelHeight(), null);
 			g.setColor(Color.BLACK);
 			int sizeDifPlay = 16;
 			int normSizePlay = 130;
@@ -64,14 +61,14 @@ public class MenuPanel extends JPanel implements Playable {
 			} else {
 				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizePlay));
 			}
-			Fonts.drawCenteredString("Play", 45, 357, 1210, 184, g);
+			Fonts.drawCenteredString("Play", getPlayBounds(), g);
 
 			if (highlighted == 1) {
 				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
 			} else {
 				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
 			}
-			Fonts.drawCenteredString("Tutorial", 45, 596, 600, 184, g);
+			Fonts.drawCenteredString("Tutorial", getTutorialBounds(), g);
 
 			if (highlighted == 2) {
 				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
@@ -79,67 +76,80 @@ public class MenuPanel extends JPanel implements Playable {
 				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
 
 			}
-			Fonts.drawCenteredString("Settings", 655, 596, 600, 184, g);
+			Fonts.drawCenteredString("Settings", getSettingsBounds(), g);
 
 		}
 	}
-	
+
+	private Rectangle getPlayBounds() { // TODO bounz
+		return new Rectangle(45 * menuFrame.getPanelWidth() / 1300, 357 * menuFrame.getPanelHeight() / 900,
+				1210 * menuFrame.getPanelWidth() / 1300, 184 * menuFrame.getPanelHeight() / 900);
+	}
+
+	private Rectangle getTutorialBounds() { // TODO bounz
+		return new Rectangle(45 * menuFrame.getPanelWidth() / 1300, 596 * menuFrame.getPanelHeight() / 900,
+				600 * menuFrame.getPanelWidth() / 1300, 184 * menuFrame.getPanelHeight() / 900);
+	}
+
+	private Rectangle getSettingsBounds() { // TODO bounz
+		return new Rectangle(655 * menuFrame.getPanelWidth() / 1300, 596 * menuFrame.getPanelHeight() / 900,
+				600 * menuFrame.getPanelWidth() / 1300, 184 * menuFrame.getPanelHeight() / 900);
+	}
+
 	public void drawLoadingScreen(Graphics g) {
 		g.drawImage(openingScreen, 0, 0, null);
-		g.drawImage(loadingAnim.getImage(), 450, 250, null);
+		g.drawImage(loadingAnim.getImage(), 450, 250, null); // TODO bounz
 		loadingAnim.next();
-		if(loadingAnim.getImage() == null)
+		if (loadingAnim.getImage() == null)
 			loadingAnim.next();
 	}
 
 	public void mouseReleased(int x, int y) {
 
-		if (!frame.isLoading()) {
-			if (playContains(x, y)) {
+		if (!menuFrame.isLoading()) {
+			if (getPlayBounds().contains(x, y)) {
 				File akt_Overworld = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 				if (akt_Overworld.exists()) {
-					frame.loadLevel(akt_Overworld.getPath());
+					menuFrame.loadLevel(akt_Overworld.getPath());
 				} else {
-					frame.loadLevel("/res/levels/overworld" + frame.getLevelSolved() + ".txt");
+					menuFrame.loadLevel("/res/levels/overworld" + menuFrame.getLevelSolved() + ".txt");
 				}
 
-			} else if (tutorialContains(x, y)) {
-				frame.startTutorial();
-			} else if (optionsContains(x, y)) {
-				frame.startOption();
+			} else if (getTutorialBounds().contains(x, y)) {
+				menuFrame.startTutorial();
+			} else if (getSettingsBounds().contains(x, y)) {
+				menuFrame.startOption();
 			}
 		}
 	}
-	
+
 	public void mousePressed(int x, int y) {
 
-		if (!frame.isLoading()) {
-			if (playContains(x, y)) {
-				frame.playSound("ButtonKlick", -5f);
-			} else if (tutorialContains(x, y)) {
-				frame.playSound("ButtonKlick", -5f);
-			} else if (optionsContains(x, y)) {
-				frame.playSound("ButtonKlick", -5f);
+		if (!menuFrame.isLoading()) {
+			if (getPlayBounds().contains(x, y)) {
+				menuFrame.playSound("ButtonKlick", -5f);
+			} else if (getTutorialBounds().contains(x, y)) {
+				menuFrame.playSound("ButtonKlick", -5f);
+			} else if (getSettingsBounds().contains(x, y)) {
+				menuFrame.playSound("ButtonKlick", -5f);
 			}
 		}
 	}
-	
-	
 
 	public void mouseMoved(int x, int y) {
-		if (playContains(x, y)) {
+		if (getPlayBounds().contains(x, y)) {
 			if (highlighted != 0) {
-				frame.playSound("menuHover", -6f);
+				menuFrame.playSound("menuHover", -6f);
 				highlight(0);
 			}
-		} else if (tutorialContains(x, y)) {
+		} else if (getTutorialBounds().contains(x, y)) {
 			if (highlighted != 1) {
-				frame.playSound("menuHover", -6f);
+				menuFrame.playSound("menuHover", -6f);
 				highlight(1);
 			}
-		} else if (optionsContains(x, y)) {
+		} else if (getSettingsBounds().contains(x, y)) {
 			if (highlighted != 2) {
-				frame.playSound("menuHover", -6f);
+				menuFrame.playSound("menuHover", -6f);
 				highlight(2);
 			}
 		} else {
@@ -154,10 +164,10 @@ public class MenuPanel extends JPanel implements Playable {
 
 	@Override
 	public void tick() {
-		frame.checkIfLoading();
-		if (frame.isLoading()) {
+		menuFrame.checkIfLoading();
+		if (menuFrame.isLoading()) {
 			loadingx = (loadingx + 3290) % 2300 - 1000;
-			frame.increaseLoadingTicks();
+			menuFrame.increaseLoadingTicks();
 		}
 
 	}
@@ -172,16 +182,11 @@ public class MenuPanel extends JPanel implements Playable {
 
 	}
 
-	private boolean playContains(int x, int y) {
-		return x > 35 && y > 332 && x < 1252 && y < 523;
+	public int getPanelOffsetX() {
+		return menuFrame.getPanelOffsetX();
 	}
-
-	private boolean tutorialContains(int x, int y) {
-		return x > 35 && y > 571 && x < 644 && y < 764;
-	}
-
-	private boolean optionsContains(int x, int y) {
-		return x > 655 && y > 571 && x < 1254 && y < 764;
+	public int getPanelOffsetY() {
+		return menuFrame.getPanelOffsetY();
 	}
 
 }

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -37,21 +38,21 @@ public class OverworldPanel extends Panel {
 
 	private boolean loadPossible;
 
-	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrameHandler frame, ArrayList<TetroType> tetroTypes,
-			int lastLevelSolved) {
-		super(level, keyHandler, frame, tetroTypes);
+	public OverworldPanel(Level level, KeyHandler keyHandler, GameFrameHandler gameFrame,
+			ArrayList<TetroType> tetroTypes, int lastLevelSolved) {
+		super(level, keyHandler, gameFrame, tetroTypes);
 		this.lastLevelSolved = lastLevelSolved;
-		backOverworld = frame.getImage("/res/imgs/backOverworld.png");
-		buttonImg = frame.getImage("/res/imgs/overworldButton.png");
-		buttonImgPressed = frame.getImage("/res/imgs/overworldButtonPressed.png");
-		world = new World(gamePanel, level, keyHandler, frame);
+		backOverworld = gameFrame.getImage("/res/imgs/backOverworld.png");
+		buttonImg = gameFrame.getImage("/res/imgs/overworldButton.png");
+		buttonImgPressed = gameFrame.getImage("/res/imgs/overworldButtonPressed.png");
+		world = new World(getGamePanelBounds(), level, keyHandler, gameFrame);
 
-		overworldMouseHandler = new OverworldMouseHandler(frame, this, world);
+		overworldMouseHandler = new OverworldMouseHandler(gameFrame, this, world);
 		addMouseListener(overworldMouseHandler);
 		addMouseMotionListener(overworldMouseHandler);
 
-		loadingAnim = frame.getAnimations("/res/anims/loading.txt").get("loading");
-		loadingScreen = frame.getImage("/res/LoadingScreen.png");
+		loadingAnim = gameFrame.getAnimations("/res/anims/loading.txt").get("loading");
+		loadingScreen = gameFrame.getImage("/res/LoadingScreen.png");
 
 		checkIfLoadPossible();
 
@@ -76,29 +77,29 @@ public class OverworldPanel extends Panel {
 	public void startLevel() { // auf dem man steht
 		if (nextLevelExists()) {
 			save();
-			frame.initiateDeleteAllSALSaves();
-			frame.loadLevel("/res/levels/level" + nextLevel + ".txt");
+			gameFrame.initiateDeleteAllSALSaves();
+			gameFrame.loadLevel("/res/levels/level" + nextLevel + ".txt");
 		}
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		if (frame.isLoading()) {
+		Graphics2D gameGraphics = (Graphics2D) g.create(getGamePanelBounds().x, getGamePanelBounds().y,
+				getGamePanelBounds().width, getGamePanelBounds().height);
+		if (gameFrame.isLoading()) {
 			drawLoadingScreen(gameGraphics);
 		} else {
 			drawOverworldScreen(gameGraphics);
 		}
 
-		Graphics2D previewGraphics = (Graphics2D) g.create(54, 680, 1000, 1000);
-		world.drawPlayerPreview(previewGraphics);
+		world.drawPlayerPreview(g, getPreviewRect());
 
 		drawLevelCaption(g);
 		drawGuiButtons(g);
 		drawGuiButtonCaptions(g);
 
-		g.drawImage(backOverworld, 0, 0, 1300, 900, null);
+		g.drawImage(backOverworld, 0, 0, gameFrame.getPanelWidth(), gameFrame.getPanelHeight(), null);
 
 		drawConsole(g);
 
@@ -191,19 +192,25 @@ public class OverworldPanel extends Panel {
 
 	private void drawGuiButtons(Graphics g) {
 		if (clicked == 0) {
-			g.drawImage(buttonImgPressed, 1008, 296, 248, 100, null);
+			g.drawImage(buttonImgPressed, getStartBounds().x, getStartBounds().y, getStartBounds().width,
+					getStartBounds().height, null);
 		} else {
-			g.drawImage(buttonImg, 1008, 296, 248, 100, null);
+			g.drawImage(buttonImg, getStartBounds().x, getStartBounds().y, getStartBounds().width,
+					getStartBounds().height, null);
 		}
 		if (clicked == 1) {
-			g.drawImage(buttonImgPressed, 1008, 406, 248, 100, null);
+			g.drawImage(buttonImgPressed, getLoadBounds().x, getLoadBounds().y, getLoadBounds().width,
+					getLoadBounds().height, null);
 		} else {
-			g.drawImage(buttonImg, 1008, 406, 248, 100, null);
+			g.drawImage(buttonImg, getLoadBounds().x, getLoadBounds().y, getLoadBounds().width, getLoadBounds().height,
+					null);
 		}
 		if (clicked == 2) {
-			g.drawImage(buttonImgPressed, 1008, 516, 248, 100, null);
+			g.drawImage(buttonImgPressed, getMenuBounds().x, getMenuBounds().y, getMenuBounds().width,
+					getMenuBounds().height, null);
 		} else {
-			g.drawImage(buttonImg, 1008, 516, 248, 100, null);
+			g.drawImage(buttonImg, getMenuBounds().x, getMenuBounds().y, getMenuBounds().width, getMenuBounds().height,
+					null);
 
 		}
 
@@ -220,7 +227,7 @@ public class OverworldPanel extends Panel {
 		} else {
 			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, size));
 		}
-		Fonts.drawCenteredString("Start", 1008, 296, 248, 100, g);
+		Fonts.drawCenteredString("Start", getStartBounds(), g);
 
 		if (loadPossible) {
 			g.setColor(Color.BLACK);
@@ -233,7 +240,7 @@ public class OverworldPanel extends Panel {
 		} else {
 			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, size));
 		}
-		Fonts.drawCenteredString("Load", 1008, 406, 248, 100, g);
+		Fonts.drawCenteredString("Load", getLoadBounds(), g);
 
 		g.setColor(Color.BLACK);
 		if (highlighted == 2) {
@@ -243,7 +250,23 @@ public class OverworldPanel extends Panel {
 
 		}
 
-		Fonts.drawCenteredString("Menu", 1008, 516, 248, 100, g);
+		Fonts.drawCenteredString("Menu", getMenuBounds(), g);
+	}
+
+	public Rectangle getStartBounds() {// TODO bounz
+		return new Rectangle(1008 * gameFrame.getPanelWidth() / 1300, 296 * gameFrame.getPanelHeight() / 900,
+				248 * gameFrame.getPanelWidth() / 1300, 100 * gameFrame.getPanelHeight() / 900);
+
+	}
+
+	public Rectangle getLoadBounds() {// TODO bounz
+		return new Rectangle(1008 * gameFrame.getPanelWidth() / 1300, 406 * gameFrame.getPanelHeight() / 900,
+				248 * gameFrame.getPanelWidth() / 1300, 100 * gameFrame.getPanelHeight() / 900);
+	}
+
+	public Rectangle getMenuBounds() { // TODO bounz
+		return new Rectangle(1008 * gameFrame.getPanelWidth() / 1300, 516 * gameFrame.getPanelHeight() / 900,
+				248 * gameFrame.getPanelWidth() / 1300, 100 * gameFrame.getPanelHeight() / 900);
 	}
 
 	public boolean isHighlighted(int i) {
@@ -256,10 +279,10 @@ public class OverworldPanel extends Panel {
 
 	public void click(int i) {
 		if (i == 0 && !nextLevelExists()) {
-			frame.playSound("error", -5f);
+			gameFrame.playSound("error", -5f);
 			return;
 		} else if (i == 1 && !loadPossible) {
-			frame.playSound("error", -5f);
+			gameFrame.playSound("error", -5f);
 			return;
 		}
 
@@ -267,7 +290,7 @@ public class OverworldPanel extends Panel {
 		if (i == -1) {
 			return;
 		}
-		frame.playSound("ButtonKlick", -5f);
+		gameFrame.playSound("ButtonKlick", -5f);
 	}
 
 	public boolean isClicked(int i) {

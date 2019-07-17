@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
@@ -80,9 +81,12 @@ public class Player extends Entity {
 
 	}
 
-	public void drawPreview(Graphics g) {
+	public void drawPreview(Graphics g, Rectangle previewRect) {
 
-		g.drawImage(akt_animation.getImage(), 0, 0, 110, 110, null);
+		g.drawImage(akt_animation.getImage(),
+				previewRect.x + previewRect.width / 2 - akt_animation.getImage().getWidth(),
+				previewRect.y + previewRect.height / 2 - akt_animation.getImage().getHeight(),
+				akt_animation.getImage().getWidth() * 2, akt_animation.getImage().getHeight() * 2, null);
 
 	}
 
@@ -475,7 +479,6 @@ public class Player extends Entity {
 	public double getBrake() {
 		return brake;
 	}
-
 
 	private void accelerate() {
 		double abs_hSpeed = Math.abs(hSpeed);

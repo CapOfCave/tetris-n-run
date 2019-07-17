@@ -1,5 +1,7 @@
 package graphics;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -18,7 +20,6 @@ import input.KeyHandler;
  */
 public class GameFrameHandler {
 
-	public static final int PANEL_WIDTH = 1300, PANEL_HEIGHT = 900; // 1300 x 900
 	public static final int BLOCKSIZE = 45;
 	public static final int CONSOLETEXTMARGINY = 21;
 	public static final String FONTSTRING = "Times New Roman";
@@ -28,7 +29,6 @@ public class GameFrameHandler {
 	private OverworldPanel oPanel;
 	private GameWorldPanel lPanel;
 
-	
 	private boolean inOverworld = true;
 	private ConsoleLine[] text;
 
@@ -38,8 +38,7 @@ public class GameFrameHandler {
 
 	private String loadingLevelUrl = null;
 
-	public GameFrameHandler(Frame frame, ArrayList<Integer> keyCodes, int levelSolved,
-			Level level) {
+	public GameFrameHandler(Frame frame, ArrayList<Integer> keyCodes, int levelSolved, Level level) {
 		this.frame = frame;
 		tetroTypes = frame.getTetros("/res/tetros.txt");
 
@@ -74,7 +73,7 @@ public class GameFrameHandler {
 			if (oPanel.updateLastLevelSolved()) {
 				overworldFile.delete();
 			}
-			
+
 		}
 
 		if (!overworldFile.exists()) {
@@ -96,7 +95,8 @@ public class GameFrameHandler {
 					return;
 				}
 				if (isOverworld(loadingLevelUrl)) {
-					show(new OverworldPanel(loadedLevel, keyHandler, this, tetroTypes, oPanel.getLastLevelSolved()), true);
+					show(new OverworldPanel(loadedLevel, keyHandler, this, tetroTypes, oPanel.getLastLevelSolved()),
+							true);
 				} else {
 					show(new GameWorldPanel(loadedLevel, keyHandler, this, tetroTypes), false);
 				}
@@ -216,8 +216,6 @@ public class GameFrameHandler {
 		return loadingLevelUrl != null;
 	}
 
-	
-	
 	public BufferedImage getImage(String url) {
 		return frame.getImage(url);
 	}
@@ -248,8 +246,32 @@ public class GameFrameHandler {
 	}
 
 	public void deleteLastSALT() {
-		
-		
+		// TODO
+	}
+
+	protected int getPanelWidth() {
+		return frame.getPanelWidth();
+	}
+
+	protected int getPanelHeight() {
+		return frame.getPanelHeight();
+	}
+
+	public Dimension getScreenSize() {
+		return frame.getScreenSize();
+	}
+
+	public int getPanelOffsetX() {
+		return frame.getPanelOffsetX();
+	}
+
+	public int getPanelOffsetY() {
+		return frame.getPanelOffsetY();
+	}
+
+	public Rectangle getGamePanelBounds() {
+		return new Rectangle((int) (64. / 1920 * getPanelWidth()), (int) (64. / 1080 * getPanelHeight()),
+				(int) (1270. / 1920 * getPanelWidth()), (int) (670. / 1080 * getPanelHeight()));
 	}
 
 }

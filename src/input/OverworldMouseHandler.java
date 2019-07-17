@@ -12,12 +12,12 @@ import logics.World;
 public class OverworldMouseHandler implements MouseListener, MouseMotionListener {
 
 	OverworldPanel panel;
-	GameFrameHandler frame;
+	GameFrameHandler gameFrame;
 	World overworld;
 	PointerInfo a;
 
-	public OverworldMouseHandler(GameFrameHandler frame, OverworldPanel panel, World world) {
-		this.frame = frame;
+	public OverworldMouseHandler(GameFrameHandler gameFrame, OverworldPanel panel, World world) {
+		this.gameFrame = gameFrame;
 		this.overworld = world;
 		this.panel = panel;
 
@@ -40,14 +40,14 @@ public class OverworldMouseHandler implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
+		int x = e.getX() - gameFrame.getPanelOffsetX();
+		int y = e.getY() - gameFrame.getPanelOffsetY();
 
-		if (startContains(x, y)) {
+		if (panel.getStartBounds().contains(x, y)) {
 			panel.click(0);
-		} else if (loadContains(x, y)) {
+		} else if (panel.getLoadBounds().contains(x, y)) {
 			panel.click(1);
-		} else if (backToMenuContains(x, y)) {
+		} else if (panel.getMenuBounds().contains(x, y)) {
 			panel.click(2);
 		} else {
 			panel.click(-1);
@@ -56,38 +56,26 @@ public class OverworldMouseHandler implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		
-		if (!frame.isLoading()) {
-			if (startContains(x, y) && panel.isClicked(0)) {
+		int x = e.getX() - gameFrame.getPanelOffsetX();
+		int y = e.getY() - gameFrame.getPanelOffsetY();
+
+		if (!gameFrame.isLoading()) {
+			if (panel.getStartBounds().contains(x, y) && panel.isClicked(0)) {
 				panel.startLevel();
 			}
 
-			if (loadContains(x, y)&& panel.isClicked(1)) {
-				frame.loadLegacyLevel();
+			if (panel.getLoadBounds().contains(x, y) && panel.isClicked(1)) {
+				gameFrame.loadLegacyLevel();
 				overworld.initiateSaving(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 			}
 
-			if (backToMenuContains(x, y)&& panel.isClicked(2)) {
-				frame.backToMenu();
+			if (panel.getMenuBounds().contains(x, y) && panel.isClicked(2)) {
+				gameFrame.backToMenu();
 				overworld.initiateSaving(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 			}
 		}
 		panel.click(-1);
 
-	}
-
-	private boolean startContains(int x, int y) {
-		return x >= 1008 && y >= 296 && x < 1255 && y < 396;
-	}
-
-	private boolean loadContains(int x, int y) {
-		return x >= 1008 && y >= 406 && x < 1255 && y < 506;
-	}
-
-	private boolean backToMenuContains(int x, int y) {
-		return x >= 1008 && y >= 516 && x < 1255 && y < 612;
 	}
 
 	@Override
@@ -97,22 +85,22 @@ public class OverworldMouseHandler implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
+		int x = e.getX() - gameFrame.getPanelOffsetX();
+		int y = e.getY() - gameFrame.getPanelOffsetY();
 
-		if (startContains(x, y)) {
+		if (panel.getStartBounds().contains(x, y)) {
 			if (!panel.isHighlighted(0)) {
-				frame.playSound("menuHover", -6f);
+				gameFrame.playSound("menuHover", -6f);
 				panel.highlight(0);
 			}
-		} else if (loadContains(x, y)) {
+		} else if (panel.getLoadBounds().contains(x, y)) {
 			if (!panel.isHighlighted(1)) {
-				frame.playSound("menuHover", -6f);
+				gameFrame.playSound("menuHover", -6f);
 				panel.highlight(1);
 			}
-		} else if (backToMenuContains(x, y)) {
+		} else if (panel.getMenuBounds().contains(x, y)) {
 			if (!panel.isHighlighted(2)) {
-				frame.playSound("menuHover", -6f);
+				gameFrame.playSound("menuHover", -6f);
 				panel.highlight(2);
 			}
 		} else {

@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputListener;
 
 import data.TetroType;
+import graphics.GameWorldPanel;
 import logics.InHandHandler;
 import logics.World;
 
@@ -17,24 +18,29 @@ public class MouseHandler implements MouseInputListener {
 	private int mouseY = -1;
 	private InHandHandler inHandHandler;
 	private World world;
+	GameWorldPanel gameWorlPanel;
+	
 	private TetroType currentlyHoveredTetro = null;
 
-	public MouseHandler(InHandHandler inHandHandler, World world) {
+	public MouseHandler(InHandHandler inHandHandler, World world, GameWorldPanel gameWorlPanel) {
 		this.inHandHandler = inHandHandler;
 		this.world = world;
+		this.gameWorlPanel = gameWorlPanel;
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		int x = e.getX() - world.getPanelOffsetX();
+		int y = e.getY() - world.getPanelOffsetY();
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			if (e.getX() > 1008 && e.getX() < 1255 && e.getY() > 516 && e.getY() < 616) {
+			if (gameWorlPanel.getBackBounds().contains(x,y)) {
 				world.playSound("ButtonKlick", -5f);
 				world.backToTheOverworld(true);
 			}
 			// Linke Maustaste: Aufheben
 
-			inHandHandler.setInHandPosition(e.getX(), e.getY());
-			inHandHandler.setInHand(e.getX(), e.getY());
+			inHandHandler.setInHandPosition(x, y);
+			inHandHandler.setInHand(x, y);
 
 		} else if (e.getButton() == MouseEvent.BUTTON3) {
 			// Rechte Maustaste : drehen
@@ -47,7 +53,6 @@ public class MouseHandler implements MouseInputListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
-
 				inHandHandler.placeInHand();
 			
 		}
@@ -55,12 +60,16 @@ public class MouseHandler implements MouseInputListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		inHandHandler.setInHandPosition(e.getX(), e.getY());
+		int x = e.getX() - world.getPanelOffsetX();
+		int y = e.getY() - world.getPanelOffsetY();
+		inHandHandler.setInHandPosition(x, y);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		TetroType hovered = inHandHandler.getTetroTypeAt(e.getX(), e.getY());
+		int x = e.getX() - world.getPanelOffsetX();
+		int y = e.getY() - world.getPanelOffsetY();
+		TetroType hovered = inHandHandler.getTetroTypeAt(x, y);
 		if(hovered != null && hovered != currentlyHoveredTetro) {
 			world.playSound("menuHover", -6f);
 		}

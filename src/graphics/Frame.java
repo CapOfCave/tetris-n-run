@@ -1,6 +1,8 @@
 package graphics;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -23,6 +25,11 @@ import sound.SoundPlayer;
 
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private int PANEL_WIDTH = 0;
+	private int PANEL_HEIGHT = 0; // 1300 x 900
+	private Dimension screenSize = new Dimension(1920, 1080);
+//	private Dimension screenSize = new Dimension(1300, 900);
+	private Point panelOffset;
 
 	private MenuFrameHandler menuFrameHandler;
 	private GameFrameHandler gameFrameHandler;
@@ -38,7 +45,6 @@ public class Frame extends JFrame {
 	}
 
 	public Frame() {
-
 		// Object init
 		savingLoadingHandler = new SavingLoadingHandler();
 		imageLoader = new ImageLoader();
@@ -84,9 +90,10 @@ public class Frame extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(0);
 		
-		//TODO fullscreen
-//		setExtendedState(MAXIMIZED_BOTH);
-//		setUndecorated(true);
+		calcPanelSize();
+		
+
+		setUndecorated(true);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -99,6 +106,15 @@ public class Frame extends JFrame {
 			}
 		});
 	}
+	private void calcPanelSize() {
+		setExtendedState(MAXIMIZED_BOTH);
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();//TODO später wieder einfügen
+		PANEL_WIDTH = (int) Math.min(screenSize.getWidth(), 16. / 9 * screenSize.getHeight());
+		PANEL_HEIGHT = (int) Math.min(screenSize.getHeight(), 9. / 16 * screenSize.getWidth());
+		panelOffset = new Point((screenSize.width - PANEL_WIDTH) / 2, (screenSize.height - PANEL_HEIGHT) / 2);
+		
+	}
+
 	private void postInitJFrame() {
 		pack();
 		setLocationRelativeTo(null);
@@ -165,6 +181,33 @@ public class Frame extends JFrame {
 
 	public void playSound(String sound, float volume) {
 		soundPlayer.playSound(sound, volume);
+	}
+
+	public int getPanelWidth() {
+		return PANEL_WIDTH;
+	}
+	
+	public int getPanelHeight() {
+		return PANEL_HEIGHT;
+	}
+	
+	public int getScreenWidth() {
+		return (int) screenSize.getWidth();
+	}
+	
+	public int getScreenHeight() {
+		return (int) screenSize.getHeight();
+	}
+	
+	public Dimension getScreenSize() {
+		return screenSize;
+	}
+
+	public int getPanelOffsetX() {
+		return panelOffset.x;
+	}
+	public int getPanelOffsetY() {
+		return panelOffset.y;
 	}
 
 }

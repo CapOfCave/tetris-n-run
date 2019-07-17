@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -132,6 +133,26 @@ public class MenuFrameHandler {
 
 	public void resetLoadingLevelUrl() {
 		loadingLevelUrl = null;
+	}
+
+	protected int getPanelWidth() {
+		return frame.getPanelWidth();
+	}
+
+	protected int getPanelHeight() {
+		return frame.getPanelHeight();
+	}
+
+	public Dimension getScreenSize() {
+		return frame.getScreenSize();
+	}
+
+	public int getPanelOffsetX() {
+		return frame.getPanelOffsetX();
+	}
+	
+	public int getPanelOffsetY() {
+		return frame.getPanelOffsetY();
 	}
 
 }
