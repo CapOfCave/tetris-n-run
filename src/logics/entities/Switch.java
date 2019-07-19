@@ -13,6 +13,7 @@ public class Switch extends Entity {
 	private int color;
 	private boolean toggled = Math.random() < 0.5;
 	private BufferedImage akt_image;
+	private BufferedImage akt_imageOutline;
 	private Color drawColor = Color.PINK;
 
 	public Switch(World world, double x, double y, int color) {
@@ -40,12 +41,14 @@ public class Switch extends Entity {
 	public void setWorld(World world) {
 		super.setWorld(world);
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
+		akt_imageOutline = anims.get("stateOut" + (toggled ? "0" : "1")).getImage();
 		akt_image = GraphicalTools.setColor(akt_animation.getImage(), drawColor);
 	}
 
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		g.drawImage(akt_image, (int) x - world.cameraX(), (int) y - world.cameraY(), null);
+		g.drawImage(akt_imageOutline, (int) x - world.cameraX(), (int) y - world.cameraY(), null);
 	}
 
 	@Override
@@ -60,6 +63,7 @@ public class Switch extends Entity {
 		world.switchDoors(color);
 		akt_animation = anims.get("state" + (toggled ? "0" : "1"));
 		akt_image = GraphicalTools.setColor(akt_animation.getImage(), drawColor);
+		akt_imageOutline = anims.get("stateOut" + (toggled ? "0" : "1")).getImage();
 		world.playSound("lever", -5f);
 	}
 
