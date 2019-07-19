@@ -9,10 +9,10 @@ import logics.World;
 public class InvalidSaveNLoadTile extends Tile {
 
 	private BufferedImage image3d;
-	public InvalidSaveNLoadTile(int posX, int posY, World world, GameFrameHandler frame) {
+	public InvalidSaveNLoadTile(int posX, int posY, World world, GameFrameHandler gameFrame) {
 		this(posX, posY);
 		setWorld(world);
-		setFrame(frame);
+		setFrame(gameFrame);
 		
 	}
 	@Override

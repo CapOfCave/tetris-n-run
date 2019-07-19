@@ -33,11 +33,11 @@ public class Level {
 		this.toggleStates = toggleStates;
 	}
 
-	public void init(GameFrameHandler frame) {
+	public void init(GameFrameHandler gameFrame) {
 		for (Tile[] row : arrWorld) {
 			for (Tile tile : row) {
 				if (tile != null)
-					tile.setFrame(frame);
+					tile.setFrame(gameFrame);
 			}
 		}
 	}

@@ -3,7 +3,7 @@ package logics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -24,13 +24,13 @@ public class InHandHandler {
 	private int offset_y;
 
 	private World world;
-	private ArrayList<Point> tetroTypeOffsets;
+	private ArrayList<Rectangle> tetroTypeOffsets;
 	private int drawSize;
 	private static String[] tetroPreviewString = { "empty200.png", "empty150.png", "empty100.png", "empty70.png",
 			"empty35.png", "empty5.png" };
 	private static BufferedImage[] tetroPreview;
 
-	public InHandHandler(World world, ArrayList<Point> tetroTypeOffsets, int drawSize) {
+	public InHandHandler(World world, ArrayList<Rectangle> tetroDrawPositions, int drawSize) {
 		if (tetroPreview == null) {
 			tetroPreview = new BufferedImage[tetroPreviewString.length];
 			for (int i = 0; i < tetroPreviewString.length; i++) {
@@ -38,7 +38,7 @@ public class InHandHandler {
 			}
 		}
 		this.world = world;
-		this.tetroTypeOffsets = tetroTypeOffsets;
+		this.tetroTypeOffsets = tetroDrawPositions;
 		this.drawSize = drawSize;
 	}
 
@@ -115,11 +115,10 @@ public class InHandHandler {
 
 		TetroType tetroApproximation = null;
 		for (int i = 0; i < world.getTetroTypeCount(); i++) {
-			Point p = tetroTypeOffsets.get(i);
-			if (x > p.x && x < p.x + 4 * drawSize && y > p.y && y < p.y + 2 * drawSize) {
+			if (tetroTypeOffsets.get(i).contains(x, y)) {
 				tetroApproximation = world.getTetroType(i);
-				offset_x = (x - p.x) * GameFrameHandler.BLOCKSIZE / drawSize;
-				offset_y = (y - p.y) * GameFrameHandler.BLOCKSIZE / drawSize;
+				offset_x = (x - tetroApproximation.getPreviewStartX(tetroTypeOffsets.get(i), drawSize)) * GameFrameHandler.BLOCKSIZE / drawSize;
+				offset_y = (y - tetroApproximation.getPreviewStartY(tetroTypeOffsets.get(i), drawSize)) * GameFrameHandler.BLOCKSIZE / drawSize;
 				rotation = 0;
 				break;
 			}

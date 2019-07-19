@@ -76,7 +76,7 @@ public class SaveNLoadTile extends Tile {
 			int prefix = (new File(folderName).listFiles().length + 1);
 			world.initiateSaving(folderName + prefix + "saveNLoadTile_" + posX + "_" + posY + "_.txt");
 			isCreating = true;
-			frame.addLineToText("Spielstand wurde gespeichert.");
+			gameFrame.addLineToText("Spielstand wurde gespeichert.");
 			world.playSound("save", 0);
 			if (addingTetros)
 				world.addTetroAmount(tetroAmount);
@@ -94,7 +94,7 @@ public class SaveNLoadTile extends Tile {
 		super.interact();
 		new File(folderName).mkdirs();
 		if (fileExists) {
-			frame.addLineToText("Spielstand wurde geladen.");
+			gameFrame.addLineToText("Spielstand wurde geladen.");
 			// remove later saves
 
 			int index = Integer.parseInt(loadFile.getName().substring(0, loadFile.getName().indexOf("save")));
@@ -103,14 +103,14 @@ public class SaveNLoadTile extends Tile {
 					f.delete();
 				}
 			}
-			frame.switchLevel(loadFile.getAbsolutePath());
+			gameFrame.switchLevel(loadFile.getAbsolutePath());
 
 		} else if (isCreating) {
 			checkIfExists();
 			if (fileExists) {
 				interact();
 			} else {
-				frame.addLineToText("Bitte warte einige Sekunden, bevor du den Spielstand laden kannst.");
+				gameFrame.addLineToText("Bitte warte einige Sekunden, bevor du den Spielstand laden kannst.");
 			}
 		}
 	}

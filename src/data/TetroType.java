@@ -1,6 +1,7 @@
 package data;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import graphics.GameFrameHandler;
@@ -20,6 +21,9 @@ public class TetroType {
 	private Pics sliced;
 	private int colorInt;
 	private ImageLoader imageLoader;
+
+	int horizontal_blocks;
+	int vertical_blocks;
 
 	public TetroType(String strHitbox, BufferedImage img, int slicedColor, ImageLoader imageLoader) {
 		this.strHitbox = strHitbox;
@@ -48,6 +52,35 @@ public class TetroType {
 			}
 		}
 
+		initTetroBounds();
+
+	}
+
+	private void initTetroBounds() {
+		if (hitbox[0][0] || hitbox[1][0]) {
+			if (hitbox[0][1] || hitbox[1][1]) {
+				if (hitbox[0][2] || hitbox[1][2]) {
+					if (hitbox[0][3] || hitbox[1][3]) {
+						horizontal_blocks = 4;
+					} else {
+						horizontal_blocks = 3;
+					}
+				} else {
+					horizontal_blocks = 2;
+				}
+			} else {
+				horizontal_blocks = 1;
+			}
+		} else {
+			horizontal_blocks = 0;
+			System.err.println("Empty Tetro. Shutting down");
+			System.exit(1);
+		}
+		if (hitbox[1][0] || hitbox[1][1] || hitbox[1][2] || hitbox[1][3]) {
+			vertical_blocks = 2;
+		} else {
+			vertical_blocks = 1;
+		}
 	}
 
 	public void draw(Graphics g, int x, int y, int rotation) {
@@ -62,7 +95,7 @@ public class TetroType {
 	}
 
 	public void draw(Graphics g, int x, int y, int blockWidth, int rotation, BufferedImage img) {
-		
+
 		for (int j = 0; j < hitbox.length; j++) {
 			for (int i = 0; i < hitbox[j].length; i++) {
 				if (hitbox[j][i]) {
@@ -71,13 +104,12 @@ public class TetroType {
 					} else {
 						drawBlock(g, i, j, x, y, rotation, blockWidth, img);
 					}
-					
+
 				}
 			}
 		}
 	}
 
-	
 	public void drawBlock(Graphics g, int i, int j, int x, int y, int rotation, int blockWidth, BufferedImage img) {
 		switch (rotation % 4) {
 		case 0:
@@ -109,13 +141,27 @@ public class TetroType {
 
 	public Pics getSliced() {
 		if (sliced == null) {
-			sliced = new Pics("/res/slicedTetros/slicedPane" + colorInt + ".png", GameFrameHandler.BLOCKSIZE, imageLoader, false);
+			sliced = new Pics("/res/slicedTetros/slicedPane" + colorInt + ".png", GameFrameHandler.BLOCKSIZE,
+					imageLoader, false);
 		}
 		return sliced;
 	}
-	
+
 	public int getColor() {
 		return colorInt;
+	}
+
+	public void drawCenteredPreview(Graphics g, Rectangle drawRect, int previewBlockSize, BufferedImage img) {
+		draw(g, getPreviewStartX(drawRect, previewBlockSize), getPreviewStartY(drawRect, previewBlockSize),
+				previewBlockSize, 0, img);
+	}
+
+	public int getPreviewStartX(Rectangle drawRect, int previewBlockSize) {
+		return drawRect.x + (drawRect.width - horizontal_blocks * previewBlockSize) / 2;
+	}
+
+	public int getPreviewStartY(Rectangle drawRect,int previewBlockSize) {
+		return drawRect.y + (drawRect.height - vertical_blocks * previewBlockSize) / 2;
 	}
 
 }

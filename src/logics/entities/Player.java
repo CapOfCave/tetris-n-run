@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
@@ -35,7 +36,6 @@ public class Player extends Entity {
 	protected double lastX, lastY;
 	private double hSpeed;
 	private double vSpeed;
-	protected boolean noClip = false;
 
 	protected boolean wantsToGoUp = false;
 	protected boolean wantsToGoDown = false;
@@ -81,9 +81,12 @@ public class Player extends Entity {
 
 	}
 
-	public void drawPreview(Graphics g) {
+	public void drawPreview(Graphics g, Rectangle previewRect) {
 
-		g.drawImage(akt_animation.getImage(), 0, 0, 110, 110, null);
+		g.drawImage(akt_animation.getImage(),
+				previewRect.x + previewRect.width / 2 - akt_animation.getImage().getWidth(),
+				previewRect.y + previewRect.height / 2 - akt_animation.getImage().getHeight(),
+				akt_animation.getImage().getWidth() * 2, akt_animation.getImage().getHeight() * 2, null);
 
 	}
 
@@ -272,10 +275,6 @@ public class Player extends Entity {
 		return rotation / 90;
 	}
 
-	public void switchNoClip() {
-		noClip = !noClip;
-	}
-
 	protected void bump(double speedloss) {
 		world.playSound("metal" + (int) (Math.random() * 4), Math.min(-40f + 3.6f * (float) speedloss, -3f));
 	}
@@ -457,7 +456,7 @@ public class Player extends Entity {
 	protected void move() {
 		accelerate();
 
-		if (!noClip) {
+		if (!world.noClip()) {
 			speedloss = 0; // for sounds
 			checkCollisions();
 			if (speedloss > getAcc()) {
@@ -467,7 +466,7 @@ public class Player extends Entity {
 		checkMaxSpeed();
 
 		updateRotation();
-		if (!noClip) {
+		if (!world.noClip()) {
 			x += hSpeed;
 			y += vSpeed;
 		} else {
@@ -479,10 +478,6 @@ public class Player extends Entity {
 
 	public double getBrake() {
 		return brake;
-	}
-
-	public boolean getNoClip() {
-		return noClip;
 	}
 
 	private void accelerate() {

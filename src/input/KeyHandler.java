@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import graphics.GameFrameHandler;
+
 /**
  * @author Lars Created on 13.09.2018
  */
@@ -23,16 +25,52 @@ public class KeyHandler implements KeyListener {
 	private boolean deleteCheckpoint = false;
 
 	private boolean actionPressed = false;
-	private boolean f3Pressed = false;
-	private boolean f4Pressed = false;
 	private boolean f5Pressed = false;
+	private ArrayList<Character> lastPressed;
+	private final String noClipCheat = "NOCLIPMODE";
+	private final String debugModeCheat = "DEBUGMODE";
+	private final String simpleCheatsCheat = "SIMPLECHEATS";
+	private boolean altPressed = false;
 
-	public KeyHandler(ArrayList<Integer> keyCodes) {
+	private boolean noClipMode = false;
+	private boolean debugMode = false;
+	private boolean simpleCheatMode = false;
+	private GameFrameHandler gameFrameHandler;
+
+	public KeyHandler(ArrayList<Integer> keyCodes, GameFrameHandler gameFrameHandler) {
 		this.keyCodes = keyCodes;
+		lastPressed = new ArrayList<>();
+		this.gameFrameHandler = gameFrameHandler;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent ev) {
+		if (ev.getKeyCode() == KeyEvent.VK_ALT) {
+			altPressed = true;
+		}
+		if (altPressed && !keyCodes.contains(KeyEvent.VK_ALT)) {
+			lastPressed.add(KeyEvent.getKeyText(ev.getKeyCode()).charAt(0));
+			if (lastPressed.size() > 12) {
+				lastPressed.remove(0);
+			}
+			if (checkCheat(simpleCheatsCheat)) {
+				simpleCheatMode = !simpleCheatMode;
+				gameFrameHandler.addLineToText("simpleCheatMode " + (simpleCheatMode ? "enabled" : "disabled"));
+				lastPressed.clear();
+			}
+
+			if (checkCheat(noClipCheat)) {
+				noClipMode = !noClipMode;
+				gameFrameHandler.addLineToText("noClip " + (noClipMode ? "enabled" : "disabled"));
+				lastPressed.clear();
+			}
+			if (checkCheat(debugModeCheat)) {
+				debugMode = !debugMode;
+				gameFrameHandler.addLineToText("debugmode " + (debugMode ? "enabled" : "disabled"));
+				lastPressed.clear();
+			}
+			return;
+		}
 		if (ev.getKeyCode() == keyCodes.get(0)) {
 			upKey = true;
 		}
@@ -51,18 +89,30 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(6)) {
 			removeKey = true;
 		}
-		
+
 		if (ev.getKeyCode() == keyCodes.get(7)) {
 			kameraKey = true;
 		}
-		if (ev.getKeyCode() == KeyEvent.VK_F4) {
-			f4Pressed = true;
-		}
-		if (ev.getKeyCode() == KeyEvent.VK_F3) {
-			f3Pressed = true;
-		}
 		if (ev.getKeyCode() == KeyEvent.VK_F5) {
 			f5Pressed = true;
+		}
+		if (ev.getKeyCode() == KeyEvent.VK_F4) {
+			if (simpleCheatMode) {
+				noClipMode = !noClipMode;
+				gameFrameHandler.addLineToText("noClip " + (noClipMode ? "enabled" : "disabled"));
+			} else if (noClipMode) {
+				noClipMode = false;
+				gameFrameHandler.addLineToText("noClip disabled");
+			}
+		}
+		if (ev.getKeyCode() == KeyEvent.VK_F3) {
+			if (simpleCheatMode) {
+				debugMode = !debugMode;
+				gameFrameHandler.addLineToText("debugmode " + (debugMode ? "enabled" : "disabled"));
+			} else if (debugMode) {
+				debugMode = false;
+				gameFrameHandler.addLineToText("debugmode disabled");
+			}
 		}
 		if (ev.getKeyCode() == keyCodes.get(4)) {
 			actionPressed = true;
@@ -79,6 +129,22 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(11)) {
 			deleteCheckpoint = true;
 		}
+
+	}
+
+	private boolean checkCheat(String cheatcode) {
+
+		if (lastPressed.size() < cheatcode.length()) {
+			return false;
+		}
+
+		for (int i = 0; i < cheatcode.length(); i++) {
+			if (!lastPressed.get(lastPressed.size() - i - 1).equals(cheatcode.charAt(cheatcode.length() - i - 1))) {
+				return false;
+			}
+		}
+
+		return true;
 
 	}
 
@@ -102,7 +168,7 @@ public class KeyHandler implements KeyListener {
 		if (ev.getKeyCode() == keyCodes.get(6)) {
 			removeKey = false;
 		}
-		
+
 		if (ev.getKeyCode() == keyCodes.get(7)) {
 			kameraKey = false;
 		}
@@ -117,6 +183,10 @@ public class KeyHandler implements KeyListener {
 		}
 		if (ev.getKeyCode() == keyCodes.get(11)) {
 			deleteCheckpoint = false;
+		}
+		if (ev.getKeyCode() == KeyEvent.VK_ALT) {
+			altPressed = false;
+			lastPressed.clear();
 		}
 
 	}
@@ -169,14 +239,6 @@ public class KeyHandler implements KeyListener {
 		return f5Pressed;
 	}
 
-	public boolean isF4pressed() {
-		return f4Pressed;
-	}
-
-	public boolean isF3pressed() {
-		return f3Pressed;
-	}
-
 	public boolean isTipPressed() {
 		return tip;
 	}
@@ -188,17 +250,13 @@ public class KeyHandler implements KeyListener {
 	public void resetTipPressed() {
 		tip = false;
 	}
-	
+
 	public boolean isDeletePressed() {
 		return deleteCheckpoint;
 	}
 
 	public void resetDeletePressed() {
 		deleteCheckpoint = false;
-	}
-
-	public void resetF3pressed() {
-		this.f3Pressed = false;
 	}
 
 	public void resetF5pressed() {
@@ -214,13 +272,17 @@ public class KeyHandler implements KeyListener {
 
 	}
 
-	public void resetF4pressed() {
-		this.f4Pressed = false;
-	}
-
 	public void resetKillPlayer() {
 		killPlayer = false;
 
+	}
+
+	public boolean inNoclipMode() {
+		return noClipMode;
+	}
+
+	public boolean inDebugMode() {
+		return debugMode;
 	}
 
 	public void resetKeyboardInputs() {
@@ -233,12 +295,11 @@ public class KeyHandler implements KeyListener {
 		shift = false;
 		kameraKey = false;
 		killPlayer = false;
-		tip = false; // einfügen in die änderbaren Keys
-
+		tip = false;
 		actionPressed = false;
-		f3Pressed = false;
-		f4Pressed = false;
 		f5Pressed = false;
+		altPressed = false;
+		removeKey = false;
 
 	}
 

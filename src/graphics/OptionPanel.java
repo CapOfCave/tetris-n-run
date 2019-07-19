@@ -19,11 +19,11 @@ public class OptionPanel extends JPanel {
 	private ArrayList<Integer> keyCodes;
 	private ArrayList<OptionButton> optionButtons;
 
-	private MenuFrameHandler frame;
+	private MenuFrameHandler menuFrame;
 	private OptionMouseHandler mouseHandler;
 	private BufferedImage option;
 
-	public OptionPanel(MenuFrameHandler frame) {
+	public OptionPanel(MenuFrameHandler menuFrame) {
 		keyCodes = new ArrayList<Integer>();
 		optionButtons = new ArrayList<OptionButton>();
 		optionButtons.add(new OptionButton(100, 250, 500 ,"Up:", 0, this));
@@ -52,20 +52,22 @@ public class OptionPanel extends JPanel {
 		keyCodes.add(10, 84);
 		keyCodes.add(11, 8);
 
-		this.frame = frame;
-		mouseHandler = new OptionMouseHandler(frame, this);
-		setPreferredSize(new Dimension(GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT));
+		this.menuFrame = menuFrame;
+		mouseHandler = new OptionMouseHandler(menuFrame, this);
+		setPreferredSize(new Dimension(menuFrame.getScreenSize()));
 		addMouseListener(mouseHandler);
+		setBackground(Color.BLACK);
 
 	}
 	
 	public void initImages() {
-		option = frame.getImage("/res/options.png");
+		option = menuFrame.getImage("/res/options.png");
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		g.translate(menuFrame.getPanelOffsetX(), menuFrame.getPanelOffsetY());
 		g.drawImage(option, 0, 0, null);
 		
 		g.setColor(Color.BLACK);
@@ -95,9 +97,9 @@ public class OptionPanel extends JPanel {
 		}
 		
 		if (x >= 950 && y >= 745 && x <= 1250 && y <= 856) {
-			SettingSaver.saveSettings(getKeyCodes(), frame.getLevelSolved(), System.getenv("APPDATA") + "\\tetro-maze", "settings.txt");
-			frame.startMenu();
-			frame.playSound("ButtonKlick", -5f);
+			SettingSaver.saveSettings(getKeyCodes(), menuFrame.getLevelSolved(), System.getenv("APPDATA") + "\\tetro-maze", "settings.txt");
+			menuFrame.startMenu();
+			menuFrame.playSound("ButtonKlick", -5f);
 		}
 		repaint();
 

@@ -14,30 +14,31 @@ import input.TutorialMouseHandler;
 public class TutorialPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private MenuFrameHandler frame;
+	private MenuFrameHandler menuFrame;
 	private TutorialMouseHandler mouseHandler;
 	private BufferedImage tutorial;
 	private TutorialText tutorialText;
 	private final int textWidth = 265;
 
 	public TutorialPanel(MenuFrameHandler frame) {
-		this.frame = frame;
+		this.menuFrame = frame;
 		mouseHandler = new TutorialMouseHandler(frame, this);
-		setPreferredSize(new Dimension(GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT));
+		setPreferredSize(new Dimension(menuFrame.getScreenSize()));
 		addMouseListener(mouseHandler);
-
+		setBackground(Color.BLACK);
 		
 		tutorialText = new TutorialText();
 		tutorialText.loadFromFile("/res/tutorial.txt");
 	}
 	
 	public void initImages() {
-		tutorial = frame.getImage("/res/tutorial.png");
+		tutorial = menuFrame.getImage("/res/tutorial.png");
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		g.translate(menuFrame.getPanelOffsetX(), menuFrame.getPanelOffsetY());
 		g.drawImage(tutorial, 0, 0, null);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 55));
@@ -53,14 +54,14 @@ public class TutorialPanel extends JPanel {
 		g.drawString("Tutorial7:", 670, 490);
 		
 		
-		tutorialText.drawPanel(0, g, 55, 270, textWidth, frame.getKeyCodes());
-		tutorialText.drawPanel(1, g, 360, 270, textWidth, frame.getKeyCodes());
-		tutorialText.drawPanel(2, g, 665, 270, textWidth, frame.getKeyCodes());
-		tutorialText.drawPanel(3, g, 970, 270, textWidth, frame.getKeyCodes());
-		tutorialText.drawPanel(4, g, 55, 680, textWidth, frame.getKeyCodes());
-		tutorialText.drawPanel(5, g, 360, 680, textWidth, frame.getKeyCodes());
-		tutorialText.drawPanel(6, g, 665, 680, textWidth, frame.getKeyCodes());
-		tutorialText.drawPanel(7, g, 970, 480, textWidth, frame.getKeyCodes());
+		tutorialText.drawPanel(0, g, 55, 270, textWidth, menuFrame.getKeyCodes());
+		tutorialText.drawPanel(1, g, 360, 270, textWidth, menuFrame.getKeyCodes());
+		tutorialText.drawPanel(2, g, 665, 270, textWidth, menuFrame.getKeyCodes());
+		tutorialText.drawPanel(3, g, 970, 270, textWidth, menuFrame.getKeyCodes());
+		tutorialText.drawPanel(4, g, 55, 680, textWidth, menuFrame.getKeyCodes());
+		tutorialText.drawPanel(5, g, 360, 680, textWidth, menuFrame.getKeyCodes());
+		tutorialText.drawPanel(6, g, 665, 680, textWidth, menuFrame.getKeyCodes());
+		tutorialText.drawPanel(7, g, 970, 480, textWidth, menuFrame.getKeyCodes());
 		
 		
 		
@@ -70,8 +71,8 @@ public class TutorialPanel extends JPanel {
 		repaint();
 		if (x >= 950 && y >= 745 && x <= 1250 && y <= 856) {
 
-			frame.playSound("ButtonKlick", -5f);
-			frame.startMenu();
+			menuFrame.playSound("ButtonKlick", -5f);
+			menuFrame.startMenu();
 		}
 	}
 

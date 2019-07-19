@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import input.KeyHandler;
 import input.MouseHandler;
 import logics.InHandHandler;
 import logics.World;
+import tools.Fonts;
 
 /**
  * @author Lars Created on 05.08.2018
@@ -25,66 +27,62 @@ public class GameWorldPanel extends Panel {
 	private InHandHandler inHandHandler;
 	private MouseHandler mouseHandler;
 
-	private final int tetrotypeDrawSize = 30;
-	private final int tetrotypeDrawSizeHovered = 34;
 	public final int removedTetroFocusTicks = 5;
-
-	private final int tetroHoverOffset = (tetrotypeDrawSizeHovered - tetrotypeDrawSize) / 2;
 
 	private BufferedImage emptyTetro;
 	private BufferedImage backLevel;
 
+	protected ArrayList<Rectangle> tetroDrawPositions;
+	protected ArrayList<Rectangle> tetroAmountDrawPositions;
 	private int seconds = 0;
 
 	private int currentFocusTicks = 0;
 	private int focusedTetroType = -1;
 
-	public GameWorldPanel(Level level, KeyHandler keyHandler, GameFrameHandler frame, ArrayList<TetroType> tetroTypes) {
-		super(level, keyHandler, frame, tetroTypes);
+	public GameWorldPanel(Level level, KeyHandler keyHandler, GameFrameHandler gameFrame,
+			ArrayList<TetroType> tetroTypes) {
+		super(level, keyHandler, gameFrame, tetroTypes);
+		initTetroDrawPositions();
+		initTetroAmountDrawPositions();
+		world = new World(getGamePanelBounds(), level, keyHandler, gameFrame);
 
-		world = new World(gamePanel, level, keyHandler, frame);
-
-		inHandHandler = new InHandHandler(world, tetroDrawPositions, tetrotypeDrawSize);
-		mouseHandler = new MouseHandler(inHandHandler, world);
+		inHandHandler = new InHandHandler(world, tetroDrawPositions, getTetroPreviewBlockSize());
+		mouseHandler = new MouseHandler(inHandHandler, world, this);
 		world.addInHandHandler(inHandHandler);
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
 
-		emptyTetro = frame.getImage("/res/tetros/empty.png");
-		backLevel = frame.getImage("/res/imgs/backLevel.png");
+		emptyTetro = gameFrame.getImage("/res/tetros/empty.png");
+		backLevel = gameFrame.getImage("/res/imgs/backLevel.png");
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, GameFrameHandler.PANEL_WIDTH, GameFrameHandler.PANEL_HEIGHT);
 		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
 		g.setColor(Color.BLACK);
 
-		Graphics2D previewGraphics = (Graphics2D) g.create(54, 680, 1000, 1000);
-		world.drawPlayerPreview(previewGraphics);
+		Graphics2D gameGraphics = (Graphics2D) g.create(getGamePanelBounds().x, getGamePanelBounds().y,
+				getGamePanelBounds().width, getGamePanelBounds().height);
+		world.draw(gameGraphics, interpolation, keyHandler.inDebugMode());
 
-		Graphics2D gameGraphics = (Graphics2D) g.create(gamePanel.x, gamePanel.y, gamePanel.width, gamePanel.height);
-		Graphics2D mapGraphics = (Graphics2D) g.create(870, 670, 384, 184);
-
-		world.draw(gameGraphics, interpolation, debugMode);
+		g.drawImage(backLevel, 0, 0, gameFrame.getPanelWidth(), gameFrame.getPanelHeight(), null);
+		
+		Rectangle mapRect = getMapBounds();
+		Graphics2D mapGraphics = (Graphics2D) g.create(mapRect.x, mapRect.y, mapRect.width, mapRect.height);
 		world.drawMap(mapGraphics);
-
+		world.drawPlayerPreview(g, getPreviewRect());
 		drawTetroPreview(g);
 
-		g.drawImage(backLevel, 0, 0, 1300, 900, null);
-
 		g.setColor(Color.BLACK);
 		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
-		g.drawString("Overworld", 1020, 585);
+		Fonts.drawCenteredString("Overworld", getBackBounds(), g);
 
 		drawConsole(g);
 
-		inHandHandler.drawPreview(g, debugMode);
+		inHandHandler.drawPreview(g, keyHandler.inDebugMode());
 
-		if (debugMode) {
+		if (keyHandler.inDebugMode()) {
 			drawDebug(gameGraphics);
 		}
 
@@ -130,8 +128,6 @@ public class GameWorldPanel extends Panel {
 		}
 	}
 
-	
-
 	private void drawTetroPreview(Graphics g) {
 		for (int i = 0; i < tetroTypes.size(); i++) {
 			BufferedImage img = null;
@@ -140,26 +136,86 @@ public class GameWorldPanel extends Panel {
 			}
 
 			if (tetroTypes.get(i) == inHandHandler.tetroInHand && world.getTetroAmount()[i] <= 1) {
-				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize,
-						0, emptyTetro);
+				tetroTypes.get(i).drawCenteredPreview(g, tetroDrawPositions.get(i), getTetroPreviewBlockSize(),
+						emptyTetro);
 			} else if (tetroTypes.get(i) == mouseHandler.getCurrentlyHoveredTetro()) {
-				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x - tetroHoverOffset * 4,
-						tetroDrawPositions.get(i).y - tetroHoverOffset * 2, tetrotypeDrawSizeHovered, 0, img);
+				tetroTypes.get(i).drawCenteredPreview(g, tetroDrawPositions.get(i), getTetroPreviewHoverBlockSize(),
+						img);
 			} else if (getFocusedTetroType() == i) {
-				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x - tetroHoverOffset * 4,
-						tetroDrawPositions.get(i).y - tetroHoverOffset * 2, tetrotypeDrawSizeHovered, 0, img);
+				tetroTypes.get(i).drawCenteredPreview(g, tetroDrawPositions.get(i), getTetroPreviewHoverBlockSize(),
+						img);
 			} else {
-				tetroTypes.get(i).draw(g, tetroDrawPositions.get(i).x, tetroDrawPositions.get(i).y, tetrotypeDrawSize,
-						0, img);
+				tetroTypes.get(i).drawCenteredPreview(g, tetroDrawPositions.get(i), getTetroPreviewBlockSize(), img);
 			}
 
 			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 25));
-			if (i % 2 == 0 && world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
-				g.drawString("" + world.getTetroAmount()[i], 1212, 153 + 58 * i + i / 2);
-			} else if (world.getTetroAmount().length > 0 && world.getTetroAmount().length - 1 >= i) {
-				g.drawString("" + world.getTetroAmount()[i], 1085, 212 + 58 * i + i / 2);
-			}
+			Fonts.drawCenteredString(Integer.toString(world.getTetroAmount()[i]), tetroAmountDrawPositions.get(i), g);
 
 		}
+	}
+
+	private void initTetroDrawPositions() {
+		tetroDrawPositions = new ArrayList<>();
+		tetroDrawPositions.add(new Rectangle((int) (1395. / 1920 * gameFrame.getPanelWidth()),
+				(int) (65. / 1080 * gameFrame.getPanelHeight()), (int) (460. / 1920 * gameFrame.getPanelWidth()),
+				(int) (134. / 1080 * gameFrame.getPanelHeight())));
+		tetroDrawPositions.add(new Rectangle((int) (1395. / 1920 * gameFrame.getPanelWidth()),
+				(int) (210. / 1080 * gameFrame.getPanelHeight()), (int) (225. / 1920 * gameFrame.getPanelWidth()),
+				(int) (134. / 1080 * gameFrame.getPanelHeight())));
+		tetroDrawPositions.add(new Rectangle((int) (1630. / 1920 * gameFrame.getPanelWidth()),
+				(int) (210. / 1080 * gameFrame.getPanelHeight()), (int) (225. / 1920 * gameFrame.getPanelWidth()),
+				(int) (134. / 1080 * gameFrame.getPanelHeight())));
+		tetroDrawPositions.add(new Rectangle((int) (1395. / 1920 * gameFrame.getPanelWidth()),
+				(int) (355. / 1080 * gameFrame.getPanelHeight()), (int) (225. / 1920 * gameFrame.getPanelWidth()),
+				(int) (134. / 1080 * gameFrame.getPanelHeight())));
+		tetroDrawPositions.add(new Rectangle((int) (1630. / 1920 * gameFrame.getPanelWidth()),
+				(int) (355. / 1080 * gameFrame.getPanelHeight()), (int) (225. / 1920 * gameFrame.getPanelWidth()),
+				(int) (134. / 1080 * gameFrame.getPanelHeight())));
+		tetroDrawPositions.add(new Rectangle((int) (1395. / 1920 * gameFrame.getPanelWidth()),
+				(int) (500. / 1080 * gameFrame.getPanelHeight()), (int) (225. / 1920 * gameFrame.getPanelWidth()),
+				(int) (134. / 1080 * gameFrame.getPanelHeight())));
+		tetroDrawPositions.add(new Rectangle((int) (1630. / 1920 * gameFrame.getPanelWidth()),
+				(int) (500. / 1080 * gameFrame.getPanelHeight()), (int) (225. / 1920 * gameFrame.getPanelWidth()),
+				(int) (134. / 1080 * gameFrame.getPanelHeight())));
+
+	}
+
+	private void initTetroAmountDrawPositions() {
+		int x0 = (int) (1555. / 1920 * gameFrame.getPanelWidth());
+		int x1 = (int) (1790. / 1920 * gameFrame.getPanelWidth());
+		int y0 = (int) (159. / 1080 * gameFrame.getPanelHeight());
+		int y1 = (int) (304. / 1080 * gameFrame.getPanelHeight());
+		int y2 = (int) (449. / 1080 * gameFrame.getPanelHeight());
+		int y3 = (int) (594. / 1080 * gameFrame.getPanelHeight());
+		int width = (int) (65. / 1920 * gameFrame.getPanelWidth());
+		int height = (int) (40. / 1080 * gameFrame.getPanelHeight());
+		tetroAmountDrawPositions = new ArrayList<>();
+		tetroAmountDrawPositions.add(new Rectangle(x1, y0, width, height));
+		tetroAmountDrawPositions.add(new Rectangle(x0, y1, width, height));
+		tetroAmountDrawPositions.add(new Rectangle(x1, y1, width, height));
+		tetroAmountDrawPositions.add(new Rectangle(x0, y2, width, height));
+		tetroAmountDrawPositions.add(new Rectangle(x1, y2, width, height));
+		tetroAmountDrawPositions.add(new Rectangle(x0, y3, width, height));
+		tetroAmountDrawPositions.add(new Rectangle(x1, y3, width, height));
+
+	}
+
+	public int getTetroPreviewBlockSize() {
+		return 45; // TODo
+	}
+
+	private int getTetroPreviewHoverBlockSize() {
+		return 50; // TODo
+	}
+
+	public Rectangle getBackBounds() {
+		return new Rectangle((int) (1395. / 1920 * gameFrame.getPanelWidth()),
+				(int) (644. / 1080 * gameFrame.getPanelHeight()), (int) (460. / 1920 * gameFrame.getPanelWidth()),
+				(int) (91. / 1080 * gameFrame.getPanelHeight()));
+	}
+
+	public Rectangle getMapBounds() {
+		return new Rectangle(1285 * gameFrame.getPanelWidth() / 1920, 795 * gameFrame.getPanelHeight() / 1080,
+				570 * gameFrame.getPanelWidth() / 1920 + 1, 220 * gameFrame.getPanelHeight() / 1080 + 1);
 	}
 }

@@ -18,7 +18,7 @@ public abstract class Tile implements DrawAndSortable {
 
 	protected char key;
 	protected int posX, posY;
-	protected GameFrameHandler frame;
+	protected GameFrameHandler gameFrame;
 	protected boolean walkable;
 	protected boolean walkableWithTetro;
 	protected boolean tetroPlacable;
@@ -177,8 +177,8 @@ public abstract class Tile implements DrawAndSortable {
 		// do nothing
 	}
 
-	public void setFrame(GameFrameHandler frame) {
-		this.frame = frame;
+	public void setFrame(GameFrameHandler gameFrame) {
+		this.gameFrame = gameFrame;
 	}
 	
 	@Override

@@ -29,12 +29,12 @@ public class MenuMouseHandler implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		panel.mousePressed(e.getX(), e.getY());
+		panel.mousePressed(e.getX() - panel.getPanelOffsetX(), e.getY()- panel.getPanelOffsetY());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		panel.mouseReleased(e.getX(), e.getY());
+		panel.mouseReleased(e.getX() - panel.getPanelOffsetX(), e.getY()- panel.getPanelOffsetY());
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class MenuMouseHandler implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		panel.mouseMoved(e.getX(), e.getY());
+		panel.mouseMoved(e.getX() - panel.getPanelOffsetX(), e.getY()- panel.getPanelOffsetY());
 		
 	}
 

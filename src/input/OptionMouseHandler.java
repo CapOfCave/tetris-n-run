@@ -18,7 +18,7 @@ public class OptionMouseHandler implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		panel.mousePressed(e.getX(),e.getY());
+		panel.mousePressed(e.getX() - frame.getPanelOffsetX(), e.getY()- frame.getPanelOffsetY());
 
 	}
 

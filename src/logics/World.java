@@ -22,7 +22,6 @@ import data.Tiles.PressurePlateTile;
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import graphics.GameFrameHandler;
-import graphics.Panel;
 import graphics.Renderer;
 import input.KeyHandler;
 import logics.entities.Entity;
@@ -58,7 +57,7 @@ public class World {
 	protected Player player;
 	protected SaveNLoadTile lastUsedSALTile;
 	protected Camera camera;
-	protected GameFrameHandler frame;
+	protected GameFrameHandler gameFrame;
 	protected KeyHandler keyHandler;
 	protected ParticleHandler particleHandler;
 
@@ -80,19 +79,18 @@ public class World {
 	protected int[][] worldDeco;
 	protected InHandHandler inHandHandler;
 	private ArrayList<Tetro> newestTetros;
-	private boolean noClip = false;
 	private SaveNLoadTile lastCrossedSALTile = null;
 	private Entity lastTouched = null;
 	private boolean tookBackTetro = false;
 	private Tile exitingTile = null;
 	private int exitTicks = 0;
 
-	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrameHandler frame) {
+	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrameHandler gameFrame) {
 		// Initialisierungen
 		this.graphicClip = graphicClip;
-		this.tetroTypes = frame.getTetroTypes();
+		this.tetroTypes = gameFrame.getTetroTypes();
 		this.keyHandler = keyHandler;
-		this.frame = frame;
+		this.gameFrame = gameFrame;
 
 		particleHandler = new ParticleHandler(this);
 
@@ -154,7 +152,7 @@ public class World {
 		// Erstellen der Tetros
 		newestTetros = new ArrayList<>();
 		for (RawTetro ut : level.getUnfinishedTetros()) {
-			Tetro ft = ut.createTetro(frame.getTetroTypes(), camera);
+			Tetro ft = ut.createTetro(gameFrame.getTetroTypes(), camera);
 			tetros.add(ft);
 			addTetroToHitbox(ft, ft.getX(), ft.getY(), ft.getRotation());
 		}
@@ -271,20 +269,18 @@ public class World {
 
 	public void drawMap(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, 10000, 10000);
-		int canvasX = 382;
-		int canvasY = 184;
+		g.fillRect(0, 0, gameFrame.getLPanel().getMapBounds().width, gameFrame.getLPanel().getMapBounds().height);
 
 		int size;
-		if (tileWorld.length > 45 || tileWorld[0].length > 95) {
+		if (tileWorld.length > 45 || tileWorld[0].length > 95) { //TODO Map size
 			size = 3;
 		} else if (tileWorld.length > 35 || tileWorld[0].length > 75) {
 			size = 4;
 		} else {
 			size = 5;
 		}
-		int startX = canvasX / 2 - (tileWorld[0].length / 2 * size);
-		int startY = canvasY / 2 - (tileWorld.length / 2 * size);
+		int startX = gameFrame.getLPanel().getMapBounds().width / 2 - (tileWorld[0].length / 2 * size);
+		int startY = gameFrame.getLPanel().getMapBounds().height / 2 - (tileWorld.length / 2 * size);
 		// Tetros
 		for (int y = 0; y < tetroWorldHitbox.length; y++) {
 			for (int x = 0; x < tetroWorldHitbox[y].length; x++) {
@@ -419,7 +415,7 @@ public class World {
 	}
 
 	public void playSound(String sound, float volume) {
-		frame.playSound(sound, volume);
+		gameFrame.playSound(sound, volume);
 	}
 
 	public void drawPlayer(Graphics g, float interpolation) {
@@ -428,8 +424,8 @@ public class World {
 
 	}
 
-	public void drawPlayerPreview(Graphics g) {
-		player.drawPreview(g);
+	public void drawPlayerPreview(Graphics g, Rectangle previewRect) {
+		player.drawPreview(g, previewRect);
 	}
 
 	public void drawDebug(Graphics g, float interpolation) {
@@ -488,7 +484,7 @@ public class World {
 			
 			exitTicks++;
 			if (exitTicks >= STILL_TICKS_BEFORE_EXIT) {
-				frame.changeToOverworld(false);
+				gameFrame.changeToOverworld(false);
 				player.resetActionPressed();
 			}
 			
@@ -545,9 +541,9 @@ public class World {
 	}
 
 	public void addTetro(TetroType tetroType, int x, int y, int mouse_x, int mouse_y, int rotation) {
-		if (!keyHandler.getKameraKey() || noClip) {
+		if (!keyHandler.getKameraKey() || noClip()) {
 
-			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0 || noClip) {
+			if (tetroAmount[this.tetroTypes.indexOf(tetroType)] > 0 || noClip()) {
 				int placeX;
 				int placeY;
 
@@ -562,7 +558,7 @@ public class World {
 					placeY = (y + camera.getDrawY() + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE;
 				}
 				Tetro tetro = new Tetro(tetroType, placeX, placeY, rotation, camera);
-				if (isAllowed(tetro) && Panel.gamePanel.contains(mouse_x, mouse_y)) {
+				if (isAllowed(tetro) && gameFrame.getGamePanelBounds().contains(mouse_x, mouse_y)) {
 					// success
 					tetroAmount[this.tetroTypes.indexOf(tetroType)] -= 1;
 					newestTetros.add(0, tetro);
@@ -576,22 +572,22 @@ public class World {
 					playSound("error", -3f);
 				}
 			} else {
-				frame.addLineToText("Es sind keine Tetros dieser Art mehr da.");
+				gameFrame.addLineToText("Es sind keine Tetros dieser Art mehr da.");
 			}
 		} else {
-			frame.addLineToText("Tetros gesetzt werden. ");
-			frame.addLineToText("Es können im Kameramodus keine");
+			gameFrame.addLineToText("Tetros gesetzt werden. ");
+			gameFrame.addLineToText("Es können im Kameramodus keine");
 		}
 
 	}
 
 	public void removeLastTetro() {
-		if (!tookBackTetro || noClip) {
+		if (!tookBackTetro || noClip()) {
 			if (newestTetros.size() == 0) {
-				frame.addLineToText("Du hast seit dem letzten Speichervorgang noch kein Tetro platziert.");
+				gameFrame.addLineToText("Du hast seit dem letzten Speichervorgang noch kein Tetro platziert.");
 			} else {
 				Tetro newestTetro = newestTetros.get(0);
-				if (!isPlayeronTetro(newestTetro) || noClip) {
+				if (!isPlayeronTetro(newestTetro) || noClip()) {
 					// success
 					removeTetroFromHitbox(newestTetro, newestTetro.getX(), newestTetro.getY(),
 							newestTetro.getRotation());
@@ -601,13 +597,13 @@ public class World {
 					tookBackTetro = true;
 					playSound("glassbreak", 5);
 					particleHandler.startBreakingAnimation(newestTetro.getX(), newestTetro.getY(), newestTetro);
-					frame.getLPanel().focusTetroType(newestTetro.getType().getColor());
+					gameFrame.getLPanel().focusTetroType(newestTetro.getType().getColor());
 				} else {
-					frame.addLineToText("Du stehst auf diesem Block.");
+					gameFrame.addLineToText("Du stehst auf diesem Block.");
 				}
 			}
 		} else {
-			frame.addLineToText("Du kannst nur den zuletzt gesetzten Block entfernen.");
+			gameFrame.addLineToText("Du kannst nur den zuletzt gesetzten Block entfernen.");
 		}
 
 	}
@@ -777,7 +773,7 @@ public class World {
 	}
 
 	public void initiateSaving(String url) {
-		frame.save(getLevel(), url);
+		gameFrame.save(getLevel(), url);
 	}
 
 	private Level getLevel() {
@@ -811,7 +807,7 @@ public class World {
 	}
 
 	public void backToTheOverworld(boolean died) {
-		frame.changeToOverworld(died);
+		gameFrame.changeToOverworld(died);
 	}
 
 	public Player getPlayer() {
@@ -1053,12 +1049,6 @@ public class World {
 		return minDist;
 	}
 
-	public void switchNoClip() {
-		noClip = !noClip;
-		player.switchNoClip();
-
-	}
-
 	public MovingBlock getLastTouchedMovingBlock() {
 		if (lastTouched instanceof MovingBlock)
 			return (MovingBlock) lastTouched;
@@ -1071,7 +1061,7 @@ public class World {
 	}
 
 	public boolean noClip() {
-		return noClip;
+		return keyHandler.inNoclipMode();
 	}
 
 	public void interactWithLastUsedSALTile() {
@@ -1086,11 +1076,11 @@ public class World {
 	}
 
 	public BufferedImage getImage(String url) {
-		return frame.getImage(url);
+		return gameFrame.getImage(url);
 	}
 
 	public HashMap<String, Animation> loadAnimations(String url) {
-		return frame.getAnimations(url);
+		return gameFrame.getAnimations(url);
 	}
 
 	public void startExitingSequence(Tile tile) {
@@ -1103,8 +1093,15 @@ public class World {
 			lastCrossedSALTile = null;
 		}
 		renderer.removeDrawable(tileWorld[y][x]);
-		tileWorld[y][x] = new InvalidSaveNLoadTile(x, y, this, frame);
+		tileWorld[y][x] = new InvalidSaveNLoadTile(x, y, this, gameFrame);
 		renderer.addDrawable(tileWorld[y][x]);
+	}
+
+	public int getPanelOffsetX() {
+		return gameFrame.getPanelOffsetX();
+	}
+	public int getPanelOffsetY() {
+		return gameFrame.getPanelOffsetY();
 	}
 
 }
