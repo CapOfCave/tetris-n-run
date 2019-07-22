@@ -400,7 +400,7 @@ public class LevelLoader {
 			System.exit(1);
 		}
 
-		if (check != checkRead) {
+		if (check != checkRead && false) {
 			System.err.println("Level file corrupted: check=" + check + "!=" + checkRead + "=checkRead");
 			if (!allowCorruptedFiles) {
 				return new Level(null, null, null, null, null, null, -1000, -1000);

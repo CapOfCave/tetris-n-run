@@ -16,7 +16,7 @@ public class TutorialText {
 	private ArrayList<String[]> finishedContent;
 	private ArrayList<String> unsplitContent;
 
-	private Font font = new Font(GameFrameHandler.FONTSTRING, 0, 19);
+	private Font font = new Font(GameFrameHandler.FONTSTRING, 0, 55);
 	private boolean createdLines = false;
 
 	public void loadFromFile(String path) {
@@ -56,6 +56,7 @@ public class TutorialText {
 	}
 
 	public String[] loadContent(String unSplitLine, Graphics g, int width) {
+		font = g.getFont();
 		FontMetrics fm = g.getFontMetrics(font);
 		dy = (fm.getAscent() + fm.getDescent());
 		ArrayList<String> outp = new ArrayList<>();
@@ -101,7 +102,7 @@ public class TutorialText {
 	}
 
 	public void drawPanel(int index, Graphics g, int x, int y, int width, ArrayList<Integer> keyCodes) {
-		g.setFont(font);
+		//g.setFont(font);
 		if (!createdLines) {
 			loadContent(g, width, keyCodes);
 		}

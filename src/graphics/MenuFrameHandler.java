@@ -18,6 +18,7 @@ public class MenuFrameHandler {
 	private MenuPanel mPanel;
 	private OptionPanel oPanel;
 	private TutorialPanel tPanel;
+	private CreditsPanel cPanel;
 	
 	private MenuKeyHandler keyHandler;
 
@@ -32,6 +33,7 @@ public class MenuFrameHandler {
 		mPanel = new MenuPanel(this);
 		tPanel = new TutorialPanel(this);
 		oPanel = new OptionPanel(this);
+		cPanel = new CreditsPanel(this);
 		keyHandler = new MenuKeyHandler(oPanel);
 
 		frame.add(mPanel);
@@ -48,6 +50,7 @@ public class MenuFrameHandler {
 		frame.add(mPanel);
 		frame.remove(tPanel);
 		frame.remove(oPanel);
+		frame.remove(cPanel);
 
 	}
 
@@ -56,7 +59,22 @@ public class MenuFrameHandler {
 		frame.add(tPanel);
 		frame.remove(mPanel);
 		frame.remove(oPanel);
+		frame.remove(cPanel);
+		
 
+	}
+	
+	public void startCredits() {
+		cPanel.initImages();
+		frame.add(cPanel);
+		frame.remove(mPanel);
+		frame.remove(oPanel);
+		frame.remove(tPanel);
+
+	}
+	
+	public void closeGame() {
+		frame.closeGame();
 	}
 
 	public void playSound(String sound, float volume) {

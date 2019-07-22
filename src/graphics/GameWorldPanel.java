@@ -38,6 +38,8 @@ public class GameWorldPanel extends Panel {
 
 	private int currentFocusTicks = 0;
 	private int focusedTetroType = -1;
+	
+	private double fontMultiplier;
 
 	public GameWorldPanel(Level level, KeyHandler keyHandler, GameFrameHandler gameFrame,
 			ArrayList<TetroType> tetroTypes) {
@@ -51,6 +53,8 @@ public class GameWorldPanel extends Panel {
 		world.addInHandHandler(inHandHandler);
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
+		
+		fontMultiplier = (gameFrame.getPanelWidth() / 1920.);
 
 		emptyTetro = gameFrame.getImage("/res/tetros/empty.png");
 		backLevel = gameFrame.getImage("/res/imgs/backLevel.png");
@@ -59,7 +63,7 @@ public class GameWorldPanel extends Panel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
+		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, (int) (44 * fontMultiplier)));
 		g.setColor(Color.BLACK);
 
 		Graphics2D gameGraphics = (Graphics2D) g.create(getGamePanelBounds().x, getGamePanelBounds().y,
@@ -75,7 +79,7 @@ public class GameWorldPanel extends Panel {
 		drawTetroPreview(g);
 
 		g.setColor(Color.BLACK);
-		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
+		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, (int) (44 * fontMultiplier)));
 		Fonts.drawCenteredString("Overworld", getBackBounds(), g);
 
 		drawConsole(g);
@@ -148,7 +152,7 @@ public class GameWorldPanel extends Panel {
 				tetroTypes.get(i).drawCenteredPreview(g, tetroDrawPositions.get(i), getTetroPreviewBlockSize(), img);
 			}
 
-			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 25));
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, (int) (25 * fontMultiplier)));
 			Fonts.drawCenteredString(Integer.toString(world.getTetroAmount()[i]), tetroAmountDrawPositions.get(i), g);
 
 		}
@@ -183,12 +187,12 @@ public class GameWorldPanel extends Panel {
 	private void initTetroAmountDrawPositions() {
 		int x0 = (int) (1555. / 1920 * gameFrame.getPanelWidth());
 		int x1 = (int) (1790. / 1920 * gameFrame.getPanelWidth());
-		int y0 = (int) (159. / 1080 * gameFrame.getPanelHeight());
-		int y1 = (int) (304. / 1080 * gameFrame.getPanelHeight());
-		int y2 = (int) (449. / 1080 * gameFrame.getPanelHeight());
-		int y3 = (int) (594. / 1080 * gameFrame.getPanelHeight());
+		int y0 = (int) (174. / 1080 * gameFrame.getPanelHeight());
+		int y1 = (int) (319. / 1080 * gameFrame.getPanelHeight());
+		int y2 = (int) (464. / 1080 * gameFrame.getPanelHeight());
+		int y3 = (int) (609. / 1080 * gameFrame.getPanelHeight());
 		int width = (int) (65. / 1920 * gameFrame.getPanelWidth());
-		int height = (int) (40. / 1080 * gameFrame.getPanelHeight());
+		int height = (int) (25. / 1080 * gameFrame.getPanelHeight());
 		tetroAmountDrawPositions = new ArrayList<>();
 		tetroAmountDrawPositions.add(new Rectangle(x1, y0, width, height));
 		tetroAmountDrawPositions.add(new Rectangle(x0, y1, width, height));
