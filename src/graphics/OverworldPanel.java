@@ -100,10 +100,8 @@ public class OverworldPanel extends Panel {
 		world.drawPlayerPreview(g, getPreviewRect());
 
 		drawLevelCaption(g);
-		//drawGuiButtons(g);
+		// drawGuiButtons(g);
 		drawGuiButtonCaptions(g);
-
-		
 
 		drawConsole(g);
 
@@ -119,7 +117,10 @@ public class OverworldPanel extends Panel {
 
 	public void drawLoadingScreen(Graphics g) {
 		g.drawImage(loadingScreen, 0, 0, null);
-		g.drawImage(loadingAnim.getImage(), 700 * gameFrame.getPanelWidth() /1920 - loadingAnim.getImage().getWidth()/2, 400 * gameFrame.getPanelHeight() /1920 - loadingAnim.getImage().getHeight()/2, null);
+		if (loadingAnim.getImage() != null)
+			g.drawImage(loadingAnim.getImage(),
+					700 * gameFrame.getPanelWidth() / 1920 - loadingAnim.getImage().getWidth() / 2,
+					400 * gameFrame.getPanelHeight() / 1920 - loadingAnim.getImage().getHeight() / 2, null);
 		loadingAnim.next();
 		if (loadingAnim.getImage() == null)
 			loadingAnim.next();
@@ -276,9 +277,10 @@ public class OverworldPanel extends Panel {
 		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920, 589 * gameFrame.getPanelHeight() / 1080,
 				460 * gameFrame.getPanelWidth() / 1920, 146 * gameFrame.getPanelHeight() / 1080);
 	}
-	
+
 	public Rectangle getTitelLineBounds(double line, Graphics g) { // TODO bounz
-		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920 , (65 * gameFrame.getPanelHeight() / 1080) + (int) (g.getFontMetrics().getHeight() * 1 * line),
+		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920,
+				(65 * gameFrame.getPanelHeight() / 1080) + (int) (g.getFontMetrics().getHeight() * 1 * line),
 				460 * gameFrame.getPanelWidth() / 1920, 200 * gameFrame.getPanelHeight() / 1080);
 	}
 

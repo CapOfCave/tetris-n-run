@@ -103,7 +103,7 @@ public class SaveNLoadTile extends Tile {
 					f.delete();
 				}
 			}
-			gameFrame.switchLevel(loadFile.getAbsolutePath());
+			gameFrame.switchLevel(loadFile.getAbsolutePath(), loadFile.getAbsolutePath().charAt(loadFile.getAbsolutePath().length()));
 
 		} else if (isCreating) {
 			checkIfExists();

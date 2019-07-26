@@ -123,7 +123,7 @@ public class GameFrameHandler {
 	}
 
 	// Level to level
-	public void switchLevel(String path) {
+	public void switchLevel(String path, char nextLevel) {
 		loadLevel(path); // TODO was soll das Tile ? Siehe commit vom ca. 26.06.2019
 	}
 
@@ -249,7 +249,7 @@ public class GameFrameHandler {
 		// TODO
 	}
 
-	protected int getPanelWidth() {
+	public int getPanelWidth() {
 		return frame.getPanelWidth();
 	}
 

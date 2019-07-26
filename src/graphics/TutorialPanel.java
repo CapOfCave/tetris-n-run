@@ -18,7 +18,7 @@ public class TutorialPanel extends JPanel {
 
 	private MenuFrameHandler menuFrame;
 	private TutorialMouseHandler mouseHandler;
-	private BufferedImage tutorial;
+	private BufferedImage tutorialBack;
 	private TutorialText tutorialText;
 	private int textWidth;
 	private double fontMultiplier;
@@ -39,46 +39,47 @@ public class TutorialPanel extends JPanel {
 	}
 
 	public void initImages() {
-		tutorial = menuFrame.getImage("/res/tutorial.png");
+		tutorialBack = menuFrame.getImage("/res/tutorial.png");
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.translate(menuFrame.getPanelOffsetX(), menuFrame.getPanelOffsetY());
-		g.drawImage(tutorial, 0, 0, menuFrame.getPanelWidth(), menuFrame.getPanelHeight(), null);
+		g.drawImage(tutorialBack, 0, 0, menuFrame.getPanelWidth(), menuFrame.getPanelHeight(), null);
 		g.setColor(Color.BLACK);
 
-		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, (int) (34 * fontMultiplier)));
+		g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, (int) (38 * fontMultiplier)));
 
 		int panelWidth = menuFrame.getPanelWidth();
 		int panelHeight = menuFrame.getPanelHeight();
 
-		g.drawString("Tutorial1:", (234 + 10) * panelWidth / 1920, (75 + 10) * panelHeight / 1080);
-		g.drawString("Tutorial2:", (600 + 10) * panelWidth / 1920, (75 + 10) * panelHeight / 1080);
-		g.drawString("Tutorial3:", (966 + 10) * panelWidth / 1920, (75 + 10) * panelHeight / 1080);
-		g.drawString("Tutorial4:", (1332 + 10) * panelWidth / 1920, (75 + 10) * panelHeight / 1080);
-		g.drawString("Tutorial5:", (234 + 10) * panelWidth / 1920, (566 + 10) * panelHeight / 1080);
-		g.drawString("Tutorial6:", (600 + 10) * panelWidth / 1920, (566 + 10) * panelHeight / 1080);
-		g.drawString("Tutorial7:", (966 + 10) * panelWidth / 1920, (566 + 10) * panelHeight / 1080);
+		
+		g.drawString("Tutorial1:", (234 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
+		g.drawString("Tutorial2:", (600 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
+		g.drawString("Tutorial3:", (966 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
+		g.drawString("Tutorial4:", (1332 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
+		g.drawString("Tutorial5:", (234 + 10) * panelWidth / 1920, (566 + 40) * panelHeight / 1080);
+		g.drawString("Tutorial6:", (600 + 10) * panelWidth / 1920, (566 + 40) * panelHeight / 1080);
+		g.drawString("Tutorial7:", (966 + 10) * panelWidth / 1920, (566 + 40) * panelHeight / 1080);
 		
 		g.setFont(new Font(GameFrameHandler.FONTSTRING, 0, (int) (23 * fontMultiplier)));
 
-		tutorialText.drawPanel(0, g, (234 + 10) * panelWidth / 1920, (310 + 10) * panelHeight / 1080, textWidth,
+		tutorialText.drawPanel(0, g, (234 + 10) * panelWidth / 1920, (162 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
-		tutorialText.drawPanel(1, g, (600 + 10) * panelWidth / 1920, (310 + 10) * panelHeight / 1080, textWidth,
+		tutorialText.drawPanel(1, g, (600 + 10) * panelWidth / 1920, (162 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
-		tutorialText.drawPanel(2, g, (966 + 10) * panelWidth / 1920, (310 + 10) * panelHeight / 1080, textWidth,
+		tutorialText.drawPanel(2, g, (966 + 10) * panelWidth / 1920, (162 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
-		tutorialText.drawPanel(3, g, (1332 + 10) * panelWidth / 1920, (310 + 10) * panelHeight / 1080, textWidth,
+		tutorialText.drawPanel(3, g, (1332 + 10) * panelWidth / 1920, (162 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
-		tutorialText.drawPanel(4, g, (234 + 10) * panelWidth / 1920, (800 + 10) * panelHeight / 1080, textWidth,
+		tutorialText.drawPanel(4, g, (234 + 10) * panelWidth / 1920, (654 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
-		tutorialText.drawPanel(5, g, (600 + 10) * panelWidth / 1920, (800 + 10) * panelHeight / 1080, textWidth,
+		tutorialText.drawPanel(5, g, (600 + 10) * panelWidth / 1920, (654 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
-		tutorialText.drawPanel(6, g, (966 + 10) * panelWidth / 1920, (800 + 10) * panelHeight / 1080, textWidth,
+		tutorialText.drawPanel(6, g, (966 + 10) * panelWidth / 1920, (654 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
-		tutorialText.drawPanel(7, g, (1332 + 10) * panelWidth / 1920, (557 + 10) * panelHeight / 1080, textWidth,
+		tutorialText.drawPanel(7, g, (1332 + 10) * panelWidth / 1920, (557 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
 		g.setFont(new Font("GameFrame.fontString", 1, (int) (55 * fontMultiplier)));
 		Fonts.drawCenteredString("Menu", getMenuBounds(), g);
