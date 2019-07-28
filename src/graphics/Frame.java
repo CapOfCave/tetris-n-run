@@ -181,6 +181,10 @@ public class Frame extends JFrame {
 	public void playSound(String sound, float volume) {
 		soundPlayer.playSound(sound, volume);
 	}
+	
+	public void closeGame() {
+		dispose();
+	}
 
 	public int getPanelWidth() {
 		return PANEL_WIDTH;

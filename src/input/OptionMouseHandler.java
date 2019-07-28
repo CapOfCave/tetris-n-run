@@ -15,6 +15,7 @@ public class OptionMouseHandler implements MouseListener {
 		this.frame = frame;
 		this.panel = panel;
 	}
+	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {

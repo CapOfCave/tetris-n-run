@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import input.OptionButton;
 import input.OptionMouseHandler;
 import loading.SettingSaver;
+import tools.Fonts;
 
 public class OptionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -22,22 +24,30 @@ public class OptionPanel extends JPanel {
 	private MenuFrameHandler menuFrame;
 	private OptionMouseHandler mouseHandler;
 	private BufferedImage option;
+	
+	private double fontMultiplier;
 
 	public OptionPanel(MenuFrameHandler menuFrame) {
 		keyCodes = new ArrayList<Integer>();
+		
+		
+		int panelWidth = menuFrame.getPanelWidth();
+		int panelHeight = menuFrame.getPanelHeight();
+		
 		optionButtons = new ArrayList<OptionButton>();
-		optionButtons.add(new OptionButton(100, 250, 500 ,"Up:", 0, this));
-		optionButtons.add(new OptionButton(100, 300, 500, "Left:", 1, this));
-		optionButtons.add(new OptionButton(100, 350, 500, "Down:", 2, this));
-		optionButtons.add(new OptionButton(100, 400, 500, "Right:", 3, this));
-		optionButtons.add(new OptionButton(100, 450, 500, "Interaction:", 4, this));
-		optionButtons.add(new OptionButton(100, 500, 500, "Rotate:", 5, this));
-		optionButtons.add(new OptionButton(100, 550, 500, "Remove:", 6, this));
-		optionButtons.add(new OptionButton(100, 600, 500, "Move the camera:", 7, this));
-		optionButtons.add(new OptionButton(100, 650, 500, "Retry: ", 8, this));
-		optionButtons.add(new OptionButton(100, 700, 500, "Run: ", 9, this));
-		optionButtons.add(new OptionButton(100, 750, 500, "Hint: ", 10, this));
-		optionButtons.add(new OptionButton(100, 800, 500, "Delete last checkpoint: ", 11, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 250 * panelHeight / 1080, 500 ,"Up:", 0, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 300 * panelHeight / 1080, 500, "Left:", 1, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 350 * panelHeight / 1080, 500, "Down:", 2, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 400 * panelHeight / 1080, 500, "Right:", 3, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 450 * panelHeight / 1080, 500, "Interaction:", 4, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 500 * panelHeight / 1080, 500, "Rotate:", 5, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 550 * panelHeight / 1080, 500, "Remove:", 6, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 600 * panelHeight / 1080, 500, "Move the camera:", 7, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 650 * panelHeight / 1080, 500, "Retry: ", 8, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 700 * panelHeight / 1080, 500, "Run: ", 9, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 750 * panelHeight / 1080, 500, "Hint: ", 10, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 800 * panelHeight / 1080, 500, "Delete last checkpoint: ", 11, this));
+		
 		
 		keyCodes.add(0, 87);
 		keyCodes.add(1, 65);
@@ -57,6 +67,9 @@ public class OptionPanel extends JPanel {
 		setPreferredSize(new Dimension(menuFrame.getScreenSize()));
 		addMouseListener(mouseHandler);
 		setBackground(Color.BLACK);
+		
+		fontMultiplier = (menuFrame.getPanelWidth() / 1920.);
+		
 
 	}
 	
@@ -68,21 +81,28 @@ public class OptionPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.translate(menuFrame.getPanelOffsetX(), menuFrame.getPanelOffsetY());
-		g.drawImage(option, 0, 0, null);
+		g.drawImage(option, 0, 0,menuFrame.getPanelWidth(), menuFrame.getPanelHeight(),  null);
 		
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("GameFrame.fontString", 1, 80));
+		g.setFont(new Font("GameFrame.fontString", 1, (int) (80 * fontMultiplier)));
 		String headline = "Settings";
-		g.drawString(headline, 650 - (g.getFontMetrics().stringWidth(headline) / 2), 130);
+		g.drawString(headline, menuFrame.getPanelWidth()/2   - (g.getFontMetrics().stringWidth(headline) / 2), 130 * menuFrame.getPanelHeight() / 1080);
 		
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("GameFrame.fontString", 1, 55));
-		g.drawString("Menu", 1035, 823);
-		g.setFont(new Font("GameFrame.fontString", 1, 24));
+		g.setFont(new Font("GameFrame.fontString", 1, (int) (55 * fontMultiplier)));
+		Fonts.drawCenteredString("Menu", getMenuBounds(), g);
+		g.setFont(new Font("GameFrame.fontString", 1, (int) (24 * fontMultiplier)));
 		
 		for(int i = 0; i < optionButtons.size(); i++) {
 			optionButtons.get(i).draw(g);
 		}
+		
+	}
+	
+	private Rectangle getMenuBounds() { // TODO bounz
+		return new Rectangle(1331 * menuFrame.getPanelWidth() / 1920, 906 * menuFrame.getPanelHeight() / 1080,
+				354 * menuFrame.getPanelWidth() / 1920, 120 * menuFrame.getPanelHeight() / 1080);
+		
 		
 	}
 
@@ -96,7 +116,7 @@ public class OptionPanel extends JPanel {
 			optionButtons.get(i).checkIfPressed(x, y);
 		}
 		
-		if (x >= 950 && y >= 745 && x <= 1250 && y <= 856) {
+		if (x >= 1331 * menuFrame.getPanelWidth() / 1920  && y >= 906 * menuFrame.getPanelHeight() / 1080 && x <= 1685 * menuFrame.getPanelWidth() / 1920 && y <= 1026 * menuFrame.getPanelHeight() / 1080) {
 			SettingSaver.saveSettings(getKeyCodes(), menuFrame.getLevelSolved(), System.getenv("APPDATA") + "\\tetro-maze", "settings.txt");
 			menuFrame.startMenu();
 			menuFrame.playSound("ButtonKlick", -5f);

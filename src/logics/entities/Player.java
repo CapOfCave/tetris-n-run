@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import data.Animation;
 import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import graphics.GameFrameHandler;
@@ -41,18 +42,20 @@ public class Player extends Entity {
 	protected boolean wantsToGoDown = false;
 	protected boolean wantsToGoLeft = false;
 	protected boolean wantsToGoRight = false;
+	private Animation tpAnim;
 
 	protected double edgeTolerancePercentage = 25;
 
 	private double speedloss = 0;
 
 	private boolean controllable = true;
-//	double relCheckX, relCheckY;
+	// double relCheckX, relCheckY;
 
 	public Player(World world) {
 		super(world, animPath, null);
 		setWorld(world);
 		akt_animation = anims.get("walk1");
+		tpAnim = anims.get("tp");
 		type = "player";
 
 	}
@@ -76,9 +79,14 @@ public class Player extends Entity {
 		int interpolX = (int) ((x - lastX) * interpolation + lastX);
 		int interpolY = (int) ((y - lastY) * interpolation + lastY);
 
-		g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
-				interpolY - world.cameraY() + akt_animation.getOffsetY(), null);
-
+		if (controllable)
+			g.drawImage(akt_animation.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
+					interpolY - world.cameraY() + akt_animation.getOffsetY(), null);
+		else {
+			g.drawImage(tpAnim.getImage(), interpolX - world.cameraX() + akt_animation.getOffsetX(),
+					interpolY - world.cameraY() + akt_animation.getOffsetY(), null);
+			tpAnim.next();
+		}
 	}
 
 	public void drawPreview(Graphics g, Rectangle previewRect) {
@@ -333,13 +341,13 @@ public class Player extends Entity {
 
 		double minDistEntity = world.minDistanceToEntity(rotation, x + relCheckX + GameFrameHandler.BLOCKSIZE / 2,
 				y + relCheckY + GameFrameHandler.BLOCKSIZE / 2, this, minDist);
-//		if (minDistEntity < 100)
-//			System.ouut.println(minDist + " " + minDistEntity + "; " + rotation);
+		// if (minDistEntity < 100)
+		// System.ouut.println(minDist + " " + minDistEntity + "; " + rotation);
 		if (minDistEntity < minDist) {
 			minDist = minDistEntity;
-//			if (world.getLastTouchedMovingBlock() != null) {
-//				world.getLastTouchedMovingBlock().interact();
-//			}
+			// if (world.getLastTouchedMovingBlock() != null) {
+			// world.getLastTouchedMovingBlock().interact();
+			// }
 
 		}
 
@@ -586,7 +594,7 @@ public class Player extends Entity {
 						-GameFrameHandler.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100)
 						&& !wantsToGoLeft) {
 					move_contact_solid(3, true);
-//					move_contact_solid(0);
+					// move_contact_solid(0);
 				} else {
 					speedloss += Math.abs(vSpeed);
 
@@ -602,7 +610,7 @@ public class Player extends Entity {
 						GameFrameHandler.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100)
 						&& !wantsToGoRight) {
 					move_contact_solid(1, true);
-//					move_contact_solid(0);
+					// move_contact_solid(0);
 				} else {
 					speedloss += Math.abs(vSpeed);
 
@@ -618,7 +626,7 @@ public class Player extends Entity {
 						-GameFrameHandler.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100)
 						&& !wantsToGoLeft) {
 					move_contact_solid(3, true);
-//					move_contact_solid(2);
+					// move_contact_solid(2);
 				} else {
 					speedloss += Math.abs(vSpeed);
 
@@ -631,7 +639,7 @@ public class Player extends Entity {
 						GameFrameHandler.BLOCKSIZE / 2 - edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100)
 						&& !wantsToGoRight) {
 					move_contact_solid(1, true);
-//					move_contact_solid(2);
+					// move_contact_solid(2);
 
 				} else {
 					speedloss += Math.abs(vSpeed);
@@ -651,7 +659,7 @@ public class Player extends Entity {
 						-GameFrameHandler.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
 						getExtremePosition(3)) && !wantsToGoUp) {
 					move_contact_solid(0, true);
-//					move_contact_solid(3);
+					// move_contact_solid(3);
 				} else {
 					speedloss += Math.abs(hSpeed);
 
@@ -664,7 +672,7 @@ public class Player extends Entity {
 						GameFrameHandler.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
 						getExtremePosition(3)) && !wantsToGoDown) {
 					move_contact_solid(2, true);
-//					move_contact_solid(3);
+					// move_contact_solid(3);
 				} else {
 					speedloss += Math.abs(hSpeed);
 
@@ -683,7 +691,7 @@ public class Player extends Entity {
 						-GameFrameHandler.BLOCKSIZE / 2 + edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
 						getExtremePosition(1)) && !wantsToGoUp) {
 					move_contact_solid(0, true);
-//					move_contact_solid(1);
+					// move_contact_solid(1);
 				} else {
 					speedloss += Math.abs(hSpeed);
 
@@ -696,7 +704,7 @@ public class Player extends Entity {
 						GameFrameHandler.BLOCKSIZE / 2 - 1 - edgeTolerancePercentage * GameFrameHandler.BLOCKSIZE / 100,
 						getExtremePosition(1)) && !wantsToGoDown) {
 					move_contact_solid(2, true);
-//					move_contact_solid(1);
+					// move_contact_solid(1);
 				} else {
 					speedloss += Math.abs(hSpeed);
 

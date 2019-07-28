@@ -1,7 +1,13 @@
 pics45 pcs0 = "/res/blocks/switch.png"
 pics45 pcs1 = "/res/blocks/switch2.png"
+pics45 pcsOut0 = "/res/blocks/switchOutline.png"
+pics45 pcsOut1 = "/res/blocks/switchOutline2.png"
+
 
 anim state0 = pcs0.0
 anim state1 = pcs1.0
+anim stateOut0 = pcsOut0.0
+anim stateOut1 = pcsOut1.0
 
 anim preview = pcs0.0
+anim previewOut = pcsOut0.0

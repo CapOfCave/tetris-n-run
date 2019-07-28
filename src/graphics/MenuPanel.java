@@ -21,10 +21,13 @@ public class MenuPanel extends JPanel implements Playable {
 	private MenuFrameHandler menuFrame;
 	private MenuMouseHandler mouseHandler;
 	private BufferedImage menu;
+	private BufferedImage menuTitel;
 	private int highlighted = -1;
 	int loadingx = 20;
 	private BufferedImage openingScreen;
 	private Animation loadingAnim;
+	private final int WQHDWIDTH = 2560;
+	private double fontMultiplier;
 
 	public MenuPanel(MenuFrameHandler frame) {
 		this.menuFrame = frame;
@@ -33,10 +36,15 @@ public class MenuPanel extends JPanel implements Playable {
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
 		setBackground(Color.BLACK);
-		menu = frame.getImage("/res/menu.png");
-
+		menu = frame.getImage("/res/menu16x9.png");
+		if (frame.getPanelWidth() == WQHDWIDTH)
+			menuTitel = frame.getImage("/res/titel2560.png");
+		else
+			menuTitel = frame.getImage("/res/titel1920.png");
 		loadingAnim = frame.getAnimations("/res/anims/loading.txt").get("loading");
 		openingScreen = frame.getImage("/res/loadingScreen.png");
+
+		fontMultiplier = (frame.getPanelWidth() / 1920.);
 
 		repaint();
 
@@ -50,11 +58,13 @@ public class MenuPanel extends JPanel implements Playable {
 			drawLoadingScreen(g);
 		} else {
 			g.drawImage(menu, 0, 0, menuFrame.getPanelWidth(), menuFrame.getPanelHeight(), null);
+			g.drawImage(menuTitel, 245 * menuFrame.getPanelWidth() / 1920, 81 * menuFrame.getPanelHeight() / 1080,
+					null);
 			g.setColor(Color.BLACK);
-			int sizeDifPlay = 16;
-			int normSizePlay = 130;
-			int sizeDifRest = 10;
-			int normSizeRest = 100;
+			int sizeDifPlay = (int) (16 * fontMultiplier);
+			int normSizePlay = (int) (130 * fontMultiplier);
+			int sizeDifRest = (int) (10 * fontMultiplier);
+			int normSizeRest = (int) (100 * fontMultiplier);
 
 			if (highlighted == 0) {
 				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, sizeDifPlay + normSizePlay));
@@ -68,7 +78,7 @@ public class MenuPanel extends JPanel implements Playable {
 			} else {
 				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
 			}
-			Fonts.drawCenteredString("Tutorial", getTutorialBounds(), g);
+			Fonts.drawCenteredString("Instructions", getTutorialBounds(), g);
 
 			if (highlighted == 2) {
 				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
@@ -76,29 +86,56 @@ public class MenuPanel extends JPanel implements Playable {
 				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
 
 			}
+			Fonts.drawCenteredString("Credits", getCreditsBounds(), g);
+
+			if (highlighted == 3) {
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
+			} else {
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
+
+			}
 			Fonts.drawCenteredString("Settings", getSettingsBounds(), g);
+
+			if (highlighted == 4) {
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
+			} else {
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
+
+			}
+			Fonts.drawCenteredString("Exit", getExitBounds(), g);
 
 		}
 	}
 
 	private Rectangle getPlayBounds() { // TODO bounz
-		return new Rectangle(45 * menuFrame.getPanelWidth() / 1300, 357 * menuFrame.getPanelHeight() / 900,
-				1210 * menuFrame.getPanelWidth() / 1300, 184 * menuFrame.getPanelHeight() / 900);
+		return new Rectangle(235 * menuFrame.getPanelWidth() / 1920, 357 * menuFrame.getPanelHeight() / 900,
+				720 * menuFrame.getPanelWidth() / 1920, 184 * menuFrame.getPanelHeight() / 900);
 	}
 
 	private Rectangle getTutorialBounds() { // TODO bounz
-		return new Rectangle(45 * menuFrame.getPanelWidth() / 1300, 596 * menuFrame.getPanelHeight() / 900,
-				600 * menuFrame.getPanelWidth() / 1300, 184 * menuFrame.getPanelHeight() / 900);
+		return new Rectangle(966 * menuFrame.getPanelWidth() / 1920, 429 * menuFrame.getPanelHeight() / 1080,
+				720 * menuFrame.getPanelWidth() / 1920, 220 * menuFrame.getPanelHeight() / 1080);
 	}
 
 	private Rectangle getSettingsBounds() { // TODO bounz
-		return new Rectangle(655 * menuFrame.getPanelWidth() / 1300, 596 * menuFrame.getPanelHeight() / 900,
-				600 * menuFrame.getPanelWidth() / 1300, 184 * menuFrame.getPanelHeight() / 900);
+		return new Rectangle(723 * menuFrame.getPanelWidth() / 1920, 715 * menuFrame.getPanelHeight() / 1080,
+				473 * menuFrame.getPanelWidth() / 1920, 221 * menuFrame.getPanelHeight() / 1080);
+	}
+
+	private Rectangle getExitBounds() { // TODO bounz
+		return new Rectangle(1207 * menuFrame.getPanelWidth() / 1920, 715 * menuFrame.getPanelHeight() / 1080,
+				479 * menuFrame.getPanelWidth() / 1920, 221 * menuFrame.getPanelHeight() / 1080);
+	}
+
+	private Rectangle getCreditsBounds() { // TODO bounz
+		return new Rectangle(234 * menuFrame.getPanelWidth() / 1920, 715 * menuFrame.getPanelHeight() / 1080,
+				478 * menuFrame.getPanelWidth() / 1920, 221 * menuFrame.getPanelHeight() / 1080);
 	}
 
 	public void drawLoadingScreen(Graphics g) {
-		g.drawImage(openingScreen, 0, 0, null);
-		g.drawImage(loadingAnim.getImage(), 450, 250, null); // TODO bounz
+		g.drawImage(openingScreen, 0, 0, menuFrame.getPanelWidth(), menuFrame.getPanelHeight(), null);
+		g.drawImage(loadingAnim.getImage(), menuFrame.getPanelWidth() / 2 - loadingAnim.getImage().getWidth() / 2,
+				menuFrame.getPanelHeight() / 2 - loadingAnim.getImage().getHeight() / 2, null); // TODO bounz
 		loadingAnim.next();
 		if (loadingAnim.getImage() == null)
 			loadingAnim.next();
@@ -119,6 +156,10 @@ public class MenuPanel extends JPanel implements Playable {
 				menuFrame.startTutorial();
 			} else if (getSettingsBounds().contains(x, y)) {
 				menuFrame.startOption();
+			} else if (getExitBounds().contains(x, y)) {
+				menuFrame.closeGame();
+			} else if (getCreditsBounds().contains(x, y)) {
+				menuFrame.startCredits();
 			}
 		}
 	}
@@ -131,6 +172,10 @@ public class MenuPanel extends JPanel implements Playable {
 			} else if (getTutorialBounds().contains(x, y)) {
 				menuFrame.playSound("ButtonKlick", -5f);
 			} else if (getSettingsBounds().contains(x, y)) {
+				menuFrame.playSound("ButtonKlick", -5f);
+			} else if (getExitBounds().contains(x, y)) {
+				menuFrame.playSound("ButtonKlick", -5f);
+			} else if (getCreditsBounds().contains(x, y)) {
 				menuFrame.playSound("ButtonKlick", -5f);
 			}
 		}
@@ -147,12 +192,24 @@ public class MenuPanel extends JPanel implements Playable {
 				menuFrame.playSound("menuHover", -6f);
 				highlight(1);
 			}
-		} else if (getSettingsBounds().contains(x, y)) {
+		} else if (getCreditsBounds().contains(x, y)) {
 			if (highlighted != 2) {
 				menuFrame.playSound("menuHover", -6f);
 				highlight(2);
 			}
-		} else {
+		} else if (getSettingsBounds().contains(x, y)) {
+			if (highlighted != 3) {
+				menuFrame.playSound("menuHover", -6f);
+				highlight(3);
+			}
+		} else if (getExitBounds().contains(x, y)) {
+			if (highlighted != 4) {
+				menuFrame.playSound("menuHover", -6f);
+				highlight(4);
+			}
+		}
+
+		else {
 			highlight(-1);
 		}
 	}
@@ -185,6 +242,7 @@ public class MenuPanel extends JPanel implements Playable {
 	public int getPanelOffsetX() {
 		return menuFrame.getPanelOffsetX();
 	}
+
 	public int getPanelOffsetY() {
 		return menuFrame.getPanelOffsetY();
 	}

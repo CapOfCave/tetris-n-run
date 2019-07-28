@@ -84,6 +84,7 @@ public class World {
 	private boolean tookBackTetro = false;
 	private Tile exitingTile = null;
 	private int exitTicks = 0;
+	private double sizeMultiplier;
 
 	public World(Rectangle graphicClip, Level level, KeyHandler keyHandler, GameFrameHandler gameFrame) {
 		// Initialisierungen
@@ -91,6 +92,8 @@ public class World {
 		this.tetroTypes = gameFrame.getTetroTypes();
 		this.keyHandler = keyHandler;
 		this.gameFrame = gameFrame;
+		
+		sizeMultiplier = (gameFrame.getPanelWidth() / 1920.);
 
 		particleHandler = new ParticleHandler(this);
 
@@ -273,14 +276,16 @@ public class World {
 
 		int size;
 		if (tileWorld.length > 45 || tileWorld[0].length > 95) { //TODO Map size
-			size = 3;
+			size = (int) (4 * sizeMultiplier);
 		} else if (tileWorld.length > 35 || tileWorld[0].length > 75) {
-			size = 4;
+			size = (int) (5 * sizeMultiplier);
 		} else {
-			size = 5;
+			size = (int) (6 * sizeMultiplier);
 		}
 		int startX = gameFrame.getLPanel().getMapBounds().width / 2 - (tileWorld[0].length / 2 * size);
 		int startY = gameFrame.getLPanel().getMapBounds().height / 2 - (tileWorld.length / 2 * size);
+		
+		
 		// Tetros
 		for (int y = 0; y < tetroWorldHitbox.length; y++) {
 			for (int x = 0; x < tetroWorldHitbox[y].length; x++) {
@@ -385,10 +390,10 @@ public class World {
 
 		// Kamera
 		g.setColor(new Color(255, 255, 255, 50));
-		g.fillRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY, size * 20, size * 14);
+		g.fillRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY, size * (int) (28 * sizeMultiplier), size * (int) (15 * sizeMultiplier));
 
 		g.setColor(new Color(255, 255, 255, 60));
-		g.drawRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY, size * 20, size * 14);
+		g.drawRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY, size * (int) (28 * sizeMultiplier), size * (int) (15 * sizeMultiplier));
 
 	}
 

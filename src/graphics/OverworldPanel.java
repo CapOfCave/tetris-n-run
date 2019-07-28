@@ -35,6 +35,7 @@ public class OverworldPanel extends Panel {
 	// feld auf dem man steht, sonst nichts
 	private char nextLevel;
 	private int lastLevelSolved = 0;
+	private double fontMultiplier;
 
 	private boolean loadPossible;
 
@@ -53,6 +54,8 @@ public class OverworldPanel extends Panel {
 
 		loadingAnim = gameFrame.getAnimations("/res/anims/loading.txt").get("loading");
 		loadingScreen = gameFrame.getImage("/res/loadingScreen.png");
+
+		fontMultiplier = (gameFrame.getPanelWidth() / 1920.);
 
 		checkIfLoadPossible();
 
@@ -94,13 +97,12 @@ public class OverworldPanel extends Panel {
 			drawOverworldScreen(gameGraphics);
 		}
 
+		g.drawImage(backOverworld, 0, 0, gameFrame.getPanelWidth(), gameFrame.getPanelHeight(), null);
 		world.drawPlayerPreview(g, getPreviewRect());
 
 		drawLevelCaption(g);
-		drawGuiButtons(g);
+		// drawGuiButtons(g);
 		drawGuiButtonCaptions(g);
-
-		g.drawImage(backOverworld, 0, 0, gameFrame.getPanelWidth(), gameFrame.getPanelHeight(), null);
 
 		drawConsole(g);
 //		g.setColor(Color.PINK);
@@ -119,7 +121,10 @@ public class OverworldPanel extends Panel {
 
 	public void drawLoadingScreen(Graphics g) {
 		g.drawImage(loadingScreen, 0, 0, null);
-		g.drawImage(loadingAnim.getImage(), 254, 86, null);
+		if (loadingAnim.getImage() != null)
+			g.drawImage(loadingAnim.getImage(),
+					700 * gameFrame.getPanelWidth() / 1920 - loadingAnim.getImage().getWidth() / 2,
+					400 * gameFrame.getPanelHeight() / 1920 - loadingAnim.getImage().getHeight() / 2, null);
 		loadingAnim.next();
 		if (loadingAnim.getImage() == null)
 			loadingAnim.next();
@@ -137,63 +142,67 @@ public class OverworldPanel extends Panel {
 		if (nextLevelExists()) {
 			g.setColor(Color.BLACK);
 
+			int fontSizeSmall = (int) (40 * fontMultiplier);
+			int fontSizeBig = (int) (44 * fontMultiplier);
+
 			switch (getNextLevelAsInt()) {
 			case 1:
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
-				g.drawString("A new", 1070, 150);
-				g.drawString("beginning", 1050, 190);
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeSmall));
+				Fonts.drawCenteredString("A new", getTitelLineBounds(-.5, g), g);
+				Fonts.drawCenteredString("beginning", getTitelLineBounds(.5, g), g);
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeBig));
 				break;
 
 			case 2:
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
-				g.drawString("Doors and", 1048, 150);
-				g.drawString("Switches", 1060, 190);
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeSmall));
+				Fonts.drawCenteredString("Doors and", getTitelLineBounds(-.5, g), g);
+				Fonts.drawCenteredString("Switches", getTitelLineBounds(.5, g), g);
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeBig));
 				break;
 
 			case 4:
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
-				g.drawString("Crossroad", 1045, 150);
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeSmall));
+				Fonts.drawCenteredString("Crossroad", getTitelLineBounds(0, g), g);
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeBig));
 				break;
 
 			case 5:
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
-				g.drawString("Pass the", 1062, 150);
-				g.drawString("destination!", 1040, 190);
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeSmall));
+				Fonts.drawCenteredString("Pass the", getTitelLineBounds(-.5, g), g);
+				Fonts.drawCenteredString("destination!", getTitelLineBounds(.5, g), g);
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeBig));
 				break;
 
 			case 6:
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
-				g.drawString("Keep track!", 1040, 150);
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeSmall));
+				Fonts.drawCenteredString("Keep track!", getTitelLineBounds(0, g), g);
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeBig));
 				break;
 
 			case 7:
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
-				g.drawString("A lack of", 1062, 150);
-				g.drawString("Tetros.", 1075, 190);
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeSmall));
+				Fonts.drawCenteredString("A lack of", getTitelLineBounds(-.5, g), g);
+				Fonts.drawCenteredString("Tetros.", getTitelLineBounds(.5, g), g);
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeBig));
 				break;
 
 			default:
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 44));
-				g.drawString("Level " + getNextLevelAsInt(), 1055, 150);
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, fontSizeBig));
+				Fonts.drawCenteredString("Level " + getNextLevelAsInt(), getTitelLineBounds(0, g), g);
 				break;
 			}
 
 		} else {
 			g.setColor(Color.GRAY);
-			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, 34));
-			g.drawString("Kein Level", 1048, 150);
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, (int) (34 * fontMultiplier)));
+			Fonts.drawCenteredString("Kein Level", getTitelLineBounds(0, g), g);
 
 			// g.drawString("Play", 1085, 360);
 		}
 
 	}
 
+	@SuppressWarnings("unused")
 	private void drawGuiButtons(Graphics g) {
 		if (clicked == 0) {
 			g.drawImage(buttonImgPressed, getStartBounds().x, getStartBounds().y, getStartBounds().width,
@@ -221,8 +230,8 @@ public class OverworldPanel extends Panel {
 	}
 
 	private void drawGuiButtonCaptions(Graphics g) {
-		int size = 44;
-		int sizeDif = 6;
+		int size = (int) (50 * fontMultiplier);
+		int sizeDif = (int) (6 * fontMultiplier);
 
 		// Color stays gray if needed
 
@@ -258,19 +267,25 @@ public class OverworldPanel extends Panel {
 	}
 
 	public Rectangle getStartBounds() {// TODO bounz
-		return new Rectangle(1008 * gameFrame.getPanelWidth() / 1300, 296 * gameFrame.getPanelHeight() / 900,
-				248 * gameFrame.getPanelWidth() / 1300, 100 * gameFrame.getPanelHeight() / 900);
+		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920, 275 * gameFrame.getPanelHeight() / 1080,
+				460 * gameFrame.getPanelWidth() / 1920, 146 * gameFrame.getPanelHeight() / 1080);
 
 	}
 
 	public Rectangle getLoadBounds() {// TODO bounz
-		return new Rectangle(1008 * gameFrame.getPanelWidth() / 1300, 406 * gameFrame.getPanelHeight() / 900,
-				248 * gameFrame.getPanelWidth() / 1300, 100 * gameFrame.getPanelHeight() / 900);
+		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920, 432 * gameFrame.getPanelHeight() / 1080,
+				460 * gameFrame.getPanelWidth() / 1920, 146 * gameFrame.getPanelHeight() / 1080);
 	}
 
 	public Rectangle getMenuBounds() { // TODO bounz
-		return new Rectangle(1008 * gameFrame.getPanelWidth() / 1300, 516 * gameFrame.getPanelHeight() / 900,
-				248 * gameFrame.getPanelWidth() / 1300, 100 * gameFrame.getPanelHeight() / 900);
+		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920, 589 * gameFrame.getPanelHeight() / 1080,
+				460 * gameFrame.getPanelWidth() / 1920, 146 * gameFrame.getPanelHeight() / 1080);
+	}
+
+	public Rectangle getTitelLineBounds(double line, Graphics g) { // TODO bounz
+		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920,
+				(65 * gameFrame.getPanelHeight() / 1080) + (int) (g.getFontMetrics().getHeight() * 1 * line),
+				460 * gameFrame.getPanelWidth() / 1920, 200 * gameFrame.getPanelHeight() / 1080);
 	}
 
 	public boolean isHighlighted(int i) {
