@@ -52,7 +52,7 @@ public class OverworldPanel extends Panel {
 		addMouseMotionListener(overworldMouseHandler);
 
 		loadingAnim = gameFrame.getAnimations("/res/anims/loading.txt").get("loading");
-		loadingScreen = gameFrame.getImage("/res/LoadingScreen.png");
+		loadingScreen = gameFrame.getImage("/res/loadingScreen.png");
 
 		checkIfLoadPossible();
 
@@ -87,6 +87,7 @@ public class OverworldPanel extends Panel {
 		super.paintComponent(g);
 		Graphics2D gameGraphics = (Graphics2D) g.create(getGamePanelBounds().x, getGamePanelBounds().y,
 				getGamePanelBounds().width, getGamePanelBounds().height);
+		
 		if (gameFrame.isLoading()) {
 			drawLoadingScreen(gameGraphics);
 		} else {
@@ -102,6 +103,9 @@ public class OverworldPanel extends Panel {
 		g.drawImage(backOverworld, 0, 0, gameFrame.getPanelWidth(), gameFrame.getPanelHeight(), null);
 
 		drawConsole(g);
+//		g.setColor(Color.PINK);
+//		g.fillRect(getGamePanelBounds().x, getGamePanelBounds().y,
+//				getGamePanelBounds().width, getGamePanelBounds().height);
 
 	}
 

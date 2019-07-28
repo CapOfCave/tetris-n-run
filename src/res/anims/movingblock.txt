@@ -1,4 +1,4 @@
-//pics500 wall = "/res/blocks/MoveBlock.png"
+//pics500 wall = "/res/blocks/moveBlock.png"
 pics45 deac = "/res/blocks/movingblockdeak.png"
 pics45 ac = "/res/blocks/movingblockakt.png"
 

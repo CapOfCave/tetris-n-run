@@ -33,10 +33,10 @@ public class MenuPanel extends JPanel implements Playable {
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
 		setBackground(Color.BLACK);
-		menu = frame.getImage("/res/Menu.png");
+		menu = frame.getImage("/res/menu.png");
 
 		loadingAnim = frame.getAnimations("/res/anims/loading.txt").get("loading");
-		openingScreen = frame.getImage("/res/LoadingScreen.png");
+		openingScreen = frame.getImage("/res/loadingScreen.png");
 
 		repaint();
 

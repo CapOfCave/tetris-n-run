@@ -27,8 +27,8 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private int PANEL_WIDTH = 0;
 	private int PANEL_HEIGHT = 0; // 1300 x 900
-	private Dimension screenSize = new Dimension(1920, 1080);
-//	private Dimension screenSize = new Dimension(1300, 900);
+//	private Dimension screenSize = new Dimension(1920, 1080);
+	private Dimension screenSize = new Dimension(1300, 900);
 	private Point panelOffset;
 
 	private MenuFrameHandler menuFrameHandler;
@@ -112,7 +112,6 @@ public class Frame extends JFrame {
 		PANEL_WIDTH = (int) Math.min(screenSize.getWidth(), 16. / 9 * screenSize.getHeight());
 		PANEL_HEIGHT = (int) Math.min(screenSize.getHeight(), 9. / 16 * screenSize.getWidth());
 		panelOffset = new Point((screenSize.width - PANEL_WIDTH) / 2, (screenSize.height - PANEL_HEIGHT) / 2);
-		
 	}
 
 	private void postInitJFrame() {
