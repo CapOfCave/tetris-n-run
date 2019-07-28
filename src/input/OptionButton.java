@@ -11,16 +11,15 @@ public class OptionButton {
 	private int x;
 	private int xOffset = -1;
 	private int y;
-	private int xBeginOfButtonRel;
+	private int xBeginOfButtonRel = 500;
 	private String text;
 	private boolean activ = false;
 	private int indexInArray;
 	private OptionPanel optionPanel;
 
-	public OptionButton(int x, int y, int xBeginOfButtonRel, String text, int indexInArray, OptionPanel optionPanel) {
+	public OptionButton(int x, int y, String text, int indexInArray, OptionPanel optionPanel) {
 		this.x = x;
 		this.y = y;
-		this.xBeginOfButtonRel = xBeginOfButtonRel;
 		this.text = text;
 		this.optionPanel = optionPanel;
 		this.indexInArray = indexInArray;

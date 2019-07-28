@@ -29,7 +29,7 @@ public class SaveNLoadTile extends Tile {
 
 	public SaveNLoadTile(char key, int posX, int posY, int[] tetroAmount, boolean addingTetros, String tip, String tip2,
 			String tip3, String tip4) {
-		super(key, posX, posY, false, true, true);
+		super(key, posX, posY, true, true, true); //TODO SALTs jetzt begehbar!
 		needsBackGround = true;
 
 		this.tetroAmount = tetroAmount;
@@ -103,7 +103,7 @@ public class SaveNLoadTile extends Tile {
 					f.delete();
 				}
 			}
-			gameFrame.switchLevel(loadFile.getAbsolutePath(), loadFile.getAbsolutePath().charAt(loadFile.getAbsolutePath().length()));
+			gameFrame.switchLevel(loadFile.getAbsolutePath());
 
 		} else if (isCreating) {
 			checkIfExists();

@@ -59,47 +59,47 @@ public class MenuPanel extends JPanel implements Playable {
 		} else {
 			g.drawImage(menu, 0, 0, menuFrame.getPanelWidth(), menuFrame.getPanelHeight(), null);
 			g.drawImage(menuTitel, 245 * menuFrame.getPanelWidth() / 1920, 81 * menuFrame.getPanelHeight() / 1080,
-					null);
+					1422 * menuFrame.getPanelWidth() / 1920, 175 * menuFrame.getPanelHeight() / 1080, null);
 			g.setColor(Color.BLACK);
-			int sizeDifPlay = (int) (16 * fontMultiplier);
-			int normSizePlay = (int) (130 * fontMultiplier);
-			int sizeDifRest = (int) (10 * fontMultiplier);
-			int normSizeRest = (int) (100 * fontMultiplier);
+			int sizeDifTop = (int) (14 * fontMultiplier);
+			int normSizeTop = (int) (110 * fontMultiplier);
+			int sizeDifBottom = (int) (20 * fontMultiplier);
+			int normSizeBottom = (int) (80 * fontMultiplier);
 
 			if (highlighted == 0) {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, sizeDifPlay + normSizePlay));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, sizeDifTop + normSizeTop));
 			} else {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizePlay));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeTop));
 			}
 			Fonts.drawCenteredString("Play", getPlayBounds(), g);
 
 			if (highlighted == 1) {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeTop + sizeDifTop));
 			} else {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeTop));
 			}
 			Fonts.drawCenteredString("Instructions", getTutorialBounds(), g);
 
 			if (highlighted == 2) {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeBottom + sizeDifBottom));
 			} else {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeBottom));
 
 			}
 			Fonts.drawCenteredString("Credits", getCreditsBounds(), g);
 
 			if (highlighted == 3) {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeBottom + sizeDifBottom));
 			} else {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeBottom));
 
 			}
-			Fonts.drawCenteredString("Settings", getSettingsBounds(), g);
+			Fonts.drawCenteredString("Controls", getSettingsBounds(), g);
 
 			if (highlighted == 4) {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest + sizeDifRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeBottom + sizeDifBottom));
 			} else {
-				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeRest));
+				g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, normSizeBottom));
 
 			}
 			Fonts.drawCenteredString("Exit", getExitBounds(), g);
@@ -107,27 +107,27 @@ public class MenuPanel extends JPanel implements Playable {
 		}
 	}
 
-	private Rectangle getPlayBounds() { // TODO bounz
+	private Rectangle getPlayBounds() {
 		return new Rectangle(235 * menuFrame.getPanelWidth() / 1920, 357 * menuFrame.getPanelHeight() / 900,
 				720 * menuFrame.getPanelWidth() / 1920, 184 * menuFrame.getPanelHeight() / 900);
 	}
 
-	private Rectangle getTutorialBounds() { // TODO bounz
+	private Rectangle getTutorialBounds() {
 		return new Rectangle(966 * menuFrame.getPanelWidth() / 1920, 429 * menuFrame.getPanelHeight() / 1080,
 				720 * menuFrame.getPanelWidth() / 1920, 220 * menuFrame.getPanelHeight() / 1080);
 	}
 
-	private Rectangle getSettingsBounds() { // TODO bounz
+	private Rectangle getSettingsBounds() {
 		return new Rectangle(723 * menuFrame.getPanelWidth() / 1920, 715 * menuFrame.getPanelHeight() / 1080,
 				473 * menuFrame.getPanelWidth() / 1920, 221 * menuFrame.getPanelHeight() / 1080);
 	}
 
-	private Rectangle getExitBounds() { // TODO bounz
+	private Rectangle getExitBounds() {
 		return new Rectangle(1207 * menuFrame.getPanelWidth() / 1920, 715 * menuFrame.getPanelHeight() / 1080,
 				479 * menuFrame.getPanelWidth() / 1920, 221 * menuFrame.getPanelHeight() / 1080);
 	}
 
-	private Rectangle getCreditsBounds() { // TODO bounz
+	private Rectangle getCreditsBounds() {
 		return new Rectangle(234 * menuFrame.getPanelWidth() / 1920, 715 * menuFrame.getPanelHeight() / 1080,
 				478 * menuFrame.getPanelWidth() / 1920, 221 * menuFrame.getPanelHeight() / 1080);
 	}

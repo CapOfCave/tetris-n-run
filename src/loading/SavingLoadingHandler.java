@@ -160,7 +160,6 @@ public class SavingLoadingHandler implements Runnable {
 					}
 
 				} catch (ClassCastException e) {
-					System.err.println("Dieses Feature funktioniert z.Z. nur beim Exportieren, nicht in Eclipse.");
 					setEclipseVersion(true);
 				}
 			}

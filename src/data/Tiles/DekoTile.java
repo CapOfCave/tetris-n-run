@@ -36,9 +36,9 @@ public class DekoTile extends Tile {
 		super.setWorld(world);
 //		img = world.getImage("/res/blocks/block0.png"); //dublicate
 		try {
-			image3d = world.getImage("/res/blocks/" + name + ".png");
+			image3d = world.getImage("/res/blocks/deko/" + name + ".png");
 		} catch (IllegalArgumentException e) {
-			System.err.println("No Image found at \"/res/blocks/" + name + ".png\"");
+			System.err.println("No Image found at \"/res/blocks/deko/" + name + ".png\"");
 			image3d = world.getImage("/res/blocks/block0.png");
 		}
 	}

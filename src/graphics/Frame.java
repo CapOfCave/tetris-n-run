@@ -28,7 +28,7 @@ public class Frame extends JFrame {
 	private int PANEL_WIDTH = 0;
 	private int PANEL_HEIGHT = 0; // 1300 x 900
 //	private Dimension screenSize = new Dimension(1920, 1080);
-	private Dimension screenSize = new Dimension(1300, 900);
+	private Dimension screenSize = new Dimension(1280, 720);
 	private Point panelOffset;
 
 	private MenuFrameHandler menuFrameHandler;

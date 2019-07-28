@@ -7,7 +7,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 import data.Animation;
 import data.DrawAndSortable;
@@ -45,11 +44,8 @@ public class World {
 	protected String tetroFileURL;
 
 	// Standard-Bilder
-	protected BufferedImage blockImg;
 	protected BufferedImage backgroundImg;
-	protected BufferedImage[] nullTileImgs;
-	// protected double[] probs = { 0.53, 0.454, 0.01, 0.005, 0.001 };
-	protected double[] probs = { 1, 0, 0, 0, 0 };
+	private BufferedImage block0bckgr;
 
 	protected Renderer renderer;
 
@@ -76,7 +72,6 @@ public class World {
 	private ArrayList<Entity> toRemove;
 	private int tetroAmount[];
 	private boolean toggleStates[];
-	protected int[][] worldDeco;
 	protected InHandHandler inHandHandler;
 	private ArrayList<Tetro> newestTetros;
 	private SaveNLoadTile lastCrossedSALTile = null;
@@ -92,7 +87,7 @@ public class World {
 		this.tetroTypes = gameFrame.getTetroTypes();
 		this.keyHandler = keyHandler;
 		this.gameFrame = gameFrame;
-		
+
 		sizeMultiplier = (gameFrame.getPanelWidth() / 1920.);
 
 		particleHandler = new ParticleHandler(this);
@@ -187,7 +182,8 @@ public class World {
 		// add everything to renderer
 		for (Entity entity : allEntities) {
 			if (entity instanceof MovingBlock) {
-				Tile currentTile = getTileAt((int) ((entity.getY() + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE),
+				Tile currentTile = getTileAt(
+						(int) ((entity.getY() + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE),
 						(int) ((entity.getX() + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE));
 				if (currentTile != null)
 					currentTile.eventWhenMoveBlockEntering();
@@ -199,35 +195,7 @@ public class World {
 		}
 
 		// Deko erzeugen
-		nullTileImgs = new BufferedImage[5];
-		nullTileImgs[0] = getImage("/res/blocks/block0.png");
-		nullTileImgs[1] = getImage("/res/blocks/block0i.png");
-		nullTileImgs[2] = getImage("/res/blocks/block0j.png");
-		nullTileImgs[3] = getImage("/res/blocks/ventilator.png");
-		nullTileImgs[4] = getImage("/res/blocks/block0l.png");
-		double probsTotal = 0;
-		for (int i = 0; i < probs.length; i++) {
-			probsTotal += probs[i];
-		}
-
-		if (probsTotal != 1)
-			System.err.println("Total deko Probs: " + probsTotal);
-
-		worldDeco = new int[tileWorld.length][tileWorld[0].length];
-		for (int y = 0; y < worldDeco.length; y++) {
-			for (int x = 0; x < worldDeco[y].length; x++) {
-				double randdub = new Random((long) (x * 56789 + y * 12345)).nextDouble();
-				int outp = -1;
-				for (int i = 0; i < probs.length && outp == -1; i++) {
-					if (randdub < probs[i]) {
-						outp = i;
-					} else {
-						randdub -= probs[i];
-					}
-				}
-				worldDeco[y][x] = outp;
-			}
-		}
+		block0bckgr = getImage("/res/blocks/block0.png");
 
 		player.addTo(renderer);
 		prepareRender();
@@ -275,7 +243,7 @@ public class World {
 		g.fillRect(0, 0, gameFrame.getLPanel().getMapBounds().width, gameFrame.getLPanel().getMapBounds().height);
 
 		int size;
-		if (tileWorld.length > 45 || tileWorld[0].length > 95) { //TODO Map size
+		if (tileWorld.length > 45 || tileWorld[0].length > 95) { // TODO Map size
 			size = (int) (4 * sizeMultiplier);
 		} else if (tileWorld.length > 35 || tileWorld[0].length > 75) {
 			size = (int) (5 * sizeMultiplier);
@@ -284,8 +252,7 @@ public class World {
 		}
 		int startX = gameFrame.getLPanel().getMapBounds().width / 2 - (tileWorld[0].length / 2 * size);
 		int startY = gameFrame.getLPanel().getMapBounds().height / 2 - (tileWorld.length / 2 * size);
-		
-		
+
 		// Tetros
 		for (int y = 0; y < tetroWorldHitbox.length; y++) {
 			for (int x = 0; x < tetroWorldHitbox[y].length; x++) {
@@ -365,15 +332,17 @@ public class World {
 				}
 			}
 		}
-		// Schalter
+		// Entities
 		for (int i = 0; i < allEntities.size(); i++) {
 			Entity tmpEntity = allEntities.get(i);
-			if (tmpEntity.getType() == "switch") {
+			if (tmpEntity.getType().equals("switch")) {
 				Switch tmpSwitch = (Switch) tmpEntity;
 				g.setColor(tmpSwitch.getColor());
 				if (tmpSwitch.isToggled()) {
 					for (int j = 0; j < size; j++)
-						g.fillRect((int) tmpSwitch.getX() / GameFrameHandler.BLOCKSIZE * size + startX + size + size - j - 1,
+						g.fillRect(
+								(int) tmpSwitch.getX() / GameFrameHandler.BLOCKSIZE * size + startX + size + size - j
+										- 1,
 								(int) tmpSwitch.getY() / GameFrameHandler.BLOCKSIZE * size + startY + size + j, 1,
 								1 + size - j - 1);
 				} else
@@ -381,6 +350,11 @@ public class World {
 						g.fillRect((int) tmpSwitch.getX() / GameFrameHandler.BLOCKSIZE * size + startX + size + j,
 								(int) tmpSwitch.getY() / GameFrameHandler.BLOCKSIZE * size + startY + size + j, 1,
 								1 + size - j - 1);
+			} else if (tmpEntity.getType().equals("moveblock")) {
+				// Moveblock
+				g.setColor(Color.GRAY.brighter());
+				g.fillRect(tmpEntity.getTileX() * size + size + startX, tmpEntity.getTileY() * size + size + startY,
+						size, size);
 			}
 		}
 
@@ -390,33 +364,19 @@ public class World {
 
 		// Kamera
 		g.setColor(new Color(255, 255, 255, 50));
-		g.fillRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY, size * (int) (28 * sizeMultiplier), size * (int) (15 * sizeMultiplier));
+		g.fillRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY,
+				size * (int) (28 * sizeMultiplier), size * (int) (15 * sizeMultiplier));
 
 		g.setColor(new Color(255, 255, 255, 60));
-		g.drawRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY, size * (int) (28 * sizeMultiplier), size * (int) (15 * sizeMultiplier));
+		g.drawRect(cameraX() / 45 * size + size + startX, cameraY() / 45 * size + size + startY,
+				size * (int) (28 * sizeMultiplier), size * (int) (15 * sizeMultiplier));
 
 	}
 
 	public void drawTileIfNull(Graphics g, float interpolation, int x, int y) {
 
-		if (worldDeco[y][x] == -1) {
-			System.err.println("Überprüfe deine Wahrscheinlichkeitsverteilung.");
-		} else {
-			g.drawImage(nullTileImgs[worldDeco[y][x]], (int) (x * GameFrameHandler.BLOCKSIZE - cameraX()),
-					(int) (y * GameFrameHandler.BLOCKSIZE - cameraY()), null);
-			// if (inHandHandler != null && inHandHandler.isHoldingTetro()) {
-			// if (Tools.distance((x + 0.5) * GameFrame.BLOCKSIZE - camera.getX(),
-			// (y + 0.5) * GameFrame.BLOCKSIZE - camera.getY(), inHandHandler.getCenterX(),
-			// inHandHandler.getCenterY()) < (TetroType.hitboxExpansion + 2) *
-			// GameFrame.BLOCKSIZE) { // ungefähre
-			// // entfernung
-			// // passend
-			//
-			// g.drawImage(tetroPreview, (int) (x * GameFrame.BLOCKSIZE - cameraX()),
-			// (int) (y * GameFrame.BLOCKSIZE - cameraY()), null);
-			// }
-			// }
-		}
+		g.drawImage(block0bckgr, (int) (x * GameFrameHandler.BLOCKSIZE - cameraX()),
+				(int) (y * GameFrameHandler.BLOCKSIZE - cameraY()), null);
 	}
 
 	public void playSound(String sound, float volume) {
@@ -479,26 +439,25 @@ public class World {
 	}
 
 	private void exitingTick() {
-		
-		
+
 		if (exitingTile.getX() == player.getX() && exitingTile.getY() == player.getY()) {
 			if (exitTicks == 0) {
 				player.resetSpeed();
 				playSound("victory", 0f);
 			}
-			
+
 			exitTicks++;
 			if (exitTicks >= STILL_TICKS_BEFORE_EXIT) {
 				gameFrame.changeToOverworld(false);
 				player.resetActionPressed();
 			}
-			
+
 		} else {
 			player.increaseX(Math.copySign(Math.min(EXITING_SPEED, Math.abs(exitingTile.getX() - player.getX())),
 					exitingTile.getX() - player.getX()));
 			player.increaseY(Math.copySign(Math.min(EXITING_SPEED, Math.abs(exitingTile.getY() - player.getY())),
 					exitingTile.getY() - player.getY()));
-		
+
 		}
 	}
 
@@ -878,10 +837,12 @@ public class World {
 			}
 		}
 		// Tiles
-		if (tileWorld[((int) y + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE][((int) x + GameFrameHandler.BLOCKSIZE / 2)
-				/ GameFrameHandler.BLOCKSIZE] != null) {
-			tileWorld[((int) y + GameFrameHandler.BLOCKSIZE / 2) / GameFrameHandler.BLOCKSIZE][((int) x + GameFrameHandler.BLOCKSIZE / 2)
-					/ GameFrameHandler.BLOCKSIZE].interact();
+		if (tileWorld[((int) y + GameFrameHandler.BLOCKSIZE / 2)
+				/ GameFrameHandler.BLOCKSIZE][((int) x + GameFrameHandler.BLOCKSIZE / 2)
+						/ GameFrameHandler.BLOCKSIZE] != null) {
+			tileWorld[((int) y + GameFrameHandler.BLOCKSIZE / 2)
+					/ GameFrameHandler.BLOCKSIZE][((int) x + GameFrameHandler.BLOCKSIZE / 2)
+							/ GameFrameHandler.BLOCKSIZE].interact();
 		}
 		for (Entity e : toAdd) {
 			addEntityDirectly(e);
@@ -1003,8 +964,8 @@ public class World {
 			} else {
 				switch (rotation) {
 				case 0:
-					if (barrier.getX() < x - GameFrameHandler.BLOCKSIZE / 2 || barrier.getX() >= x + GameFrameHandler.BLOCKSIZE
-							|| barrier.getY() > y) {
+					if (barrier.getX() < x - GameFrameHandler.BLOCKSIZE / 2
+							|| barrier.getX() >= x + GameFrameHandler.BLOCKSIZE || barrier.getY() > y) {
 						continue;
 					} else {
 						if (y - barrier.getY() < minDist) {
@@ -1014,8 +975,8 @@ public class World {
 					}
 					break;
 				case 1:
-					if (barrier.getY() < y - GameFrameHandler.BLOCKSIZE / 2 || barrier.getY() >= y + GameFrameHandler.BLOCKSIZE
-							|| barrier.getX() < x) {
+					if (barrier.getY() < y - GameFrameHandler.BLOCKSIZE / 2
+							|| barrier.getY() >= y + GameFrameHandler.BLOCKSIZE || barrier.getX() < x) {
 						continue;
 					} else {
 						if (barrier.getX() - x < minDist) {
@@ -1025,8 +986,8 @@ public class World {
 					}
 					break;
 				case 2:
-					if (barrier.getX() < x - GameFrameHandler.BLOCKSIZE / 2 || barrier.getX() >= x + GameFrameHandler.BLOCKSIZE
-							|| barrier.getY() < y) {
+					if (barrier.getX() < x - GameFrameHandler.BLOCKSIZE / 2
+							|| barrier.getX() >= x + GameFrameHandler.BLOCKSIZE || barrier.getY() < y) {
 						continue;
 					} else {
 						if (barrier.getY() - y < minDist) {
@@ -1036,8 +997,8 @@ public class World {
 					}
 					break;
 				case 3:
-					if (barrier.getY() < y - GameFrameHandler.BLOCKSIZE / 2 || barrier.getY() >= y + GameFrameHandler.BLOCKSIZE
-							|| barrier.getX() > x) {
+					if (barrier.getY() < y - GameFrameHandler.BLOCKSIZE / 2
+							|| barrier.getY() >= y + GameFrameHandler.BLOCKSIZE || barrier.getX() > x) {
 						continue;
 					} else {
 						if (x - barrier.getX() < minDist) {
@@ -1105,6 +1066,7 @@ public class World {
 	public int getPanelOffsetX() {
 		return gameFrame.getPanelOffsetX();
 	}
+
 	public int getPanelOffsetY() {
 		return gameFrame.getPanelOffsetY();
 	}
