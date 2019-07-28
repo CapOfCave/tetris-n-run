@@ -35,18 +35,18 @@ public class OptionPanel extends JPanel {
 		int panelHeight = menuFrame.getPanelHeight();
 		
 		optionButtons = new ArrayList<OptionButton>();
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 250 * panelHeight / 1080, 500 ,"Up:", 0, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 300 * panelHeight / 1080, 500, "Left:", 1, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 350 * panelHeight / 1080, 500, "Down:", 2, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 400 * panelHeight / 1080, 500, "Right:", 3, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 450 * panelHeight / 1080, 500, "Interaction:", 4, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 500 * panelHeight / 1080, 500, "Rotate:", 5, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 550 * panelHeight / 1080, 500, "Remove:", 6, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 600 * panelHeight / 1080, 500, "Move the camera:", 7, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 650 * panelHeight / 1080, 500, "Retry: ", 8, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 700 * panelHeight / 1080, 500, "Run: ", 9, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 750 * panelHeight / 1080, 500, "Hint: ", 10, this));
-		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 800 * panelHeight / 1080, 500, "Delete last checkpoint: ", 11, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 250 * panelHeight / 1080 ,"Up:", 0, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 300 * panelHeight / 1080, "Left:", 1, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 350 * panelHeight / 1080, "Down:", 2, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 400 * panelHeight / 1080, "Right:", 3, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 450 * panelHeight / 1080, "Interaction:", 4, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 500 * panelHeight / 1080, "Rotate:", 5, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 550 * panelHeight / 1080, "Remove:", 6, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 600 * panelHeight / 1080, "Move the camera:", 7, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 650 * panelHeight / 1080, "Retry: ", 8, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 700 * panelHeight / 1080, "Run: ", 9, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 750 * panelHeight / 1080, "Hint: ", 10, this));
+		optionButtons.add(new OptionButton(320 * panelWidth / 1920, 800 * panelHeight / 1080, "Delete last checkpoint: ", 11, this));
 		
 		
 		keyCodes.add(0, 87);

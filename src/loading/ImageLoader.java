@@ -42,7 +42,7 @@ public class ImageLoader {
 		try {
 			return ImageIO.read(Toolkit.getDefaultToolkit().getClass().getResource(path));
 
-		} catch (IOException e) {
+		} catch (IOException | IllegalArgumentException e) {
 			System.err.println(path + " not found");
 			e.printStackTrace();
 

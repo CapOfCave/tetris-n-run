@@ -123,8 +123,9 @@ public class GameFrameHandler {
 	}
 
 	// Level to level
-	public void switchLevel(String path, char nextLevel) {
+	public void switchLevel(String path) {
 		loadLevel(path); // TODO was soll das Tile ? Siehe commit vom ca. 26.06.2019
+						//TODO char nectLevel unused, removed
 	}
 
 	public void loadLegacyLevel() { // After pressing Load in overworld
