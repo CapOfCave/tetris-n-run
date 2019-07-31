@@ -46,7 +46,6 @@ public class MovingBlockSpawner extends Entity {
 	public void interact() {
 		if (child != null) {
 			child.kill();
-			world.cameraTrackingShot((int) cubeX, (int) cubeY); // TODO remove
 		} else {
 			world.cameraTrackingShot((int) cubeX, (int) cubeY);
 

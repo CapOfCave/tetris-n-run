@@ -60,7 +60,6 @@ public class GameLoop implements Runnable {
 					actualframes = 0;
 					actualupdates = 0;
 					lastSecondTime = currentTimeSeconds;
-					game.secondPassed();
 				}
 
 				while (currentTime - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS

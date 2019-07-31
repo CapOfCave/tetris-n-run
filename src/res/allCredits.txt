@@ -1,0 +1,6 @@
+-1|0|Code and Graphics: *Marius Schmitz, Lars Kecker
+0|1|Also consider visiting *our website|https://capekstudios.itch.io/
+-1|0|Sounds:
+1|1|Mirror Breaking* by Mike Koenig is licensed under *CC BY 3.0|http://soundbible.com/1658-Mirror-Breaking.html*https://creativecommons.org/licenses/by/3.0/
+0|1|Other sound effects created by *Kormit.*, *caquet*, *raceynovel*, *lluiset7|https://freesound.org/people/Komit./sounds/399294/*https://freesound.org/people/caquet/sounds/432222/*https://freesound.org/people/raceynovel/sounds/398554/*https://freesound.org/people/lluiset7/sounds/141334/
+0|2|and *Glitchedtones|https://freesound.org/people/Glitchedtones/sounds/322431/

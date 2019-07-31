@@ -90,17 +90,17 @@ public class OverworldMouseHandler implements MouseListener, MouseMotionListener
 
 		if (panel.getStartBounds().contains(x, y)) {
 			if (!panel.isHighlighted(0)) {
-				gameFrame.playSound("menuHover", -6f);
+				gameFrame.playSound("menuHover", -5f);
 				panel.highlight(0);
 			}
 		} else if (panel.getLoadBounds().contains(x, y)) {
 			if (!panel.isHighlighted(1)) {
-				gameFrame.playSound("menuHover", -6f);
+				gameFrame.playSound("menuHover", -5f);
 				panel.highlight(1);
 			}
 		} else if (panel.getMenuBounds().contains(x, y)) {
 			if (!panel.isHighlighted(2)) {
-				gameFrame.playSound("menuHover", -6f);
+				gameFrame.playSound("menuHover", -5f);
 				panel.highlight(2);
 			}
 		} else {

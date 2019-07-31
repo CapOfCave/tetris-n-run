@@ -34,7 +34,6 @@ public class GameWorldPanel extends Panel {
 
 	protected ArrayList<Rectangle> tetroDrawPositions;
 	protected ArrayList<Rectangle> tetroAmountDrawPositions;
-	private int seconds = 0;
 
 	private int currentFocusTicks = 0;
 	private int focusedTetroType = -1;
@@ -107,15 +106,6 @@ public class GameWorldPanel extends Panel {
 		super.tick();
 		if (currentFocusTicks > 0)
 			currentFocusTicks--;
-	}
-
-	@Override
-	public void secondPassed() {
-		seconds++;
-	}
-
-	public int getSeconds() {
-		return seconds;
 	}
 
 	public void focusTetroType(int color) {

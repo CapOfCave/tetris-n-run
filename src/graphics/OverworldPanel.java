@@ -130,10 +130,6 @@ public class OverworldPanel extends Panel {
 			loadingAnim.next();
 	}
 
-	@Override
-	public void secondPassed() {
-	}
-
 	public void save() {
 		world.initiateSaving(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 	}
@@ -266,23 +262,23 @@ public class OverworldPanel extends Panel {
 		Fonts.drawCenteredString("Menu", getMenuBounds(), g);
 	}
 
-	public Rectangle getStartBounds() {// TODO bounz
+	public Rectangle getStartBounds() {
 		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920, 275 * gameFrame.getPanelHeight() / 1080,
 				460 * gameFrame.getPanelWidth() / 1920, 146 * gameFrame.getPanelHeight() / 1080);
 
 	}
 
-	public Rectangle getLoadBounds() {// TODO bounz
+	public Rectangle getLoadBounds() {
 		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920, 432 * gameFrame.getPanelHeight() / 1080,
 				460 * gameFrame.getPanelWidth() / 1920, 146 * gameFrame.getPanelHeight() / 1080);
 	}
 
-	public Rectangle getMenuBounds() { // TODO bounz
+	public Rectangle getMenuBounds() {
 		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920, 589 * gameFrame.getPanelHeight() / 1080,
 				460 * gameFrame.getPanelWidth() / 1920, 146 * gameFrame.getPanelHeight() / 1080);
 	}
 
-	public Rectangle getTitelLineBounds(double line, Graphics g) { // TODO bounz
+	public Rectangle getTitelLineBounds(double line, Graphics g) { 
 		return new Rectangle(1395 * gameFrame.getPanelWidth() / 1920,
 				(65 * gameFrame.getPanelHeight() / 1080) + (int) (g.getFontMetrics().getHeight() * 1 * line),
 				460 * gameFrame.getPanelWidth() / 1920, 200 * gameFrame.getPanelHeight() / 1080);

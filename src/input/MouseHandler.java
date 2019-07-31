@@ -71,7 +71,7 @@ public class MouseHandler implements MouseInputListener {
 		int y = e.getY() - world.getPanelOffsetY();
 		TetroType hovered = inHandHandler.getTetroTypeAt(x, y);
 		if(hovered != null && hovered != currentlyHoveredTetro) {
-			world.playSound("menuHover", -6f);
+			world.playSound("menuHover", -5f);
 		}
 		currentlyHoveredTetro = hovered;
 	}

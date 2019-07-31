@@ -135,7 +135,7 @@ public class MenuPanel extends JPanel implements Playable {
 	public void drawLoadingScreen(Graphics g) {
 		g.drawImage(openingScreen, 0, 0, menuFrame.getPanelWidth(), menuFrame.getPanelHeight(), null);
 		g.drawImage(loadingAnim.getImage(), menuFrame.getPanelWidth() / 2 - loadingAnim.getImage().getWidth() / 2,
-				menuFrame.getPanelHeight() / 2 - loadingAnim.getImage().getHeight() / 2, null); // TODO bounz
+				menuFrame.getPanelHeight() / 2 - loadingAnim.getImage().getHeight() / 2, null);
 		loadingAnim.next();
 		if (loadingAnim.getImage() == null)
 			loadingAnim.next();
@@ -184,27 +184,27 @@ public class MenuPanel extends JPanel implements Playable {
 	public void mouseMoved(int x, int y) {
 		if (getPlayBounds().contains(x, y)) {
 			if (highlighted != 0) {
-				menuFrame.playSound("menuHover", -6f);
+				menuFrame.playSound("menuHover", -5f);
 				highlight(0);
 			}
 		} else if (getTutorialBounds().contains(x, y)) {
 			if (highlighted != 1) {
-				menuFrame.playSound("menuHover", -6f);
+				menuFrame.playSound("menuHover", -5f);
 				highlight(1);
 			}
 		} else if (getCreditsBounds().contains(x, y)) {
 			if (highlighted != 2) {
-				menuFrame.playSound("menuHover", -6f);
+				menuFrame.playSound("menuHover", -5f);
 				highlight(2);
 			}
 		} else if (getSettingsBounds().contains(x, y)) {
 			if (highlighted != 3) {
-				menuFrame.playSound("menuHover", -6f);
+				menuFrame.playSound("menuHover", -5f);
 				highlight(3);
 			}
 		} else if (getExitBounds().contains(x, y)) {
 			if (highlighted != 4) {
-				menuFrame.playSound("menuHover", -6f);
+				menuFrame.playSound("menuHover", -5f);
 				highlight(4);
 			}
 		}
@@ -234,10 +234,6 @@ public class MenuPanel extends JPanel implements Playable {
 		repaint();
 	}
 
-	@Override
-	public void secondPassed() {
-
-	}
 
 	public int getPanelOffsetX() {
 		return menuFrame.getPanelOffsetX();

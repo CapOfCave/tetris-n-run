@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
+import graphics.GameFrameHandler;
 import graphics.OptionPanel;
 
 public class OptionButton {
@@ -27,16 +28,15 @@ public class OptionButton {
 	}
 
 	public void draw(Graphics g) {
-		g.setFont(new Font("GameFrame.fontString", 0, 30));
+		g.setFont(new Font(GameFrameHandler.FONTSTRING, 0, 30));
 		g.drawString(text, x, y);
 		if (activ)
-			g.setFont(new Font("GameFrame.fontString", 2, 35));
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 2, 35));
 
 		if (xOffset < 0) {
 			xOffset = g.getFontMetrics().stringWidth(getKeyText(optionPanel.getKeyCodes().get(indexInArray))) / 2;
 		}
 		g.drawString(getKeyText(optionPanel.getKeyCodes().get(indexInArray)), x + xBeginOfButtonRel - xOffset, y);
-		// g.setFont(new Font("GameFrame.fontString", 1, 24));
 	}
 
 	public static String getKeyText(int keyCode) {

@@ -19,7 +19,7 @@ public class CreditsMouseHandler implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		panel.mousePressed(e.getX() - frame.getPanelOffsetX(), e.getY() - frame.getPanelOffsetY());
+		
 
 	}
 
@@ -35,38 +35,23 @@ public class CreditsMouseHandler implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		panel.mousePressed(e.getX() - frame.getPanelOffsetX(), e.getY() - frame.getPanelOffsetY());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
+		panel.mouseReleased(e.getX() - frame.getPanelOffsetX(), e.getY() - frame.getPanelOffsetY());
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		System.out.println("move");
-		int x = e.getX() - frame.getPanelOffsetX();
-		int y = e.getY() - frame.getPanelOffsetY();
-
-		if (panel.getMenuBounds().contains(x, y)) {
-			
-			if (!panel.isHighlighted(0)) {
-				frame.playSound("menuHover", -6f);
-				panel.highlight(0);
-			} else {
-				panel.highlight(-1);
-			}
-
-		}
+		panel.mouseMoved(e.getX() - frame.getPanelOffsetX(), e.getY() - frame.getPanelOffsetY());
 		
-		panel.repaint();
 
 	}
 }

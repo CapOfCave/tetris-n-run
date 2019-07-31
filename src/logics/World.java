@@ -243,7 +243,7 @@ public class World {
 		g.fillRect(0, 0, gameFrame.getLPanel().getMapBounds().width, gameFrame.getLPanel().getMapBounds().height);
 
 		int size;
-		if (tileWorld.length > 45 || tileWorld[0].length > 95) { // TODO Map size
+		if (tileWorld.length > 45 || tileWorld[0].length > 95) {
 			size = (int) (4 * sizeMultiplier);
 		} else if (tileWorld.length > 35 || tileWorld[0].length > 75) {
 			size = (int) (5 * sizeMultiplier);

@@ -2,6 +2,5 @@ synth: https://freesound.org/people/Komit./sounds/399294/
 metal0..3: https://freesound.org/people/caquet/sounds/432222/
 steps: https://freesound.org/people/raceynovel/sounds/398554/
 error: https://freesound.org/people/lluiset7/sounds/141334/
-save: https://freesound.org/people/mcmacca/sounds/411515/
 lever: https://freesound.org/people/Glitchedtones/sounds/322431/
 glassbreak: http://soundbible.com/1658-Mirror-Breaking.html

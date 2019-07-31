@@ -29,7 +29,7 @@ public class SaveNLoadTile extends Tile {
 
 	public SaveNLoadTile(char key, int posX, int posY, int[] tetroAmount, boolean addingTetros, String tip, String tip2,
 			String tip3, String tip4) {
-		super(key, posX, posY, true, true, true); //TODO SALTs jetzt begehbar!
+		super(key, posX, posY, true, true, true);
 		needsBackGround = true;
 
 		this.tetroAmount = tetroAmount;

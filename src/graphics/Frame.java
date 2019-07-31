@@ -183,7 +183,8 @@ public class Frame extends JFrame {
 	}
 	
 	public void closeGame() {
-		dispose();
+		gameLoop.stop();
+		System.exit(0);
 	}
 
 	public int getPanelWidth() {

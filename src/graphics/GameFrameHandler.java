@@ -117,15 +117,13 @@ public class GameFrameHandler {
 	}
 
 	public void loadLevel(String url) {
-		// clearText(); //TODO nach geschmack einfügen
 		loadingLevelUrl = url; // Aufpassen auf 2 Sachen laden!
 		frame.loadLevel(url);
 	}
 
 	// Level to level
 	public void switchLevel(String path) {
-		loadLevel(path); // TODO was soll das Tile ? Siehe commit vom ca. 26.06.2019
-						//TODO char nectLevel unused, removed
+		loadLevel(path);
 	}
 
 	public void loadLegacyLevel() { // After pressing Load in overworld
@@ -244,10 +242,6 @@ public class GameFrameHandler {
 
 	public OverworldPanel getOPanel() {
 		return oPanel;
-	}
-
-	public void deleteLastSALT() {
-		// TODO
 	}
 
 	public int getPanelWidth() {

@@ -142,8 +142,7 @@ public abstract class Panel extends JPanel implements Playable {
 					g.drawString(text[i].getContent(), 280 * gameFrame.getPanelWidth() / 1920,
 							795 * gameFrame.getPanelHeight() / 1080 + (i + 1) * GameFrameHandler.CONSOLETEXTMARGINY
 									- text[i].getOffset());
-				} //TODO GameFrameHandler.FONTSTRING
-				//TODO GameFrameHandler.CONSOLETEXTMARGINY
+				}
 			}
 		}
 	}

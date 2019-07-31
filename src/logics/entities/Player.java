@@ -292,7 +292,7 @@ public class Player extends Entity {
 		double relCheckX = (rotation % 2) * (rotation - 2) * (-GameFrameHandler.BLOCKSIZE / 2);
 		double relCheckY = ((rotation + 1) % 2) * (rotation - 1) * (GameFrameHandler.BLOCKSIZE / 2);
 
-		double minDist = Math.abs(hSpeed * (rotation % 2) + vSpeed * (rotation + 1) % 2); // TODO läuft nicht
+		double minDist = Math.abs(hSpeed * (rotation % 2) + vSpeed * (rotation + 1) % 2);
 		switch (rotation) {
 		case 0:
 			if (!isRelAccessible(true, getExtremePosition(0), -GameFrameHandler.BLOCKSIZE / 2)

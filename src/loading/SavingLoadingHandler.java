@@ -153,7 +153,7 @@ public class SavingLoadingHandler implements Runnable {
 					while (enumer.hasMoreElements()) {
 						String element = enumer.nextElement().getName();
 						if (element.endsWith(".png")) { // additional constraints?
-							imageLoader.loadAndSave("/" + element); // TODO welche?
+							imageLoader.loadAndSave("/" + element);
 						} else if (element.startsWith("res/anims") && element.endsWith(".txt")){
 							animationLoader.loadAndSave("/" + element);
 						}

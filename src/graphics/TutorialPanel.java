@@ -23,18 +23,21 @@ public class TutorialPanel extends JPanel {
 	private int textWidth;
 	private double fontMultiplier;
 
+	private int highlight;
+
 	public TutorialPanel(MenuFrameHandler frame) {
 		this.menuFrame = frame;
 		mouseHandler = new TutorialMouseHandler(frame, this);
 		setPreferredSize(new Dimension(menuFrame.getScreenSize()));
 		addMouseListener(mouseHandler);
+		addMouseMotionListener(mouseHandler);
 		setBackground(Color.BLACK);
 
 		tutorialText = new TutorialText();
 		tutorialText.loadFromFile("/res/tutorial.txt");
-		
+
 		textWidth = 330 * frame.getPanelWidth() / 1920;
-		
+
 		fontMultiplier = (menuFrame.getPanelWidth() / 1920.);
 	}
 
@@ -54,7 +57,6 @@ public class TutorialPanel extends JPanel {
 		int panelWidth = menuFrame.getPanelWidth();
 		int panelHeight = menuFrame.getPanelHeight();
 
-		
 		g.drawString("Tutorial1:", (234 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
 		g.drawString("Tutorial2:", (600 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
 		g.drawString("Tutorial3:", (966 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
@@ -62,7 +64,7 @@ public class TutorialPanel extends JPanel {
 		g.drawString("Tutorial5:", (234 + 10) * panelWidth / 1920, (566 + 40) * panelHeight / 1080);
 		g.drawString("Tutorial6:", (600 + 10) * panelWidth / 1920, (566 + 40) * panelHeight / 1080);
 		g.drawString("Tutorial7:", (966 + 10) * panelWidth / 1920, (566 + 40) * panelHeight / 1080);
-		
+
 		g.setFont(new Font(GameFrameHandler.FONTSTRING, 0, (int) (23 * fontMultiplier)));
 
 		tutorialText.drawPanel(0, g, (234 + 10) * panelWidth / 1920, (162 + 30) * panelHeight / 1080, textWidth,
@@ -81,25 +83,56 @@ public class TutorialPanel extends JPanel {
 				menuFrame.getKeyCodes());
 		tutorialText.drawPanel(7, g, (1332 + 10) * panelWidth / 1920, (557 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
-		g.setFont(new Font("GameFrame.fontString", 1, (int) (55 * fontMultiplier)));
+		int size = (int) (55 * fontMultiplier);
+		int sizeDif = (int) (10 * fontMultiplier);
+		if (highlight == 0) {
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, sizeDif + size));
+		} else {
+			g.setFont(new Font(GameFrameHandler.FONTSTRING, 1, size));
+		}
 		Fonts.drawCenteredString("Menu", getMenuBounds(), g);
 
 	}
-	
-	private Rectangle getMenuBounds() { // TODO bounz
+
+	private Rectangle getMenuBounds() {
 		return new Rectangle(1331 * menuFrame.getPanelWidth() / 1920, 906 * menuFrame.getPanelHeight() / 1080,
 				354 * menuFrame.getPanelWidth() / 1920, 120 * menuFrame.getPanelHeight() / 1080);
 
 	}
 
 	public void mousePressed(int x, int y) {
-		repaint();
-		if (x >= 1331 * menuFrame.getPanelWidth() / 1920 && y >= 906 * menuFrame.getPanelHeight() / 1080
-				&& x <= 1685 * menuFrame.getPanelWidth() / 1920 && y <= 1026 * menuFrame.getPanelHeight() / 1080) {
 
+		if (getMenuBounds().contains(x, y)) {
 			menuFrame.playSound("ButtonKlick", -5f);
-			menuFrame.startMenu();
 		}
+
+	}
+
+	public void mouseReleased(int x, int y) {
+		if (getMenuBounds().contains(x, y)) {
+			menuFrame.startMenu();
+			System.out.println("Start");
+		}
+	}
+
+	public void mouseMoved(int x, int y) {
+		if (getMenuBounds().contains(x, y)) {
+			if (!isHighlighted(0)) {
+				menuFrame.playSound("menuHover", -5f);
+			}
+			highlight(0);
+		} else {
+			highlight(-1);
+		}
+		repaint();
+	}
+
+	public void highlight(int i) {
+		highlight = i;
+	}
+
+	public boolean isHighlighted(int i) {
+		return i == highlight;
 	}
 
 }
