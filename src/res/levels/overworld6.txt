@@ -78,5 +78,5 @@ Td;x=28;y=8;xo=0;yo=-8;name=block0x;
 Td;x=22;y=2;xo=0;yo=-8;name=block0y;
 Td;x=23;y=2;xo=0;yo=-8;name=block0z;
 
-c;19676
+c;73264
 

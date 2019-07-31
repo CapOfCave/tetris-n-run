@@ -47,7 +47,6 @@ public class SettingsLoader {
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 					levelSolved = 0;
-					System.err.println("Reset LevelSolved to 0");
 				}
 			}
 		}

@@ -154,7 +154,4 @@ public class Renderer {
 		toRemove2 = new ArrayList<>();
 	}
 
-	public String getElementAmount() {
-		return (drawable1 ? "1   " : "2   ") + drawables1.size() + " bzw. " + drawables2.size();
-	}
 }

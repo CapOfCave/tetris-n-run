@@ -1,4 +1,3 @@
-b;tetrofile=/res/tetros.txt
 p;x=23;y=8
 o;false;false;false;false;false
 

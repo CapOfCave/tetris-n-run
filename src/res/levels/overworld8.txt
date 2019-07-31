@@ -85,5 +85,5 @@ Td;x=17;y=5;xo=0;yo=0;name=ventilator;
 
 //l8
 
-c;85505
+c;32529
 

@@ -1,4 +1,3 @@
-b;tetrofile=/res/tetros.txt
 p;x=19;y=23
 
 t;x=18;y=22;r=3;t=1
@@ -210,14 +209,14 @@ w;00000000000000000000000000000000000000000000000
 
 ###
 
-Tl;x=19;y=23;amount=1,0,0,0,0,0,1;tip=Lösche einen Block, nachdem die über ihn gelaufen bist,;tip2=um ihn nochmal zu setzten.
-Tl;x=23;y=21;amount=2,0,0,0,0,0,1;tip=Überlege dir welchen Block du löschen solltest, weil du ihn nochmal brauchst.
-Tl;x=27;y=15;amount=1,0,1,0,0,0,0;tip=Der Schiebeblock muss nicht auf einem Tetro stehen.;tip2=Du kannst also auch einen Block unter ihm löschen.
-Tl;x=29;y=35;amount=0,0,0,0,0,0,1;tip=Bringe den Schiebeblock an sein Ziel,;tip2=danach kannst du einfach zum Schalter und dann weiter.
-Tl;x=15;y=33;amount=1,1,0,0,3,0,1;tip=Es gibt einen Tetro den du löschen kannst,;tip2=aber du benötigst ihn auch wieder für den Rückweg
-Tl;x=10;y=33;amount=3,2,0,0,3,1,1;tip=Du solltest diesen Teil ohne Lücke, also ohne Löschen, lösen.
-Tl;x=15;y=12;amount=0,0,0,0,0,0,0;tip=Kannst du überhaupt zum grünen Schalter kommen?;tip2=Vielleicht solltest du eine zurückliegenden Schalter nutzen.
-Tl;x=23;y=11;amount=10,10,10,10,10,10,10;tip=Du musst den Schiebeblock nur von rechtsoben in den unteren Teil schieben,;tip2=also kannst du im ersten Teil Tetros sparen und wie immer gilt auch hier,;tip3=dass du vorrausdenken musst.
+Tl;x=19;y=23;amount=1,0,0,0,0,0,1
+Tl;x=23;y=21;amount=2,0,0,0,0,0,1
+Tl;x=27;y=15;amount=1,0,1,0,0,0,0
+Tl;x=29;y=35;amount=0,0,0,0,0,0,1
+Tl;x=15;y=33;amount=1,1,0,0,3,0,1
+Tl;x=10;y=33;amount=3,2,0,0,3,1,1
+Tl;x=15;y=12;amount=0,0,0,0,0,0,0
+Tl;x=23;y=11;amount=10,10,10,10,10,10,10
 
 Td;x=2;y=20;xo=0;yo=-55;name=dekoTurm3;
 Td;x=3;y=20;xo=0;yo=-55;name=dekoTurm3;

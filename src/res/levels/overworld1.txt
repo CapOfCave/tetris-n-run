@@ -36,4 +36,4 @@ Td;x=14;y=8;xo=0;yo=0;name=ventilator;
 Td;x=15;y=8;xo=0;yo=0;name=ventilator;
 Td;x=12;y=10;xo=0;yo=-8;name=block0w;
 Td;x=11;y=10;xo=0;yo=-55;name=dekoTurm1;
-c;12827
+c;74319

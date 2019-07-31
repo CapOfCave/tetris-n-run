@@ -49,7 +49,7 @@ public class TutorialText {
 
 	private String replaceRegex(String contentToRegex, ArrayList<Integer> keyCodes) {
 		while (contentToRegex.matches(".*<[0-9]*>.*")) {
-			contentToRegex = contentToRegex.replaceFirst("<.*>", OptionButton.getKeyText(keyCodes.get(Integer.parseInt(
+			contentToRegex = contentToRegex.replaceFirst("<[0-9a-zA-Z]*>", OptionButton.getKeyText(keyCodes.get(Integer.parseInt(
 					contentToRegex.substring(contentToRegex.indexOf("<") + 1, contentToRegex.indexOf(">"))))));
 		}
 		return contentToRegex;

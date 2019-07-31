@@ -1,4 +1,3 @@
-b;tetrofile=/res/tetros.txt
 p;x=5;y=8
 o;false;false;false;false;false
 m;type=0;amount=72
@@ -128,7 +127,7 @@ d;x=59;y=10;r=1;c=4;o=false
 e;x=29;y=11;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=28;cy=13;curl=/res/anims/movingblock.txt;
 e;x=32;y=12;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=32;cy=13;curl=/res/anims/movingblock.txt;
 e;x=31;y=10;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=30;cy=6;curl=/res/anims/movingblock.txt;
-e;x=44;y=7;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=43;cy=6;curl=/res/anims/movingblock.txt;
+e;x=44;y=5;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=43;cy=6;curl=/res/anims/movingblock.txt;
 e;x=44;y=14;type=moveblockspawner;url=/res/anims/movingblockspawner.txt;cx=57;cy=6;curl=/res/anims/movingblock.txt;
 
 e;rx=135;ry=360;type=switch;url=/res/anims/switch.txt;color=0
@@ -171,13 +170,13 @@ w;000000000000000000000000000000000000000000000000000000000000000000000000000000
 
 
 ###
-Tl;x=5;y=8;amount=0,0,0,0,0,0,0;tip=Mit den Schaltern kannst du alle Türen der entsprechenden Farbe;tip2=umschalten. Lege sie mit der Interaktionstaste (standardmäßg mit der;tip3=Leertaste) um.
-Tl;x=14;y=11;amount=0,0,0,0,0,0,0;tip=Stelle dir die Fragen: "Welche Tür, durch die ich gehen muss,;tip2=ist verschlossen? Wie kann ich sie öffnen?"
-Tl;x=19;y=12;amount=3,3,3,3,3,3,1;tip=Du musst nicht direkt auf den Schaltern stehen, um sie zu;tip2=betätigen - es reicht, auf einem benachbarten Feld zu stehen;tip3=und sich in ihre Richtung zu wenden.
-Tl;x=28;y=10;amount=0,0,0,0,0,0,0;tip=Bei Interaktion mit einem Button wird ein Schiebeblock gespawnt. Steuerung;tip2=für Schiebeblöcke: Leertaste kurz drücken zum Aufnehmen, dann in Richtung;tip3=des Blockes laufen um ihn zu schieben, zum Loslassen erneut Leertaste;tip4=drücken oder in die entgegengesetzte Richtung laufen.
-Tl;x=34;y=16;amount=10,10,10,10,10,10,10;tip=In Schieberätseln ist es meist klüger, etwas "verschwenderischer" mit den;tip2=Tetros umzugehen.;tip3=Überlege dir vorher, wie Block und Spieler sich bewegen müssen und setze;tip4=die Tetros entsprechend.
-Tl;x=46;y=9;amount=0,0,0,0,0,0,0;tip=Überlege dir vorher, welchen Weg du wählen willst.;tip2=Pass auf - nicht alle Wege sind mit Schiebeblock passierbar!
-Tl;x=60;y=10;amount=1,3,2,1,2,2,0;tip=In Legerätseln ist eine möglichst effektive Verwendung jedes Tetros;tip2=gefordert.
+Tl;x=5;y=8;amount=0,0,0,0,0,0,0
+Tl;x=14;y=11;amount=0,0,0,0,0,0,0
+Tl;x=19;y=12;amount=3,3,3,3,3,3,1
+Tl;x=28;y=10;amount=0,0,0,0,0,0,0
+Tl;x=34;y=16;amount=10,10,10,10,10,10,10
+Tl;x=46;y=9;amount=0,0,0,0,0,0,0
+Tl;x=60;y=10;amount=1,3,2,1,2,2,0
 
 Td;x=4;y=4;xo=0;yo=-34;name=block0a;p=1;
 Td;x=6;y=1;xo=0;yo=-42;name=block0c;
@@ -203,4 +202,4 @@ Td;x=21;y=15;xo=0;yo=-45;name=dekob1.8;
 Td;x=23;y=15;xo=0;yo=-34;name=block0b;
 Td;x=23;y=17;xo=0;yo=-34;name=block0b;
 
-c;26454
+c;26376

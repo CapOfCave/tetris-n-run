@@ -33,6 +33,7 @@ public abstract class Panel extends JPanel implements Playable {
 	protected World world;
 	protected boolean loading = false;
 	int loadingScreenProgression = 0;
+	private int pauseTicks = -1;
 
 	public Panel(Level level, KeyHandler keyHandler, GameFrameHandler gameFrame, ArrayList<TetroType> tetroTypes) {
 		this.keyHandler = keyHandler;
@@ -53,11 +54,20 @@ public abstract class Panel extends JPanel implements Playable {
 
 	@Override
 	public void tick() {
+		if (pauseTicks == 0) {
+			gameFrame.addLineToText("");
+			gameFrame.addLineToText("Just imagine we gave you a cookie or something");
+			pauseTicks--;
+		}
+		if (pauseTicks > 0) {
+			pauseTicks--;
+		}
 		gameFrame.checkIfLoadingHasFinished();
 		if (gameFrame.isLoading()) {
 			loadingScreenProgression = (loadingScreenProgression + 1) % 60;
 			return;
 		}
+		
 		world.tick();
 		gameFrame.updateConsole();
 		if (keyHandler.isF5pressed()) {
@@ -65,10 +75,6 @@ public abstract class Panel extends JPanel implements Playable {
 			world.resetRenderer();
 			keyHandler.resetF5pressed();
 
-		}
-
-		if (keyHandler.isTipPressed()) {
-			showTip();
 		}
 
 		if (keyHandler.isDeletePressed()) {
@@ -89,27 +95,6 @@ public abstract class Panel extends JPanel implements Playable {
 			return;
 		}
 		world.setLastUsedSALTile(((SaveNLoadTile) world.getTileAt(newestFile.y, newestFile.x)));
-
-	}
-
-	private void showTip() {
-		int show_duration = 1;
-		keyHandler.resetTipPressed();
-		if (world.getLastCrossedSALTile() != null && world.getLastCrossedSALTile().getTip() != null) {
-			if (world.getLastCrossedSALTile().getTip2() != null) {
-				show_duration = 2;
-				if (world.getLastCrossedSALTile().getTip3() != null) {
-					show_duration = 3;
-					if (world.getLastCrossedSALTile().getTip4() != null) {
-						show_duration = 4;
-						gameFrame.addLineToText(world.getLastCrossedSALTile().getTip4(), show_duration);
-					}
-					gameFrame.addLineToText(world.getLastCrossedSALTile().getTip3(), show_duration);
-				}
-				gameFrame.addLineToText(world.getLastCrossedSALTile().getTip2(), show_duration);
-			}
-			gameFrame.addLineToText(world.getLastCrossedSALTile().getTip(), show_duration);
-		}
 
 	}
 
@@ -154,6 +139,11 @@ public abstract class Panel extends JPanel implements Playable {
 	protected Rectangle getPreviewRect() {
 		return new Rectangle(65 * gameFrame.getPanelWidth() / 1920, 795 * gameFrame.getPanelHeight() / 1080,
 				185 * gameFrame.getPanelWidth() / 1920, 220 * gameFrame.getPanelHeight() / 1080);
+	}
+	
+	void pause(int i) {
+		pauseTicks  = i;
+		
 	}
 
 }

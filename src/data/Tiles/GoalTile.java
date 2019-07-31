@@ -8,21 +8,20 @@ import logics.World;
 
 public class GoalTile extends Tile {
 
-	private BufferedImage image3d, image3dActiv;
+	private BufferedImage image, imageActiv;
 	private boolean isActiv = false;
 
 	public GoalTile(int posX, int posY) {
 		super('!', posX, posY, false, true, true);
-		needsBackGround = true;
+		needsBackGround = false;
 
 	}
 
 	@Override
 	public void setWorld(World world) {
 		super.setWorld(world);
-		image3d = world.getImage("/res/imgs/goal.png");
-		image3dActiv = world.getImage("/res/imgs/goalActiv.png");
-
+		image = world.getImage("/res/imgs/goal.png");
+		imageActiv = world.getImage("/res/imgs/goalActiv.png");
 	}
 
 	@Override
@@ -39,16 +38,16 @@ public class GoalTile extends Tile {
 	@Override
 	public void draw(Graphics g, float interpolation) {
 		if (isActiv)
-			g.drawImage(image3dActiv, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
+			g.drawImage(imageActiv, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
 					(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY()), null);
 		else
-			g.drawImage(image3d, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
+			g.drawImage(image, (int) (posX * GameFrameHandler.BLOCKSIZE - world.cameraX()),
 					(int) (posY * GameFrameHandler.BLOCKSIZE - world.cameraY()), null);
 	}
 
 	@Override
 	public double getHeight() {
-		return -1;
+		return -1000;
 	}
 
 }

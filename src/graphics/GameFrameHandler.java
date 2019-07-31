@@ -37,6 +37,7 @@ public class GameFrameHandler {
 	private ArrayList<TetroType> tetroTypes;
 
 	private String loadingLevelUrl = null;
+	
 
 	public GameFrameHandler(Frame frame, ArrayList<Integer> keyCodes, int levelSolved, Level level) {
 		this.frame = frame;
@@ -70,6 +71,7 @@ public class GameFrameHandler {
 		File overworldFile = new File(System.getenv("APPDATA") + "\\tetro-maze\\saves\\overworldSave.txt");
 		if (!died) {// Finished the level
 			initiateDeleteAllSALSaves();
+
 			if (oPanel.updateLastLevelSolved()) {
 				overworldFile.delete();
 			}
@@ -97,6 +99,15 @@ public class GameFrameHandler {
 				if (isOverworld(loadingLevelUrl)) {
 					show(new OverworldPanel(loadedLevel, keyHandler, this, tetroTypes, oPanel.getLastLevelSolved()),
 							true);
+					if (oPanel.getLastLevelSolved() == 8) {
+						loadedLevel.init(this);
+						loadingLevelUrl = null;
+						addLineToText("of playing all of our levels", 2);
+						addLineToText("We didn't think you actually made the effort", 2);
+						oPanel.pause(90);
+						
+						return;
+					}
 				} else {
 					show(new GameWorldPanel(loadedLevel, keyHandler, this, tetroTypes), false);
 				}
@@ -106,6 +117,8 @@ public class GameFrameHandler {
 			}
 		}
 	}
+
+	
 
 	private boolean isOverworld(String loadingLevelUrl) {
 		return loadingLevelUrl.contains("overworld");

@@ -137,8 +137,6 @@ public class MenuPanel extends JPanel implements Playable {
 		g.drawImage(loadingAnim.getImage(), menuFrame.getPanelWidth() / 2 - loadingAnim.getImage().getWidth() / 2,
 				menuFrame.getPanelHeight() / 2 - loadingAnim.getImage().getHeight() / 2, null);
 		loadingAnim.next();
-		if (loadingAnim.getImage() == null)
-			loadingAnim.next();
 	}
 
 	public void mouseReleased(int x, int y) {
@@ -233,7 +231,6 @@ public class MenuPanel extends JPanel implements Playable {
 	public void render(float interpolation, int fps, int ups) {
 		repaint();
 	}
-
 
 	public int getPanelOffsetX() {
 		return menuFrame.getPanelOffsetX();

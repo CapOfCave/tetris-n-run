@@ -46,4 +46,4 @@ Td;x=17;y=9;xo=0;yo=-34;name=block0a;
 Td;x=17;y=7;xo=0;yo=-8;name=block0s;
 Td;x=15;y=11;xo=0;yo=-34;name=block0b;
 Td;x=19;y=11;xo=0;yo=-34;name=block0b;
-c;32500
+c;21176

@@ -27,7 +27,6 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private int PANEL_WIDTH = 0;
 	private int PANEL_HEIGHT = 0; // 1300 x 900
-//	private Dimension screenSize = new Dimension(1920, 1080);
 	private Dimension screenSize = new Dimension(1280, 720);
 	private Point panelOffset;
 
@@ -89,9 +88,8 @@ public class Frame extends JFrame {
 		setLayout(new CardLayout());
 		setResizable(false);
 		setDefaultCloseOperation(0);
-		
+
 		calcPanelSize();
-		
 
 		setUndecorated(true);
 
@@ -106,9 +104,10 @@ public class Frame extends JFrame {
 			}
 		});
 	}
+
 	private void calcPanelSize() {
 		setExtendedState(MAXIMIZED_BOTH);
-		screenSize = Toolkit.getDefaultToolkit().getScreenSize();//TODO später wieder einfügen
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		PANEL_WIDTH = (int) Math.min(screenSize.getWidth(), 16. / 9 * screenSize.getHeight());
 		PANEL_HEIGHT = (int) Math.min(screenSize.getHeight(), 9. / 16 * screenSize.getWidth());
 		panelOffset = new Point((screenSize.width - PANEL_WIDTH) / 2, (screenSize.height - PANEL_HEIGHT) / 2);
@@ -119,8 +118,6 @@ public class Frame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-
-	
 
 	private void loadMenuFrameHandler() {
 		SettingsLoader settingsLoader = new SettingsLoader(System.getenv("APPDATA") + "\\tetro-maze\\settings.txt");
@@ -181,7 +178,7 @@ public class Frame extends JFrame {
 	public void playSound(String sound, float volume) {
 		soundPlayer.playSound(sound, volume);
 	}
-	
+
 	public void closeGame() {
 		gameLoop.stop();
 		System.exit(0);
@@ -190,19 +187,19 @@ public class Frame extends JFrame {
 	public int getPanelWidth() {
 		return PANEL_WIDTH;
 	}
-	
+
 	public int getPanelHeight() {
 		return PANEL_HEIGHT;
 	}
-	
+
 	public int getScreenWidth() {
 		return (int) screenSize.getWidth();
 	}
-	
+
 	public int getScreenHeight() {
 		return (int) screenSize.getHeight();
 	}
-	
+
 	public Dimension getScreenSize() {
 		return screenSize;
 	}
@@ -210,6 +207,7 @@ public class Frame extends JFrame {
 	public int getPanelOffsetX() {
 		return panelOffset.x;
 	}
+
 	public int getPanelOffsetY() {
 		return panelOffset.y;
 	}

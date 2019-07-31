@@ -21,7 +21,6 @@ public class KeyHandler implements KeyListener {
 	private boolean shift = false;
 	private boolean kameraKey = false;
 	private boolean killPlayer = false;
-	private boolean tip = false;
 	private boolean deleteCheckpoint = false;
 
 	private boolean actionPressed = false;
@@ -124,9 +123,6 @@ public class KeyHandler implements KeyListener {
 			shift = true;
 		}
 		if (ev.getKeyCode() == keyCodes.get(10)) {
-			tip = true;
-		}
-		if (ev.getKeyCode() == keyCodes.get(11)) {
 			deleteCheckpoint = true;
 		}
 
@@ -179,9 +175,6 @@ public class KeyHandler implements KeyListener {
 			shift = false;
 		}
 		if (ev.getKeyCode() == keyCodes.get(10)) {
-			tip = false;
-		}
-		if (ev.getKeyCode() == keyCodes.get(11)) {
 			deleteCheckpoint = false;
 		}
 		if (ev.getKeyCode() == KeyEvent.VK_ALT) {
@@ -239,16 +232,8 @@ public class KeyHandler implements KeyListener {
 		return f5Pressed;
 	}
 
-	public boolean isTipPressed() {
-		return tip;
-	}
-
 	public boolean isActionPressed() {
 		return actionPressed;
-	}
-
-	public void resetTipPressed() {
-		tip = false;
 	}
 
 	public boolean isDeletePressed() {
@@ -295,7 +280,6 @@ public class KeyHandler implements KeyListener {
 		shift = false;
 		kameraKey = false;
 		killPlayer = false;
-		tip = false;
 		actionPressed = false;
 		f5Pressed = false;
 		altPressed = false;

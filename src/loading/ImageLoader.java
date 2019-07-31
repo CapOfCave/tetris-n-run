@@ -27,8 +27,6 @@ public class ImageLoader {
 		if (images.get(path) == null) {
 			loadAndSave(path);
 			if (!eclipseVersion && !loadingThread) {
-				// TODO removeSout
-				System.err.println("Had to load Image at " + path);
 			}
 		}
 		return images.get(path);

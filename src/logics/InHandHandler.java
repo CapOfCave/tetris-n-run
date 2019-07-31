@@ -124,8 +124,6 @@ public class InHandHandler {
 			}
 		}
 
-		// TODO? exact tetroHitbox
-
 		return tetroApproximation;
 	}
 

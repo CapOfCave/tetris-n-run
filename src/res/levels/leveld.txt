@@ -1,4 +1,3 @@
-b;tetrofile=/res/tetros.txt
 p;x=3;y=7
 
 t;x=2;y=2;r=3;t=1
@@ -254,13 +253,13 @@ w;0000000000000000000000000000000000000000000
 
 ###
 
-Tl;x=3;y=7;amount=0,0,0,0,0,0,0;tip=Manchmal muss man einen Schritt zurück gehen.
-Tl;x=26;y=3;amount=0,0,0,0,0,0,9;tip=Du hast zwar viele Tetros aber nicht genug für jeden Weg.
-Tl;x=16;y=15;amount=0,0,0,15,15,0,0;tip=Überlege dir genau welchen Weg der Schiebeblock nehmen muss.;tip2=Es entstehen schnell Sackgessen wenn du nicht aufpasst.
-Tl;x=10;y=29;amount=10,10,10,10,10,10,10;tip=Auch hier solltest du deinen Weg planen.
-Tl;x=16;y=29;amount=0,0,0,0,0,0,0;tip=Drei Drückplatten und nur zwei Schiebeblöcke.;tip2=Einen wirst du zweimal brauchen. Aber wann? 
-Tl;x=14;y=47;amount=4,4,4,1,4,5,4;tip=Du hast zwar viele Tetros aber der Weg ist lang;tip2=und einige brauchst du an bestimmten Stellen.
-Tl;x=36;y=47;amount=0,3,1,1,2,2,1;tip=Der eine Gelbe kann dir an einer bestimmten Stelle einige Tetros sparen.
+Tl;x=3;y=7;amount=0,0,0,0,0,0,0
+Tl;x=26;y=3;amount=0,0,0,0,0,0,9
+Tl;x=16;y=15;amount=0,0,0,15,15,0,0
+Tl;x=10;y=29;amount=10,10,10,10,10,10,10
+Tl;x=16;y=29;amount=0,0,0,0,0,0,0
+Tl;x=14;y=47;amount=4,4,4,1,4,5,4
+Tl;x=36;y=47;amount=0,3,1,1,2,2,1
 
 Td;x=32;y=1;xo=0;yo=0;name=dekob3.1;
 Td;x=32;y=3;xo=0;yo=0;name=dekob3.2;
@@ -275,4 +274,4 @@ Td;x=32;y=19;xo=0;yo=0;name=dekob3.10;
 Td;x=32;y=21;xo=0;yo=0;name=dekob3.11;
 Td;x=32;y=23;xo=0;yo=0;name=dekob3.12;
 
-c;63172
+c;31798

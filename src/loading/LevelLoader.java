@@ -31,7 +31,7 @@ import tools.Coder;
 public class LevelLoader {
 
 	private static final int tetrotype_amount = 7;
-	private static boolean allowCorruptedFiles = false; // TODO Allow corrupted files?!
+	private static boolean allowCorruptedFiles = false;
 
 	private Coder coder;
 
@@ -258,10 +258,6 @@ public class LevelLoader {
 
 				int x = -1;
 				int y = -1;
-				String tip = null;
-				String tip2 = null;
-				String tip3 = null;
-				String tip4 = null;
 				boolean addingTetros = false;
 				int amountList[] = { 0, 0, 0, 0, 0, 0, 0 };
 				for (String str : strSplit) {
@@ -282,19 +278,11 @@ public class LevelLoader {
 						if (str.substring(2).equals("true"))
 							addingTetros = true;
 
-					} else if (str.startsWith("tip=")) {
-						tip = str.substring(4);
-					} else if (str.startsWith("tip2=")) {
-						tip2 = str.substring(5);
-					} else if (str.startsWith("tip3=")) {
-						tip3 = str.substring(5);
-					} else if (str.startsWith("tip4=")) {
-						tip4 = str.substring(5);
 					}
 
 				}
 				// System.ot.println("" + x + y + amountList + addingTetros);
-				arrWorld[y][x] = new SaveNLoadTile('2', x, y, amountList, addingTetros, tip, tip2, tip3, tip4);
+				arrWorld[y][x] = new SaveNLoadTile('2', x, y, amountList, addingTetros);
 				check = coder.increaseCheckForSALT(check, currentLine++, x, y, amountList);
 			} else if (nextLine.startsWith("Td")) {
 				String strSplit[] = nextLine.split(";");
@@ -344,9 +332,7 @@ public class LevelLoader {
 					} else if (tileChar == '0') {
 						arrWorld[j][i] = null;
 					} else if (tileChar == '2') {
-						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, new int[] { 0, 0 }, false, null, null, null,
-								null);
-						System.err.println("Tl;x=" + i + ";y=" + j + ";amount=0,0,0,0,0,0,0;");
+						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, new int[] { 0, 0 }, false);
 					} else if (tileChar == '3') {
 						arrWorld[j][i] = new InvalidSaveNLoadTile(i, j);
 					} else if (tileChar == 'D') {
@@ -359,10 +345,6 @@ public class LevelLoader {
 							}
 						}
 						if (arrWorld[j][i] == null) {
-							// System.err.println(
-							// "Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j +
-							// ")");
-							System.err.println("d;x=" + i + ";y=" + j + ";r=;c=;o=false");
 							arrWorld[j][i] = new EmptyTile(tileChar, i, j);
 
 						}
@@ -401,7 +383,6 @@ public class LevelLoader {
 		}
 
 		if (check != checkRead && checkRead != -1) {
-			System.err.println("Level file corrupted: check=" + check + "!=" + checkRead + "=checkRead");
 			if (!allowCorruptedFiles) {
 				return new Level(null, null, null, null, null, null, -1000, -1000);
 			}

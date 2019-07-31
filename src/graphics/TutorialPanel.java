@@ -57,15 +57,22 @@ public class TutorialPanel extends JPanel {
 		int panelWidth = menuFrame.getPanelWidth();
 		int panelHeight = menuFrame.getPanelHeight();
 
-		g.drawString("Tutorial1:", (234 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
-		g.drawString("Tutorial2:", (600 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
-		g.drawString("Tutorial3:", (966 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
-		g.drawString("Tutorial4:", (1332 + 10) * panelWidth / 1920, (75 + 40) * panelHeight / 1080);
-		g.drawString("Tutorial5:", (234 + 10) * panelWidth / 1920, (566 + 40) * panelHeight / 1080);
-		g.drawString("Tutorial6:", (600 + 10) * panelWidth / 1920, (566 + 40) * panelHeight / 1080);
-		g.drawString("Tutorial7:", (966 + 10) * panelWidth / 1920, (566 + 40) * panelHeight / 1080);
+		Fonts.drawCenteredString("What to do", 234 * panelWidth / 1920, 54 * panelHeight / 1080,
+				354 * panelWidth / 1920, 100 * panelHeight / 1080, g);
+		Fonts.drawCenteredString("Placing Tetros", 600 * panelWidth / 1920, 54 * panelHeight / 1080,
+				354 * panelWidth / 1920, 100 * panelHeight / 1080, g);
+		Fonts.drawCenteredString("Checkpoints", 966 * panelWidth / 1920, 54 * panelHeight / 1080,
+				354 * panelWidth / 1920, 100 * panelHeight / 1080, g);
+		Fonts.drawCenteredString("Loading", 1332 * panelWidth / 1920, 54 * panelHeight / 1080,
+				354 * panelWidth / 1920, 100 * panelHeight / 1080, g);
+		Fonts.drawCenteredString("Interact", 234 * panelWidth / 1920, 546 * panelHeight / 1080,
+				354 * panelWidth / 1920, 100 * panelHeight / 1080, g);
+		Fonts.drawCenteredString("Movable blocks", 600 * panelWidth / 1920, 546 * panelHeight / 1080,
+				354 * panelWidth / 1920, 100 * panelHeight / 1080, g);
+		Fonts.drawCenteredString("Camera Mode", 966 * panelWidth / 1920, 546 * panelHeight / 1080,
+				354 * panelWidth / 1920, 100 * panelHeight / 1080, g);
 
-		g.setFont(new Font(GameFrameHandler.FONTSTRING, 0, (int) (23 * fontMultiplier)));
+		g.setFont(new Font(GameFrameHandler.FONTSTRING, 0, (int) (26 * fontMultiplier)));
 
 		tutorialText.drawPanel(0, g, (234 + 10) * panelWidth / 1920, (162 + 30) * panelHeight / 1080, textWidth,
 				menuFrame.getKeyCodes());
@@ -111,7 +118,6 @@ public class TutorialPanel extends JPanel {
 	public void mouseReleased(int x, int y) {
 		if (getMenuBounds().contains(x, y)) {
 			menuFrame.startMenu();
-			System.out.println("Start");
 		}
 	}
 

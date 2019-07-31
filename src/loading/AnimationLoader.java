@@ -34,8 +34,6 @@ public class AnimationLoader {
 		if (animations.get(path) == null) {
 			loadAndSave(path);
 			if (!eclipseVersion) {
-				//TODO removeSout
-				System.err.println("Had to load Animation at " + path);
 			}
 		}
 		return animations.get(path);
@@ -74,7 +72,6 @@ public class AnimationLoader {
 					pics.put(name, new Pics(nextLine.substring(nextLine.indexOf("\"") + 1, nextLine.length() - 1),
 							Integer.parseInt(nextLine.substring(4, nextLine.indexOf(" "))), imageLoader, loadingThread));
 				} catch (IllegalArgumentException e) {
-					System.err.println("Fehler mit dem Dateiformat von " + url);
 					e.printStackTrace();
 					System.exit(3);
 				}

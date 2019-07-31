@@ -73,7 +73,6 @@ public class CreditsPanel extends JPanel {
 
 		
 
-		// TODO verschieben
 		loadFromFile("/res/allCredits.txt");
 		repaint();
 	}
@@ -165,7 +164,6 @@ public class CreditsPanel extends JPanel {
 		if(link == null) {
 			return;
 		}
-		System.out.println(link);
 		try {
 			Desktop.getDesktop().browse(URI.create(link));
 		} catch (IOException e) {

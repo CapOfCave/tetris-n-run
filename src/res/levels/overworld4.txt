@@ -65,5 +65,5 @@ Td;x=22;y=11;xo=0;yo=-8;name=block0p;
 Td;x=23;y=8;xo=0;yo=-34;name=block0b;
 Td;x=25;y=10;xo=0;yo=-55;name=dekoTurm2;
 
-c;11037
+c;20077
 

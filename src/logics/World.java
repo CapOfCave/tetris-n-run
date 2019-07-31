@@ -410,6 +410,7 @@ public class World {
 		particleHandler.tick();
 
 		// Player movement
+		
 		player.tick();
 
 		for (Tile[] tar : tileWorld) {
@@ -443,7 +444,7 @@ public class World {
 		if (exitingTile.getX() == player.getX() && exitingTile.getY() == player.getY()) {
 			if (exitTicks == 0) {
 				player.resetSpeed();
-				playSound("victory", 0f);
+				playSound("victory", -2f);
 			}
 
 			exitTicks++;
@@ -588,27 +589,18 @@ public class World {
 						}
 					case 1:
 						if (!isTetroPlacableAt(j + virX, -i + virY + 3)) {
-							// System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (j +
-							// virX) + "|"
-							// + (-i + virY + 3));
 							return false;
 						} else {
 							break;
 						}
 					case 2:
 						if (!isTetroPlacableAt(-i + virX + 3, -j + virY + 1)) {
-							// System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (-i +
-							// virX + 3) + "|"
-							// + (-j + virY + 1));
 							return false;
 						} else {
 							break;
 						}
 					case 3:
 						if (!isTetroPlacableAt(-j + virX + 1, i + virY)) {
-							// System.err.println("Nicht erlaubte Platzierung eines Tetros bei " + (-j +
-							// virX + 1) + "|"
-							// + (i + virY));
 							return false;
 						} else {
 							break;

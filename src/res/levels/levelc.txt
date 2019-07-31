@@ -1,4 +1,3 @@
-b;tetrofile=/res/tetros.txt
 p;x=19;y=24
 o;false;false;false;false;false
 m;type=6;amount=71
@@ -137,11 +136,11 @@ w;000000000000000000000000000000000000000000
 w;000000000000000000000000000000000000000000
 w;000000000000000000000000000000000000000000
 ###
-Tl;x=19;y=24;amount=1,1,1,1,1,1,1;tip=Du solltest dafür sorgen, dass du in alle vier Richtungen gehen kannst.
-Tl;x=13;y=19;amount=0,2,2,1,1,0,0;a=true;tip=Wenn eine Druckplatte neben einer Tür liegt;tip2=kannst du sie nur in eine Richtung nutzen.
-Tl;x=19;y=12;amount=0,0,0,0,0,0,0;a=true;tip=Sorge dafür das der Rückweg am Ende offen ist.
-Tl;x=24;y=19;amount=1,4,1,1,2,1,0;tip=Dieser Abschnitt ist symmetrisch doch deine Tetros nicht.
-Tl;x=19;y=30;amount=5,3,5,2,2,4,2;tip=Überlege dir genau welcher Weg am kürzesten ist.
+Tl;x=19;y=24;amount=1,1,1,1,1,1,1
+Tl;x=13;y=19;amount=0,2,2,1,1,0,0;a=true
+Tl;x=19;y=12;amount=0,0,0,0,0,0,0;a=true
+Tl;x=24;y=19;amount=1,4,1,1,2,1,0
+Tl;x=19;y=30;amount=5,3,5,2,2,4,2
 
 Td;x=13;y=21;xo=0;yo=-34;name=block0a;
 Td;x=12;y=21;xo=0;yo=-8;name=block0p;
@@ -169,7 +168,7 @@ Td;x=17;y=14;xo=0;yo=-8;name=block0y;
 Td;x=13;y=16;xo=0;yo=-8;name=block0w;
 Td;x=13;y=17;xo=0;yo=-8;name=block0w;
 
-c;63899
+c;39275
 
 
 

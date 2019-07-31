@@ -269,7 +269,6 @@ public class Coder {
 						check = coder.increaseCheck(check, currentLine, (int) rx / GameFrameHandler.BLOCKSIZE,
 								(int) ry / GameFrameHandler.BLOCKSIZE, color);
 					} else if (type.equals("moveblock")) {
-						System.err.println("Spawning Moveblock. This should never ever happen.");
 					} else if (type.equals("moveblockspawner")) {
 
 						entities.add(new MovingBlockSpawner(null, rx, ry, rcx, rcy, currentCubeX, currentCubeY));
@@ -283,10 +282,8 @@ public class Coder {
 									(int) rcy / GameFrameHandler.BLOCKSIZE, currentCubeX, currentCubeY);
 						}
 					} else {
-						System.err.println("Unbekannte Entity bei [virtual](" + x + "|" + y + "): \"" + type + "\"");
 					}
 				} else {
-					System.err.println("Entityerstellung fehlerhaft bei [virtual](" + x + "|" + y + ").");
 				}
 				currentLine++;
 			} else if (nextLine.startsWith("d")) {
@@ -317,9 +314,6 @@ public class Coder {
 					doorsToAdd.add(doors.get(doors.size() - 1));
 					check = coder.increaseCheck(check, currentLine++, x, y, rotation, color, open ? 1 : 0);
 				} else {
-					System.err.println("Fehler im Level \"" + url + "\": Tür kann nicht erstellt werden wegen "
-							+ (x >= 0) + (y >= 0) + (rotation >= 0) + (color >= 0));
-					System.exit(3);
 				}
 			} else if (nextLine.startsWith("w")) {
 				String strTemp = nextLine.substring(nextLine.indexOf(";") + 1);
@@ -335,10 +329,6 @@ public class Coder {
 
 				int x = -1;
 				int y = -1;
-				String tip = null;
-				String tip2 = null;
-				String tip3 = null;
-				String tip4 = null;
 				boolean addingTetros = false;
 				int amountList[] = { 0, 0, 0, 0, 0, 0, 0 };
 				for (String str : strSplit) {
@@ -359,19 +349,11 @@ public class Coder {
 						if (str.substring(2).equals("true"))
 							addingTetros = true;
 
-					} else if (str.startsWith("tip=")) {
-						tip = str.substring(4);
-					} else if (str.startsWith("tip2=")) {
-						tip2 = str.substring(5);
-					} else if (str.startsWith("tip3=")) {
-						tip3 = str.substring(5);
-					} else if (str.startsWith("tip4=")) {
-						tip4 = str.substring(5);
 					}
 
 				}
 				// System.ot.println("" + x + y + amountList + addingTetros);
-				arrWorld[y][x] = new SaveNLoadTile('2', x, y, amountList, addingTetros, tip, tip2, tip3, tip4);
+				arrWorld[y][x] = new SaveNLoadTile('2', x, y, amountList, addingTetros);
 				check = coder.increaseCheckForSALT(check, currentLine++, x, y, amountList);
 			} else if (nextLine.startsWith("Td")) {
 				String strSplit[] = nextLine.split(";");
@@ -419,9 +401,7 @@ public class Coder {
 					} else if (tileChar == '0') {
 						arrWorld[j][i] = null;
 					} else if (tileChar == '2') {
-						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, new int[] { 0, 0 }, false, null, null, null,
-								null);
-						System.err.println("Tl;x=" + i + ";y=" + j + ";amount=0,0,0,0,0,0,0;");
+						arrWorld[j][i] = new SaveNLoadTile(tileChar, i, j, new int[] { 0, 0 }, false);
 					} else if (tileChar == '3') {
 						arrWorld[j][i] = new InvalidSaveNLoadTile(i, j);
 					} else if (tileChar == 'D') {
@@ -434,10 +414,6 @@ public class Coder {
 							}
 						}
 						if (arrWorld[j][i] == null) {
-							// System.err.println(
-							// "Fehler im Level \"" + url + "\": Tür nicht bestimmt" + "(" + i + "/" + j +
-							// ")");
-							System.err.println("d;x=" + i + ";y=" + j + ";r=;c=;o=false");
 							arrWorld[j][i] = new EmptyTile(tileChar, i, j);
 
 						}
@@ -450,16 +426,10 @@ public class Coder {
 					} else if (Character.isLowerCase(tileChar)) {
 						arrWorld[j][i] = new LevelGuiTile(tileChar, i, j);
 					} else {
-						System.err.println("Unbekanntes Tile bei (" + i + "|" + j + ")");
 						arrWorld[j][i] = new EmptyTile(tileChar, i, j);
 					}
 				}
 			}
-		}
-
-		for (DoorTile dT : doorsToAdd) {
-			System.err.println("Unused door: x=" + dT.getPosX() + ";y=" + dT.getPosY());
-			error = true;
 		}
 
 		int[] tetroAmounts = new int[7];

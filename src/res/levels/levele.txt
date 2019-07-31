@@ -1,4 +1,3 @@
-b;tetrofile=/res/tetros.txt
 p;x=36;y=36
 
 t;x=36;y=37;r=0;t=1
@@ -217,13 +216,13 @@ w;000000000011111000000000000000000000000000000000000
 w;000000000000000000000000000000000000000000000000000
 w;000000000000000000000000000000000000000000000000000
 ###
-Tl;x=36;y=36;amount=0,0,1,0,3,1,0;tip=In diesem Level hast du kaum einen Tetro ohne Grund.
-Tl;x=46;y=6;amount=0,2,0,1,1,1,1;tip=Das ist einfach erst zum Schalter und dann ins Ziel.
-Tl;x=20;y=4;amount=0,1,1,1,1,1,1;tip=Jetzt musst du zurück zum roten Schalter;tip2=und dann zum Checkpoint unten links.
-Tl;x=8;y=12;amount=1,2,2,2,2,2,1;tip=Schau dir den nächsten Checkpoint an.
-Tl;x=12;y=33;amount=5,7,7,7,7,7,5;tip=Sorge dafür, dass du auch durch die Tür am Ausgang kommst.
-Tl;x=12;y=39;amount=1,1,0,0,0,0,0;tip=Du hast einen Schiebeblock in diesem Level;tip2=und noch eine Druckpaltte vor dem Ziel.
-Tl;x=5;y=36;amount=1,0,1,0,1,2,1;tip=Überleg dir genau wo du die Tetros überall beauchen könntest.
+Tl;x=36;y=36;amount=0,0,1,0,3,1,0
+Tl;x=46;y=6;amount=0,2,0,1,1,1,1
+Tl;x=20;y=4;amount=0,1,1,1,1,1,1
+Tl;x=8;y=12;amount=1,2,2,2,2,2,1
+Tl;x=12;y=33;amount=5,7,7,7,7,7,5
+Tl;x=12;y=39;amount=1,1,0,0,0,0,0
+Tl;x=5;y=36;amount=1,0,1,0,1,2,1
 
 Td;x=40;y=5;xo=-45;yo=20;name=dekob2.1;
 Td;x=40;y=7;xo=-45;yo=20;name=dekob2.2;
@@ -236,4 +235,4 @@ Td;x=40;y=19;xo=-45;yo=20;name=dekob2.8;
 Td;x=40;y=21;xo=-45;yo=20;name=dekob2.9;
 Td;x=40;y=23;xo=-45;yo=20;name=dekob2.10;
 
-c;20833
+c;3115

@@ -20,25 +20,15 @@ public class SaveNLoadTile extends Tile {
 	boolean addingTetros;
 	File loadFile = null;
 	static HashMap<String, Animation> all_animations = null;
-	private String tip;
-	private String tip2;
-	private String tip3;
-	private String tip4;
 
 	private static final String folderName = System.getenv("APPDATA") + "\\tetro-maze\\saves\\tmpSaves\\";
 
-	public SaveNLoadTile(char key, int posX, int posY, int[] tetroAmount, boolean addingTetros, String tip, String tip2,
-			String tip3, String tip4) {
+	public SaveNLoadTile(char key, int posX, int posY, int[] tetroAmount, boolean addingTetros) {
 		super(key, posX, posY, true, true, true);
 		needsBackGround = true;
 
 		this.tetroAmount = tetroAmount;
 		this.addingTetros = addingTetros;
-		this.tip = tip;
-		this.tip2 = tip2;
-		this.tip3 = tip3;
-		this.tip4 = tip4;
-
 	}
 
 	@Override
@@ -144,22 +134,6 @@ public class SaveNLoadTile extends Tile {
 	@Override
 	public double getHeight() {
 		return -1;
-	}
-
-	public String getTip() {
-		return tip;
-	}
-
-	public String getTip2() {
-		return tip2;
-	}
-
-	public String getTip3() {
-		return tip3;
-	}
-
-	public String getTip4() {
-		return tip4;
 	}
 
 }

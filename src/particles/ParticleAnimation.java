@@ -34,7 +34,6 @@ public class ParticleAnimation {
 				p.show(g);
 			}
 		} catch (Exception e) {
-			System.err.println("Fehler beim zerspringen");
 		}
 	}
 	

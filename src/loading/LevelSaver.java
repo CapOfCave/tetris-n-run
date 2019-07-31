@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import data.Level;
 import data.RawTetro;
 import data.Tiles.DoorTile;
-import data.Tiles.SaveNLoadTile;
 import data.Tiles.Tile;
 import graphics.GameFrameHandler;
 import logics.entities.Entity;
@@ -138,20 +137,6 @@ public class LevelSaver extends Saver {
 					worldLine.append("x=" + field.getPosX() + ";");
 					worldLine.append("y=" + field.getPosY() + ";");
 
-					SaveNLoadTile fieldCast = (SaveNLoadTile) field;
-					if (fieldCast.getTip() != null) {
-						worldLine.append("tip=" + fieldCast.getTip() + ";");
-						if (fieldCast.getTip2() != null) {
-							worldLine.append("tip2=" + fieldCast.getTip2() + ";");
-							if (fieldCast.getTip3() != null) {
-								worldLine.append("tip3=" + fieldCast.getTip3() + ";");
-								if (fieldCast.getTip4() != null) {
-									worldLine.append("tip4=" + fieldCast.getTip4() + ";");
-
-								}
-							}
-						}
-					}
 					worldLine.append("amount=");
 					for (int amount : field.getTetroAmount())
 						worldLine.append(amount + ",");

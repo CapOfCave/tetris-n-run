@@ -51,7 +51,6 @@ public class SoundPlayer {
 				gainControl.setValue(Math.min(product, 6.0206f));
 				clip.start();
 			} catch (Exception e) {
-				System.err.println("Mal wieder ein Fehler im Sound-System");
 			}
 		} else {
 			System.err.println("Sound \"" + sound + "\" not found. Sounds in database: " + sounds);

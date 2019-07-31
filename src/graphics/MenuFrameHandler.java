@@ -108,7 +108,6 @@ public class MenuFrameHandler {
 		if (loadingLevelUrl != null) {
 			if (frame.isLoaded(loadingLevelUrl) && loadingTicks >= MIN_LOADING_TICKS) {
 				// Load is ready
-				
 				frame.changeToGameFrame();
 
 			}
